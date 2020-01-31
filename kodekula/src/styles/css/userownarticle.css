@@ -1,0 +1,29 @@
+.own-article {
+  margin-left: 0px;
+  padding-bottom: 20px;
+}
+.box-control {
+  border: 1px solid #b3afaf;
+  padding: 30px;
+}
+.text-control {
+  padding-top: 0px;
+}
+.username-control {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: left;
+}
+.writer-photo {
+  width: 15%;
+  border-radius: 50%;
+}
+.edit-control {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: right;
+}
+.image-control {
+  width: 100%;
+  padding: 10px;
+}

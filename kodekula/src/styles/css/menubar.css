@@ -1,0 +1,11 @@
+.menu-bar {
+  border: 1px solid #e9e3e3;
+  margin-left: 105px;
+  padding: 10px;
+  background-color: #F8F9FA;
+  border-radius: 2px;
+}
+.link-menu-bar {
+  text-decoration: none !important;
+  text-align: left;
+}
