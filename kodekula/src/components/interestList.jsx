@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 const InterestList = (props) => {
 	return (
 		<React.Fragment>
-            <div className="border shadow-sm rounded pl-3 pr-2 pt-4 ml-2 mr-2" style={{backgroundColor:'#f8f9fa'}}>
+            <div className="border shadow-sm rounded pl-3 pr-2 pt-4 ml-2 mr-2 fixed-left" style={{backgroundColor:'#f8f9fa'}}>
                 <div className="home-title mb-3 pl-2">Lini Masa</div>
                 <div className="pl-4">
                     <div className="row mb-3">

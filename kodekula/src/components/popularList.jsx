@@ -10,8 +10,8 @@ import Swal from 'sweetalert2';
 const PopularList = (props) => {
 	return (
 		<React.Fragment>
-            <div className="border shadow-sm rounded pl-3 pr-2 pt-4 ml-2 mr-2" style={{backgroundColor:'#f8f9fa'}}>
-                <div className="popular-title mb-3 pl-2">Artikel Populer</div>
+            <div className="border shadow-sm rounded pl-3 pr-2 pt-4 ml-2 mr-2 fixed-left" style={{backgroundColor:'#f8f9fa'}}>
+                <div className="home-title mb-3 pl-2">Artikel Populer</div>
                 <div className="pl-1">
                     {props.article.map((value) => (
                     <div>
@@ -27,8 +27,8 @@ const PopularList = (props) => {
                     ))}
                 </div>
             </div>
-            <div className="border shadow-sm rounded pl-3 pr-2 pt-4 ml-2 mr-2 mt-4" style={{backgroundColor:'#f8f9fa'}}>
-                <div className="popular-title mb-3 pl-2">Pertanyaan Populer</div>
+            <div className="border shadow-sm rounded pl-3 pr-2 pt-4 ml-2 mr-2 mt-4 fixed-left" style={{backgroundColor:'#f8f9fa'}}>
+                <div className="home-title mb-3 pl-2">Pertanyaan Populer</div>
                 <div className="pl-1">
                     {props.article.map((value) => (
                     <div>
