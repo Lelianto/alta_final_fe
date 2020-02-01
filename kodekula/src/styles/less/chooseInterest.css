@@ -1,0 +1,13 @@
+.register-box {
+  overflow: hidden;
+}
+.register-box .interest-list {
+  overflow: auto;
+  height: 250px;
+}
+.register-box .interest-list .img-interest img {
+  width: 100%;
+}
+.register-box .interest-list .img-interest .tags-name {
+  font-size: 13px;
+}
