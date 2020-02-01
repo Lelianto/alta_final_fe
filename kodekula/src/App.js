@@ -1,13 +1,15 @@
 import React from 'react';
-import logo from './logo.svg';
+import MainRoute from './routes/mainRoute'
 import './App.css';
 import './styles/css/bootstrap.min.css';
 import './styles/css/main.css';
 
-import MainRoutes from './routes/mainRoute';
-
 function App() {
-  return <MainRoutes />;
+  return (
+    <div className="App">
+      <MainRoute/>
+    </div>
+  );
 }
 
 export default App;
