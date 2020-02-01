@@ -1,5 +1,5 @@
 .user-profile {
-  padding-top: 50px;
+  padding-top: 100px;
   padding-bottom: 50px;
 }
 .dummy-photo {
@@ -7,16 +7,18 @@
   border-radius: 50%;
 }
 .user-username {
-  padding-left: 50px;
+  padding-left: 35px;
   padding-top: 40px;
   padding-bottom: 20px;
+  text-align: left;
 }
 .user-full-name {
-  padding-left: 50px;
+  padding-left: 35px;
   padding-bottom: 20px;
+  text-align: left;
 }
 .user-job {
-  padding-left: 50px;
+  padding-left: 35px;
   text-align: left;
   padding-bottom: 20px;
 }
@@ -26,9 +28,12 @@
 .user-profile-border {
   border-bottom: 1px solid #e9e3e3;
   margin-left: 35px;
-  margin-right: 5px;
+  margin-right: 50px;
 }
 .title-menu-bar {
-  padding-top: 20px;
+  font-weight: bold;
+  font-size: 25px;
+  display: block;
+  padding-top: 5px;
   padding-left: 50px;
 }

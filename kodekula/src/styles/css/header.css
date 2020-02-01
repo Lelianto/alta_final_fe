@@ -11,11 +11,18 @@
   font-style: normal;
 }
 header {
+  position: fixed;
+  width: 100%;
+  z-index: 2;
   font-family: 'liberation_sansregular';
   font-weight: normal;
   -webkit-box-shadow: 0px 1px 5px 1px #e7e2e2;
   -moz-box-shadow: 0px 1px 5px 1px #e7e2e2;
   box-shadow: 0px 1px 5px 1px #e7e2e2;
+}
+body {
+  font-family: 'liberation_sansregular';
+  font-weight: normal;
 }
 .logo-kodekula {
   margin-left: -200px;

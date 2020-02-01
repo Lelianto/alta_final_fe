@@ -2,7 +2,10 @@ import createStore from 'unistore';
 import axios from 'axios';
 
 const initialState = {
-  menuBarUser:''
+  menuBarUser:'',
+  likeArticle:false,
+  likeQuestion:false,
+  likeAnswer:false
 }
 
 export const store = createStore(initialState)

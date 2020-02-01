@@ -8,9 +8,9 @@ import user from '../images/user.png';
 
 const UserProfile = (props) =>{
     return (
-    <div>
-        <div className='container user-profile'>
-            <div className='row'>
+    <React.Fragment>
+        <div className='container-fluid'>
+            <div className='row user-profile'>
                 <div className='col-md-3'>
                     <div>
                         <img className='dummy-photo' src={user} alt="img"/>
@@ -18,17 +18,36 @@ const UserProfile = (props) =>{
                 </div>
                 <div className='col-md-9'>
                     <div className='user-username row'>
-                        Username
+                        <div style={{fontWeight:'bold'}} className='col-md-3'>
+                            Username
+                        </div>
+                        <div className='col-md-1'>
+                            :
+                        </div>
+                        <div className='col-md-8'>
+                            UserKodeKula
+                        </div>
                     </div>
                     <div className='user-full-name row'>
-                        Nama Lengkap
+                        <div style={{fontWeight:'bold'}} className='col-md-3'>
+                            Nama Lengkap
+                        </div>
+                        <div className='col-md-1'>
+                            :
+                        </div>
+                        <div className='col-md-8'>
+                            User Kodekula
+                        </div>
                     </div>
-                    <div className='row'>
-                        <div className='user-job col-md-3'>
+                    <div className='row user-job'>
+                        <div style={{fontWeight:'bold'}} className='col-md-3'>
                             Pekerjaan
                         </div>
-                        <div className='col-md-6'>
-
+                        <div className='col-md-1'>
+                            :
+                        </div>
+                        <div className='col-md-5'>
+                            Software Engineer
                         </div>
                         <div className='join-this-web col-md-3'>
                             Bergabung sejak 29 Januari 2020
@@ -43,7 +62,7 @@ const UserProfile = (props) =>{
                 </div>
             </div>
         </div>
-    </div>
+    </React.Fragment>
     )
 }
 

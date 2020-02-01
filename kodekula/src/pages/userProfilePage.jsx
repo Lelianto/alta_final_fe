@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import '../styles/css/menubar.css'
 import Header from '../components/header';
 import Footer from '../components/footer';
 import UserProfile from '../components/userProfile';
-import UserOwnArticle from '../components/userOwnArticle';
+import UserOwnFile from '../components/userOwnFile';
 import MenuBarProfile from '../components/menuBarProfile';
 
 class UserProfilePage extends Component {
@@ -17,7 +18,7 @@ class UserProfilePage extends Component {
               <MenuBarProfile/>
             </div>
             <div className='col-md-9'>
-              <UserOwnArticle/>
+              <UserOwnFile/>
             </div>
           </div>
         </div>

@@ -12,7 +12,7 @@ import { Link, withRouter } from 'react-router-dom';
 const MenuBarProfile = ()=> {
     return (
         <div className='container'>
-            <div onClick={()=>store.setState({menuBarUser: 'Pertanyaan'})} className='row menu-bar'>
+            <div onClick={()=>store.setState({menuBarUser: 'Pertanyaan'})} className='row menu-bar menu-bar-fix'>
                 <Link className='link-menu-bar' to='#'>
                     <img style={{width:'15%'}} src={question} alt="img"/>   Pertanyaan
                 </Link>
