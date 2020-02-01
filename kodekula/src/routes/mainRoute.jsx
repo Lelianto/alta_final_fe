@@ -7,6 +7,7 @@ import { store } from '../stores/store';
 import SignUp from '../pages/signUp';
 import SignIn from '../pages/signIn';
 import ChooseInterest from '../pages/chooseInterest';
+import Home from '../pages/home';
 
 
 const MainRoutes = () => {
@@ -14,6 +15,7 @@ const MainRoutes = () => {
         <Provider store={store}>
             <BrowserRouter>
                 <Switch>
+                    <Route exact path="/" component={Home}/>
                     <Route exact path="/daftar" component={SignUp}/>
                     <Route exact path="/pilih-minat" component={ChooseInterest}/>
                     <Route exact path="/masuk" component={SignIn}/>

@@ -1,0 +1,15 @@
+.home-title,
+.suggestion,
+.popular-title {
+  font-family: 'liberation_sansbold';
+  font-size: 30px;
+  border-bottom: 1px #ececec solid;
+  color: #0f4c75;
+}
+.suggestion {
+  font-size: 20px;
+  margin-top: 20%;
+}
+.popular-title {
+  font-size: 20px;
+}
