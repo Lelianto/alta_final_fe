@@ -7,13 +7,16 @@ import { connect } from "unistore/react";
 import { actions, store } from "../stores/store";
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import Header from '../components/header';
+import Footer from '../components/footer';
 
 class SignIn extends React.Component {
 
 	render() {
 		return (
 			<React.Fragment>
-				<div className="container">
+				<Header/>
+				<div className="container pt-5">
 					<div className="row">
 						<div className="col-lg-3 col-md-2 col-sm-1 col-1" />
 						<div className="col-lg-6 col-md-8 col-sm-10 col-10">
@@ -21,7 +24,7 @@ class SignIn extends React.Component {
 								<div className="register-title text-center">
 									<img src={logo} alt="" />
 								</div>
-								<form className="register-form" action="">
+								<form className="register-form fixed-left" action="">
 									<div class="form-group row">
 										<label for="username" className="col-sm-5 col-form-label input-box">
 											Username
@@ -73,6 +76,7 @@ class SignIn extends React.Component {
 						</div>
 					</div>
 				</div>
+				<Footer/>
 			</React.Fragment>
 		);
 	}
