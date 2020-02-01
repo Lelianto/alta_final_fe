@@ -66,7 +66,7 @@ class SignUp extends React.Component {
 										</div>
                                     </div>
                                     <div className='text-center register-button'>
-                                        <button type="button" class="btn btn-outline-info">Daftar</button>
+                                        <Link style={{textDecoration:'none'}} to='/pilih-minat'><button type="button" class="btn btn-outline-info">Daftar</button></Link>
                                     </div>
                                 </form>
                                 <div className='text-center my-2'>atau</div>

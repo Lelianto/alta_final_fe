@@ -2,23 +2,22 @@ import React, { Component } from 'react';
 import '../styles/css/menubar.css'
 import Header from '../components/header';
 import Footer from '../components/footer';
-import UserProfile from '../components/userProfile';
+import ProfileSetting from '../components/userProfileSetting';
 import UserOwnFile from '../components/userOwnFile';
-import MenuBarProfile from '../components/menuBarProfile';
+import MenuBarSetting from '../components/menuBarSetting';
 
-class UserProfilePage extends Component {
+class UserProfileSetting extends Component {
   render() {
     return (
       <div>
         <Header/>
-        <UserProfile/>
         <div className='container'>
           <div className='row'>
             <div className='col-md-3'>
-              <MenuBarProfile/>
+              <MenuBarSetting/>
             </div>
             <div className='col-md-9'>
-              <UserOwnFile/>
+              <ProfileSetting/>
             </div>
           </div>
         </div>
@@ -28,4 +27,4 @@ class UserProfilePage extends Component {
   }
 }
 
-export default UserProfilePage;
+export default UserProfileSetting;

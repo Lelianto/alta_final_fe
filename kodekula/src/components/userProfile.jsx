@@ -9,7 +9,7 @@ import user from '../images/user.png';
 const UserProfile = (props) =>{
     return (
     <React.Fragment>
-        <div className='container-fluid'>
+        <div className='container'>
             <div className='row user-profile'>
                 <div className='col-md-3'>
                     <div>

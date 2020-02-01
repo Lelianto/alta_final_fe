@@ -12,6 +12,18 @@
   padding-bottom: 20px;
   text-align: left;
 }
+.profile-setting-top {
+  padding-left: 35px;
+  padding-top: 40px;
+  padding-bottom: 10px;
+  text-align: left;
+}
+.profile-setting {
+  padding-left: 35px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: left;
+}
 .user-full-name {
   padding-left: 35px;
   padding-bottom: 20px;
@@ -28,7 +40,7 @@
 .user-profile-border {
   border-bottom: 1px solid #e9e3e3;
   margin-left: 35px;
-  margin-right: 50px;
+  margin-right: 25px;
 }
 .title-menu-bar {
   font-weight: bold;
@@ -36,4 +48,9 @@
   display: block;
   padding-top: 5px;
   padding-left: 50px;
+}
+.btn-primary {
+  display: block;
+  margin-left: 35px;
+  margin-top: 58px;
 }

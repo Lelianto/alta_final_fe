@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const initialState = {
   menuBarUser:'',
+  menuBarSetting:'Pengaturan Akun',
   likeArticle:false,
   likeQuestion:false,
   likeAnswer:false
