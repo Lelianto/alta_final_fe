@@ -1,10 +1,12 @@
 import createStore from 'unistore';
 import axios from 'axios';
-import Swal from "sweetalert2"
 
 const initialState = {
-  
-};
+  menuBarUser:'',
+  likeArticle:false,
+  likeQuestion:false,
+  likeAnswer:false
+}
 
 export const store = createStore(initialState);
 
