@@ -8,7 +8,7 @@ const Header = ()=>{
     return (
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <Link className='logo-kodekula' to="#">
+            <Link to='/' className='logo-kodekula'>
                 <img style={{width:'25%'}} src={logo} alt="img"/>
             </Link>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,12 +44,12 @@ const Header = ()=>{
                 </div>
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                     <li class="nav-item">
-                        <Link class="nav-link" to="#">Daftar</Link>
+                        <Link class="nav-link" to="/daftar">Daftar</Link>
                     </li>
                 </ul>
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                     <li class="nav-item">
-                        <Link class="nav-link" to="#">Masuk</Link>
+                        <Link class="nav-link" to="/masuk">Masuk</Link>
                     </li>
                 </ul>
             </div>

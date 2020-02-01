@@ -25,3 +25,6 @@
 .register-box .register-login {
   font-size: 13px;
 }
+.register-box .fixed-left {
+  text-align: left;
+}
