@@ -1,0 +1,42 @@
+@font-face {
+  font-family: 'liberation_sansbold';
+  src: url('../../fonts/liberationsans-bold-webfont.woff2') format('woff2'), url('../../fonts/liberationsans-bold-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'liberation_sansregular';
+  src: url('../../fonts/liberationsans-regular-webfont.woff2') format('woff2'), url('../../fonts/liberationsans-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+header {
+  position: fixed;
+  width: 100%;
+  z-index: 2;
+  font-family: 'liberation_sansregular';
+  font-weight: normal;
+  -webkit-box-shadow: 0px 1px 5px 1px #e7e2e2;
+  -moz-box-shadow: 0px 1px 5px 1px #e7e2e2;
+  box-shadow: 0px 1px 5px 1px #e7e2e2;
+}
+body {
+  font-family: 'liberation_sansregular';
+  font-weight: normal;
+}
+.logo-kodekula {
+  margin-left: -200px;
+  margin-right: -150px;
+}
+.navbar-light .navbar-nav .nav-link {
+  color: #17a2b8 !important;
+}
+.navbar-light .navbar-nav .nav-link:hover {
+  color: #091f22 !important;
+}
+.input-search-component {
+  width: 100%;
+}
+.search-component {
+  padding-left: 80px;
+}
