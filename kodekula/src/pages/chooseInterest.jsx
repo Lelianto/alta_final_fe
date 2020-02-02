@@ -4,10 +4,8 @@ import '../styles/css/signUp.css';
 import '../styles/css/chooseInterest.css';
 import logo from '../images/logo-kodekula.png';
 import { connect } from "unistore/react";
-import { actions, store } from "../stores/store";
+import { actions } from "../stores/store";
 import js from '../images/js.png'
-import axios from 'axios';
-import Swal from 'sweetalert2';
 
 class ChooseInterest extends React.Component {
 
