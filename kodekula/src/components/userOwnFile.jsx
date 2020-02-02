@@ -14,23 +14,19 @@ import { connect } from 'unistore/react'
 import { withRouter } from 'react-router-dom';
 
 const UserOwnFile = (props)=>{
-    if (props.menuBarUser ==='Artikel') {
+    if (props.menuBarUser ==='Artikel' || props.typeContent ==='Artikel' ) {
         return (
             <div className='container own-article'>
             <div className='row'>
-                <div className='col-md-1'></div>
-                <div className='col-md-10 box-control'>
+                <div className='col-md-12 box-control'>
                     <div className='row text-control'>
-                        <div className='col-md-9 title-article-control'>
+                        <div className='col-md-11 title-article-control'>
                             Pembuatan Aplikasi Web-App dengan React 
                         </div>
-                        <div className='col-md-1'>
-                            
-                        </div>
-                        <div className='col-md-2 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img className='logo-edit-control' src={more} alt="img"/>
                         </div>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-menu" style={{marginLeft:'-115px', marginTop:'-37px'}} aria-labelledby="dropdownMenuLink">
                             <a class="dropdown-item" href="#">Ubah/Perbarui</a>
                             <a class="dropdown-item" href="#">Hapus</a>
                         </div>
@@ -39,10 +35,10 @@ const UserOwnFile = (props)=>{
                         <div className='col-md-4 username-control'>
                             <img className='writer-photo' src={user} alt="img"/> Penulis Artikel
                         </div>
-                        <div className='col-md-6'>
+                        <div className='col-md-5'>
                             
                         </div>
-                        <div className='col-md-2 time-article-control'>
+                        <div className='col-md-3 time-article-control'>
                             3 jam yang lalu
                         </div>
                     </div>
@@ -97,23 +93,19 @@ const UserOwnFile = (props)=>{
             </div>
         </div>
         )
-    } else if (props.menuBarUser ==='Pertanyaan') {
+    } else if (props.menuBarUser ==='Pertanyaan' || props.typeContent ==='Pertanyaan') {
         return (
             <div className='container own-article'>
             <div className='row'>
-                <div className='col-md-1'></div>
-                <div className='col-md-10 box-control'>
+                <div className='col-md-12 box-control'>
                     <div className='row text-control'>
-                        <div className='col-md-8 title-article-control'>
+                        <div className='col-md-11 title-article-control'>
                             Bagaimana cara menaklukan asyncronous Javascript?
                         </div>
-                        <div className='col-md-2'>
-                            
-                        </div>
-                        <div className='col-md-2 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img className='logo-edit-control' src={more} alt="img"/>
                         </div>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-menu" style={{marginLeft:'-130px', marginTop:'-37px'}}  aria-labelledby="dropdownMenuLink">
                             <a class="dropdown-item" href="#">Ubah/Perbarui</a>
                             <a class="dropdown-item" href="#">Hapus</a>
                         </div>
@@ -122,10 +114,10 @@ const UserOwnFile = (props)=>{
                         <div className='col-md-4 username-control'>
                             <img className='writer-photo' src={user} alt="img"/> Penulis Artikel
                         </div>
-                        <div className='col-md-6'>
+                        <div className='col-md-5'>
                             
                         </div>
-                        <div className='col-md-2 time-article-control'>
+                        <div className='col-md-3 time-article-control'>
                             3 jam yang lalu
                         </div>
                     </div>
@@ -174,7 +166,6 @@ const UserOwnFile = (props)=>{
                         </div>
                     </div>
                 </div>
-                <div className='col-md-1'></div>
             </div>
         </div>
         )
@@ -182,19 +173,15 @@ const UserOwnFile = (props)=>{
         return (
             <div className='container own-article'>
             <div className='row'>
-                <div className='col-md-1'></div>
-                <div className='col-md-10 box-control'>
+                <div className='col-md-12 box-control'>
                     <div className='row text-control'>
-                        <div className='col-md-10 detail-answer-control'>
+                        <div className='col-md-11 detail-answer-control'>
                             Bagaimana cara menaklukan asyncronous Javascript?
-                        </div>
-                        <div className='col-md-1'>
-                            
                         </div>
                         <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img className='logo-edit-control' src={more} alt="img"/>
                         </div>
-                        <div class="dropdown-menu" style={{marginLeft:'-127px', marginTop:'-83px'}} aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-menu" style={{marginLeft:'-130px', marginTop:'-27px'}} aria-labelledby="dropdownMenuLink">
                             <a class="dropdown-item" href="#">Ubah/Perbarui</a>
                             <a class="dropdown-item" href="#">Hapus</a>
                         </div>
@@ -245,7 +232,6 @@ const UserOwnFile = (props)=>{
                         </div>
                     </div>
                 </div>
-                <div className='col-md-1'></div>
             </div>
         </div>
         )
@@ -253,13 +239,12 @@ const UserOwnFile = (props)=>{
         return (
             <div className='container own-article'>
                 <div className='row'>
-                    <div className='col-md-1'></div>
-                    <div className='col-md-10 box-control-reputation'>
+                    <div className='col-md-12 box-control-reputation'>
                         <div className='row'>
-                            <div className='col-md-1' style={{paddingLeft:'0'}}>
+                            <div className='col-md-2' style={{paddingLeft:'0'}}>
                                 <img className='language-reputation' src={examplelang} alt="img"/>
                             </div>
-                            <div className='col-md-4 detail-reputation'>
+                            <div className='col-md-3 detail-reputation'>
                                 <div className='lang-point'>Python (125)</div>
                                 <ul>
                                     <li>Jawaban (25)</li>
@@ -271,7 +256,6 @@ const UserOwnFile = (props)=>{
                             </div>
                         </div>
                     </div>
-                    <div className='col-md-1'></div>
                 </div>
             </div>
         )

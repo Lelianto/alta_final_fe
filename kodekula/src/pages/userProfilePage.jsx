@@ -17,7 +17,7 @@ class UserProfilePage extends Component {
             <div className='col-md-3'>
               <MenuBarProfile/>
             </div>
-            <div className='col-md-9'>
+            <div className='col-md-9 user-own-file'>
               <UserOwnFile/>
             </div>
           </div>

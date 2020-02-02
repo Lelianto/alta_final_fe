@@ -35,7 +35,7 @@
   padding-bottom: 20px;
 }
 .join-this-web {
-  font-size: 10px;
+  font-size: 11px;
 }
 .user-profile-border {
   border-bottom: 1px solid #e9e3e3;
@@ -53,4 +53,8 @@
   display: block;
   margin-left: 35px;
   margin-top: 58px;
+}
+.user-own-file {
+  padding-left: 4%;
+  padding-right: 4%;
 }

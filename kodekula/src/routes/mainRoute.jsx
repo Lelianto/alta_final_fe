@@ -9,12 +9,14 @@ import PersonalDataEdit from '../pages/personalDataEdit';
 import SignUp from '../pages/signUp';
 import SignIn from '../pages/signIn';
 import ChooseInterest from '../pages/chooseInterest';
+import Home from '../pages/home';
         
 const MainRoute = () => {
     return (
         <Provider store={store}>
             <BrowserRouter>
                 <Switch>
+                    <Route exact path="/" component={Home}/>
                     <Route exact path="/profil" component={UserProfilePage} />  
                     <Route exact path="/pengaturan-akun" component={UserProfileSetting} />
                     <Route exact path="/pengaturan-akun/data-diri/edit" component={PersonalDataEdit} />

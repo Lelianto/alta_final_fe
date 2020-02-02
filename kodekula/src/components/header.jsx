@@ -11,7 +11,7 @@ const Header = ()=>{
         return (
         <header>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <Link className='logo-kodekula' to="#">
+                <Link className='logo-kodekula' to='/'>
                     <img style={{width:'25%'}} src={logo} alt="img"/>
                 </Link>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,7 +63,7 @@ const Header = ()=>{
         return (
             <header>
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <Link className='logo-kodekula' to="#">
+                    <Link className='logo-kodekula' to="/">
                         <img style={{width:'25%'}} src={logo} alt="img"/>
                     </Link>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -105,10 +105,15 @@ const Header = ()=>{
                             </li>
                         </ul>
                         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                            <li class="nav-item">
-                                <Link class="nav-link" to="/profil">
+                            <li class="nav-item dropleft">
+                                <Link class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <img src={user} alt="img" style={{borderRadius:'50%'}} width='30px'/>
                                 </Link>
+                                <div class="dropdown-menu" style={{marginTop:'0px', marginRight:'0px'}}>
+                                    <Link class="dropdown-item" to="/profil">Profil</Link>
+                                    <Link class="dropdown-item" to="/pengaturan-akun">Pengaturan Akun</Link>
+                                    <Link class="dropdown-item" to="/">Keluar</Link>
+                                </div>
                             </li>
                         </ul>
                     </div>

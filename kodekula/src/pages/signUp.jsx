@@ -8,13 +8,20 @@ import { actions, store } from "../stores/store";
 import eye from '../images/eye.svg'
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import Header from '../components/header';
+import Footer from '../components/footer';
 
 class SignUp extends React.Component {
+
+    submitAll = () => {
+        this.props.history.push('/pilih-minat')
+    }
 
 	render() {
 		return (
 			<React.Fragment>
-				<div className="container">
+                <Header/>
+				<div className="container pt-5">
                     <div className="row">
                         <div className="col-lg-3 col-md-2 col-sm-1 col-1"></div>
                         <div className="col-lg-6 col-md-8 col-sm-10 col-10">
@@ -22,7 +29,7 @@ class SignUp extends React.Component {
                                 <div className="register-title text-center">
                                     <img src={logo} alt=""/>
                                 </div>
-                                <form className='register-form' action="">
+                                <form className='register-form fixed-left' action="">
                                     <div class="form-group row">
                                         <label for="username" className="col-sm-5 col-form-label input-box">Username</label>
                                         <div className="col-sm-7">
@@ -66,7 +73,7 @@ class SignUp extends React.Component {
 										</div>
                                     </div>
                                     <div className='text-center register-button'>
-                                        <Link style={{textDecoration:'none'}} to='/pilih-minat'><button type="button" class="btn btn-outline-info">Daftar</button></Link>
+                                        <button type="button" class="btn btn-outline-info" onClick={()=>this.submitAll()}>Daftar</button>
                                     </div>
                                 </form>
                                 <div className='text-center my-2'>atau</div>
@@ -78,6 +85,7 @@ class SignUp extends React.Component {
                         </div>
                     </div>
                 </div>
+                <Footer/>
 			</React.Fragment>
 		);
 	}
