@@ -58,9 +58,11 @@ class SignIn extends React.Component {
 										</div>
 									</div>
 									<div className="text-center register-button">
-										<button type="button" class="btn btn-outline-info">
-											Masuk
-										</button>
+										<Link style={{textDecoration:'none'}} to='/profil'>
+											<button type="button" class="btn btn-outline-info">
+												Masuk
+											</button>
+										</Link>
 									</div>
 								</form>
 								<div className="text-center my-2">atau</div>
@@ -76,8 +78,8 @@ class SignIn extends React.Component {
 						</div>
 					</div>
 				</div>
-				<Footer/>
-			</React.Fragment>
+			<Footer/>
+		</React.Fragment>
 		);
 	}
 }

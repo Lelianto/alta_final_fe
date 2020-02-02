@@ -2,12 +2,12 @@ import createStore from 'unistore';
 import axios from 'axios';
 
 const initialState = {
-	menuBarUser: '',
-	// listContent: [ 'Artikel', 'Pertanyaan' ],
-	likeArticle: false,
-	likeQuestion: false,
-	likeAnswer: false
-};
+  menuBarUser:'',
+  menuBarSetting:'Pengaturan Akun',
+  likeArticle:false,
+  likeQuestion:false,
+  likeAnswer:false
+}
 
 export const store = createStore(initialState);
 
