@@ -2,11 +2,15 @@ import React, { Component } from 'react';
 import '../styles/css/menubar.css'
 import Header from '../components/header';
 import Footer from '../components/footer';
-import ProfileSetting from '../components/userProfileSetting';
-import UserOwnFile from '../components/userOwnFile';
+import SetPersonalData from '../components/userSetPersonal';
 import MenuBarSetting from '../components/menuBarSetting';
+import { store } from '../stores/store';
 
 class UserProfileSetting extends Component {
+  handleMainPage = (event1, event2)=>{
+    store.setState({menuBarSetting:event2})
+    this.props.history.replace('/pengaturan-akun'+event1)
+  }
   render() {
     return (
       <div>
@@ -14,10 +18,10 @@ class UserProfileSetting extends Component {
         <div className='container'>
           <div className='row'>
             <div className='col-md-3'>
-              <MenuBarSetting/>
+              <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)}/>
             </div>
             <div className='col-md-9'>
-              <ProfileSetting/>
+              <SetPersonalData/>
             </div>
           </div>
         </div>

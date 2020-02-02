@@ -9,7 +9,7 @@ import { store, actions } from '../stores/store';
 import { connect } from 'unistore/react'
 import { Link, withRouter } from 'react-router-dom';
 
-const MenuBarSetting = ()=> {
+const MenuBarSetting = (props)=> {
     return (
         <div className='container'>
             <div className='row menu-bar-photo'>
@@ -17,17 +17,17 @@ const MenuBarSetting = ()=> {
                     <img className='dummy-photo-setting' src={user} alt="img"/>
                 </div>
             </div>
-            <div onClick={()=>store.setState({menuBarSetting: 'Data Diri'})} className='row menu-bar menu-bar-fix'>
+            <div onClick={()=>props.handleMainPage('/data-diri','Data Diri')} className='row menu-bar menu-bar-fix'>
                 <Link className='link-menu-bar' to='#'>
                     <img style={{width:'15%'}} src={question} alt="img"/>   Data Diri
                 </Link>
             </div>
-            <div onClick={()=>store.setState({menuBarSetting: 'Minat'})} className='row menu-bar'>
+            <div onClick={()=>store.setState({menuBarSetting: 'Minat'})} onClick={()=>props.handleMainPage('/minat','Minat')} className='row menu-bar'>
                 <Link className='link-menu-bar' to='#'>
                     <img style={{width:'15%'}} src={answer} alt="img"/>   Minat
                 </Link>
             </div>
-            <div onClick={()=>store.setState({menuBarSetting: 'Ubah Password'})} className='row menu-bar'>
+            <div onClick={()=>store.setState({menuBarSetting: 'Ubah Password'})} onClick={()=>props.handleMainPage('/ubah-password','Ubah Password')} className='row menu-bar'>
                 <Link className='link-menu-bar' to='#'>
                     <img style={{width:'15%'}} src={article} alt="img"/>   Ubah Password
                 </Link>

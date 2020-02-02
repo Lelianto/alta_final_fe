@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles/css/userprofile.css';
 import '../styles/css/bootstrap.min.css';
 import edit from '../images/edit.png';
-import { actions, store } from '../stores/store';
+import { actions } from '../stores/store';
 import { connect } from 'unistore/react'
 import { Link, withRouter } from 'react-router-dom';
 
@@ -16,9 +16,8 @@ const UserProfileSettings = (props) =>{
                     <div className='user-username row'>
                         <div style={{fontWeight:'bold', fontSize:'20px'}} className='col-md-5'>{(props.menuBarSetting==='Pengaturan Akun' || props.menuBarSetting==='Ubah Password')?
                             <span>{props.menuBarSetting}</span>:(props.menuBarSetting==='Minat')?
-                            <div>{props.menuBarSetting} <Link to='/pengaturan-akun/minat'><img width='20px' height='20px' src={edit} alt="img"/></Link></div>:<div>{props.menuBarSetting} <Link to='/pengaturan-akun/data-diri'><img width='20px' height='20px' src={edit} alt="img"/></Link></div>}
+                            <div>{props.menuBarSetting} <Link onClick={()=>props.handlePage('/minat/edit')}><img width='20px' height='20px' src={edit} alt="img"/></Link></div>:<div>{props.menuBarSetting} <Link onClick={()=>props.handlePage('/data-diri/edit')}><img width='20px' height='20px' src={edit} alt="img"/></Link></div>}
                         </div>
-                        
                     </div>
                     <div className='row user-profile-border'>
                         
@@ -80,7 +79,7 @@ const UserProfileSettings = (props) =>{
                                 foto_profil.jpg
                             </div>
                         </div>
-                        <button type="button" class="btn btn-primary">Ubah</button>
+                        <button onClick={()=>props.handlePage('/data-diri/edit')} type="button" class="btn btn-primary">Ubah</button>
                     </div>:<span></span>}
                     {props.menuBarSetting==='Ubah Password'?
                     <div>
