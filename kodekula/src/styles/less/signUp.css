@@ -11,6 +11,7 @@
   width: 55%;
 }
 .register-box .register-form {
+  text-align: left;
   padding-top: 6%;
 }
 .register-box .register-form .input-box {
