@@ -10,6 +10,8 @@ import SignUp from '../pages/signUp';
 import SignIn from '../pages/signIn';
 import ChooseInterest from '../pages/chooseInterest';
 import Home from '../pages/home';
+import Article from '../pages/articlePage';
+import AddArticle from '../pages/addArticle';
         
 const MainRoute = () => {
     return (
@@ -17,6 +19,8 @@ const MainRoute = () => {
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/" component={Home}/>
+                    <Route exact path="/artikel" component={Article}/>
+                    <Route exact path="/artikel/tulis" component={AddArticle}/>
                     <Route exact path="/profil" component={UserProfilePage} />  
                     <Route exact path="/pengaturan-akun" component={UserProfileSetting} />
                     <Route exact path="/pengaturan-akun/data-diri/edit" component={PersonalDataEdit} />

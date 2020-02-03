@@ -8,9 +8,9 @@ import InterestList from '../components/interestList';
 import PopularList from '../components/popularList';
 import UserOwnFile from '../components/userOwnFile';
 
-const listContent = [ 'Artikel', 'Pertanyaan' ];
+const listContent = [ 'Artikel' ];
 
-class Home extends React.Component {
+class ArticlePage extends React.Component {
 	state = {
 		tags: [ 'Python', 'Javascript', 'Django', 'ReactJS', 'Java', 'GoLang' ],
 		icon: [ 'bug_report', 'build', 'android', 'camera_enhance', 'autorenew', 'code' ],
@@ -45,6 +45,9 @@ class Home extends React.Component {
 							<InterestList tags={this.state.tags} icon={this.state.icon} seeAll={this.seeAll} />
 						</div>
 						<div className="col-lg-6 col-md-6 col-sm-12 col-12 mt-5 pl-0 pr-0">
+							<Link style={{textDecoration:'none', color:'white'}} to='/artikel/tulis'>
+								<button className='btn btn-success'>Tulis Artikel</button>
+							</Link>
 							{listContent.map((type, i) => <UserOwnFile typeContent={type} />)}
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5">
@@ -57,4 +60,4 @@ class Home extends React.Component {
 		);
 	}
 }
-export default connect('', actions)(withRouter(Home));
+export default connect('', actions)(withRouter(ArticlePage));
