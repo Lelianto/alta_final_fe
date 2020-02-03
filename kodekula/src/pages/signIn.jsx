@@ -12,6 +12,38 @@ import Footer from '../components/footer';
 
 class SignIn extends React.Component {
 
+	afterSignIn = async () => {
+        const parameters = {
+            username : this.props.username,
+			password : this.props.password
+        };
+		
+        const signIn = {
+            method:"post",
+            url: "http://0.0.0.0:5000/auth",
+            headers: {
+                "Content-Type": "application/json"
+            },
+			data : parameters,
+			validateStatus : (status) => {
+                return status < 500
+            }
+		};
+		
+		await this.props.handleAPI(signIn)
+		if (this.props.responseStatus === 200) {
+			await this.props.getToken()
+			await this.props.history.push("/")
+			await this.props.deleteResponse()
+		} else if (this.props.responseStatus === 401) {
+			Swal.fire({
+				icon: 'error',
+				title: 'Uups...',
+				text: 'Username atau password salah'
+			});
+		}
+	}
+
 	render() {
 		return (
 			<React.Fragment>
@@ -24,7 +56,7 @@ class SignIn extends React.Component {
 								<div className="register-title text-center">
 									<img src={logo} alt="" />
 								</div>
-								<form className="register-form fixed-left" action="">
+								<form className="register-form fixed-left" action=""  onSubmit={e => e.preventDefault()}>
 									<div class="form-group row">
 										<label for="username" className="col-sm-5 col-form-label input-box">
 											Username
@@ -34,7 +66,7 @@ class SignIn extends React.Component {
 												type="text"
 												className="form-control input-box"
 												id="username"
-												name="username"
+												name="username" onChange={ e => this.props.setGlobal(e)}
 												required
 											/>
 										</div>
@@ -47,7 +79,7 @@ class SignIn extends React.Component {
 												className="form-control input-box mr-0"
 												id="password"
 												name="password"
-												data-toggle="password"
+												data-toggle="password" onChange={ e =>this.props.setGlobal(e)}
 												required
 											/>
 											<div className="input-group-append">
@@ -58,17 +90,16 @@ class SignIn extends React.Component {
 										</div>
 									</div>
 									<div className="text-center register-button">
-										<Link style={{textDecoration:'none'}} to='/profil'>
-											<button type="button" class="btn btn-outline-info">
-												Masuk
-											</button>
-										</Link>
+										<button type="submit" class="btn btn-outline-info" onClick={()=>this.afterSignIn()}>
+											Masuk
+										</button>
+
 									</div>
 								</form>
 								<div className="text-center my-2">atau</div>
 								<div className="text-center register-button">
 									<button type="button" className="btn btn-outline-info">
-										Masuk dengan <img src={google2} alt="" width="75px" className="ml-1" />
+										Masuk dengan <img src={google2} alt="" width="75px" className="ml-1"/>
 									</button>
 								</div>
 								<div className="text-center mt-3 register-login">
@@ -83,4 +114,4 @@ class SignIn extends React.Component {
 		);
 	}
 }
-export default connect('', actions)(withRouter(SignIn));
+export default connect('username, password, responseData, responseStatus', actions)(withRouter(SignIn));

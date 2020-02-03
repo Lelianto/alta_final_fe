@@ -13,8 +13,79 @@ import Footer from '../components/footer';
 
 class SignUp extends React.Component {
 
-    submitAll = () => {
-        this.props.history.push('/pilih-minat')
+    state = {
+        username : null,
+        email : null,
+        password : null,
+        confirmPassword : null
+    }
+
+    setInput = async (event) => {
+        await this.setState({ [event.target.name]: event.target.value });
+    }
+
+    afterSignUp = async () => {
+        const parameters = {
+            username : this.state.username,
+            email : this.state.email,
+            password : this.state.password
+        };
+	
+        const signUp = {
+            method:"post",
+            url: "http://0.0.0.0:5000/users",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            data : parameters,
+            validateStatus : (status) => {
+                return status < 500
+            }
+        };
+            
+        if (this.state.username !== null && this.state.email !== null && this.state.password !==null && this.state.confirmPassword !== null) {
+            if (this.state.password === this.state.confirmPassword) {
+                await this.props.handleAPI(signUp)
+                if (this.props.responseStatus === 200) {
+                    await store.setState({username : this.state.username, email : this.state.email})
+                    await this.afterSignIn()                    
+                } else if (this.props.responseStatus === 409) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Uups...',
+                        text: 'Username atau email sudah terdaftar'
+                    });
+                }
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Uups...',
+                    text: 'Konfirmasi Password tidak sesuai'
+                });
+            }
+        }
+		
+    }
+
+    afterSignIn = async () => {
+        const parameters = {
+            username : this.state.username,
+			password : this.state.password
+        };
+		
+        const signIn = {
+            method:"post",
+            url: "http://0.0.0.0:5000/auth",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            data : parameters
+		};
+		
+        await this.props.handleAPI(signIn)
+        await this.props.getToken()
+		await this.props.history.push('/pilih-minat')
+        await this.props.deleteResponse()
     }
 
 	render() {
@@ -29,15 +100,15 @@ class SignUp extends React.Component {
                                 <div className="register-title text-center">
                                     <img src={logo} alt=""/>
                                 </div>
-                                <form className='register-form fixed-left' action="">
+                                <form className='register-form fixed-left' action="/pilih-minat" onSubmit={e => e.preventDefault()}>
                                     <div class="form-group row">
                                         <label for="username" className="col-sm-5 col-form-label input-box">Username</label>
                                         <div className="col-sm-7">
-                                        <input type="text" className="form-control input-box" id="username" name="username" required/>
+                                        <input type="text" className="form-control input-box" id="username" name="username" onChange={ e => this.setInput(e)} required/>
                                         </div>
                                         <label for="email" className="col-sm-5 col-form-label input-box">Email</label>
                                         <div className="col-sm-7">
-                                        <input type="email" className="form-control input-box" id="email" name="email" required/>
+                                        <input type="email" className="form-control input-box" id="email" name="email" onChange={ e => this.setInput(e)} required/>
                                         </div>
                                         <label for="password" className="col-sm-5 col-form-label input-box">Password</label>
                                         <div className="col-sm-7 input-group">
@@ -46,7 +117,7 @@ class SignUp extends React.Component {
 												className="form-control input-box mr-0"
 												id="password"
 												name="password"
-												data-toggle="password"
+												data-toggle="password" onChange={ e => this.setInput(e)}
 												required
 											/>
 											<div className="input-group-append">
@@ -61,8 +132,8 @@ class SignUp extends React.Component {
 												type="password"
 												className="form-control input-box mr-0"
 												id="confirm-password"
-												name="password"
-												data-toggle="password"
+												name="confirmPassword"
+												data-toggle="password" onChange={ e => this.setInput(e)}
 												required
 											/>
 											<div className="input-group-append">
@@ -73,7 +144,7 @@ class SignUp extends React.Component {
 										</div>
                                     </div>
                                     <div className='text-center register-button'>
-                                        <button type="button" class="btn btn-outline-info" onClick={()=>this.submitAll()}>Daftar</button>
+                                        <button type="submit" class="btn btn-outline-info" onClick={()=>this.afterSignUp()}>Daftar</button>
                                     </div>
                                 </form>
                                 <div className='text-center my-2'>atau</div>
@@ -90,4 +161,4 @@ class SignUp extends React.Component {
 		);
 	}
 }
-export default connect('', actions)(withRouter(SignUp));
+export default connect('responseData, responseStatus, username, email', actions)(withRouter(SignUp));
