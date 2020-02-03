@@ -93,6 +93,7 @@ class SignIn extends React.Component {
 										<button type="submit" class="btn btn-outline-info" onClick={()=>this.afterSignIn()}>
 											Masuk
 										</button>
+
 									</div>
 								</form>
 								<div className="text-center my-2">atau</div>
@@ -108,8 +109,8 @@ class SignIn extends React.Component {
 						</div>
 					</div>
 				</div>
-				<Footer/>
-			</React.Fragment>
+			<Footer/>
+		</React.Fragment>
 		);
 	}
 }

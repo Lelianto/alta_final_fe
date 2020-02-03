@@ -26,7 +26,7 @@ const UserOwnFile = (props)=>{
                         <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img className='logo-edit-control' src={more} alt="img"/>
                         </div>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-menu" style={{marginLeft:'-115px', marginTop:'-37px'}} aria-labelledby="dropdownMenuLink">
                             <a class="dropdown-item" href="#">Ubah/Perbarui</a>
                             <a class="dropdown-item" href="#">Hapus</a>
                         </div>
@@ -105,7 +105,7 @@ const UserOwnFile = (props)=>{
                         <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img className='logo-edit-control' src={more} alt="img"/>
                         </div>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-menu" style={{marginLeft:'-130px', marginTop:'-37px'}}  aria-labelledby="dropdownMenuLink">
                             <a class="dropdown-item" href="#">Ubah/Perbarui</a>
                             <a class="dropdown-item" href="#">Hapus</a>
                         </div>
@@ -181,7 +181,7 @@ const UserOwnFile = (props)=>{
                         <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img className='logo-edit-control' src={more} alt="img"/>
                         </div>
-                        <div class="dropdown-menu" style={{marginLeft:'-127px', marginTop:'-83px'}} aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-menu" style={{marginLeft:'-130px', marginTop:'-27px'}} aria-labelledby="dropdownMenuLink">
                             <a class="dropdown-item" href="#">Ubah/Perbarui</a>
                             <a class="dropdown-item" href="#">Hapus</a>
                         </div>

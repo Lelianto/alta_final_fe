@@ -11,8 +11,9 @@ const initialState = {
 	email : '',
 	job : '',
 	responseData: null,
-	responseStatus : null
-};
+	responseStatus : null,
+	menuBarSetting:'Pengaturan Akun'
+}
 
 export const store = createStore(initialState);
 
@@ -51,12 +52,16 @@ export const actions = (store) => ({
 		const responseData = state.responseData
 		if(responseData.hasOwnProperty("token")) {
 			await localStorage.setItem("token", responseData.token)
-			await localStorage.setItem("isLogin", "true")
 			await localStorage.setItem("username", state.username)
 			await localStorage.setItem("email", state.email)
 		}
 	},
 	deleteResponse : async state => {
 		await store.setState({ responseData : null, responseStatus : null })
+	},
+	afterSignOut : state => {
+		localStorage.removeItem("token")
+		localStorage.removeItem("username")
+		localStorage.removeItem("email")
 	}
 });
