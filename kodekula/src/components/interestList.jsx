@@ -12,31 +12,31 @@ const InterestList = (props) => {
 		<React.Fragment>
             <div className="border shadow-sm rounded pl-3 pr-2 pt-4 ml-2 mr-2 fixed-left" style={{backgroundColor:'#f8f9fa'}}>
                 <div className="home-title mb-3 pl-2">Lini Masa</div>
-                <div className="pl-4">
-                    <div className="row mb-3">
-                        <input type="checkbox" defaultChecked/>
+                <div className="pl-2">
+                    <div className="mb-3">
+                        <input type="checkbox" id='all' defaultChecked onClick={()=>props.checkAll()}/>
                         <img src={all} className="pr-2 ml-2" width='30px'/>
-                        <div style={{color:'#1b262c'}}>Semua</div>
+                        <label for='all' style={{color:'#1b262c'}}>Semua</label>
                     </div>
-                    {props.icon.map((value, i) => (
-                        <div className='row mb-3'>
-                            <input type="checkbox"/>
-                            <i className="material-icons pr-2 ml-2">{value}</i>
-                            <div style={{color:'#1b262c'}}>{props.tags[i]}</div>
+                    {props.tags.map((value) => (
+                        <div className='mb-3'>
+                            <input type="checkbox" id={value.name} defaultChecked/>
+                            <img src={value.photo_url} className="pr-2 ml-2" width="30px"/>
+                            <label for={value.name} style={{color:'#1b262c'}}>{value.name}</label>
                         </div>
                     ))}
                 </div>
                 <div className="suggestion pl-2 mb-3">Saran</div>
-                <div className="pl-4">
-                    <div className="row mb-3">
+                <div className="pl-2">
+                    <div className="row mb-3 pl-3">
                         <Link style={{textDecoration:'none', fontSize:'16px'}} onClick={()=>props.seeAll()}id='seeAll'>Lihat Semua...</Link>
                     </div>
                     <div id='suggest-list' style={{display:'none'}}>
-                        {props.icon.map((value, i) => (
-                            <div className='row mb-3' >
-                                <input type="checkbox"/>
-                                <i className="material-icons pr-2 ml-2">{value}</i>
-                                <div style={{color:'#1b262c'}}>{props.tags[i]}</div>
+                        {props.excludeTags.map((value) => (
+                            <div className='mb-3' >
+                                <input type="checkbox" id={value.name}/>
+                                <img src={value.photo_url} className="pr-2 ml-2" width="30px"/>
+                                <label for={value.name} style={{color:'#1b262c'}}>{value.name}</label>
                             </div>
                         ))}
                     </div>

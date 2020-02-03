@@ -1,12 +1,14 @@
 import React from 'react';
 import '../styles/css/header.css';
 import '../styles/css/bootstrap.min.css';
-import { Link } from 'react-router-dom';
 import logo from '../images/logo-kodekula.png';
 import user from '../images/user.png';
 import notification from '../images/bell.png';
+import { withRouter, Link } from 'react-router-dom';
+import { connect } from 'unistore/react';
+import { actions } from '../stores/store';
 
-const Header = ()=>{
+const Header = (props) => {
     if(localStorage.getItem('email')===null){
         return (
         <header>
@@ -112,7 +114,7 @@ const Header = ()=>{
                                 <div class="dropdown-menu" style={{marginTop:'0px', marginRight:'0px'}}>
                                     <Link class="dropdown-item" to="/profil">Profil</Link>
                                     <Link class="dropdown-item" to="/pengaturan-akun">Pengaturan Akun</Link>
-                                    <Link class="dropdown-item" to="/">Keluar</Link>
+                                    <Link class="dropdown-item" to="/" onClick={()=>props.afterSignOut()}>Keluar</Link>
                                 </div>
                             </li>
                         </ul>
@@ -123,4 +125,4 @@ const Header = ()=>{
     }
 }
 
-export default Header
+export default connect('', actions)(withRouter(Header));
