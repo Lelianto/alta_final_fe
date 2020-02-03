@@ -3,10 +3,15 @@ import axios from 'axios';
 
 const initialState = {
 	menuBarUser: '',
-	// listContent: [ 'Artikel', 'Pertanyaan' ],
 	likeArticle: false,
 	likeQuestion: false,
-	likeAnswer: false
+	likeAnswer: false,
+	username: '',
+	password: '',
+	email : '',
+	job : '',
+	responseData: null,
+	responseStatus : null
 };
 
 export const store = createStore(initialState);
@@ -26,5 +31,32 @@ export const actions = (store) => ({
 		} else {
 			password.type = 'password';
 		}
+	},
+	setGlobal : async (state, event) => {
+		await store.setState({ [event.target.name]: event.target.value });
+	},
+	handleAPI : async (state, parameters) => {
+		await axios(parameters)
+			.then(async (response) => {
+				await store.setState({responseStatus : response.status})
+				if (response.status === 200) {
+					await store.setState({responseData : response.data})
+				}
+			})
+			.catch(async (error) => {
+				await console.warn(error)
+			})
+	},
+	getToken : async state => {
+		const responseData = state.responseData
+		if(responseData.hasOwnProperty("token")) {
+			await localStorage.setItem("token", responseData.token)
+			await localStorage.setItem("isLogin", "true")
+			await localStorage.setItem("username", state.username)
+			await localStorage.setItem("email", state.email)
+		}
+	},
+	deleteResponse : async state => {
+		await store.setState({ responseData : null, responseStatus : null })
 	}
 });
