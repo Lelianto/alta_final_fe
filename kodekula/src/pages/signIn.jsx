@@ -33,8 +33,7 @@ class SignIn extends React.Component {
 		await this.props.handleAPI(signIn)
 		if (this.props.responseStatus === 200) {
 			await this.props.getToken()
-			await this.props.history.push("/")
-			await this.props.deleteResponse()
+			await this.getUserDetail()
 		} else if (this.props.responseStatus === 401) {
 			Swal.fire({
 				icon: 'error',
@@ -42,6 +41,25 @@ class SignIn extends React.Component {
 				text: 'Username atau password salah'
 			});
 		}
+	}
+
+	getUserDetail = async () => {
+        const userDetail = {
+            method:"get",
+            url: "http://0.0.0.0:5000/users/me",
+            headers: {
+				"Content-Type": "application/json",
+				'Authorization':'Bearer ' + localStorage.getItem("token")
+            },
+			validateStatus : (status) => {
+                return status < 500
+			}
+		};
+
+		await this.props.handleAPI(userDetail)
+		await localStorage.setItem('email', this.props.responseData.user_data.email)
+		await this.props.history.push("/")
+		await this.props.deleteResponse()
 	}
 
 	render() {

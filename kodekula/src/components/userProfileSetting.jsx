@@ -32,7 +32,7 @@ const UserProfileSettings = (props) =>{
                                 :
                             </div>
                             <div className='col-md-6'>
-                                User
+                                {props.userDetail.first_name}
                             </div>
                         </div>
                         <div className='profile-setting row'>
@@ -43,7 +43,7 @@ const UserProfileSettings = (props) =>{
                                 :
                             </div>
                             <div className='col-md-6'>
-                                KodeKula
+                                {props.userDetail.last_name}
                             </div>
                         </div>
                         <div className='profile-setting row'>
@@ -54,7 +54,7 @@ const UserProfileSettings = (props) =>{
                                 :
                             </div>
                             <div className='col-md-6'>
-                                Software Engineer
+                                {props.userDetail.job_title}
                             </div>
                         </div>
                         <div className='profile-setting row'>
@@ -65,7 +65,7 @@ const UserProfileSettings = (props) =>{
                                 :
                             </div>
                             <div className='col-md-6'>
-                                user@kodekula.id
+                                {props.userData.email}
                             </div>
                         </div>
                         <div className='profile-setting row'>
