@@ -50,10 +50,11 @@ export const actions = (store) => ({
 	},
 	getToken : async state => {
 		const responseData = state.responseData
+		console.warn('respon', responseData)
 		if(responseData.hasOwnProperty("token")) {
 			await localStorage.setItem("token", responseData.token)
 			await localStorage.setItem("username", state.username)
-			await localStorage.setItem("email", state.email)
+			// await localStorage.setItem("email", )
 		}
 	},
 	deleteResponse : async state => {

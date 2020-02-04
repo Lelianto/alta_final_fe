@@ -5,8 +5,15 @@ import Footer from '../components/footer';
 import ProfileSetting from '../components/userProfileSetting';
 import MenuBarSetting from '../components/menuBarSetting';
 import { store } from '../stores/store';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 class UserProfileSetting extends Component {
+  state = {
+    userData : {},
+    userDetail : {}
+  }
+
   handlePage = (event)=>{
     this.props.history.replace('/pengaturan-akun'+event)
   }
@@ -14,6 +21,28 @@ class UserProfileSetting extends Component {
     store.setState({menuBarSetting:event2})
     this.props.history.replace('/pengaturan-akun'+event1)
   }
+  componentDidMount = async () => {
+    const user = {
+			method: 'get',
+			url: 'http://0.0.0.0:5000/users/me',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization':'Bearer ' + localStorage.getItem("token")
+			},
+			validateStatus : (status) => {
+                return status < 500
+            }
+		  };
+		
+      await axios(user)
+			.then(async (response) => {
+				await this.setState({userData : response.data.user_data, userDetail : response.data.user_detail_data})
+			})
+			.catch(async (error) => {
+				await console.warn(error)
+			})
+  }
+
   render() {
     return (
       <div>
@@ -24,7 +53,7 @@ class UserProfileSetting extends Component {
               <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)}/>
             </div>
             <div className='col-md-9'>
-              <ProfileSetting handlePage={(event)=>this.handlePage(event)}/>
+              <ProfileSetting handlePage={(event)=>this.handlePage(event)} userData={this.state.userData} userDetail={this.state.userDetail}/>
             </div>
           </div>
         </div>
