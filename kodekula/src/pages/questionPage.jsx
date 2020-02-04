@@ -9,9 +9,10 @@ import InterestList from '../components/interestList';
 import PopularList from '../components/popularList';
 import UserOwnFile from '../components/userOwnFile';
 
-const listContent = [ 'Artikel' ];
+const listContent = [ 'Pertanyaan' ];
+const placeholderTitle = 'Masukkan Judul Pertanyaan'
 
-class ArticlePage extends React.Component {
+class QuestionPage extends React.Component {
 	state = {
 		tags: [ 'Python', 'Javascript', 'Django', 'ReactJS', 'Java', 'GoLang' ],
 		icon: [ 'bug_report', 'build', 'android', 'camera_enhance', 'autorenew', 'code' ],
@@ -46,8 +47,8 @@ class ArticlePage extends React.Component {
 							<InterestList tags={this.state.tags} icon={this.state.icon} seeAll={this.seeAll} />
 						</div>
 						<div className="col-lg-6 col-md-6 col-sm-12 col-12 mt-5 pl-0 pr-0">
-							<Link style={{textDecoration:'none', color:'white'}} to='/artikel/tulis'>
-								<button className='btn btn-success button-write-article-control'>Tulis Artikel</button>
+							<Link style={{textDecoration:'none', color:'white'}} to='/pertanyaan/tulis'>
+								<button className='btn btn-success button-write-article-control'>Tulis Pertanyaan</button>
 							</Link>
 							{listContent.map((type, i) => <UserOwnFile typeContent={type} />)}
 						</div>
@@ -61,4 +62,4 @@ class ArticlePage extends React.Component {
 		);
 	}
 }
-export default connect('', actions)(withRouter(ArticlePage));
+export default connect('', actions)(withRouter(QuestionPage));

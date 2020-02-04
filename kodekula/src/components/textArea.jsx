@@ -100,7 +100,11 @@ class TextArea extends React.Component {
             <div style={{marginBottom:'20px'}}>
                 <div className='row'>
                     <div className="col-sm-12">
-                    <input type="text" onChange={(e)=>this.props.changeInput(e)} className="form-control input-box" onClick={()=>store.setState({menuBarUpload:true})} id="articleTitle" placeholder='Masukkan Judul Artikel' name="judulartikel" required/>
+                        {this.props.typeText==='Masukkan Judul Pertanyaan'?
+                            <input type="text" onChange={(e)=>this.props.changeInput(e)} className="form-control input-box" onClick={()=>store.setState({menuBarUpload:true})} id="articleTitle" placeholder='Masukkan Judul Pertanyaan' name="judulartikel" required/>
+                            :
+                            <input type="text" onChange={(e)=>this.props.changeInput(e)} className="form-control input-box" onClick={()=>store.setState({menuBarUpload:true})} id="articleTitle" placeholder='Masukkan Judul Artikel' name="judulartikel" required/>
+                        }
                     </div>
                 </div>
                 <CKEditor 
@@ -112,9 +116,6 @@ class TextArea extends React.Component {
                         "change": this.onChange
                     }}
                 />
-                <div>{this.props.wordCode}</div>
-                <textarea name="" id="" cols="30" rows="10" value={this.props.wordCode} onChange={(e)=>this.escFunction(e)}></textarea>
-                <button onClick={()=>this.props.codeCompiler()}>Compile Code</button>
                 {this.props.menuBarUpload===true?
                     <div className='row' style={{marginBottom:'10px', marginTop:'10px'}}>
                     <div onClick={this.fileUploadHandler} className="col-sm-4">

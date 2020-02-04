@@ -20,6 +20,7 @@ class PreviewArticle extends React.Component {
               <img style={{width:'100%'}} src={this.props.imageUrl}/>
             </div>
             <div className='preview-article-control'>
+              {contentNew}
               {htmlArticle}
             </div>
         </div>

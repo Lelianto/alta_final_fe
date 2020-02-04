@@ -7,6 +7,7 @@ import Footer from '../components/footer';
 import InterestList from '../components/interestList';
 import PopularList from '../components/popularList';
 import UserOwnFile from '../components/userOwnFile';
+import axios from 'axios';
 
 const listContent = [ 'Artikel', 'Pertanyaan' ];
 

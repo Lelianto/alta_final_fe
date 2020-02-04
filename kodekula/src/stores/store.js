@@ -15,10 +15,11 @@ const initialState = {
 	imageUrl:'',
 	imageArticleUrl:'',
 	menuBarUpload:false,
-	listCode:[],
 	wordCode:'',
 	codeCompilerUrl:'https://cors-anywhere.herokuapp.com/api.paiza.io:80/runners/create',
 	getCodeResultUrl :'https://cors-anywhere.herokuapp.com/api.paiza.io:80/runners/get_details',
+	codeCompilerResult:'',
+	uploadArticleEndPoint:'http://0.0.0.0:5000/posting/toplevel',
 	username: '',
 	password: '',
 	email : '',
@@ -69,60 +70,101 @@ export const actions = (store) => ({
 		  params: mydata
 		};
 		await axios(req)
-		  	.then(response => {			  
-			  	const idResult= response.data.id      
+		  	.then( async (response) => {
+				const idResult= response.data.id      	  
 				const finalData = {
 					id: idResult,
 					api_key: 'guest'      
 				};
 				const req = {
-				method: "get",
-				url: state.getCodeResultUrl,
-				headers: {
-					"Content-Type": "application/json"
-				},
-				params: finalData
+					method: "get",
+					url: state.getCodeResultUrl,
+					headers: {
+						"Content-Type": "application/json"
+					},
+					params: finalData
 				};
-				axios(req)
-				.then(response => {
-					console.log('output code',response.data.stdout)
-				})
-				.catch(error => {
-					return false
-				})
+				await axios(req)
+					.then(response => {
+						store.setState({
+							codeCompilerResult:response.data.stdout
+						})
+					})
+					.catch(error => {
+						return false
+					})
 		  })
 		  .catch(error => {
 			return false
 		})
 	},
 
-	uploadFile : async (state) => {
-		const file = state.selectedFile
-		// console.log(file)
-		const formData = new FormData();
-		formData.append("file", file);
+	setGlobal : async (state, event) => {
+		await store.setState({ [event.target.name]: event.target.value });
+	},
+
+	uploadArticle : async (state) => {
+		const title = state.articleTitle
+		const content_type = 'Artikel'
+		const originArticle = state.newArticle
+		const splitArticle = originArticle.split('"')
+		const joinArticle = splitArticle.join(" '")
+		const banner_photo_url = state.imageUrl   	  
+		const articleDetails = {
+			"title" : title,
+			"content_type" : content_type,
+			"html_content" : joinArticle,
+			"banner_photo_url" : banner_photo_url
+		};
 		const req = {
 			method: "post",
-			url: "http://0.0.0.0:5000/upload",
+			url: state.uploadArticleEndPoint,
 			headers: {
-			  "Content-Type": "multipart/form-data"
+				"Content-Type": "application/json"
 			},
-			data: {
-				"file":file,
-			}
+			data: articleDetails
 		};
-		console.log(req)
 		await axios(req)
-		.then(response => {
-			console.log(response.data)
-		})
-		.catch(error => {
-			return false
+			.then(response => {
+				store.setState({
+					menuBarUpload:false
+				})
+			})
+			.catch(error => {
+				return false
 		})
 	},
 
-	setGlobal : async (state, event) => {
-		await store.setState({ [event.target.name]: event.target.value });
+	uploadQuestion : async (state) => {
+		const title = state.articleTitle
+		const content_type = 'Pertanyaan'
+		const originArticle = state.newArticle
+		const splitArticle = originArticle.split('"')
+		const joinArticle = splitArticle.join(" '")
+		const banner_photo_url = state.imageUrl   	  
+		const articleDetails = {
+			"title" : title,
+			"content_type" : content_type,
+			"html_content" : joinArticle,
+			"banner_photo_url" : banner_photo_url
+		};
+		const req = {
+			method: "post",
+			url: state.uploadArticleEndPoint,
+			headers: {
+				"Content-Type": "application/json"
+			},
+			data: articleDetails
+		};
+		await axios(req)
+			.then(response => {
+				store.setState({
+					menuBarUpload:false
+				})
+			})
+			.catch(error => {
+				return false
+		})
 	},
 	
 	handleAPI : async (state, parameters) => {
@@ -153,5 +195,4 @@ export const actions = (store) => ({
 		localStorage.removeItem("username")
 		localStorage.removeItem("email")
 	}
-	
 })
