@@ -46,7 +46,6 @@ class Home extends React.Component {
 		
         await axios(tags)
 			.then(async (response) => {
-				console.warn('tag user', response.data.user_tag_data)
 				await this.setState({userInterest : response.data.user_tag_data})
 			})
 			.catch(async (error) => {

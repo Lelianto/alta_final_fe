@@ -29,7 +29,7 @@ const UserSetPersonal = (props) =>{
                                     Nama Depan
                                 </div>
                                 <div style={{marginTop:'-5px'}} className='col-md-7'>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukkan Nama Depan"/>
+                                    <input type="text" class="form-control" name="firstName" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukkan Nama Depan" value={props.firstName} onChange={(e)=>props.setInput(e)}/>
                                 </div>
                             </div>
                             <div className='profile-setting row'>
@@ -37,7 +37,7 @@ const UserSetPersonal = (props) =>{
                                     Nama Belakang
                                 </div>
                                 <div style={{marginTop:'-5px'}} className='col-md-7'>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukkan Nama Belakang"/>
+                                    <input type="text" class="form-control" name="lastName" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukkan Nama Belakang" value={props.lastName} onChange={(e)=>props.setInput(e)}/>
                                 </div>
                             </div>
                             <div className='profile-setting row'>
@@ -45,7 +45,7 @@ const UserSetPersonal = (props) =>{
                                     Pekerjaan
                                 </div>
                                 <div style={{marginTop:'-5px'}} className='col-md-7'>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukkan Pekerjaan"/>
+                                    <input type="text" class="form-control"  name="jobTitle" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukkan Pekerjaan" value={props.jobTitle} onChange={(e)=>props.setInput(e)}/>
                                 </div>
                             </div>
                             <div className='profile-setting row'>
@@ -53,7 +53,7 @@ const UserSetPersonal = (props) =>{
                                     Email
                                 </div>
                                 <div style={{marginTop:'-5px'}} className='col-md-7'>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukkan Email"/>
+                                    <input type="text" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukkan Email" value={props.email} onChange={(e)=>props.setInput(e)}/>
                                 </div>
                             </div>
                             <div className='profile-setting row'>
@@ -64,7 +64,7 @@ const UserSetPersonal = (props) =>{
                                     <button type="button" class="btn btn-dark">Pilih Foto</button>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-primary">Simpan</button>
+                            <button type="button" class="btn btn-primary" onClick={()=>props.editUserData()}>Simpan</button>
                         </form>
                     </div>
                 </div>
