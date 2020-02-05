@@ -5,8 +5,8 @@ import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
 import { storage } from '../firebase'
-import axios from 'axios'
 
+const listTags = ['reactjs','python','mysql']
 class TextArea extends React.Component {
     updateContent=(newContent)=> {
         store.setState({
@@ -74,6 +74,10 @@ class TextArea extends React.Component {
     constructor(props){
         super(props);
         this.escFunction = this.escFunction.bind(this);
+        this.state = {
+            tagging : [],
+            taggingList : []
+        }
     }
     escFunction(event){
         if(event.keyCode === 13) {
@@ -95,7 +99,23 @@ class TextArea extends React.Component {
     componentWillUnmount(){
         document.removeEventListener("keydown", this.escFunction, false);
     }
+    controlTag = async (event) => {
+        console.log(event.target.checked)
+        let taggingList = this.state.taggingList
+        taggingList['checked'] =event.target.checked
+        this.setState({taggingList:taggingList})
+        if(event.target.checked){
+            await this.state.tagging.push(event.target.value)
+        } else {
+            const newTags = this.state.tagging.filter(item => item !== event.target.value)
+            await this.setState({tagging:newTags})
+        }
+        await console.log('isi tag list',this.state.taggingList)
+    } 
+    
     render() {
+        const addedTag = this.state.tagging
+        console.log('isi added',this.state.tagging)
         return (
             <div style={{marginBottom:'20px'}}>
                 <div className='row'>
@@ -118,17 +138,53 @@ class TextArea extends React.Component {
                 />
                 {this.props.menuBarUpload===true?
                 <div>
-                    <div className='row'>
-                        <div className='col-md-3'>
-                            <div class="dropdown show">
-                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Dropdown link
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
+                    {addedTag.length > 0 ?
+                        <div className='row'>
+                            <div className='col-md-3' style={{fontSize:'15px', marginTop:'10px'}}>
+                                Tag Terpilih
                             </div>
+                            <div className='col-md-9'>
+                                <div className='row'>
+                                    {addedTag.map((tag,i)=>
+                                    <div className='col-md-3'>
+                                        <div className='control-choosen-tag'>
+                                            {tag}
+                                        </div>
+                                    </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    :
+                    <span></span>}
+                    <div className='row'>
+                        <div className='col-md-3' style={{marginTop:'10px'}}>
+                            <div class="btn-group dropright">
+                                <button style={{fontSize:'15px'}} type="button" class="btn btn-secondary">
+                                    Pilih Tag Tulisan
+                                </button>
+                                <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="sr-only">Toggle Dropright</span>
+                                </button>
+                                <div className='dropdown-control'>
+                                    <div className=''>
+                                        <div class="row control-width dropdown-menu">
+                                            <div className='col-md-12'>
+                                                <div className='row'>
+                                                    {listTags.map((tag)=>
+                                                        <div className='col-md-4 text-center background-tag-control'>
+                                                        <div style={{fontSize:'12px', textDecoration:'none'}} class="dropdown-item1" to="#"><input type="checkbox" onClick={(event)=>this.controlTag(event)} name="code" value={tag}/>{tag}</div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <div className='col-md-6'>
+                                            </div>
+                                            <div className='col-md-4'>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -183,4 +239,4 @@ class TextArea extends React.Component {
     }
 }
 
-export default connect('selectedFile, menuBarUpload, imageArticleUrl, newArticle, imageArticle, imageUrl, listCode, wordCode', actions)(withRouter(TextArea));
+export default connect('selectedFile, tagWritings, menuBarUpload, imageArticleUrl, newArticle, imageArticle, imageUrl, listCode, wordCode', actions)(withRouter(TextArea));

@@ -19,14 +19,15 @@ const initialState = {
 	codeCompilerUrl:'https://cors-anywhere.herokuapp.com/api.paiza.io:80/runners/create',
 	getCodeResultUrl :'https://cors-anywhere.herokuapp.com/api.paiza.io:80/runners/get_details',
 	codeCompilerResult:'',
-	uploadArticleEndPoint:'http://0.0.0.0:5000/posting/toplevel',
+	uploadArticleEndPoint:'https://kodekula.com/posting/toplevel',
 	username: '',
 	password: '',
 	email : '',
 	job : '',
 	responseData: null,
 	responseStatus : null,
-	menuBarSetting:'Pengaturan Akun'
+	menuBarSetting:'Pengaturan Akun',
+	tagWritings:[]
 
 }
 
@@ -106,7 +107,7 @@ export const actions = (store) => ({
 
 	uploadArticle : async (state) => {
 		const title = state.articleTitle
-		const content_type = 'Artikel'
+		const content_type = 'article'
 		const originArticle = state.newArticle
 		const splitArticle = originArticle.split('"')
 		const joinArticle = splitArticle.join(" '")
@@ -143,7 +144,7 @@ export const actions = (store) => ({
 
 	uploadQuestion : async (state) => {
 		const title = state.articleTitle
-		const content_type = 'Pertanyaan'
+		const content_type = 'question'
 		const originArticle = state.newArticle
 		const splitArticle = originArticle.split('"')
 		const joinArticle = splitArticle.join(" '")
