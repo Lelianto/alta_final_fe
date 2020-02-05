@@ -11,17 +11,20 @@ import comment from '../images/comment.png';
 import examplelang from '../images/python-example.png'
 import { actions, store } from '../stores/store';
 import { connect } from 'unistore/react'
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
+import { Markup } from 'interweave'
 
-const UserOwnFile = (props)=>{
+const UserOwnFile = (props) => {
+    const userData = props.content.user_data
+    const postingDetail = props.content.posting_detail
     if (props.menuBarUser ==='Artikel' || props.typeContent ==='Artikel' ) {
         return (
-            <div className='container own-article'>
+            <div className='container own-article mt-4'>
             <div className='row'>
-                <div className='col-md-12 box-control'>
+                <div className='col-md-12 box-control bg-white'>
                     <div className='row text-control'>
                         <div className='col-md-11 title-article-control'>
-                            Pembuatan Aplikasi Web-App dengan React 
+                            {postingDetail.title} 
                         </div>
                         <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img className='logo-edit-control' src={more} alt="img"/>
@@ -33,20 +36,21 @@ const UserOwnFile = (props)=>{
                     </div>
                     <div className='row text-control'>
                         <div className='col-md-4 username-control'>
-                            <img className='writer-photo' src={user} alt="img"/> Penulis Artikel
+                            <img className='writer-photo' src={user} alt="img"/>
+                            <Link style={{textDecoration: 'none', color:'#385898'}}>{userData.username}</Link>
                         </div>
                         <div className='col-md-5'>
                             
                         </div>
                         <div className='col-md-3 time-article-control'>
-                            3 jam yang lalu
+                            {postingDetail.created_at}
                         </div>
                     </div>
                     <div className='row'>
-                        <img className='image-control' src={example} alt="img"/>
+                        <img className='image-control' src={example} alt=""/>
                     </div>
                     <div className='row detail-article-control'>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        <Markup content={postingDetail.html_content}/>
                     </div>
                     <div className='row tag-control-article'>
                         <div className='col-md-6'>
@@ -65,21 +69,19 @@ const UserOwnFile = (props)=>{
                                 </div>
                             </div>
                         </div>
-                        <div className='col-md-3'>
-
-                        </div>
+                        <div className='col-md-3'></div>
                         <div className='col-md-3'>
                             <div className='row'>
                                 <div className='col-md-4'>
-                                    <img style={{width:'100%'}} src={eye} alt="img"/> 100
+                                    <img style={{width:'100%'}} src={eye} alt="img"/>{postingDetail.views}
                                 </div>
                                 {(props.likeArticle === true)?
                                     <div className='col-md-4'>
-                                        <img onClick={()=>store.setState({likeArticle:false})} style={{width:'100%'}} src={like} alt="img"/> 99
+                                        <img onClick={()=>store.setState({likeArticle:false})} style={{width:'100%'}} src={like} alt="img"/>{postingDetail.point+1}
                                     </div>
                                     :
                                     <div className='col-md-4'>
-                                        <img onClick={()=>store.setState({likeArticle:true})} style={{width:'100%'}} src={havelike} alt="img"/> 98
+                                        <img onClick={()=>store.setState({likeArticle:true})} style={{width:'100%'}} src={havelike} alt="img"/>{postingDetail.point}
                                     </div>
                                 }
                                 <div className='col-md-4'>
@@ -97,10 +99,10 @@ const UserOwnFile = (props)=>{
         return (
             <div className='container own-article'>
             <div className='row'>
-                <div className='col-md-12 box-control'>
+                <div className='col-md-12 box-control bg-white'>
                     <div className='row text-control'>
                         <div className='col-md-11 title-article-control'>
-                            Bagaimana cara menaklukan asyncronous Javascript?
+                            {postingDetail.title}
                         </div>
                         <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img className='logo-edit-control' src={more} alt="img"/>
@@ -112,17 +114,17 @@ const UserOwnFile = (props)=>{
                     </div>
                     <div className='row text-control'>
                         <div className='col-md-4 username-control'>
-                            <img className='writer-photo' src={user} alt="img"/> Penulis Artikel
+                            <img className='writer-photo' src={user} alt="img"/><Link style={{textDecoration: 'none', color:'#385898'}}>{userData.username}</Link>
                         </div>
                         <div className='col-md-5'>
                             
                         </div>
                         <div className='col-md-3 time-article-control'>
-                            3 jam yang lalu
+                            {postingDetail.created_at}
                         </div>
                     </div>
                     <div className='row detail-article-control'>
-                        Selama ini saya telah berjuang untuk menaklukan asyncronous React untuk menghasilkan aplikasi web yang berkualitas namun selalu terkendala. Mohon bantuan dan sharing dari teman-teman semua. Terima kasih...
+                        <Markup content={postingDetail.html_content}/>
                     </div>
 
                     <div className='row tag-control-article'>
@@ -142,21 +144,19 @@ const UserOwnFile = (props)=>{
                                 </div>
                             </div>
                         </div>
-                        <div className='col-md-3'>
-
-                        </div>
+                        <div className='col-md-3'></div>
                         <div className='col-md-3'>
                             <div className='row'>
                                 <div className='col-md-4'>
-                                    <img style={{width:'100%'}} src={eye} alt="img"/> 100
+                                    <img style={{width:'100%'}} src={eye} alt="img"/>{postingDetail.views}
                                 </div>
                                 {(props.likeQuestion === true)?
                                     <div className='col-md-4'>
-                                        <img onClick={()=>store.setState({likeQuestion:false})} style={{width:'100%'}} src={like} alt="img"/> 99
+                                        <img onClick={()=>store.setState({likeQuestion:false})} style={{width:'100%'}} src={like} alt="img"/> {postingDetail.point+1}
                                     </div>
                                     :
                                     <div className='col-md-4'>
-                                        <img onClick={()=>store.setState({likeQuestion:true})} style={{width:'100%'}} src={havelike} alt="img"/> 98
+                                        <img onClick={()=>store.setState({likeQuestion:true})} style={{width:'100%'}} src={havelike} alt="img"/> {postingDetail.point}
                                     </div>
                                 }
                                 <div className='col-md-4'>
@@ -173,7 +173,7 @@ const UserOwnFile = (props)=>{
         return (
             <div className='container own-article'>
             <div className='row'>
-                <div className='col-md-12 box-control'>
+                <div className='col-md-12 box-control bg-white'>
                     <div className='row text-control'>
                         <div className='col-md-11 detail-answer-control'>
                             Bagaimana cara menaklukan asyncronous Javascript?
@@ -239,7 +239,7 @@ const UserOwnFile = (props)=>{
         return (
             <div className='container own-article'>
                 <div className='row'>
-                    <div className='col-md-12 box-control-reputation'>
+                    <div className='col-md-12 box-control-reputation bg-white'>
                         <div className='row'>
                             <div className='col-md-2' style={{paddingLeft:'0'}}>
                                 <img className='language-reputation' src={examplelang} alt="img"/>

@@ -22,7 +22,7 @@ class ChooseInterest extends React.Component {
 	componentDidMount = async () => {
 		const tags = {
 			method: 'get',
-			url: 'http://0.0.0.0:5000/tags',
+			url: 'https://kodekula.com/tags',
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -65,7 +65,7 @@ class ChooseInterest extends React.Component {
 
 		const editUser = {
 			method: 'put',
-			url: 'http://0.0.0.0:5000/users/me',
+			url: 'https://kodekula.com/users/me',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization':'Bearer ' + localStorage.getItem("token")
@@ -77,9 +77,8 @@ class ChooseInterest extends React.Component {
 		}
 
 		await this.props.handleAPI(editUser)
-		if (this.props.responseStatus === 200) {
-			this.props.history.push('/')
-		}
+		console.warn('after login', this.props.responseData)
+		this.props.history.push('/')
 	}
 
 	doSearch = async (event) => {

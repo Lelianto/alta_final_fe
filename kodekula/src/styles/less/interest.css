@@ -1,0 +1,17 @@
+.interest-box {
+  margin-top: 43%;
+}
+.interest-box .img-interest .logo-tags {
+  background-color: #f8f9fa;
+  position: relative;
+}
+.interest-box .img-interest .logo-tags img {
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  width: 85%;
+}
+.interest-box .img-interest .tags-name {
+  font-size: 13px;
+}

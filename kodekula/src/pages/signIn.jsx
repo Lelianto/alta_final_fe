@@ -20,7 +20,7 @@ class SignIn extends React.Component {
 		
         const signIn = {
             method:"post",
-            url: "http://0.0.0.0:5000/auth",
+            url: "https://kodekula.com/auth",
             headers: {
                 "Content-Type": "application/json"
             },
@@ -46,7 +46,7 @@ class SignIn extends React.Component {
 	getUserDetail = async () => {
         const userDetail = {
             method:"get",
-            url: "http://0.0.0.0:5000/users/me",
+            url: "https://kodekula.com/users/me",
             headers: {
 				"Content-Type": "application/json",
 				'Authorization':'Bearer ' + localStorage.getItem("token")

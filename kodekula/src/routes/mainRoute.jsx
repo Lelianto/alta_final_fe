@@ -6,6 +6,7 @@ import UserProfilePage from '../pages/userProfilePage';
 import UserProfileSetting from '../pages/userSettingAll';
 import UserSetPersonalData from '../pages/userSetPersonalData';
 import PersonalDataEdit from '../pages/personalDataEdit';
+import PersonalDataInterest from '../pages/userInterest';
 import SignUp from '../pages/signUp';
 import SignIn from '../pages/signIn';
 import ChooseInterest from '../pages/chooseInterest';
@@ -20,6 +21,7 @@ const MainRoute = () => {
                     <Route exact path="/profil" component={UserProfilePage} />  
                     <Route exact path="/pengaturan-akun" component={UserProfileSetting} />
                     <Route exact path="/pengaturan-akun/data-diri/edit" component={PersonalDataEdit} />
+                    <Route exact path="/pengaturan-akun/minat" component={PersonalDataInterest} />
                     <Route exact path="/daftar" component={SignUp}/>
                     <Route exact path="/pilih-minat" component={ChooseInterest}/>
                     <Route exact path="/masuk" component={SignIn}/>
