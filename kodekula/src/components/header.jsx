@@ -2,19 +2,18 @@ import React from 'react';
 import '../styles/css/header.css';
 import '../styles/css/bootstrap.min.css';
 import logo from '../images/NewLogo.png';
-// import logo from '../images/logo-kodekula.png';
 import user from '../images/user.png';
 import notification from '../images/bell.png';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'unistore/react';
-import { actions } from '../stores/store';
+import { actions, store } from '../stores/store';
 
 const Header = (props) => {
 	if (localStorage.getItem('email') === null) {
 		return (
 			<header>
 				<nav class="navbar navbar-expand-lg">
-					<Link className="logo-kodekula" to="/">
+					<Link className="logo-kodekula" to="/" onClick={()=>store.setState({location : 'home'})}>
 						<img  src={logo} alt="img" width='10%'/>
 					</Link>
 					<button
@@ -33,7 +32,7 @@ const Header = (props) => {
 						<div className="col-md-1">
 							<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 								<li class="nav-item">
-									<Link class="nav-link" to="#">
+									<Link class="nav-link" to="/artikel" onClick={()=>store.setState({location : 'article'})}>
 										Artikel
 									</Link>
 								</li>
@@ -42,7 +41,7 @@ const Header = (props) => {
 						<div className="col-md-1">
 							<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 								<li class="nav-item">
-									<Link class="nav-link" to="#">
+									<Link class="nav-link" to="/pertanyaan" onClick={()=>store.setState({location : 'question'})}>
 										Pertanyaan
 									</Link>
 								</li>
@@ -59,7 +58,7 @@ const Header = (props) => {
 									/>
 								</div>
 								<div className="col-md-1" style={{ paddingLeft: '5px' }}>
-									<button
+									<button onClick={()=>store.setState({location : 'search'})}
 										class="btn btn-info my-2 my-sm-0"
 										type="submit"
 										style={{ paddingLeft: '25px', paddingRight: '25px' }}
@@ -111,7 +110,7 @@ const Header = (props) => {
 						<div className="col-md-1">
 							<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 								<li class="nav-item">
-									<Link class="nav-link" to="#">
+									<Link class="nav-link" to="/artikel" onClick={()=>store.setState({location : 'article'})}>
 										Artikel
 									</Link>
 								</li>
@@ -120,7 +119,7 @@ const Header = (props) => {
 						<div className="col-md-1">
 							<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 								<li class="nav-item">
-									<Link class="nav-link" to="#">
+									<Link class="nav-link" to="/pertanyaan" onClick={()=>store.setState({location : 'question'})}>
 										Pertanyaan
 									</Link>
 								</li>
@@ -137,7 +136,7 @@ const Header = (props) => {
 									/>
 								</div>
 								<div className="col-md-1" style={{ paddingLeft: '5px' }}>
-									<button
+									<button onClick={()=>store.setState({location : 'search'})}
 										class="btn btn-info my-2 my-sm-0"
 										type="submit"
 										style={{ paddingLeft: '25px', paddingRight: '25px' }}
@@ -166,7 +165,7 @@ const Header = (props) => {
 									<img src={user} alt="img" style={{ borderRadius: '50%' }} width="30px" />
 								</Link>
 								<div class="dropdown-menu" style={{ marginTop: '0px', marginRight: '0px' }}>
-									<Link class="dropdown-item" to="/profil">
+									<Link class="dropdown-item" to="/profil" onClick={()=>store.setState({location : 'profil'})}>
 										Profil
 									</Link>
 									<Link class="dropdown-item" to="/pengaturan-akun">

@@ -17,7 +17,7 @@ import { Markup } from 'interweave'
 const UserOwnFile = (props) => {
     const userData = props.content.user_data
     const postingDetail = props.content.posting_detail
-    if (props.menuBarUser ==='Artikel' || props.typeContent ==='Artikel' ) {
+    if (props.menuBarUser ==='Artikel' || props.typeContent ==='article' ) {
         return (
             <div className='container own-article mt-4'>
             <div className='row'>
@@ -27,7 +27,7 @@ const UserOwnFile = (props) => {
                             {postingDetail.title} 
                         </div>
                         <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img className='logo-edit-control' src={more} alt="img"/>
+                            <img className='logo-edit-control' src={postingDetail.banner_photo_url} alt="img"/>
                         </div>
                         <div class="dropdown-menu" style={{marginLeft:'-115px', marginTop:'-37px'}} aria-labelledby="dropdownMenuLink">
                             <a class="dropdown-item" href="#">Ubah/Perbarui</a>
@@ -47,7 +47,7 @@ const UserOwnFile = (props) => {
                         </div>
                     </div>
                     <div className='row'>
-                        <img className='image-control' src={example} alt=""/>
+                        {props.postingDetail.banner_photo_url !== null ? <img className='image-control' src={props.postingDetail.banner_photo_url} alt=""/> : null}
                     </div>
                     <div className='row detail-article-control'>
                         <Markup content={postingDetail.html_content}/>
@@ -95,7 +95,7 @@ const UserOwnFile = (props) => {
             </div>
         </div>
         )
-    } else if (props.menuBarUser ==='Pertanyaan' || props.typeContent ==='Pertanyaan') {
+    } else if (props.menuBarUser ==='Pertanyaan' || props.typeContent ==='question') {
         return (
             <div className='container own-article'>
             <div className='row'>

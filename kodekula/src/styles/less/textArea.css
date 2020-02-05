@@ -1,0 +1,52 @@
+.link-button-text-area {
+  text-decoration: none;
+  text-align: left;
+}
+.button-text-area {
+  color: black !important;
+  font-size: 15px;
+  padding-top: 5px;
+  padding-left: 10px;
+  padding-bottom: 5px;
+  background-color: #d8ebf5 !important;
+  margin: 1px;
+  border-radius: 5px;
+}
+.button-text-area:hover {
+  font-size: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: white !important;
+  background-color: #17a2b8 !important;
+}
+.button-area-control {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.dropdown-menu.show {
+  display: block;
+  margin-left: 5px !important;
+  margin-top: 0px !important;
+}
+.control-width {
+  width: 450px;
+}
+.dropdown-item1 {
+  width: 100%;
+  clear: both;
+  font-weight: 400;
+  color: #f8f6f6;
+  text-align: inherit;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
+  background-color: #17a2b8;
+  border-radius: 5px;
+  padding: 10px;
+}
+.control-choosen-tag {
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #17a2b8;
+  margin-top: 10px;
+}

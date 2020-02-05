@@ -1,4 +1,5 @@
 import React from 'react';
+import '../styles/css/articlePage.css';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
@@ -9,9 +10,9 @@ import PopularList from '../components/popularList';
 import UserOwnFile from '../components/userOwnFile';
 import axios from 'axios';
 
-const listContent = [ 'Artikel', 'Pertanyaan' ];
+const listContent = [ 'Artikel' ];
 
-class Home extends React.Component {
+class QuestionPage extends React.Component {
 	state = {
 		userInterest: [],
 		interestList : [],
@@ -27,10 +28,22 @@ class Home extends React.Component {
 		]
 	};
 
+	seeAll = () => {
+		const suggestionList = document.getElementById('suggest-list');
+		const showOrHide = document.getElementById('seeAll');
+		if (suggestionList.style.display === 'none') {
+			suggestionList.style.display = 'block';
+			showOrHide.innerHTML = 'Sembunyikan...';
+		} else {
+			suggestionList.style.display = 'none';
+			showOrHide.innerHTML = 'Lihat Semua...';
+		}
+	};
+
 	componentDidMount = async () => {
 		await this.getUserTags()
 		await this.getPostingList()
-    };
+	};
 
 	getUserTags = async () => {
 		const tags = {
@@ -56,7 +69,7 @@ class Home extends React.Component {
 			
 			await this.getAllTags()
 		}
-		
+	
 	getAllTags = async () => {
 		const tags = {
 			method: 'get',
@@ -91,8 +104,6 @@ class Home extends React.Component {
 				excludeTags.push(interestList[i])
 			}
 		}
-
-		console.warn('exclude', excludeTags)
 
 		await this.setState({filterInterest : filterInterest, excludeTags : excludeTags})
 		await store.setState({filterInterest : filterInterest, excludeTags : excludeTags})
@@ -145,6 +156,7 @@ class Home extends React.Component {
 		}
 	}
 
+
 	render() {
 		return (
 			<React.Fragment>
@@ -155,6 +167,9 @@ class Home extends React.Component {
 							<InterestList tags={this.state.filterInterest} excludeTags={this.state.excludeTags} seeAll={this.seeAll} checkAll={()=>this.checkAll()}/>
 						</div>
 						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0">
+							<Link style={{textDecoration:'none', color:'white'}} to='/pertanyaan/tulis'>
+								<button to='/artikel/tulis' className='btn btn-success button-write-article-control mt-4'>Tulis Pertanyaan</button>
+							</Link>
 							{this.state.postingList.map((content, i) => <UserOwnFile typeContent={content.posting_detail.content_type} content={content}/>)}
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5">
@@ -167,4 +182,4 @@ class Home extends React.Component {
 		);
 	}
 }
-export default connect('responseData', actions)(withRouter(Home));
+export default connect('', actions)(withRouter(QuestionPage));

@@ -128,7 +128,8 @@ class UserInterestSetting extends Component {
               <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)}/>
             </div>
             <div className='col-md-9'>
-            <div className="border interest-box">
+            <div className="interest-user">
+                <span>Minat</span>
                 <div className="row pl-2 pr-2 py-3 interest-list">
                     {tagData}        
                 </div>
