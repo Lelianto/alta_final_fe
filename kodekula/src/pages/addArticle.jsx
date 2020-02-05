@@ -8,7 +8,6 @@ import TextArea from '../components/textArea';
 import PreviewArticle from '../components/previewArticle';
 
 class AddArticlePage extends React.Component {
-
 	render() {
 		return (
 			<React.Fragment>

@@ -16,7 +16,7 @@ class CodeCompiler extends React.Component {
     escFunction(event){
         if(event.keyCode === 13) {
             store.setState({
-                wordCode: event.target.value + ';'
+                wordCode: event.target.value
             })
         }
         else {

@@ -5,7 +5,7 @@ import { connect } from 'unistore/react'
 import { withRouter } from 'react-router-dom';
 import { Markup } from 'interweave';
 
-class PreviewArticle extends React.Component {
+class detailQuestion extends React.Component {
   render() {
     let contentNew = this.props.newArticle
     const htmlArticle = <Markup className='preview-article-control' content={contentNew}/>
@@ -28,4 +28,4 @@ class PreviewArticle extends React.Component {
   }
 }
 
-export default connect("newArticle, articleTitle, imageUrl",actions)(withRouter(PreviewArticle));
+export default connect("newArticle, articleTitle, imageUrl",actions)(withRouter(detailQuestion));

@@ -117,6 +117,21 @@ class TextArea extends React.Component {
                     }}
                 />
                 {this.props.menuBarUpload===true?
+                <div>
+                    <div className='row'>
+                        <div className='col-md-3'>
+                            <div class="dropdown show">
+                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Dropdown link
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
                     <div className='row' style={{marginBottom:'10px', marginTop:'10px'}}>
                     <div onClick={this.fileUploadHandler} className="col-sm-4">
                         <Link style={{textDecoration:'none'}} className='link-button-text-area'>
@@ -158,6 +173,7 @@ class TextArea extends React.Component {
                             </div>
                         </div>
                     </div>
+                </div>
                 </div>
                 :
                 <span></span>
