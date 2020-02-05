@@ -33,7 +33,7 @@ class SignUp extends React.Component {
 	
         const signUp = {
             method:"post",
-            url: "http://0.0.0.0:5000/users",
+            url: "https://kodekula.com/users",
             headers: {
                 "Content-Type": "application/json"
             },
@@ -84,6 +84,7 @@ class SignUp extends React.Component {
 		
         await this.props.handleAPI(signIn)
         await this.props.getToken()
+        await localStorage.setItem("email", this.state.email)
 		await this.props.history.push('/pilih-minat')
         await this.props.deleteResponse()
     }

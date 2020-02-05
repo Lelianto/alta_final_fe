@@ -10,14 +10,14 @@ import Swal from 'sweetalert2';
 const PopularList = (props) => {
 	return (
 		<React.Fragment>
-            <div className="border shadow-sm rounded pl-3 pr-2 pt-4 ml-2 mr-2 fixed-left" style={{backgroundColor:'#f8f9fa'}}>
+            <div className="border rounded pl-3 pr-2 pt-4 ml-2 mr-2 fixed-left bg-white mt-4" style={{backgroundColor:'#f8f9fa'}}>
                 <div className="home-title mb-3 pl-2">Artikel Populer</div>
                 <div className="pl-1">
                     {props.article.map((value) => (
                     <div>
                         <div className='row mb-3 mr-2'>
                             <div className="col-2">
-                                <i className='material-icons pr-1 pt-1' style={{color : '#0f4c75'}}>radio_button_checked</i>
+                                <i className='material-icons pr-1 pt-1' style={{color : '#0f4c75', fontSize:'18px'}}>radio_button_checked</i>
                             </div>
                             <div className="col-10">
                                 <Link style={{textDecoration: 'none', fontSize:'15px'}}>{value}</Link>
@@ -27,14 +27,14 @@ const PopularList = (props) => {
                     ))}
                 </div>
             </div>
-            <div className="border shadow-sm rounded pl-3 pr-2 pt-4 ml-2 mr-2 mt-4 fixed-left" style={{backgroundColor:'#f8f9fa'}}>
+            <div className="border bg-white rounded pl-3 pr-2 pt-4 ml-2 mr-2 mt-4 fixed-left" style={{backgroundColor:'#f8f9fa'}}>
                 <div className="home-title mb-3 pl-2">Pertanyaan Populer</div>
                 <div className="pl-1">
                     {props.article.map((value) => (
                     <div>
                         <div className='row mb-3 mr-2'>
                             <div className="col-2">
-                                <i className='material-icons pr-1 pt-1' style={{color : '#0f4c75'}}>radio_button_checked</i>
+                                <i className='material-icons pr-1 pt-1' style={{color : '#0f4c75', fontSize:'18px'}}>radio_button_checked</i>
                             </div>
                             <div className="col-10">
                                 <Link style={{textDecoration: 'none', fontSize:'15px'}}>{value}</Link>
