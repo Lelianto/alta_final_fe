@@ -47,7 +47,7 @@ const UserOwnFile = (props) => {
                         </div>
                     </div>
                     <div className='row'>
-                        {props.postingDetail.banner_photo_url !== null ? <img className='image-control' src={props.postingDetail.banner_photo_url} alt=""/> : null}
+                        {postingDetail.banner_photo_url !== null ? <img className='image-control' src={postingDetail.banner_photo_url} alt=""/> : null}
                     </div>
                     <div className='row detail-article-control'>
                         <Markup content={postingDetail.html_content}/>
