@@ -2,13 +2,12 @@ import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
-import axios from 'axios';
-import Swal from 'sweetalert2';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import InterestList from '../components/interestList';
 import PopularList from '../components/popularList';
 import UserOwnFile from '../components/userOwnFile';
+import axios from 'axios';
 
 const listContent = [ 'Artikel', 'Pertanyaan' ];
 
