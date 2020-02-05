@@ -24,6 +24,11 @@ const initialState = {
 	password: '',
 	email : '',
 	job : '',
+	location : '',
+	userInterest: [],
+	interestList : [],
+	filterInterest : [],
+	excludeTags : [],
 	responseData: null,
 	responseStatus : null,
 	menuBarSetting:'Pengaturan Akun',
@@ -192,7 +197,6 @@ export const actions = (store) => ({
 		if(responseData.hasOwnProperty("token")) {
 			await localStorage.setItem("token", responseData.token)
 			await localStorage.setItem("username", state.username)
-			// await localStorage.setItem("email", )
 		}
 	},
 	deleteResponse : async state => {

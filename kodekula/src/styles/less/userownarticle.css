@@ -15,17 +15,11 @@
   border: 1px solid #c9c7c7;
   border-radius: 5px;
   padding: 30px;
-  -webkit-box-shadow: 0px 2px 7px -2px rgba(135, 132, 135, 0.75);
-  -moz-box-shadow: 0px 2px 7px -2px rgba(135, 132, 135, 0.75);
-  box-shadow: 0px 2px 7px -2px rgba(135, 132, 135, 0.75);
 }
 .box-control {
-  border: 1px solid #c9c7c7;
+  border: 1px solid #ececec;
   border-radius: 5px;
   padding: 30px;
-  -webkit-box-shadow: 0px 2px 7px -2px rgba(135, 132, 135, 0.75);
-  -moz-box-shadow: 0px 2px 7px -2px rgba(135, 132, 135, 0.75);
-  box-shadow: 0px 2px 7px -2px rgba(135, 132, 135, 0.75);
 }
 .box-control-answered {
   border: 1px solid #c9c7c7;
@@ -106,7 +100,7 @@
   text-align: left;
   font-size: 15px;
   font-weight: bold;
-  color: #706a6a;
+  color: #385898;
 }
 .username-question-answered-control {
   padding-top: 5px;
@@ -117,8 +111,9 @@
   color: #706a6a;
 }
 .writer-photo {
-  width: 15%;
+  width: 20%;
   border-radius: 50%;
+  margin-right: 10px;
 }
 .edit-control {
   padding-top: 5px;

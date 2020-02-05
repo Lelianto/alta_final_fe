@@ -3,7 +3,7 @@
 .popular-title {
   font-family: 'liberation_sansbold';
   font-size: 20px;
-  border-bottom: 1px #ececec solid;
+  border-bottom: 1px lightgray solid;
   color: #0f4c75;
 }
 .suggestion {
@@ -12,4 +12,10 @@
 }
 .fixed-left {
   text-align: left;
+}
+body {
+  background-color: #e9ebee;
+}
+header {
+  background-color: #2851a3;
 }

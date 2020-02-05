@@ -24,7 +24,7 @@ class UserProfileSetting extends Component {
   componentDidMount = async () => {
     const user = {
 			method: 'get',
-			url: 'http://0.0.0.0:5000/users/me',
+			url: 'https://kodekula.com/users/me',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization':'Bearer ' + localStorage.getItem("token")
@@ -36,7 +36,9 @@ class UserProfileSetting extends Component {
 		
       await axios(user)
 			.then(async (response) => {
-				await this.setState({userData : response.data.user_data, userDetail : response.data.user_detail_data})
+        await this.setState({userData : response.data.user_data, userDetail : response.data.user_detail_data})
+        console.warn('userdata', this.state.userData)
+        console.warn('userdetail', this.state.userDetail)
 			})
 			.catch(async (error) => {
 				await console.warn(error)
