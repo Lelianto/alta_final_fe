@@ -30,7 +30,7 @@ class UserProfileSetting extends Component {
   componentDidMount = async () => {
     const user = {
 			method: 'get',
-			url: 'http://0.0.0.0:5000/users/me',
+			url: 'https://kodekula.com/users/me',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization':'Bearer ' + localStorage.getItem("token")
@@ -71,7 +71,7 @@ class UserProfileSetting extends Component {
 
 		const editUser = {
 			method: 'put',
-			url: 'http://0.0.0.0:5000/users/me',
+			url: 'https://kodekula.com/users/me',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization':'Bearer ' + localStorage.getItem("token")

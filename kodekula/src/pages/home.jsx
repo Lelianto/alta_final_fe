@@ -17,6 +17,7 @@ class Home extends React.Component {
 		interestList : [],
 		filterInterest : [],
 		excludeTags : [],
+		postingList : [],
 		article: [
 			'Lorem ipsum dolor sit amet consectetur adipisicing elit',
 			'Alias corrupti velit illum sequi quas omnis esse ipsam sed aut delectus blanditiis',
@@ -28,12 +29,13 @@ class Home extends React.Component {
 
 	componentDidMount = async () => {
 		await this.getUserTags()
+		await this.getPostingList()
     };
 
 	getUserTags = async () => {
 		const tags = {
 			method: 'get',
-			url: 'http://0.0.0.0:5000/users/me',
+			url: 'https://kodekula.com/users/me',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization':'Bearer ' + localStorage.getItem("token")
@@ -46,6 +48,7 @@ class Home extends React.Component {
         await axios(tags)
 			.then(async (response) => {
 				await this.setState({userInterest : response.data.user_tag_data})
+				await store.setState({userInterest : response.data.user_tag_data})
 			})
 			.catch(async (error) => {
 				await console.warn(error)
@@ -57,7 +60,7 @@ class Home extends React.Component {
 	getAllTags = async () => {
 		const tags = {
 			method: 'get',
-			url: 'http://0.0.0.0:5000/tags',
+			url: 'https://kodekula.com/tags',
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -65,6 +68,7 @@ class Home extends React.Component {
 		await axios(tags)
 		.then(async (response) => {
 			await this.setState({interestList : response.data})
+			await store.setState({interestList : response.data})
 		})
 		.catch(async (error) => {
 			await console.warn(error)
@@ -88,7 +92,29 @@ class Home extends React.Component {
 			}
 		}
 
-		this.setState({filterInterest : filterInterest, excludeTags : excludeTags})
+		console.warn('exclude', excludeTags)
+
+		await this.setState({filterInterest : filterInterest, excludeTags : excludeTags})
+		await store.setState({filterInterest : filterInterest, excludeTags : excludeTags})
+	}
+
+	getPostingList = async () => {
+		const posting = {
+			method: 'get',
+			url: 'https://kodekula.com/posting/toplevel',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		};
+		await axios(posting)
+		.then(async (response) => {
+			await this.setState({postingList : response.data.query_data})
+			// await store.setState({interestList : response.data})
+			console.warn('posting list', this.state.postingList)
+		})
+		.catch(async (error) => {
+			await console.warn(error)
+		})
 	}
 
 	seeAll = () => {
@@ -125,11 +151,11 @@ class Home extends React.Component {
 				<Header />
 				<div className="container-fluid pt-4">
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
-						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5">
+						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5">
 							<InterestList tags={this.state.filterInterest} excludeTags={this.state.excludeTags} seeAll={this.seeAll} checkAll={()=>this.checkAll()}/>
 						</div>
-						<div className="col-lg-6 col-md-6 col-sm-12 col-12 mt-5 pl-0 pr-0">
-							{listContent.map((type, i) => <UserOwnFile typeContent={type} />)}
+						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0">
+							{this.state.postingList.map((content, i) => <UserOwnFile typeContent={content.posting_detail.content_type} content={content}/>)}
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5">
 							<PopularList article={this.state.article} />

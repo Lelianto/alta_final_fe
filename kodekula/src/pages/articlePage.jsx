@@ -8,11 +8,17 @@ import Footer from '../components/footer';
 import InterestList from '../components/interestList';
 import PopularList from '../components/popularList';
 import UserOwnFile from '../components/userOwnFile';
+import axios from 'axios';
 
 const listContent = [ 'Artikel' ];
 
 class ArticlePage extends React.Component {
 	state = {
+		userInterest: [],
+		interestList : [],
+		filterInterest : [],
+		excludeTags : [],
+		postingList : [],
 		tags: [ 'Python', 'Javascript', 'Django', 'ReactJS', 'Java', 'GoLang' ],
 		icon: [ 'bug_report', 'build', 'android', 'camera_enhance', 'autorenew', 'code' ],
 		article: [
@@ -36,20 +42,137 @@ class ArticlePage extends React.Component {
 		}
 	};
 
+	componentDidMount = async () => {
+		await this.getUserTags()
+		await this.getPostingList()
+	};
+
+	getUserTags = async () => {
+		const tags = {
+			method: 'get',
+			url: 'https://kodekula.com/users/me',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization':'Bearer ' + localStorage.getItem("token")
+			},
+			validateStatus : (status) => {
+                return status < 500
+            }
+		};
+		
+        await axios(tags)
+			.then(async (response) => {
+				await this.setState({userInterest : response.data.user_tag_data})
+				await store.setState({userInterest : response.data.user_tag_data})
+			})
+			.catch(async (error) => {
+				await console.warn(error)
+			})
+			
+			await this.getAllTags()
+		}
+	
+	getAllTags = async () => {
+		const tags = {
+			method: 'get',
+			url: 'https://kodekula.com/tags',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		};
+		await axios(tags)
+		.then(async (response) => {
+			await this.setState({interestList : response.data})
+			await store.setState({interestList : response.data})
+		})
+		.catch(async (error) => {
+			await console.warn(error)
+		})
+		
+		await this.filterTags()
+		
+	}
+	
+	filterTags = async () => {
+		const interestList = this.state.interestList
+		const userInterest = this.state.userInterest
+		let filterInterest = []
+		let excludeTags = []
+		let i
+		for (i=0; i<interestList.length; i++) {
+			if (userInterest.includes(interestList[i].name)) {
+				filterInterest.push(interestList[i])
+			} else {
+				excludeTags.push(interestList[i])
+			}
+		}
+
+		await this.setState({filterInterest : filterInterest, excludeTags : excludeTags})
+		await store.setState({filterInterest : filterInterest, excludeTags : excludeTags})
+	}
+
+	getPostingList = async () => {
+		const posting = {
+			method: 'get',
+			url: 'https://kodekula.com/posting/toplevel',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		};
+		await axios(posting)
+		.then(async (response) => {
+			await this.setState({postingList : response.data.query_data})
+			// await store.setState({interestList : response.data})
+			console.warn('posting list', this.state.postingList)
+		})
+		.catch(async (error) => {
+			await console.warn(error)
+		})
+	}
+
+	seeAll = () => {
+		const suggestionList = document.getElementById('suggest-list');
+		const showOrHide = document.getElementById('seeAll');
+		if (suggestionList.style.display === 'none') {
+			suggestionList.style.display = 'block';
+			showOrHide.innerHTML = 'Sembunyikan...';
+		} else {
+			suggestionList.style.display = 'none';
+			showOrHide.innerHTML = 'Lihat Semua...';
+		}
+	};
+
+	checkAll = () => {
+		const checkState = document.getElementById('all');
+		const userInterest = this.state.userInterest
+		if (checkState.checked === true) {
+			userInterest.map((item)=>{
+				const changeCheckedStatus = document.getElementById(item)
+				changeCheckedStatus.checked = true
+			})
+		} else {
+			userInterest.map((item)=>{
+				const changeCheckedStatus = document.getElementById(item)
+				changeCheckedStatus.checked = false
+			})
+		}
+	}
+
+
 	render() {
 		return (
 			<React.Fragment>
 				<Header />
 				<div className="container-fluid pt-4">
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
-						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5">
-							<InterestList tags={this.state.tags} icon={this.state.icon} seeAll={this.seeAll} />
+						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5">
+							<InterestList tags={this.state.filterInterest} excludeTags={this.state.excludeTags} seeAll={this.seeAll} checkAll={()=>this.checkAll()}/>
 						</div>
-						<div className="col-lg-6 col-md-6 col-sm-12 col-12 mt-5 pl-0 pr-0">
+						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0">
 							<Link style={{textDecoration:'none', color:'white'}} to='/artikel/tulis'>
-								<button className='btn btn-success button-write-article-control'>Tulis Artikel</button>
+								<button to='/artikel/tulis' className='btn btn-success button-write-article-control mt-4'>Tulis Artikel</button>
 							</Link>
-							{listContent.map((type, i) => <UserOwnFile typeContent={type} />)}
+							{this.state.postingList.map((content, i) => <UserOwnFile typeContent={content.posting_detail.content_type} content={content}/>)}
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5">
 							<PopularList article={this.state.article} />
