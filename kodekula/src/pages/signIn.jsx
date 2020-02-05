@@ -20,7 +20,7 @@ class SignIn extends React.Component {
 		
         const signIn = {
             method:"post",
-            url: "http://0.0.0.0:5000/auth",
+            url: "https://kodekula.com/auth",
             headers: {
                 "Content-Type": "application/json"
             },
