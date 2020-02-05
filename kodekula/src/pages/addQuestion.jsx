@@ -6,7 +6,6 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import TextArea from '../components/textArea'; 
 import PreviewArticle from '../components/previewArticle';
-import CodeCompiler from '../components/codeCompiler';
 
 class AddQuestionPage extends React.Component {
 	render() {
@@ -17,7 +16,6 @@ class AddQuestionPage extends React.Component {
 					<div className='row'>
                         <div className='col-md-6'>
                             <TextArea typeText='Masukkan Judul Pertanyaan'/>
-                            <CodeCompiler/>
                             <div>Result: {store.getState().codeCompilerResult}</div>
                             <div className='row button-area-control'>
                                 <div className='col-md-4'>
