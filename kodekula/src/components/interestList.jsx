@@ -32,13 +32,13 @@ const InterestList = (props) => {
                         <Link style={{textDecoration:'none', fontSize:'16px'}} onClick={()=>props.seeAll()}id='seeAll'>Lihat Semua...</Link>
                     </div>
                     <div id='suggest-list' style={{display:'none'}}>
-                        {props.excludeTags.map((value) => (
+                        {/* {props.excludeTags.map((value) => (
                             <div className='mb-3' >
                                 <input type="checkbox" id={value.name}/>
                                 <img src={value.photo_url} className="pr-2 ml-2" width="30px"/>
                                 <label for={value.name} style={{color:'#1b262c'}}>{value.name}</label>
                             </div>
-                        ))}
+                        ))} */}
                     </div>
                 </div>
             </div>

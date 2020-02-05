@@ -24,14 +24,14 @@ const Header = (props) => {
                     <div className='col-md-1'>
                         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                             <li class="nav-item">
-                                <Link class="nav-link" to="#">Artikel</Link>
+                                <Link class="nav-link" to="/artikel">Artikel</Link>
                             </li>
                         </ul>
                     </div>
                     <div className='col-md-1'>
                         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                             <li class="nav-item">
-                                <Link class="nav-link" to="#">Pertanyaan</Link>
+                                <Link class="nav-link" to="/pertanyaan">Pertanyaan</Link>
                             </li>
                         </ul>
                     </div>
@@ -76,14 +76,14 @@ const Header = (props) => {
                         <div className='col-md-1'>
                             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                                 <li class="nav-item">
-                                    <Link class="nav-link" to="#">Artikel</Link>
+                                    <Link class="nav-link" to="/artikel">Artikel</Link>
                                 </li>
                             </ul>
                         </div>
                         <div className='col-md-1'>
                             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                                 <li class="nav-item">
-                                    <Link class="nav-link" to="#">Pertanyaan</Link>
+                                    <Link class="nav-link" to="/pertanyaan">Pertanyaan</Link>
                                 </li>
                             </ul>
                         </div>
