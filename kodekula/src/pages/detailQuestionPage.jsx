@@ -10,6 +10,8 @@ import PopularList from '../components/popularList';
 import AccessDetailArticle from '../components/detailQuestion';
 import CommentArea from '../components/commentArea';
 import ViewComment from '../components/viewComment';
+import Accordion from '../components/accordionExplain';
+import CodeCompiler from '../components/codeCompiler';
 import axios from 'axios';
 
 const listContent = [ 'Artikel' ];
@@ -55,8 +57,7 @@ class detailArticlePage extends React.Component {
 				<Header />
 				<div className="container-fluid pt-4">
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
-						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5">
-							{/* <InterestList tags={this.state.tags} icon={this.state.icon} seeAll={this.seeAll} /> */}
+						<div className="col-lg-1 col-md-1 col-sm-12 col-12 mt-5">
 						</div>
 						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0" >
 							<AccessDetailArticle/>
@@ -77,8 +78,10 @@ class detailArticlePage extends React.Component {
 
 							<CommentArea/>
 						</div>
-						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5">
+						<div className="col-lg-4 col-md-4 col-sm-12 col-12 mt-5">
 							<PopularList article={this.state.article} />
+							<Accordion/>
+							<CodeCompiler/>
 						</div>
 					</div>
 				</div>

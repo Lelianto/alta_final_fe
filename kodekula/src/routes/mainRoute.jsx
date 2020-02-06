@@ -16,6 +16,7 @@ import Question from '../pages/questionPage';
 import AddArticle from '../pages/addArticle';
 import AddQuestion from '../pages/addQuestion';
 import DetailQuestionPage from '../pages/detailQuestionPage';
+import Loader from '../components/loader'
         
 const MainRoute = () => {
     return (
@@ -23,6 +24,7 @@ const MainRoute = () => {
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/" component={Home}/>
+                    <Route exact path="/loader" component={Loader}/>
                     <Route exact path="/artikel" component={Article}/>
                     <Route exact path="/pertanyaan" component={Question}/>
                     <Route exact path="/artikel/tulis" component={AddArticle}/>

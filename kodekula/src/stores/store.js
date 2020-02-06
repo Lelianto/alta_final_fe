@@ -50,6 +50,14 @@ export const actions = (store) => ({
 		})
 		await store.setState({ [e.target.name]: e.target.value});
 	},
+
+	/**
+	 * @function showPassword
+	 * @param { String } id
+	 * @param { String } idImage
+	 * @returns { String } imgPassword.innerHTML
+	 * @returns { String } password.type
+	 */
 	showPassword: (state, id, idImage) => {
 		let imgPassword = document.getElementById(idImage);
 		if (imgPassword.innerHTML == 'visibility') {
@@ -65,12 +73,13 @@ export const actions = (store) => ({
 			password.type = 'password';
 		}
 	},
+
 	codeCompiler : async (state) => {
 		const source= state.wordCode     
 		console.log('src',source) 
 		const mydata = {
 			source_code: source,
-			language: 'c++',
+			language: 'python3',
 			api_key: 'guest'      
 		};
 		const req = {
@@ -144,7 +153,10 @@ export const actions = (store) => ({
 		await axios(req)
 			.then(response => {
 				store.setState({
-					menuBarUpload:false
+					menuBarUpload:false,
+					articleTitle:'',
+					newArticle:'',
+					imageUrl:''
 				})
 			})
 			.catch(error => {
@@ -175,12 +187,14 @@ export const actions = (store) => ({
 			},
 			data: articleDetails
 		};
-		console.log('isi req', req)
 		await axios(req)
 			.then(response => {
 				console.log('isi respon', response.data)
 				store.setState({
-					menuBarUpload:false
+					menuBarUpload:false,
+					articleTitle:'',
+					newArticle:'',
+					imageUrl:''
 				})
 			})
 			.catch(error => {
@@ -200,6 +214,7 @@ export const actions = (store) => ({
 				await console.warn(error)
 			})
 	},
+
 	getToken : async state => {
 		const responseData = state.responseData
 		console.warn('respon', responseData)
@@ -208,14 +223,17 @@ export const actions = (store) => ({
 			await localStorage.setItem("username", state.username)
 		}
 	},
+
 	deleteResponse : async state => {
 		await store.setState({ responseData : null, responseStatus : null })
 	},
+
 	afterSignOut : state => {
 		localStorage.removeItem("token")
 		localStorage.removeItem("username")
 		localStorage.removeItem("email")
 	},
+
 	postComment : async (state) => {
 		const content_type = 'answer'
 		const originArticle = state.newArticle
@@ -240,7 +258,8 @@ export const actions = (store) => ({
 			.then(response => {
 				console.log('isi respon', response.data)
 				store.setState({
-					menuBarUpload:false
+					menuBarUpload:false,
+					newArticle:''
 				})
 			})
 			.catch(error => {
