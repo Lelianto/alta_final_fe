@@ -32,8 +32,12 @@ const initialState = {
 	responseData: null,
 	responseStatus : null,
 	menuBarSetting:'Pengaturan Akun',
-	tagWritings:[]
-
+	tagWritings:[],
+	startComment: false,
+	userId:'',
+	questionId:'',
+	allArticleDatabase:{},
+	isLoading:true
 }
 
 export const store = createStore(initialState);
@@ -153,11 +157,13 @@ export const actions = (store) => ({
 		const originArticle = state.newArticle
 		const splitArticle = originArticle.split('"')
 		const joinArticle = splitArticle.join(" '")
+		const splitEnter = joinArticle.split("\n")
+		const joinEnter = splitEnter.join('')
 		const banner_photo_url = state.imageUrl   	  
 		const articleDetails = {
 			"title" : title,
 			"content_type" : content_type,
-			"html_content" : joinArticle,
+			"html_content" : joinEnter,
 			"banner_photo_url" : banner_photo_url
 		};
 		const req = {
@@ -168,8 +174,10 @@ export const actions = (store) => ({
 			},
 			data: articleDetails
 		};
+		console.log('isi req', req)
 		await axios(req)
 			.then(response => {
+				console.log('isi respon', response.data)
 				store.setState({
 					menuBarUpload:false
 				})
@@ -206,5 +214,36 @@ export const actions = (store) => ({
 		localStorage.removeItem("token")
 		localStorage.removeItem("username")
 		localStorage.removeItem("email")
+	},
+	postComment : async (state) => {
+		const content_type = 'answer'
+		const originArticle = state.newArticle
+		const splitArticle = originArticle.split('"')
+		const joinArticle = splitArticle.join(" '")
+		const splitEnter = joinArticle.split("\n")
+		const joinEnter = splitEnter.join('')  	  
+		const articleDetails = {
+			"content_type" : content_type,
+			"html_content" : joinEnter
+		};
+		const req = {
+			method: "post",
+			url: state.baseUrl + '/posting/secondlevel/' +state.questionId,
+			headers: {
+				Authorization: "Bearer " + localStorage.getItem('token')
+			},
+			data: articleDetails
+		};
+		console.log('isi req', req)
+		await axios(req)
+			.then(response => {
+				console.log('isi respon', response.data)
+				store.setState({
+					menuBarUpload:false
+				})
+			})
+			.catch(error => {
+				return false
+		})
 	}
 })
