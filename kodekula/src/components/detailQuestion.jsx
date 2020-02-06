@@ -6,6 +6,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { Markup } from 'interweave';
 import axios from 'axios';
 import user from '../images/user.png';
+import Loader from './loader';
 
 class detailArticle extends React.Component {
   componentWillMount = async () => {
@@ -50,14 +51,9 @@ class detailArticle extends React.Component {
         })
       };
   render() {
-    // let contentNew = this.props.allArticleDatabase;
-    // console.log('isi content',contentNew)
-    // console.log('masuk',this.props.isLoading)
     if(store.getState().isLoading || store.getState().allArticleDatabase === {}) {
-      console.log('masuk',store.getState().isLoading)
-      console.log('isi kosong', store.getState().allArticleDatabase)
       return (
-        <div>Loading</div>
+        <div><Loader/></div>
         )
       } else {
         let contentNew = this.props.allArticleDatabase;

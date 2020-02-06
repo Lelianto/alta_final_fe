@@ -5,6 +5,7 @@ import { actions } from '../stores/store';
 import { connect } from 'unistore/react'
 import { withRouter } from 'react-router-dom';
 import user from '../images/user.png';
+import Loader from './loader';
 
 const UserProfile = (props) =>{
     return (
@@ -66,4 +67,4 @@ const UserProfile = (props) =>{
     )
 }
 
-export default connect("menuBarUser",actions)(withRouter(UserProfile));
+export default connect("menuBarUser, isLoading",actions)(withRouter(UserProfile));

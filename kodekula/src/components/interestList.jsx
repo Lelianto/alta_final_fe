@@ -2,8 +2,9 @@ import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
-import '../styles/css/home.css'
-import all from '../images/all.svg'
+import '../styles/css/home.css';
+import all from '../images/all.svg';
+import Loader from './loader';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
@@ -49,4 +50,4 @@ const InterestList = (props) => {
 		</React.Fragment>
 	);
 };
-export default connect('', actions)(withRouter(InterestList));
+export default connect('isLoading', actions)(withRouter(InterestList));

@@ -16,7 +16,7 @@ class CodeCompiler extends React.Component {
     escFunction(event){
         if(event.keyCode === 13) {
             store.setState({
-                wordCode: event.target.value
+                wordCode: event.target.value + ';'
             })
         }
         else {
@@ -35,13 +35,25 @@ class CodeCompiler extends React.Component {
     }
     render() {
         return (
-            <div style={{marginBottom:'20px'}}>
+            <div style={{marginBottom:'20px',marginTop:'20px'}}>
                 <div className='row'>
                     <div className='col-md-12'>
-                        <textarea name="" id="" cols='50' rows="10" value={this.props.wordCode} onChange={(e)=>this.escFunction(e)}></textarea>
+                        <textarea name="" id="" cols='45' rows="10" value={this.props.wordCode} onChange={(e)=>this.escFunction(e)}></textarea>
                     </div>
                     <div className='col-md-12'>
-                        <button onClick={()=>this.props.codeCompiler()}>Compile Code</button>
+                        <button className='btn btn-grad' onClick={()=>this.props.codeCompiler()}>Compile Code</button>
+                    </div>
+                    <div className='col-md-12'>
+                        <div style={{marginTop:'20px',padding:'20px', backgroundColor:'white', borderRadius:'2px', marginLeft:'8px', marginRight:'8px'}}>
+                            Hasil Compile Code :
+                        </div>
+                        {store.getState().codeCompilerResult === ''?
+                            <span></span>
+                        :
+                            <div style={{marginTop:'20px',padding:'20px', backgroundColor:'white', borderRadius:'2px', marginLeft:'8px', marginRight:'8px'}}>
+                                {store.getState().codeCompilerResult}
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -49,4 +61,4 @@ class CodeCompiler extends React.Component {
     }
 }
 
-export default connect('wordCode', actions)(withRouter(CodeCompiler));
+export default connect('wordCode,codeCompilerResult', actions)(withRouter(CodeCompiler));

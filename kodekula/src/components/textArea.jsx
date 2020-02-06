@@ -8,6 +8,14 @@ import { storage } from '../firebase'
 
 const listTags = ['reactjs','python','mysql']
 class TextArea extends React.Component {
+    constructor(props){
+        super(props);
+        this.escFunction = this.escFunction.bind(this);
+        this.state = {
+            tagging : [],
+            taggingList : []
+        }
+    }
     updateContent=(newContent)=> {
         store.setState({
             newArticle: newContent
@@ -69,15 +77,6 @@ class TextArea extends React.Component {
                 })
             })
         })
-    }
-
-    constructor(props){
-        super(props);
-        this.escFunction = this.escFunction.bind(this);
-        this.state = {
-            tagging : [],
-            taggingList : []
-        }
     }
 
     escFunction(event){
@@ -226,7 +225,7 @@ class TextArea extends React.Component {
                     <div className="col-sm-8">
                         <div style={{textDecoration:'none', borderRadius:'5px'}} className='link-button-text-area'>
                             <div className='button-text-area'>
-                                [ {this.props.imageUrl} ] 
+                                <img width='100px' height='100px' src={this.props.imageArticleUrl} alt=""/>
                             </div>
                         </div>
                     </div>
