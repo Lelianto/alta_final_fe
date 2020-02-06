@@ -13,6 +13,7 @@ import PreviewComment from '../components/previewComment';
 import axios from 'axios';
 import user from '../images/user.png';
 import ViewComment from '../components/viewComment';
+import Accordion from '../components/accordionExplain'
 
 class detailArticle extends React.Component {
 	state = {
@@ -46,17 +47,41 @@ class detailArticle extends React.Component {
         await this.props.handleAPI(comment)
         await this.props.history.push('/artikel/'+this.props.questionId)
     }
-
+    handleSeeComment=()=>{
+		if(store.getState().seeComment){
+			store.setState({
+				seeComment:false
+			})
+		} else {
+			store.setState({
+				seeComment:true
+			})
+		}
+	}
 	render() {
 		return (
 			<React.Fragment>
 				<Header />
 				<div className="container-fluid pt-4">
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
-						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5">
+						<div className="col-lg-1 col-md-1 col-sm-12 col-12 mt-5">
 						</div>
 						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0" >
                             <AccessDetailArticle/>
+                            {store.getState().seeComment?
+                                <div>
+                                    <button className='btn btn-grad' onClick={()=>this.handleSeeComment()} style={{textAlign:'center', marginBottom:'20px', fontWeight:'bold'}}>
+                                        Lihat Komentar...
+                                    </button>
+                                </div>
+                            :
+                                <div>
+                                    <button className='btn btn-grad' onClick={()=>this.handleSeeComment()} style={{textAlign:'center', marginBottom:'20px', fontWeight:'bold'}}>
+                                        Sembunyikan Komentar...
+                                    </button>
+                                        <ViewComment/>
+                                </div>
+                            }
                             <div className="border py-2 ml-1 mr-1 row bg-white">
                                 <div className="col-md-2">
                                     <img src={user} alt="" width="90%" style={{borderRadius : '50%'}}/>
@@ -68,12 +93,10 @@ class detailArticle extends React.Component {
                                     <button className="btn btn-outline-primary" style={{width:'100%'}} onClick={()=>this.postComment()}>Kirim</button>
                                 </div>
                             </div>
-                            <div className="mt-3 pl-2 pr-2">
-                                <ViewComment/>
-                            </div>
 						</div>
-						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5">
+						<div className="col-lg-4 col-md-4 col-sm-12 col-12 mt-5">
 							<PopularList article={this.state.article} />
+                            <Accordion/>
 						</div>
 					</div>
 				</div>
@@ -82,4 +105,4 @@ class detailArticle extends React.Component {
 		);
 	}
 }
-export default connect('allArticleDatabase, startComment, newArticle, questionId, baseUrl', actions)(withRouter(detailArticle));
+export default connect('allArticleDatabase, startComment, newArticle, questionId, baseUrl,seeComment', actions)(withRouter(detailArticle));

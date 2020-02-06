@@ -1,6 +1,27 @@
 footer {
     position: relative;
     margin-bottom: 0px;
-    background-color: #2851a3;
-    width:'100%'
+    // background-color: #2851a3;
+    width:'100%';
+    background: linear-gradient(3deg, #314755, #48b3e6);
+    background-size: 400% 400%;
+    -webkit-animation: header 3s ease infinite;
+    -moz-animation: header 3s ease infinite;
+    animation: header 3s ease infinite;
+}
+
+@-webkit-keyframes header {
+    0%{background-position:0% 71%}
+    50%{background-position:100% 30%}
+    100%{background-position:0% 71%}
+}
+@-moz-keyframes header {
+    0%{background-position:0% 71%}
+    50%{background-position:100% 30%}
+    100%{background-position:0% 71%}
+}
+@keyframes header {
+    0%{background-position:0% 71%}
+    50%{background-position:100% 30%}
+    100%{background-position:0% 71%}
 }

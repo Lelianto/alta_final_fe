@@ -20,7 +20,7 @@ class AddArticlePage extends React.Component {
                                 <div className='col-md-4'>
                                 </div>
                                 <div className='col-md-4'>
-                                    <button style={{marginBottom:'50px'}} className='btn btn-outline-success' onClick={()=>this.props.uploadArticle()}>Unggah Artikel</button>
+                                    <div className='btn btn-grad' style={{marginBottom:'50px', fontSize:'15px',padding:'15px'}} onClick={()=>this.props.uploadArticle()}>Unggah Artikel</div>
                                 </div>
                                 <div className='col-md-4'>
                                 </div>

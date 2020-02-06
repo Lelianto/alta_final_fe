@@ -11,13 +11,14 @@ import examplelang from '../images/python-example.png'
 import { actions, store } from '../stores/store';
 import { connect } from 'unistore/react'
 import { withRouter, Link } from 'react-router-dom';
-import { Markup } from 'interweave'
+import { Markup } from 'interweave';
+import Loader from './loader';
 
 const UserOwnFile = (props) => {
     console.log('isi konten', props.content)
     const userData = props.content.user_data
     const postingDetail = props.content.posting_detail
-    console.log(postingDetail.id)
+    console.log('isi posting detail',postingDetail)
     if (props.menuBarUser ==='Artikel' || props.typeContent ==='article') {
         return (
             <div className='container own-article mt-4'>
@@ -268,4 +269,4 @@ const UserOwnFile = (props) => {
     }
 }
 
-export default connect("menuBarUser, likeArticle, likeQuestion, likeAnswer",actions)(withRouter(UserOwnFile));
+export default connect("menuBarUser, likeArticle, likeQuestion, likeAnswer, isLoading",actions)(withRouter(UserOwnFile));

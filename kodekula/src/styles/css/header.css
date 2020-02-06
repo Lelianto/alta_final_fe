@@ -12,11 +12,55 @@
 }
 header {
   position: fixed;
+  flex: 1 1 auto;
   width: 100%;
   z-index: 2;
   font-family: 'liberation_sansregular';
   font-weight: normal;
-  background-color: #2851a3 !important;
+  transition: 0.5s;
+  background: linear-gradient(3deg, #314755, #48b3e6);
+  background-size: 400% 400%;
+  -webkit-animation: header 3s ease infinite;
+  -moz-animation: header 3s ease infinite;
+  animation: header 3s ease infinite;
+}
+@-webkit-keyframes header {
+  0% {
+    background-position: 0% 71%;
+  }
+  50% {
+    background-position: 100% 30%;
+  }
+  100% {
+    background-position: 0% 71%;
+  }
+}
+@-moz-keyframes header {
+  0% {
+    background-position: 0% 71%;
+  }
+  50% {
+    background-position: 100% 30%;
+  }
+  100% {
+    background-position: 0% 71%;
+  }
+}
+@keyframes header {
+  0% {
+    background-position: 0% 71%;
+  }
+  50% {
+    background-position: 100% 30%;
+  }
+  100% {
+    background-position: 0% 71%;
+  }
+}
+header:hover {
+  color: white;
+  background-position: right center;
+  /* change the direction of the change here */
 }
 body {
   font-family: 'liberation_sansregular';

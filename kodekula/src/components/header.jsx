@@ -13,7 +13,15 @@ const Header = (props) => {
 		return (
 			<header>
 				<nav class="navbar navbar-expand-lg">
-					<Link className="logo-kodekula" to="/" onClick={()=>store.setState({location : 'home'})}>
+					<Link className="logo-kodekula" to="/" onClick={()=>store.setState({
+						location : 'home',
+						articleTitle:'',
+						newArticle:'',
+						imageUrl:'',
+						imageArticleUrl:'',
+						startComment: false,
+						menuBarUpload:false
+						})}>
 						<img  src={logo} alt="img" width='10%'/>
 					</Link>
 					<button
@@ -32,7 +40,15 @@ const Header = (props) => {
 						<div className="col-md-1">
 							<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 								<li class="nav-item">
-									<Link class="nav-link" to="/artikel" onClick={()=>store.setState({location : 'article'})}>
+									<Link class="nav-link" to="/artikel" onClick={()=>store.setState({
+										location : 'article',
+										articleTitle:'',
+										newArticle:'',
+										imageUrl:'',
+										imageArticleUrl:'',
+										startComment: false,
+										menuBarUpload:false
+										})}>
 										Artikel
 									</Link>
 								</li>
@@ -41,7 +57,15 @@ const Header = (props) => {
 						<div className="col-md-1">
 							<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 								<li class="nav-item">
-									<Link class="nav-link" to="/pertanyaan" onClick={()=>store.setState({location : 'question'})}>
+									<Link class="nav-link" to="/pertanyaan" onClick={()=>store.setState({
+										location : 'question',
+										articleTitle:'',
+										newArticle:'',
+										imageUrl:'',
+										imageArticleUrl:'',
+										startComment: false,
+										menuBarUpload:false
+										})}>
 										Pertanyaan
 									</Link>
 								</li>
@@ -58,7 +82,14 @@ const Header = (props) => {
 									/>
 								</div>
 								<div className="col-md-1" style={{ paddingLeft: '5px' }}>
-									<button onClick={()=>store.setState({location : 'search'})}
+									<button onClick={()=>store.setState({location : 'search',
+									articleTitle:'',
+									newArticle:'',
+									imageUrl:'',
+									imageArticleUrl:'',
+									startComment: false,
+									menuBarUpload:false
+									})}
 										class="btn btn-info my-2 my-sm-0"
 										type="submit"
 										style={{ paddingLeft: '25px', paddingRight: '25px' }}
@@ -71,14 +102,28 @@ const Header = (props) => {
 						<div className="col-md-1" />
 						<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 							<li class="nav-item">
-								<Link class="nav-link" to="/daftar">
+								<Link class="nav-link" to="/daftar" onClick={()=>store.setState({
+									articleTitle:'',
+									newArticle:'',
+									imageUrl:'',
+									imageArticleUrl:'',
+									startComment: false,
+									menuBarUpload:false
+									})} >
 									Daftar
 								</Link>
 							</li>
 						</ul>
 						<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 							<li class="nav-item">
-								<Link class="nav-link" to="/masuk">
+								<Link class="nav-link" to="/masuk" onClick={()=>store.setState({
+									articleTitle:'',
+									newArticle:'',
+									imageUrl:'',
+									imageArticleUrl:'',
+									startComment: false,
+									menuBarUpload:false
+									})} >
 									Masuk
 								</Link>
 							</li>
@@ -110,7 +155,15 @@ const Header = (props) => {
 						<div className="col-md-1">
 							<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 								<li class="nav-item">
-									<Link class="nav-link" to="/artikel" onClick={()=>store.setState({location : 'article'})}>
+									<Link class="nav-link" to="/artikel" onClick={()=>store.setState({
+										location : 'article',
+										articleTitle:'',
+										newArticle:'',
+										imageUrl:'',
+										imageArticleUrl:'',
+										startComment: false,
+										menuBarUpload:false
+										})}>
 										Artikel
 									</Link>
 								</li>
@@ -119,7 +172,15 @@ const Header = (props) => {
 						<div className="col-md-1">
 							<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 								<li class="nav-item">
-									<Link class="nav-link" to="/pertanyaan" onClick={()=>store.setState({location : 'question'})}>
+									<Link class="nav-link" to="/pertanyaan" onClick={()=>store.setState({
+										location : 'question',
+										articleTitle:'',
+										newArticle:'',
+										imageUrl:'',
+										imageArticleUrl:'',
+										startComment: false,
+										menuBarUpload:false
+										})}>
 										Pertanyaan
 									</Link>
 								</li>
@@ -136,7 +197,13 @@ const Header = (props) => {
 									/>
 								</div>
 								<div className="col-md-1" style={{ paddingLeft: '5px' }}>
-									<button onClick={()=>store.setState({location : 'search'})}
+									<button onClick={()=>store.setState({location : 'search',
+									articleTitle:'',
+									newArticle:'',
+									imageUrl:'',
+									imageArticleUrl:'',
+									startComment: false,
+									menuBarUpload:false})}
 										class="btn btn-info my-2 my-sm-0"
 										type="submit"
 										style={{ paddingLeft: '25px', paddingRight: '25px' }}
@@ -149,7 +216,13 @@ const Header = (props) => {
 						<div className="col-md-1" />
 						<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 							<li class="nav-item">
-								<Link class="nav-link" to="/notification">
+								<Link class="nav-link" to="/notification" onClick={()=>store.setState({
+									articleTitle:'',
+									newArticle:'',
+									imageUrl:'',
+									imageArticleUrl:'',
+									startComment: false,
+									menuBarUpload:false})}>
 									<img src={notification} alt="img" width="30px" />
 								</Link>
 							</li>
@@ -165,7 +238,13 @@ const Header = (props) => {
 									<img src={user} alt="img" style={{ borderRadius: '50%' }} width="30px" />
 								</Link>
 								<div class="dropdown-menu" style={{ marginTop: '0px', marginRight: '0px' }}>
-									<Link class="dropdown-item" to="/profil" onClick={()=>store.setState({location : 'profil'})}>
+									<Link class="dropdown-item" to="/profil" onClick={()=>store.setState({location : 'profil', articleTitle:'',
+									newArticle:'',
+									imageUrl:'',
+									imageArticleUrl:'',
+									startComment: false,
+									menuBarUpload:false
+									})}>
 										Profil
 									</Link>
 									<Link class="dropdown-item" to="/pengaturan-akun">

@@ -12,11 +12,7 @@ class CommentArea extends React.Component {
             newArticle: newContent
         })
     }
-    // checkPreviewComment = () => {
-    //     store.setState({
-    //         startComment:true
-    //     })
-    // }
+
     onChange=(evt)=>{
         const newContent = evt.editor.getData();
         store.setState({
@@ -95,7 +91,7 @@ class CommentArea extends React.Component {
                     <div className="col-sm-8">
                         <div style={{textDecoration:'none', borderRadius:'5px'}} className='link-button-text-area'>
                             <div className='button-text-area'>
-                                [ {this.props.imageArticleUrl} ] 
+                                <img width='100px' height='100px' src={this.props.imageArticleUrl} alt=""/>
                             </div>
                         </div>
                     </div>
