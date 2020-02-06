@@ -16,7 +16,6 @@ class AddQuestionPage extends React.Component {
 					<div className='row'>
                         <div className='col-md-6'>
                             <TextArea typeText='Masukkan Judul Pertanyaan'/>
-                            <div>Result: {store.getState().codeCompilerResult}</div>
                             <div className='row button-area-control'>
                                 <div className='col-md-4'>
                                 </div>

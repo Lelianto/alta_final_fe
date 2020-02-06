@@ -79,6 +79,7 @@ class TextArea extends React.Component {
             taggingList : []
         }
     }
+
     escFunction(event){
         if(event.keyCode === 13) {
             store.setState({
@@ -99,6 +100,7 @@ class TextArea extends React.Component {
     componentWillUnmount(){
         document.removeEventListener("keydown", this.escFunction, false);
     }
+
     controlTag = async (event) => {
         console.log(event.target.checked)
         let taggingList = this.state.taggingList
@@ -115,7 +117,6 @@ class TextArea extends React.Component {
     
     render() {
         const addedTag = this.state.tagging
-        console.log('isi added',this.state.tagging)
         return (
             <div style={{marginBottom:'20px'}}>
                 <div className='row'>
@@ -200,7 +201,7 @@ class TextArea extends React.Component {
                                 <input style={{fontSize:'12px', paddingRight:'0', width:'194px'}} className='btn-outline-info' type='file' id="file" name="file" onChange={this.fileSelectedHandler}/>
                         </div>
                         <div className='col-md-4'>
-                            <button style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn-outline-info' className='btn btn-info' type='file' onClick={this.uploadPhoto}>Upload</button>
+                            <button style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn-outline-info' className='btn btn-info' type='file' onClick={()=>this.uploadPhoto()}>Upload</button>
                         </div>
                     <div className="col-sm-4">
                         <Link style={{textDecoration:'none'}} className='link-button-text-area'>
@@ -210,10 +211,10 @@ class TextArea extends React.Component {
                         </Link>
                     </div>
                     <div className='col-md-4'>
-                        <input style={{fontSize:'12px', paddingRight:'0', width:'194px'}} className='btn-outline-info' type='file' onChange={this.fileSelectedHandler}/>
+                        <input style={{fontSize:'12px', paddingRight:'0', width:'194px'}} className='btn-outline-info' type='file' onChange={()=>this.fileSelectedHandler()}/>
                     </div>
                     <div className='col-md-4'>
-                        <button className='btn' style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn btn-info' onClick={this.uploadArticlePhoto}>Upload</button>
+                        <button className='btn' style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn btn-info' onClick={()=>this.uploadArticlePhoto()}>Upload</button>
                     </div>
                     <div className="col-sm-4">
                         <Link style={{textDecoration:'none'}} className='link-button-text-area'>
