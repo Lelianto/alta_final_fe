@@ -15,7 +15,8 @@ class UserProfileSetting extends Component {
     firstName : '',
     lastName : '',
     jobTitle : '',
-    email : null
+    email : null,
+    tags : []
   }
 
   handleMainPage = (event1, event2)=>{
@@ -44,7 +45,8 @@ class UserProfileSetting extends Component {
 			.then(async (response) => {
         const userDetail = response.data.user_detail_data
         const userData = response.data.user_data
-        await this.setState({firstName : userDetail.first_name, lastName : userDetail.last_name, jobTitle : userDetail.job_title, email : userData.email})
+        const userTag = response.data.user_tag_data
+        await this.setState({firstName : userDetail.first_name, lastName : userDetail.last_name, jobTitle : userDetail.job_title, email : userData.email, tags : userTag})
         console.warn('user data', this.state.userData)
         console.warn('user detail', this.state.userDetail)
 			})
@@ -66,7 +68,8 @@ class UserProfileSetting extends Component {
       email : email,
       first_name : this.state.firstName,
       last_name : this.state.lastName,
-			job_title : this.state.jobTitle
+      job_title : this.state.jobTitle,
+      tags : this.state.tags
 		}
 
 		const editUser = {

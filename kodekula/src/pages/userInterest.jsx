@@ -10,6 +10,7 @@ import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
 import { withRouter, Link } from 'react-router-dom';
 import axios from 'axios';
+import edit from '../images/edit.png';
 
 class UserInterestSetting extends Component {
 
@@ -128,8 +129,12 @@ class UserInterestSetting extends Component {
               <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)}/>
             </div>
             <div className='col-md-9'>
-            <div className="interest-user">
+            <div className="interest-user user-username" style={{fontWeight:'bold', fontSize:'20px'}}>
+              <div className="pl-2">
                 <span>Minat</span>
+                <Link onClick={()=>this.props.history.push('/minat/edit')}><img width='20px' height='20px' src={edit} alt="" style={{marginLeft:'3%'}}/></Link>
+                <div className='row user-profile-border pt-3' style={{marginLeft:'3px'}}></div>
+              </div>
                 <div className="row pl-2 pr-2 py-3 interest-list">
                     {tagData}        
                 </div>

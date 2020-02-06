@@ -19,9 +19,7 @@ const UserProfileSettings = (props) =>{
                             <div>{props.menuBarSetting} <Link onClick={()=>props.handlePage('/minat/edit')}><img width='20px' height='20px' src={edit} alt="img"/></Link></div>:<div>{props.menuBarSetting} <Link onClick={()=>props.handlePage('/data-diri/edit')}><img width='20px' height='20px' src={edit} alt="img"/></Link></div>}
                         </div>
                     </div>
-                    <div className='row user-profile-border'>
-                        
-                    </div>
+                    <div className='row user-profile-border'></div>
                     {props.menuBarSetting==='Data Diri'?
                     <div>
                         <div className='profile-setting-top row'>
@@ -96,8 +94,9 @@ const UserProfileSettings = (props) =>{
                                             type="password"
                                             className="form-control input-box mr-0"
                                             id="setpassword"
-                                            name="password"
+                                            name="oldPassword"
                                             data-toggle="password"
+                                            onChange={(e)=>props.changeState(e)}
                                             required
                                         />
                                         <div className="input-group-append">
@@ -121,8 +120,9 @@ const UserProfileSettings = (props) =>{
                                             type="password"
                                             className="form-control input-box mr-0"
                                             id="setpassword1"
-                                            name="password"
+                                            name="newPassword"
                                             data-toggle="password"
+                                            onChange={(e)=>props.changeState(e)}
                                             required
                                         />
                                         <div className="input-group-append">
@@ -146,8 +146,9 @@ const UserProfileSettings = (props) =>{
                                             type="password"
                                             className="form-control input-box mr-0"
                                             id="setpassword2"
-                                            name="password"
+                                            name="confirmPassword"
                                             data-toggle="password"
+                                            onChange={(e)=>props.changeState(e)}
                                             required
                                         />
                                         <div className="input-group-append">
@@ -159,7 +160,7 @@ const UserProfileSettings = (props) =>{
                     
                                 </div>
                             </div>
-                            <button style={{marginTop:'44px'}} type="button" class="btn btn-primary">Ubah</button>
+                            <button style={{marginTop:'44px'}} type="button" class="btn btn-primary" onClick={()=>props.changePassword()}>Ubah</button>
                         </form>
                     </div>: <span></span>
                     }
