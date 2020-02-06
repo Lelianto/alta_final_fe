@@ -38,6 +38,17 @@ class detailArticlePage extends React.Component {
 			showOrHide.innerHTML = 'Lihat Semua...';
 		}
 	};
+	handleSeeComment=()=>{
+		if(store.getState().seeComment){
+			store.setState({
+				seeComment:false
+			})
+		} else {
+			store.setState({
+				seeComment:true
+			})
+		}
+	}
 	render() {
 		return (
 			<React.Fragment>
@@ -49,7 +60,21 @@ class detailArticlePage extends React.Component {
 						</div>
 						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0" >
 							<AccessDetailArticle/>
-							<ViewComment/>
+						{store.getState().seeComment?
+							<div>
+								<button className='btn btn-grad' onClick={()=>this.handleSeeComment()} style={{textAlign:'center', marginBottom:'20px', fontWeight:'bold'}}>
+									Lihat Komentar...
+								</button>
+							</div>
+						:
+							<div>
+								<button className='btn btn-grad' onClick={()=>this.handleSeeComment()} style={{textAlign:'center', marginBottom:'20px', fontWeight:'bold'}}>
+									Sembunyikan Komentar...
+								</button>
+									<ViewComment/>
+							</div>
+						}
+
 							<CommentArea/>
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5">
@@ -62,4 +87,4 @@ class detailArticlePage extends React.Component {
 		);
 	}
 }
-export default connect('allArticleDatabase, startComment, newArticle', actions)(withRouter(detailArticlePage));
+export default connect('seeComment, allArticleDatabase, startComment, newArticle', actions)(withRouter(detailArticlePage));

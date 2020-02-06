@@ -37,7 +37,8 @@ const initialState = {
 	userId:'',
 	questionId:'',
 	allArticleDatabase:{},
-	isLoading:true
+	isLoading:true,
+	seeComment:false
 }
 
 export const store = createStore(initialState);

@@ -17,7 +17,7 @@ const UserOwnFile = (props) => {
     console.log('isi konten', props.content)
     const userData = props.content.user_data
     const postingDetail = props.content.posting_detail
-    console.log(postingDetail.id)
+    console.log('isi posting detail',postingDetail)
     if (props.menuBarUser ==='Artikel' || props.typeContent ==='article') {
         return (
             <div className='container own-article mt-4'>
