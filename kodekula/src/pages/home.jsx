@@ -145,6 +145,22 @@ class Home extends React.Component {
 		}
 	}
 
+	detailArticle = async (event)=> {
+        await store.setState({
+            userId:event
+		})
+        await this.props.history.push('/artikel/'+event)
+	}
+
+	goToDetailQuestion = async (event)=> {
+        store.setState({
+            userId:event
+		})
+		console.log('isi event', event)
+		console.log(store.getState().userId)
+        await this.props.history.push('/pertanyaan/'+event)
+    }
+	
 	render() {
 		return (
 			<React.Fragment>
@@ -155,7 +171,7 @@ class Home extends React.Component {
 							<InterestList tags={this.state.filterInterest} excludeTags={this.state.excludeTags} seeAll={this.seeAll} checkAll={()=>this.checkAll()}/>
 						</div>
 						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0">
-							{this.state.postingList.map((content, i) => <UserOwnFile typeContent={content.posting_detail.content_type} content={content}/>)}
+							{this.state.postingList.map((content, i) => <UserOwnFile typeContent={content.posting_detail.content_type} content={content} detailArticle={(e)=>this.detailArticle(e)} goToDetailQuestion={(e)=>this.goToDetailQuestion(e)}/>)}
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5">
 							<PopularList article={this.state.article} />
