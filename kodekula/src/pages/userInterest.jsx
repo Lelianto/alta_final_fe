@@ -41,6 +41,7 @@ class UserInterestSetting extends Component {
           await axios(tags)
         .then(async (response) => {
           await this.setState({userInterest : response.data.user_tag_data})
+          await store.setState({userInterest : response.data.user_tag_data})
 
         })
         .catch(async (error) => {

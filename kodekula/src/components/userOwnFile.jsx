@@ -96,7 +96,7 @@ const UserOwnFile = (props) => {
         )
     } else if (props.menuBarUser ==='Pertanyaan' || props.typeContent ==='question') {
         return (
-            <div className='container own-article'>
+            <div className='container own-article mt-4'>
             <div className='row'>
                 <div className='col-md-12 box-control bg-white'>
                     <div className='row text-control'>
