@@ -56,7 +56,7 @@ class CommentArea extends React.Component {
 
     handlePostComment = async () => {
         await this.props.postComment()
-        await this.props.history.push("/"+this.props.match.params.id)
+        await this.props.history.push("/pertanyaan/"+this.props.match.params.id)
     }
     render() {
         return (

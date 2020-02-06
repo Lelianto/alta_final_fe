@@ -27,17 +27,6 @@ class detailArticlePage extends React.Component {
 		]
 	};
 
-	seeAll = () => {
-		const suggestionList = document.getElementById('suggest-list');
-		const showOrHide = document.getElementById('seeAll');
-		if (suggestionList.style.display === 'none') {
-			suggestionList.style.display = 'block';
-			showOrHide.innerHTML = 'Sembunyikan...';
-		} else {
-			suggestionList.style.display = 'none';
-			showOrHide.innerHTML = 'Lihat Semua...';
-		}
-	};
 	render() {
 		return (
 			<React.Fragment>
