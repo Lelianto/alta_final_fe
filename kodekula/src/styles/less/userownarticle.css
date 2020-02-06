@@ -42,6 +42,8 @@
   background-color: #d6e6f5;
 }
 .title-article-control {
+  text-decoration: none;
+  color: black !important;
   padding-top: 5px;
   padding-bottom: 5px;
   text-align: left;
@@ -194,7 +196,7 @@
   font-size: 10px;
 }
 .writer-photo-comment {
-  width: 35%;
+  width: 80%;
   border-radius: 50%;
   margin-right: 10px;
 }
@@ -208,4 +210,8 @@
   background-color: white;
   border-radius: 5px;
   padding-bottom: 15px;
+  padding-top: 15px;
+}
+.control-comment-user {
+  padding: 0px;
 }

@@ -31,10 +31,15 @@ const initialState = {
 	filterInterest: [],
 	excludeTags: [],
 	responseData: null,
-	responseStatus: null,
-	menuBarSetting: 'Pengaturan Akun',
-	tagWritings: []
-};
+	responseStatus : null,
+	menuBarSetting:'Pengaturan Akun',
+	tagWritings:[],
+	startComment: false,
+	userId:'',
+	questionId:'',
+	allArticleDatabase:{},
+	isLoading:true
+}
 
 export const store = createStore(initialState);
 
@@ -147,18 +152,20 @@ export const actions = (store) => ({
 			});
 	},
 
-	uploadQuestion: async (state) => {
-		const title = state.articleTitle;
-		const content_type = 'question';
-		const originArticle = state.newArticle;
-		const splitArticle = originArticle.split('"');
-		const joinArticle = splitArticle.join(" '");
-		const banner_photo_url = state.imageUrl;
+	uploadQuestion : async (state) => {
+		const title = state.articleTitle
+		const content_type = 'question'
+		const originArticle = state.newArticle
+		const splitArticle = originArticle.split('"')
+		const joinArticle = splitArticle.join(" '")
+		const splitEnter = joinArticle.split("\n")
+		const joinEnter = splitEnter.join('')
+		const banner_photo_url = state.imageUrl   	  
 		const articleDetails = {
-			title: title,
-			content_type: content_type,
-			html_content: joinArticle,
-			banner_photo_url: banner_photo_url
+			"title" : title,
+			"content_type" : content_type,
+			"html_content" : joinEnter,
+			"banner_photo_url" : banner_photo_url
 		};
 		const req = {
 			method: 'post',
@@ -168,6 +175,7 @@ export const actions = (store) => ({
 			},
 			data: articleDetails
 		};
+		console.log('isi req', req)
 		await axios(req)
 			.then((response) => {
 				store.setState({
@@ -197,9 +205,40 @@ export const actions = (store) => ({
 	deleteResponse: async (state) => {
 		await store.setState({ responseData: null, responseStatus: null });
 	},
-	afterSignOut: (state) => {
-		localStorage.removeItem('token');
-		localStorage.removeItem('username');
-		localStorage.removeItem('email');
+	afterSignOut : state => {
+		localStorage.removeItem("token")
+		localStorage.removeItem("username")
+		localStorage.removeItem("email")
+	},
+	postComment : async (state) => {
+		const content_type = 'answer'
+		const originArticle = state.newArticle
+		const splitArticle = originArticle.split('"')
+		const joinArticle = splitArticle.join(" '")
+		const splitEnter = joinArticle.split("\n")
+		const joinEnter = splitEnter.join('')  	  
+		const articleDetails = {
+			"content_type" : content_type,
+			"html_content" : joinEnter
+		};
+		const req = {
+			method: "post",
+			url: state.baseUrl + '/posting/secondlevel/' +state.questionId,
+			headers: {
+				Authorization: "Bearer " + localStorage.getItem('token')
+			},
+			data: articleDetails
+		};
+		console.log('isi req', req)
+		await axios(req)
+			.then(response => {
+				console.log('isi respon', response.data)
+				store.setState({
+					menuBarUpload:false
+				})
+			})
+			.catch(error => {
+				return false
+		})
 	}
 });

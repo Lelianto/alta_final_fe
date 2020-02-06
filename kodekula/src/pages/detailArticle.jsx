@@ -7,11 +7,12 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import InterestList from '../components/interestList';
 import PopularList from '../components/popularList';
-import AccessDetailArticle from '../components/detailArticle';
+import AccessDetailArticle from '../components/detailQuestion';
 import CommentArea from '../components/commentArea';
 import PreviewComment from '../components/previewComment';
 import axios from 'axios';
 import user from '../images/user.png';
+import ViewComment from '../components/viewComment';
 
 class detailArticle extends React.Component {
 	state = {
@@ -29,19 +30,21 @@ class detailArticle extends React.Component {
         await this.setState({comment : event.target.value})
     }
 
-    postComment = () => {
+    postComment = async () => {
         const parameters = {
             "content_type" : 'comment',
             "html_content" : this.state.comment
         };
-        // const comment = {
-        //     method: "post",
-        //     url: state.baseUrl + '/posting/secondlevel/' + state.questionId,
-        //     headers: {
-        //       Authorization: "Bearer " + localStorage.getItem('token')
-        //     },
-        //     data: articleDetails
-        // };
+        const comment = await {
+            method: "post",
+            url: this.props.baseUrl + '/posting/secondlevel/' + this.props.questionId,
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem('token')
+            },
+            data: parameters
+        };
+        await this.props.handleAPI(comment)
+        await this.props.history.push('/artikel/'+this.props.questionId)
     }
 
 	render() {
@@ -65,6 +68,9 @@ class detailArticle extends React.Component {
                                     <button className="btn btn-outline-primary" style={{width:'100%'}} onClick={()=>this.postComment()}>Kirim</button>
                                 </div>
                             </div>
+                            <div className="mt-3 pl-2 pr-2">
+                                <ViewComment/>
+                            </div>
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5">
 							<PopularList article={this.state.article} />
@@ -76,4 +82,4 @@ class detailArticle extends React.Component {
 		);
 	}
 }
-export default connect('allArticleDatabase, startComment, newArticle', actions)(withRouter(detailArticle));
+export default connect('allArticleDatabase, startComment, newArticle, questionId, baseUrl', actions)(withRouter(detailArticle));

@@ -7,9 +7,9 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import InterestList from '../components/interestList';
 import PopularList from '../components/popularList';
-import AccessDetailArticle from '../components/detailArticle';
+import AccessDetailArticle from '../components/detailQuestion';
 import CommentArea from '../components/commentArea';
-import PreviewComment from '../components/previewComment';
+import ViewComment from '../components/viewComment';
 import axios from 'axios';
 
 const listContent = [ 'Artikel' ];
@@ -26,53 +26,7 @@ class detailArticlePage extends React.Component {
 			'reiciendis mollitia error maxime earum totam, placeat quod! Ipsa, eum'
 		]
 	};
-	// componentDidMount = () => {
-	// 	const req = {
-	// 	  method: "get",
-	// 	  url: store.getState().baseUrl+"/posting/toplevel/2"
-	// 	}; 
-	// 	const self = this
-	// 	axios(req)
-	// 		.then(function (response) {
-	// 			store.setState({ 
-	// 				allArticleDatabase: response.data, 
-	// 				isLoading:false
-	// 			})
-	// 			return response
-	// 		})
-	// 		.catch((error)=>{
-	// 			store.setState({ 
-	// 				isLoading: false
-	// 			})
-	// 			switch (error.response.status) {
-	// 				case 401 :
-	// 					self.props.history.push('/login')
-	// 					break
-	// 				case 403 :
-	// 					self.props.history.push('/403')
-	// 					break
-	// 				case 404 :
-	// 					self.props.history.push('/404')
-	// 					break
-	// 				case 500 :
-	// 					self.props.history.push('/500')
-	// 					break
-	// 				default :
-	// 					break
-	// 			}
-	// 		})
-	// 	  };
-	seeAll = () => {
-		const suggestionList = document.getElementById('suggest-list');
-		const showOrHide = document.getElementById('seeAll');
-		if (suggestionList.style.display === 'none') {
-			suggestionList.style.display = 'block';
-			showOrHide.innerHTML = 'Sembunyikan...';
-		} else {
-			suggestionList.style.display = 'none';
-			showOrHide.innerHTML = 'Lihat Semua...';
-		}
-	};
+
 	render() {
 		return (
 			<React.Fragment>
@@ -84,11 +38,7 @@ class detailArticlePage extends React.Component {
 						</div>
 						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0" >
 							<AccessDetailArticle/>
-							{/* {this.props.startComment && this.props.newArticle !==null?
-								<PreviewComment/>
-							:
-								<span></span>
-							} */}
+							<ViewComment/>
 							<CommentArea/>
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5">
