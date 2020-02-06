@@ -19,7 +19,7 @@ const initialState = {
 	codeCompilerUrl:'https://cors-anywhere.herokuapp.com/api.paiza.io:80/runners/create',
 	getCodeResultUrl :'https://cors-anywhere.herokuapp.com/api.paiza.io:80/runners/get_details',
 	codeCompilerResult:'',
-	uploadArticleEndPoint:'https://kodekula.com/posting/toplevel',
+	baseUrl:'https://kodekula.com',
 	username: '',
 	password: '',
 	email : '',
@@ -128,7 +128,7 @@ export const actions = (store) => ({
 		// articleDetails = JSON.stringify(articleDetails)
 		const req = {
 			method: "post",
-			url: state.uploadArticleEndPoint,
+			url: state.baseUrl + '/posting/toplevel',
 			headers: {
 				Authorization: "Bearer " + localStorage.getItem('token')
 			},
@@ -162,7 +162,7 @@ export const actions = (store) => ({
 		};
 		const req = {
 			method: "post",
-			url: state.uploadArticleEndPoint,
+			url: state.baseUrl + '/posting/toplevel',
 			headers: {
 				Authorization: "Bearer " + localStorage.getItem('token')
 			},
