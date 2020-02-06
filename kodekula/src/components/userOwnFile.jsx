@@ -11,7 +11,8 @@ import examplelang from '../images/python-example.png'
 import { actions, store } from '../stores/store';
 import { connect } from 'unistore/react'
 import { withRouter, Link } from 'react-router-dom';
-import { Markup } from 'interweave'
+import { Markup } from 'interweave';
+import Loader from './loader';
 
 const UserOwnFile = (props) => {
     console.log('isi konten', props.content)
@@ -24,9 +25,9 @@ const UserOwnFile = (props) => {
             <div className='row'>
                 <div className='col-md-12 box-control bg-white'>
                     <div className='row text-control'>
-                        <div className='col-md-11 title-article-control'>
+                        <Link className='col-md-11 title-article-control'  onClick={()=>props.detailArticle(postingDetail.id)} >
                             {postingDetail.title} 
-                        </div>
+                        </Link>
                         <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img className='logo-edit-control' src={more} alt="img"/>
                         </div>
@@ -99,7 +100,7 @@ const UserOwnFile = (props) => {
     } else if (props.menuBarUser ==='Pertanyaan' || props.typeContent ==='question') {
         console.log('props di component', props)
         return (
-            <div className='container own-article'>
+            <div className='container own-article mt-4'>
             <div className='row'>
                 <div className='col-md-12 box-control bg-white'>
                     <div className='row text-control'>
@@ -268,4 +269,4 @@ const UserOwnFile = (props) => {
     }
 }
 
-export default connect("menuBarUser, likeArticle, likeQuestion, likeAnswer",actions)(withRouter(UserOwnFile));
+export default connect("menuBarUser, likeArticle, likeQuestion, likeAnswer, isLoading",actions)(withRouter(UserOwnFile));

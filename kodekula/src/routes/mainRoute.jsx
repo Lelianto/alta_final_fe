@@ -15,6 +15,8 @@ import Article from '../pages/articlePage';
 import Question from '../pages/questionPage';
 import AddArticle from '../pages/addArticle';
 import AddQuestion from '../pages/addQuestion';
+import UserSetInterest from '../pages/userSetInterest'
+import DetailArticle from '../pages/detailArticle';
 import DetailQuestionPage from '../pages/detailQuestionPage';
 import Loader from '../components/loader'
         
@@ -33,12 +35,14 @@ const MainRoute = () => {
                     <Route exact path="/pengaturan-akun" component={UserProfileSetting} />
                     <Route exact path="/pengaturan-akun/data-diri/edit" component={PersonalDataEdit} />
                     <Route exact path="/pengaturan-akun/minat" component={PersonalDataInterest} />
+                    <Route exact path="/pengaturan-akun/minat/edit" component={UserSetInterest} />
                     <Route exact path="/daftar" component={SignUp}/>
                     <Route exact path="/pilih-minat" component={ChooseInterest}/>
                     <Route exact path="/masuk" component={SignIn}/>
                     <Route path="/pengaturan-akun/:event" component={UserProfileSetting} />
                     <Route path="/pengaturan-akun/:event/edit" component={UserSetPersonalData} />
                     <Route exact path="/pertanyaan/:id" component={DetailQuestionPage}/>
+                    <Route exact path="/artikel/:id" component={DetailArticle}/>
                 </Switch>
             </BrowserRouter>
         </Provider>

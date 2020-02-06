@@ -51,6 +51,7 @@ class detailArticlePage extends React.Component {
 			})
 		}
 	}
+
 	render() {
 		return (
 			<React.Fragment>
