@@ -110,12 +110,17 @@ class QuestionPage extends React.Component {
 	}
 
 	getPostingList = async () => {
+		const parameter = {
+			content_type : 'question'
+		}
+
 		const posting = {
 			method: 'get',
 			url: 'https://kodekula.com/posting/toplevel',
 			headers: {
 				'Content-Type': 'application/json'
-			}
+			},
+			params : parameter
 		};
 		await axios(posting)
 		.then(async (response) => {
