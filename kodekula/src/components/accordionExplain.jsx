@@ -10,6 +10,9 @@ import { actions, store } from '../stores/store';
 import { Markup } from 'interweave';
 
 const Accordion = (props) => {
+    const giveComment = "<p><strong>Untuk memberikan komentar dan jawaban,</strong></p><p>1. User dapat mengupload gambar dengan menekan tombol yang tersedia, terdiri dari tombol pilih foto (choose file) dan upload (unggah foto), kemudian user dapat meng-copy&nbsp;foto yang muncul pada baris &#39;Link Gambar Artikel&#39; untuk di-paste ke dalam kolom komentar. Ini dilakukan agar user dapat dengan bebas mengatur lokasi penempatan gambar yang di-upload dari lokal komputer. Jika foto berasal dari cloud, copy file dari cloud dan paste-kan pada kolom komentar.</p><p>2. User dapat hanya memberikan komentar saja pada kolom komentar&nbsp;yang tersedia.</p><p>Selamat Berpendapat...</p>"
+    const commentCulture = "<p><strong>Budayakan Sopan Santun,</strong></p><p>1. Dalam memberikan komentar ataupun jawaban, gunakan kalimat yang mudah dimengerti (bukan merupakan aksen daerah)</p><p>2. Gunakan kalimat yang sopan (Jika ditemukan komentar atau jawaban yang mengandung kalimat kasar atau SARA, makan akun tersebut akan disuspend)</p>"
+    const codeExec = "<p><strong>Untuk mengeksekusi kode,</strong></p><p>1. Code compiler ini dirancang untuk code yang sederhana dan baru dapat mengompile python3 code.</p><p>2. Definisikan variabel di awal dan lakukan pencetakan hasil/return dari code tersebut.</p>"
 	return(
 		<div class="accordion" id="accordionExample" style={{marginTop:'20px', paddingLeft:'8px', paddingRight:'8px'}}>
             <div class="card">
@@ -22,8 +25,8 @@ const Accordion = (props) => {
                 </div>
 
                 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                <div class="card-body">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                <div class="card-body text-justify">
+                    <Markup content={giveComment}/>
                 </div>
                 </div>
             </div>
@@ -31,13 +34,13 @@ const Accordion = (props) => {
                 <div class="card-header" id="headingTwo">
                 <h2 class="mb-0">
                     <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    Petunjuk Upload Gambar
+                    Budayakan Sopan Santun
                     </button>
                 </h2>
                 </div>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                <div class="card-body">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                <div class="card-body text-justify">
+                    <Markup content={commentCulture}/>
                 </div>
                 </div>
             </div>
@@ -45,13 +48,13 @@ const Accordion = (props) => {
                 <div class="card-header" id="headingThree">
                 <h2 class="mb-0">
                     <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    Collapsible Group Item #3
+                    Petunjuk Compile Code (Laman Pertanyaan)
                     </button>
                 </h2>
                 </div>
                 <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                <div class="card-body">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                <div class="card-body text-justify">
+                    <Markup content={codeExec}/>
                 </div>
                 </div>
             </div>
