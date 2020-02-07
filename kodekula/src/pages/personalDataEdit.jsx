@@ -26,6 +26,8 @@ class UserProfileSetting extends Component {
 
   setInput = async (event) => {
     await this.setState({ [event.target.name]: event.target.value });
+    await console.warn('name', this.state.firstName)
+    await console.warn('firstName', this.state.lastName)
   }
 
   componentDidMount = async () => {
@@ -47,8 +49,6 @@ class UserProfileSetting extends Component {
         const userData = response.data.user_data
         const userTag = response.data.user_tag_data
         await this.setState({firstName : userDetail.first_name, lastName : userDetail.last_name, jobTitle : userDetail.job_title, email : userData.email, tags : userTag})
-        console.warn('user data', this.state.userData)
-        console.warn('user detail', this.state.userDetail)
 			})
 			.catch(async (error) => {
 				await console.warn(error)
@@ -65,12 +65,14 @@ class UserProfileSetting extends Component {
 
     const userDetail = {
 			username : localStorage.getItem("username"),
-      email : email,
-      first_name : this.state.firstName,
-      last_name : this.state.lastName,
-      job_title : this.state.jobTitle,
+      email : email + ' ',
+      first_name : this.state.firstName + ' ',
+      last_name : this.state.lastName + ' ',
+      job_title : this.state.jobTitle + ' ',
       tags : this.state.tags
-		}
+    }
+    
+    console.warn('params', userDetail)
 
 		const editUser = {
 			method: 'put',
@@ -99,17 +101,21 @@ class UserProfileSetting extends Component {
     await this.props.deleteResponse()
   }
 
+  doSearch = () => {
+    this.props.history.push('/')
+  }
+
   render() {
     return (
       <div>
-        <Header/>
+        <Header doSearch={this.doSearch}/>
         <div className='container'>
           <div className='row'>
             <div className='col-md-3'>
               <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)}/>
             </div>
             <div className='col-md-9'>
-              <SetPersonalData firstName={this.state.firstName} lastName={this.state.lastName} jobTitle={this.state.jobTitle} email={this.state.email} setInput={(e)=>this.setInput(e)} editUserData={()=>this.editUserData()}/>
+              <SetPersonalData firstName={this.state.firstName} lastName={this.state.lastName} jobTitle={this.state.jobTitle} email={this.state.email} changeState={this.setInput} editUserData={this.editUserData}/>
             </div>
           </div>
         </div>

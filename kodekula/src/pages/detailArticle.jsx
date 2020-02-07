@@ -57,11 +57,16 @@ class detailArticle extends React.Component {
 				seeComment:true
 			})
 		}
-	}
+    }
+    
+    doSearch = () => {
+        this.props.history.push('/')
+      }
+
 	render() {
 		return (
 			<React.Fragment>
-				<Header />
+				<Header doSearch={this.doSearch}/>
 				<div className="container-fluid pt-4">
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 						<div className="col-lg-1 col-md-1 col-sm-12 col-12 mt-5">

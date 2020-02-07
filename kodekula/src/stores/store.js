@@ -37,6 +37,7 @@ const initialState = {
 	startComment: false,
 	userId:'',
 	questionId:'',
+	keyword : '',
 	allArticleDatabase:{},
 	isLoading:true,
 	seeComment:false
@@ -73,6 +74,10 @@ export const actions = (store) => ({
 		} else {
 			password.type = 'password';
 		}
+	},
+	
+	setInput : (state, event) => {
+		store.setState({[event.target.name] : event.target.value})
 	},
 
 	codeCompiler : async (state) => {

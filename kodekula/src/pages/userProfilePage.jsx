@@ -29,10 +29,14 @@ class UserProfilePage extends Component {
 	// 	})
 	// }
 
+  doSearch = () => {
+    this.props.history.push('/')
+  }
+
   render() {
     return (
       <div>
-        <Header/>
+        <Header doSearch={this.doSearch}/>
         <UserProfile/>
         <div className='container'>
           <div className='row'>

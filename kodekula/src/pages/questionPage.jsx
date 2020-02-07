@@ -19,6 +19,7 @@ class QuestionPage extends React.Component {
 		filterInterest : [],
 		excludeTags : [],
 		postingList : [],
+		// keyword : '',
 		article: [
 			'Lorem ipsum dolor sit amet consectetur adipisicing elit',
 			'Alias corrupti velit illum sequi quas omnis esse ipsam sed aut delectus blanditiis',
@@ -44,6 +45,10 @@ class QuestionPage extends React.Component {
 		await this.getUserTags()
 		await this.getPostingList()
 	};
+
+	// setInput = (event) => {
+	// 	this.setState({[event.target.name] : event.target.value})
+	// };
 
 	getUserTags = async () => {
 		const tags = {
@@ -111,7 +116,8 @@ class QuestionPage extends React.Component {
 
 	getPostingList = async () => {
 		const parameter = {
-			content_type : 'question'
+			content_type : 'question',
+			keyword : this.props.keyword
 		}
 
 		const posting = {
@@ -172,7 +178,7 @@ class QuestionPage extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				<Header />
+				<Header doSearch={this.getPostingList} />
 				<div className="container-fluid pt-4">
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5">
@@ -194,4 +200,4 @@ class QuestionPage extends React.Component {
 		);
 	}
 }
-export default connect('', actions)(withRouter(QuestionPage));
+export default connect('keyword', actions)(withRouter(QuestionPage));
