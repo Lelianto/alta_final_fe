@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/css/header.css';
 import '../styles/css/bootstrap.min.css';
-import logo from '../images/finalogo.png';
+import logo from '../images/NewLogo.png';
 import user from '../images/user.png';
 import notification from '../images/bell.png';
 import { withRouter, Link } from 'react-router-dom';
@@ -20,10 +20,9 @@ const Header = (props) => {
 						imageUrl:'',
 						imageArticleUrl:'',
 						startComment: false,
-						menuBarUpload:false,
-						allArticleDatabase:{}
+						menuBarUpload:false
 						})}>
-						<img  src={logo} alt="img" style={{width:'10%',marginTop:'-14px'}}/>
+						<img  src={logo} alt="img" width='10%'/>
 					</Link>
 					<button
 						class="navbar-toggler"
@@ -48,8 +47,7 @@ const Header = (props) => {
 										imageUrl:'',
 										imageArticleUrl:'',
 										startComment: false,
-										menuBarUpload:false,
-										allArticleDatabase:{}
+										menuBarUpload:false
 										})}>
 										Artikel
 									</Link>
@@ -66,8 +64,7 @@ const Header = (props) => {
 										imageUrl:'',
 										imageArticleUrl:'',
 										startComment: false,
-										menuBarUpload:false,
-										allArticleDatabase:{}
+										menuBarUpload:false
 										})}>
 										Pertanyaan
 									</Link>

@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles/css/footer.css';
 import '../styles/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
-import logo from '../images/NewLogo.png';
+import logo from '../images/finalogo.png';
 
 const Footer = ()=>{
     return (
