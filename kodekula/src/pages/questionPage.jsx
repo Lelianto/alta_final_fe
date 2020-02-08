@@ -19,6 +19,7 @@ class QuestionPage extends React.Component {
 		filterInterest : [],
 		excludeTags : [],
 		postingList : [],
+		// keyword : '',
 		article: [
 			'Lorem ipsum dolor sit amet consectetur adipisicing elit',
 			'Alias corrupti velit illum sequi quas omnis esse ipsam sed aut delectus blanditiis',
@@ -44,6 +45,10 @@ class QuestionPage extends React.Component {
 		await this.getUserTags()
 		await this.getPostingList()
 	};
+
+	// setInput = (event) => {
+	// 	this.setState({[event.target.name] : event.target.value})
+	// };
 
 	getUserTags = async () => {
 		const tags = {
@@ -111,7 +116,8 @@ class QuestionPage extends React.Component {
 
 	getPostingList = async () => {
 		const parameter = {
-			content_type : 'question'
+			content_type : 'question',
+			keyword : this.props.keyword
 		}
 
 		const posting = {
@@ -168,11 +174,19 @@ class QuestionPage extends React.Component {
 		console.log('isi event', event)
 		console.log(store.getState().userId)
         await this.props.history.push('/pertanyaan/'+event)
-    }
+	}
+	
+	editQuestion = async (event)=> {
+        await store.setState({
+            userId:event
+		})
+        await this.props.history.push('/pertanyaan/'+event +'/edit')
+	}
+	
 	render() {
 		return (
 			<React.Fragment>
-				<Header />
+				<Header doSearch={this.getPostingList} />
 				<div className="container-fluid pt-4">
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5">
@@ -182,7 +196,7 @@ class QuestionPage extends React.Component {
 							<Link style={{textDecoration:'none', color:'white'}} to='/pertanyaan/tulis'>
 								<button to='/artikel/tulis' className='btn btn-success button-write-article-control mt-4'>Tulis Pertanyaan</button>
 							</Link>
-							{this.state.postingList.map((content, i) => <UserOwnFile goToDetailQuestion={(event)=>this.goToDetailQuestion(event)} typeContent={content.posting_detail.content_type} content={content}/>)}
+							{this.state.postingList.map((content, i) => <UserOwnFile editQuestion={(e)=>this.editQuestion(e)} goToDetailQuestion={(event)=>this.goToDetailQuestion(event)} typeContent={content.posting_detail.content_type} content={content}/>)}
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5">
 							<PopularList article={this.state.article} />
@@ -194,4 +208,4 @@ class QuestionPage extends React.Component {
 		);
 	}
 }
-export default connect('', actions)(withRouter(QuestionPage));
+export default connect('keyword', actions)(withRouter(QuestionPage));

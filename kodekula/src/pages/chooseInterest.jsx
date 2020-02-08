@@ -52,7 +52,6 @@ class ChooseInterest extends React.Component {
             const newTags = this.state.interest.filter(item => item !==event.target.value)
 			await this.setState({interest : newTags})
         }
-		await console.warn('state', this.state.interest)
 	}
 	
 	putInterest = async () => {
@@ -93,6 +92,10 @@ class ChooseInterest extends React.Component {
 		}
 	}
 
+	searchContent = () => {
+		this.props.history.push('/')
+	}
+
 	render() {
 		let tagsList = this.state.searchResult;
 		let tagData;
@@ -120,7 +123,7 @@ class ChooseInterest extends React.Component {
         
 		return (
 			<React.Fragment>
-				<Header/>
+				<Header doSearch={this.searchContent}/>
 				<div className="container pt-5">
 					<div className="row">
 						<div className="col-lg-3 col-md-2 col-sm-1 col-1" />

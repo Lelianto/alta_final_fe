@@ -18,7 +18,10 @@ import AddQuestion from '../pages/addQuestion';
 import UserSetInterest from '../pages/userSetInterest'
 import DetailArticle from '../pages/detailArticle';
 import DetailQuestionPage from '../pages/detailQuestionPage';
-import Loader from '../components/loader'
+import AdminLanding from '../pages/adminLandingPage';
+import EditArticle from '../pages/editArticle';
+import EditQuestion from '../pages/editQuestion';
+import Notification from '../pages/notification';
         
 const MainRoute = () => {
     return (
@@ -26,7 +29,7 @@ const MainRoute = () => {
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/" component={Home}/>
-                    <Route exact path="/loader" component={Loader}/>
+                    <Route exact path="/admin" component={AdminLanding}/>
                     <Route exact path="/artikel" component={Article}/>
                     <Route exact path="/pertanyaan" component={Question}/>
                     <Route exact path="/artikel/tulis" component={AddArticle}/>
@@ -39,10 +42,13 @@ const MainRoute = () => {
                     <Route exact path="/daftar" component={SignUp}/>
                     <Route exact path="/pilih-minat" component={ChooseInterest}/>
                     <Route exact path="/masuk" component={SignIn}/>
+                    <Route exact path="/notifikasi" component={Notification}/>
                     <Route path="/pengaturan-akun/:event" component={UserProfileSetting} />
                     <Route path="/pengaturan-akun/:event/edit" component={UserSetPersonalData} />
-                    <Route exact path="/pertanyaan/:id" component={DetailQuestionPage}/>
-                    <Route exact path="/artikel/:id" component={DetailArticle}/>
+                    <Route path="/pertanyaan/:id/edit" component={EditQuestion}/>
+                    <Route path="/pertanyaan/:id" component={DetailQuestionPage}/>
+                    <Route path="/artikel/:id/edit" component={EditArticle}/>
+                    <Route path="/artikel/:id" component={DetailArticle}/>
                 </Switch>
             </BrowserRouter>
         </Provider>

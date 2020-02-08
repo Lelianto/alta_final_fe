@@ -5,6 +5,7 @@ import Footer from '../components/footer';
 import SetPersonalData from '../components/userSetPersonal';
 import MenuBarSetting from '../components/menuBarSetting';
 import axios from 'axios';
+import { storage } from '../firebase';
 import { Link, withRouter } from 'react-router-dom';
 import { actions, store } from '../stores/store';
 import { connect } from 'unistore/react'
@@ -16,7 +17,9 @@ class UserProfileSetting extends Component {
     lastName : '',
     jobTitle : '',
     email : null,
-    tags : []
+    tags : [],
+    imageArticle : null,
+    imageUrl : ''
   }
 
   handleMainPage = (event1, event2)=>{
@@ -26,6 +29,8 @@ class UserProfileSetting extends Component {
 
   setInput = async (event) => {
     await this.setState({ [event.target.name]: event.target.value });
+    await console.warn('name', this.state.firstName)
+    await console.warn('firstName', this.state.lastName)
   }
 
   componentDidMount = async () => {
@@ -46,9 +51,7 @@ class UserProfileSetting extends Component {
         const userDetail = response.data.user_detail_data
         const userData = response.data.user_data
         const userTag = response.data.user_tag_data
-        await this.setState({firstName : userDetail.first_name, lastName : userDetail.last_name, jobTitle : userDetail.job_title, email : userData.email, tags : userTag})
-        console.warn('user data', this.state.userData)
-        console.warn('user detail', this.state.userDetail)
+        await this.setState({firstName : userDetail.first_name, lastName : userDetail.last_name, jobTitle : userDetail.job_title, email : userData.email, tags : userTag, imageUrl : userDetail.user_detail_data.photo_url})
 			})
 			.catch(async (error) => {
 				await console.warn(error)
@@ -62,15 +65,18 @@ class UserProfileSetting extends Component {
     } else {
       email = this.state.email
     }
-
+  
     const userDetail = {
 			username : localStorage.getItem("username"),
-      email : email,
-      first_name : this.state.firstName,
-      last_name : this.state.lastName,
-      job_title : this.state.jobTitle,
-      tags : this.state.tags
-		}
+      email : email + ' ',
+      first_name : this.state.firstName + ' ',
+      last_name : this.state.lastName + ' ',
+      job_title : this.state.jobTitle + ' ',
+      tags : this.state.tags,
+      photo_url : this.state.imageUrl
+    }
+    
+    console.warn('params', userDetail)
 
 		const editUser = {
 			method: 'put',
@@ -99,17 +105,52 @@ class UserProfileSetting extends Component {
     await this.props.deleteResponse()
   }
 
+  doSearch = () => {
+    this.props.history.push('/')
+  }
+
+  fileSelectedHandler= async(event)=>{
+    if(event.target.files[0]){
+      await this.setState({
+        imageArticle:event.target.files[0]
+      })
+      await this.uploadPhoto()
+      console.log('isi global photo',this.state.imageArticle)
+    }
+  }
+
+  uploadPhoto = async ()=>{
+      const image = this.state.imageArticle
+      const uploadPhotos = storage.ref(`images/${image.name}`).put(image);
+      await uploadPhotos.on('state_changed', 
+      (snapshot) => {
+          // Progress Function
+      }, 
+      (error) => {
+          // Error Function
+          console.log(error)
+      }, 
+      ()=>{
+          // Complete Function
+          storage.ref('images').child(image.name).getDownloadURL().then(url => {
+              this.setState({
+                  imageUrl:url
+              })
+          })
+          console.log('isi Link global', this.state.imageUrl)
+      })
+  }
   render() {
     return (
       <div>
-        <Header/>
+        <Header doSearch={this.doSearch}/>
         <div className='container'>
           <div className='row'>
             <div className='col-md-3'>
               <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)}/>
             </div>
             <div className='col-md-9'>
-              <SetPersonalData firstName={this.state.firstName} lastName={this.state.lastName} jobTitle={this.state.jobTitle} email={this.state.email} setInput={(e)=>this.setInput(e)} editUserData={()=>this.editUserData()}/>
+              <SetPersonalData fileSelectedHandler={(event)=>this.fileSelectedHandler(event)} firstName={this.state.firstName} lastName={this.state.lastName} jobTitle={this.state.jobTitle} email={this.state.email} imageUrl={this.state.imageUrl} changeState={this.setInput} editUserData={this.editUserData}/>
             </div>
           </div>
         </div>

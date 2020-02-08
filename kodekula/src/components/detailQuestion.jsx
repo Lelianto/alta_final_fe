@@ -48,4 +48,4 @@ class detailArticle extends React.Component {
   }
 }
 
-export default connect("newArticle, baseUrl isLoading, articleTitle, imageUrl,allArticleDatabase",actions)(withRouter(detailArticle));
+export default connect("newArticle, baseUrl, isLoading, articleTitle, imageUrl,allArticleDatabase",actions)(withRouter(detailArticle));

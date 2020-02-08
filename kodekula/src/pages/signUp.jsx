@@ -75,7 +75,7 @@ class SignUp extends React.Component {
 		
         const signIn = {
             method:"post",
-            url: "https://kodekula.com/auth",
+            url: "https://api.kodekula.com/auth",
             headers: {
                 "Content-Type": "application/json"
             },
@@ -89,10 +89,14 @@ class SignUp extends React.Component {
         await this.props.deleteResponse()
     }
 
+    doSearch = () => {
+        this.props.history.push('/')
+    }
+
 	render() {
 		return (
 			<React.Fragment>
-                <Header/>
+                <Header doSearch={this.doSearch}/>
 				<div className="container pt-5">
                     <div className="row">
                         <div className="col-lg-3 col-md-2 col-sm-1 col-1"></div>

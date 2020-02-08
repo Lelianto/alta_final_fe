@@ -15,10 +15,8 @@ import { Markup } from 'interweave';
 import Loader from './loader';
 
 const UserOwnFile = (props) => {
-    console.log('isi konten', props.content)
     const userData = props.content.user_data
     const postingDetail = props.content.posting_detail
-    console.log('isi posting detail',postingDetail)
     if (props.menuBarUser ==='Artikel' || props.typeContent ==='article') {
         return (
             <div className='container own-article mt-4'>
@@ -32,8 +30,8 @@ const UserOwnFile = (props) => {
                             <img className='logo-edit-control' src={more} alt="img"/>
                         </div>
                         <div class="dropdown-menu" style={{marginLeft:'-115px', marginTop:'-37px'}} aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="#">Ubah/Perbarui</a>
-                            <a class="dropdown-item" href="#">Hapus</a>
+                            <Link onClick={()=>props.editArticle(postingDetail.id)} class="dropdown-item" to="#">Ubah/Perbarui</Link>
+                            <Link class="dropdown-item" to="#">Hapus</Link>
                         </div>
                     </div>
                     <div className='row text-control'>
@@ -98,7 +96,6 @@ const UserOwnFile = (props) => {
         </div>
         )
     } else if (props.menuBarUser ==='Pertanyaan' || props.typeContent ==='question') {
-        console.log('props di component', props)
         return (
             <div className='container own-article mt-4'>
             <div className='row'>
@@ -111,8 +108,8 @@ const UserOwnFile = (props) => {
                             <img className='logo-edit-control' src={more} alt="img"/>
                         </div>
                         <div class="dropdown-menu" style={{marginLeft:'-130px', marginTop:'-37px'}}  aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="#">Ubah/Perbarui</a>
-                            <a class="dropdown-item" href="#">Hapus</a>
+                            <Link class="dropdown-item" onClick={()=>props.editQuestion(postingDetail.id)} >Ubah/Perbarui</Link>
+                            <Link class="dropdown-item" >Hapus</Link>
                         </div>
                     </div>
                     <div className='row text-control'>

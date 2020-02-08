@@ -19,6 +19,7 @@ class ArticlePage extends React.Component {
 		filterInterest : [],
 		excludeTags : [],
 		postingList : [],
+		// keyword : '',
 		tags: [ 'Python', 'Javascript', 'Django', 'ReactJS', 'Java', 'GoLang' ],
 		icon: [ 'bug_report', 'build', 'android', 'camera_enhance', 'autorenew', 'code' ],
 		article: [
@@ -46,6 +47,10 @@ class ArticlePage extends React.Component {
 		await this.getUserTags()
 		await this.getPostingList()
 	};
+
+	// setInput = (event) => {
+	// 	this.setState({[event.target.name] : event.target.value})
+	// };
 
 	getUserTags = async () => {
 		const tags = {
@@ -76,6 +81,7 @@ class ArticlePage extends React.Component {
 		const tags = {
 			method: 'get',
 			url: store.getState().baseUrl + '/tags',
+
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -113,7 +119,8 @@ class ArticlePage extends React.Component {
 
 	getPostingList = async () => {
 		const parameter = {
-			content_type : 'article'
+			content_type : 'article',
+			keyword : this.props.keyword
 		}
 
 		const posting = {
@@ -168,12 +175,19 @@ class ArticlePage extends React.Component {
             userId:event
 		})
         await this.props.history.push('/artikel/'+event)
+	}
+	
+	editArticle = async (event)=> {
+        await store.setState({
+            userId:event
+		})
+        await this.props.history.push('/artikel/'+event +'/edit')
     }
 
 	render() {
 		return (
 			<React.Fragment>
-				<Header />
+				<Header doSearch={this.getPostingList} />
 				<div className="container-fluid pt-4">
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5">
@@ -183,7 +197,7 @@ class ArticlePage extends React.Component {
 							<Link style={{textDecoration:'none', color:'white'}} to='/artikel/tulis'>
 								<button to='/artikel/tulis' className='btn btn-success button-write-article-control mt-4'>Tulis Artikel</button>
 							</Link>
-							{this.state.postingList.map((content, i) => 			<UserOwnFile typeContent={content.posting_detail.content_type} content={content} detailArticle={(e)=>this.detailArticle(e)}/>)}
+							{this.state.postingList.map((content, i) => 			<UserOwnFile typeContent={content.posting_detail.content_type} content={content} editArticle={(e)=>this.editArticle(e)} detailArticle={(e)=>this.detailArticle(e)}/>)}
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5">
 							<PopularList article={this.state.article} />
@@ -195,4 +209,4 @@ class ArticlePage extends React.Component {
 		);
 	}
 }
-export default connect('', actions)(withRouter(ArticlePage));
+export default connect('keyword', actions)(withRouter(ArticlePage));

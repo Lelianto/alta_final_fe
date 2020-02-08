@@ -14,21 +14,25 @@ const AdminMenu = (props) => {
 			<div className='container'>
 				<div className='row' style={{paddingTop:'100px'}}>
                     <div className='col-md-3'>
+
                         <div className='box-control btn-grad' style={{paddingBottom:'25px', paddingTop:'25px'}}>
                             User
                         </div>
                     </div>
                     <div className='col-md-3'>
+
                         <div className='box-control btn-glow' style={{paddingBottom:'25px', paddingTop:'25px'}}>
                             Pertanyaan
                         </div>   
                     </div>
                     <div className='col-md-3'>
+
                         <div className='box-control btn-sparkle' style={{paddingBottom:'25px', paddingTop:'25px'}}>
                             Jawaban
                         </div> 
                     </div>
                     <div className='col-md-3'>
+
                         <div className='box-control btn-hot' style={{paddingBottom:'25px', paddingTop:'25px'}}>
                             Tag
                         </div> 

@@ -8,10 +8,14 @@ import TextArea from '../components/textArea';
 import PreviewArticle from '../components/previewArticle';
 
 class AddArticlePage extends React.Component {
+    doSearch = () => {
+        this.props.history.push('/')
+    }
+    
 	render() {
 		return (
 			<React.Fragment>
-				<Header />
+				<Header doSearch={this.doSearch}/>
 				<div className="container-fluid" style={{paddingTop:'100px'}}>
 					<div className='row'>
                         <div className='col-md-6'>

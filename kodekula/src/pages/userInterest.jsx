@@ -11,10 +11,12 @@ import { actions, store } from '../stores/store';
 import { withRouter, Link } from 'react-router-dom';
 import axios from 'axios';
 import edit from '../images/edit.png';
+import Loader from '../components/loader';
 
 class UserInterestSetting extends Component {
 
     state = {
+      userDetailData : {},
       userInterest: [],
       interestList : [],
       filterInterest : [],
@@ -37,12 +39,11 @@ class UserInterestSetting extends Component {
                   return status < 500
               }
       };
-      
-          await axios(tags)
+      await axios(tags)
         .then(async (response) => {
-          await this.setState({userInterest : response.data.user_tag_data})
-          await store.setState({userInterest : response.data.user_tag_data})
-
+          await this.setState({userInterest : response.data.user_tag_data, userDetailData : response.data.user_detail_data})
+          await store.setState({userInterest : response.data.user_tag_data, userOwnData:response.data.user_detail_data})
+          await console.log('isi res', this.props.userOwnData)
         })
         .catch(async (error) => {
           await console.warn(error)
@@ -95,6 +96,10 @@ class UserInterestSetting extends Component {
         this.props.history.replace('/pengaturan-akun'+event1)
     }
 
+    doSearch = () => {
+      this.props.history.push('/')
+    }
+
     render() {
 
     let tagsList = this.state.filterInterest;
@@ -123,17 +128,17 @@ class UserInterestSetting extends Component {
 
     return (
       <div>
-        <Header/>
+        <Header doSearch={this.doSearch}/>
         <div className='container'>
           <div className='row'>
             <div className='col-md-3'>
-              <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)}/>
+              <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)} userOwnData={this.state.userDetailData}/>
             </div>
             <div className='col-md-9'>
             <div className="interest-user user-username" style={{fontWeight:'bold', fontSize:'20px'}}>
               <div className="pl-2">
                 <span>Minat</span>
-                <Link onClick={()=>this.props.history.push('/minat/edit')}><img width='20px' height='20px' src={edit} alt="" style={{marginLeft:'3%'}}/></Link>
+                <Link onClick={()=>this.props.history.push('/pengaturan-akun/minat/edit')}><img width='20px' height='20px' src={edit} alt="" style={{marginLeft:'3%'}}/></Link>
                 <div className='row user-profile-border pt-3' style={{marginLeft:'3px'}}></div>
               </div>
                 <div className="row pl-2 pr-2 py-3 interest-list">
@@ -149,4 +154,4 @@ class UserInterestSetting extends Component {
   }
 }
 
-export default connect("filterInterest, interestList, userInterest, excludeTags",actions)(withRouter(UserInterestSetting));
+export default connect("filterInterest, interestList, userInterest, excludeTags, userOwnData, isLoading",actions)(withRouter(UserInterestSetting));

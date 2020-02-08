@@ -18,7 +18,6 @@ const UserSetPersonal = (props) =>{
                             <span>{props.menuBarSetting}</span>:(props.menuBarSetting==='Minat')?
                             <div>{props.menuBarSetting} <Link><img width='20px' height='20px' src={edit} alt="img"/></Link></div>:<div>{props.menuBarSetting} <Link><img width='20px' height='20px' src={edit} alt="img"/></Link></div>}
                         </div>
-                        
                     </div>
                     <div className='row user-profile-border'>  
                     </div>
@@ -29,7 +28,7 @@ const UserSetPersonal = (props) =>{
                                     Nama Depan
                                 </div>
                                 <div style={{marginTop:'-5px'}} className='col-md-7'>
-                                    <input type="text" class="form-control" name="firstName" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukkan Nama Depan" value={props.firstName} onChange={(e)=>props.setInput(e)}/>
+                                    <input type="text" class="form-control" name="firstName" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukkan Nama Depan" value={props.firstName} onChange={props.changeState}/>
                                 </div>
                             </div>
                             <div className='profile-setting row'>
@@ -37,7 +36,7 @@ const UserSetPersonal = (props) =>{
                                     Nama Belakang
                                 </div>
                                 <div style={{marginTop:'-5px'}} className='col-md-7'>
-                                    <input type="text" class="form-control" name="lastName" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukkan Nama Belakang" value={props.lastName} onChange={(e)=>props.setInput(e)}/>
+                                    <input type="text" class="form-control" name="lastName" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukkan Nama Belakang" value={props.lastName} onChange={props.changeState}/>
                                 </div>
                             </div>
                             <div className='profile-setting row'>
@@ -45,7 +44,7 @@ const UserSetPersonal = (props) =>{
                                     Pekerjaan
                                 </div>
                                 <div style={{marginTop:'-5px'}} className='col-md-7'>
-                                    <input type="text" class="form-control"  name="jobTitle" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukkan Pekerjaan" value={props.jobTitle} onChange={(e)=>props.setInput(e)}/>
+                                    <input type="text" class="form-control"  name="jobTitle" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukkan Pekerjaan" value={props.jobTitle} onChange={props.changeState}/>
                                 </div>
                             </div>
                             <div className='profile-setting row'>
@@ -53,18 +52,18 @@ const UserSetPersonal = (props) =>{
                                     Email
                                 </div>
                                 <div style={{marginTop:'-5px'}} className='col-md-7'>
-                                    <input type="text" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukkan Email" value={props.email} onChange={(e)=>props.setInput(e)}/>
+                                    <input type="text" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukkan Email" value={props.email} onChange={props.changeState}/>
                                 </div>
                             </div>
                             <div className='profile-setting row'>
                                 <label style={{fontWeight:'bold'}} className='col-md-5'>
                                     Foto Profil
                                 </label>
-                                <div style={{marginTop:'-5px'}} className='col-md-7'>
-                                    <button type="button" class="btn btn-dark">Pilih Foto</button>
+                                <div className='col-md-7'>
+                                    <input style={{fontSize:'12px', paddingRight:'0', width:'194px'}} className='btn-outline-info' type='file' id="file" name="file" onChange={props.fileSelectedHandler}/>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-primary" onClick={()=>props.editUserData()}>Simpan</button>
+                            <button type="button" class="btn btn-primary" onClick={props.editUserData}>Simpan</button>
                         </form>
                     </div>
                 </div>

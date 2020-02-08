@@ -7,14 +7,14 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import InterestList from '../components/interestList';
 import PopularList from '../components/popularList';
-import AccessDetailArticle from '../components/detailQuestion';
+import AccessDetailArticle from '../components/detailArticleQuestion';
 import CommentArea from '../components/commentArea';
 import ViewComment from '../components/viewComment';
 import Accordion from '../components/accordionExplain';
 import CodeCompiler from '../components/codeCompiler';
 import axios from 'axios';
 
-const listContent = [ 'Artikel' ];
+const listContent = [ 'Pertanyaan' ];
 
 class detailArticlePage extends React.Component {
 	state = {
@@ -28,7 +28,7 @@ class detailArticlePage extends React.Component {
 			'reiciendis mollitia error maxime earum totam, placeat quod! Ipsa, eum'
 		]
 	};
-	
+
 	getAllFirst = ()=>{
         const req = {
             method: "get",
@@ -74,17 +74,7 @@ class detailArticlePage extends React.Component {
         await this.getAllFirst()
     };
 
-	seeAll = () => {
-		const suggestionList = document.getElementById('suggest-list');
-		const showOrHide = document.getElementById('seeAll');
-		if (suggestionList.style.display === 'none') {
-			suggestionList.style.display = 'block';
-			showOrHide.innerHTML = 'Sembunyikan...';
-		} else {
-			suggestionList.style.display = 'none';
-			showOrHide.innerHTML = 'Lihat Semua...';
-		}
-	};
+
 	handleSeeComment=()=>{
 		if(store.getState().seeComment){
 			store.setState({
@@ -96,15 +86,21 @@ class detailArticlePage extends React.Component {
 			})
 		}
 	}
+
 	handlePostComment = async () => {
 		await this.props.postComment()
 		await this.getAllFirst()
         await this.props.history.push("/pertanyaan/"+this.props.match.params.id)
-    }
+	}
+	
+	doSearch = () => {
+		this.props.history.push('/')
+	  }
+
 	render() {
 		return (
 			<React.Fragment>
-				<Header />
+				<Header doSearch={this.doSearch}/>
 				<div className="container-fluid pt-4">
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 						<div className="col-lg-1 col-md-1 col-sm-12 col-12 mt-5">
@@ -113,13 +109,13 @@ class detailArticlePage extends React.Component {
 							<AccessDetailArticle/>
 						{store.getState().seeComment?
 							<div>
-								<button className='btn btn-grad' onClick={()=>this.handleSeeComment()} style={{textAlign:'center', marginBottom:'20px', fontWeight:'bold'}}>
+								<button className='btn btn-grad' onClick={()=>this.handleSeeComment()} style={{textAlign:'center', marginBottom:'20px', fontWeight:'bold', fontSize:'15px'}}>
 									Lihat Komentar...
 								</button>
 							</div>
 						:
 							<div>
-								<button className='btn btn-grad' onClick={()=>this.handleSeeComment()} style={{textAlign:'center', marginBottom:'20px', fontWeight:'bold'}}>
+								<button className='btn btn-grad' onClick={()=>this.handleSeeComment()} style={{textAlign:'center', marginBottom:'20px', fontWeight:'bold', fontSize:'15px'}}>
 									Sembunyikan Komentar...
 								</button>
 									<ViewComment/>

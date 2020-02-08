@@ -37,15 +37,21 @@ const initialState = {
 	startComment: false,
 	userId:'',
 	questionId:'',
+	keyword : '',
 	allArticleDatabase:{},
 	isLoading:true,
-	seeComment:false
+	seeComment:false,
+	lastArticleQuestion:'',
+	firstData:'',
+	startNew:true,
+	userOwnData:{}
 }
 
 export const store = createStore(initialState);
 
 export const actions = (store) => ({
 	changeInput: async (state, e) => {
+		console.log('isi e',e)
 		store.setState({
 			articleTitle: e.target.value
 		});
@@ -73,6 +79,10 @@ export const actions = (store) => ({
 		} else {
 			password.type = 'password';
 		}
+	},
+	
+	setInput : (state, event) => {
+		store.setState({[event.target.name] : event.target.value})
 	},
 
 	codeCompiler : async (state) => {
@@ -202,11 +212,97 @@ export const actions = (store) => ({
 			});
 	},
 
+	updateArticle: async (state) => {
+		const title = state.articleTitle;
+		const content_type = 'article';
+		const originArticle = state.lastArticleQuestion;
+		const splitArticle = originArticle.split('"');
+		const joinArticle = splitArticle.join(" '");
+		const splitEnter = joinArticle.split('\n');
+		const joinEnter = splitEnter.join('');
+		const banner_photo_url = state.imageUrl;
+		const articleDetails = {
+			title: title,
+			content_type: content_type,
+			html_content: joinEnter,
+			banner_photo_url: banner_photo_url,
+			content_status:0
+		};
+		// articleDetails = JSON.stringify(articleDetails)
+		const req = {
+			method: 'put',
+			url: state.baseUrl + '/posting/toplevel/' + state.articleId,
+			headers: {
+				Authorization: 'Bearer ' + localStorage.getItem('token')
+			},
+			data: articleDetails
+		};
+		// data=JSON.stringify(data)
+		console.log(articleDetails);
+		await axios(req)
+			.then((response) => {
+				store.setState({
+					menuBarUpload:false,
+					articleTitle:'',
+					newArticle:'',
+					imageUrl:'',
+					lastArticleQuestion:''
+				})
+				return response
+			})
+			.catch((error) => {
+				return false;
+			});
+	},
+	updateQuestion: async (state) => {
+		const title = state.articleTitle;
+		const content_type = 'question';
+		const originArticle = state.lastArticleQuestion;
+		const splitArticle = originArticle.split('"');
+		const joinArticle = splitArticle.join(" '");
+		const splitEnter = joinArticle.split('\n');
+		const joinEnter = splitEnter.join('');
+		const banner_photo_url = state.imageUrl;
+		const articleDetails = {
+			title: title,
+			content_type: content_type,
+			html_content: joinEnter,
+			banner_photo_url: banner_photo_url,
+			content_status:0
+		};
+		// articleDetails = JSON.stringify(articleDetails)
+		const req = {
+			method: 'put',
+			url: state.baseUrl + '/posting/toplevel/' + state.articleId,
+			headers: {
+				Authorization: 'Bearer ' + localStorage.getItem('token')
+			},
+			data: articleDetails
+		};
+		// data=JSON.stringify(data)
+		console.log(articleDetails);
+		await axios(req)
+			.then((response) => {
+				store.setState({
+					menuBarUpload:false,
+					articleTitle:'',
+					newArticle:'',
+					imageUrl:'',
+					lastArticleQuestion:''
+				})
+				return response
+			})
+			.catch((error) => {
+				return false;
+			});
+	},
+
 	handleAPI: async (state, parameters) => {
 		const getDataRes = await axios(parameters);
 		await store.setState({ responseStatus: getDataRes.status});
 		if (getDataRes.status === 200) {
 			await store.setState({ responseData: getDataRes.data}); 
+			await console.log('isi respon data user',store.getState().responseData)
 		}
 	},
 	getToken: async (state) => {
