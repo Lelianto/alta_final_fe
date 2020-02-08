@@ -15,7 +15,7 @@ import user from '../images/user.png';
 import ViewComment from '../components/viewComment';
 import Accordion from '../components/accordionExplain'
 
-class detailArticle extends React.Component {
+class DetailArticle extends React.Component {
 	state = {
         comment : '',
 		article: [
@@ -25,6 +25,50 @@ class detailArticle extends React.Component {
 			'Pariatur exercitationem atque non excepturi, cum',
 			'reiciendis mollitia error maxime earum totam, placeat quod! Ipsa, eum'
 		]
+    };
+    getAllFirst = ()=>{
+        const req = {
+            method: "get",
+            url: store.getState().baseUrl+"/posting/toplevel/"+this.props.match.params.id
+          }; 
+          const questionIdParam = this.props.match.params.id
+          const self = this
+          axios(req)
+              .then((response) => {
+                console.log('isi respon detail',response.data.posting_data)
+                store.setState({ 
+                  allArticleDatabase: response.data, 
+                  isLoading:false,
+                  questionId:questionIdParam
+                })
+                console.log('hasil detail ke store',store.getState().allArticleDatabase)
+                return response
+              })
+              .catch((error)=>{
+                console.log(error)
+                store.setState({ 
+                  isLoading: false
+                })
+                switch (error.response.status) {
+                  case 401 :
+                      self.props.history.push('/login')
+                      break
+                  case 403 :
+                      self.props.history.push('/403')
+                      break
+                  case 404 :
+                      self.props.history.push('/404')
+                      break
+                  case 500 :
+                      self.props.history.push('/500')
+                      break
+                  default :
+                      break
+                }
+              })
+    }
+    componentWillMount = async () => {
+        await this.getAllFirst()
     };
     
     changeState = async (event) => {
@@ -45,6 +89,7 @@ class detailArticle extends React.Component {
             data: parameters
         };
         await this.props.handleAPI(comment)
+        await this.getAllFirst()
         await this.props.history.push('/artikel/'+this.props.questionId)
     }
 
@@ -153,4 +198,4 @@ class detailArticle extends React.Component {
 		);
 	}
 }
-export default connect('allArticleDatabase, startComment, newArticle, questionId, baseUrl,seeComment', actions)(withRouter(detailArticle));
+export default connect('allArticleDatabase, startComment, newArticle, questionId, baseUrl,seeComment', actions)(withRouter(DetailArticle));

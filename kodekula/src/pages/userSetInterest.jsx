@@ -79,7 +79,6 @@ class UserSetInterest extends Component {
 					</React.Fragment>
 				);
 			});
-
     return (
       <div>
         <Header doSearch={this.doSearch}/>
