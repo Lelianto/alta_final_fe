@@ -7,7 +7,7 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import InterestList from '../components/interestList';
 import PopularList from '../components/popularList';
-import AccessDetailArticle from '../components/detailQuestion';
+import AccessDetailArticle from '../components/detailArticleQuestion';
 import CommentArea from '../components/commentArea';
 import PreviewComment from '../components/previewComment';
 import axios from 'axios';
@@ -47,6 +47,7 @@ class detailArticle extends React.Component {
         await this.props.handleAPI(comment)
         await this.props.history.push('/artikel/'+this.props.questionId)
     }
+
     handleSeeComment=()=>{
 		if(store.getState().seeComment){
 			store.setState({
@@ -62,6 +63,48 @@ class detailArticle extends React.Component {
     doSearch = () => {
         this.props.history.push('/')
       }
+      
+    componentWillMount = async () => {
+        const req = {
+          method: "get",
+          url: store.getState().baseUrl+"/posting/toplevel/"+this.props.match.params.id
+        }; 
+        const questionIdParam = this.props.match.params.id
+        const self = this
+        await axios(req)
+            .then((response) => {
+              console.log('isi respon detail',response.data.posting_data.posting_detail.html_content)
+              store.setState({ 
+                allArticleDatabase: response.data, 
+                isLoading:false,
+                questionId:questionIdParam
+              })
+              console.log('hasil detail first data',store.getState().allArticleDatabase)
+              return response
+            })
+            .catch((error)=>{
+              console.log(error)
+              store.setState({ 
+                isLoading: false
+              })
+              switch (error.response.status) {
+                case 401 :
+                    self.props.history.push('/login')
+                    break
+                case 403 :
+                    self.props.history.push('/403')
+                    break
+                case 404 :
+                    self.props.history.push('/404')
+                    break
+                case 500 :
+                    self.props.history.push('/500')
+                    break
+                default :
+                    break
+              }
+            })
+          };
 
 	render() {
 		return (
@@ -75,13 +118,13 @@ class detailArticle extends React.Component {
                             <AccessDetailArticle/>
                             {store.getState().seeComment?
                                 <div>
-                                    <button className='btn btn-grad' onClick={()=>this.handleSeeComment()} style={{textAlign:'center', marginBottom:'20px', fontWeight:'bold'}}>
+                                    <button className='btn btn-grad' onClick={()=>this.handleSeeComment()} style={{textAlign:'center', marginBottom:'20px', fontWeight:'bold', fontSize:'15px'}}>
                                         Lihat Komentar...
                                     </button>
                                 </div>
                             :
                                 <div>
-                                    <button className='btn btn-grad' onClick={()=>this.handleSeeComment()} style={{textAlign:'center', marginBottom:'20px', fontWeight:'bold'}}>
+                                    <button className='btn btn-grad' onClick={()=>this.handleSeeComment()} style={{textAlign:'center', marginBottom:'20px', fontWeight:'bold', fontSize:'15px'}}>
                                         Sembunyikan Komentar...
                                     </button>
                                         <ViewComment/>

@@ -174,6 +174,13 @@ class ArticlePage extends React.Component {
             userId:event
 		})
         await this.props.history.push('/artikel/'+event)
+	}
+	
+	editArticle = async (event)=> {
+        await store.setState({
+            userId:event
+		})
+        await this.props.history.push('/artikel/'+event +'/edit')
     }
 
 	render() {
@@ -189,7 +196,7 @@ class ArticlePage extends React.Component {
 							<Link style={{textDecoration:'none', color:'white'}} to='/artikel/tulis'>
 								<button to='/artikel/tulis' className='btn btn-success button-write-article-control mt-4'>Tulis Artikel</button>
 							</Link>
-							{this.state.postingList.map((content, i) => 			<UserOwnFile typeContent={content.posting_detail.content_type} content={content} detailArticle={(e)=>this.detailArticle(e)}/>)}
+							{this.state.postingList.map((content, i) => 			<UserOwnFile typeContent={content.posting_detail.content_type} content={content} editArticle={(e)=>this.editArticle(e)} detailArticle={(e)=>this.detailArticle(e)}/>)}
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5">
 							<PopularList article={this.state.article} />

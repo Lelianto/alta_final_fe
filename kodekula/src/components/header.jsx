@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/css/header.css';
 import '../styles/css/bootstrap.min.css';
-import logo from '../images/NewLogo.png';
+import logo from '../images/finalogo.png';
 import user from '../images/user.png';
 import notification from '../images/bell.png';
 import { withRouter, Link } from 'react-router-dom';
@@ -24,6 +24,7 @@ const Header = (props) => {
 								newArticle: '',
 								imageUrl: '',
 								imageArticleUrl: '',
+								allArticleDatabase:{},
 								startComment: false,
 								menuBarUpload: false
 							})}
@@ -57,6 +58,7 @@ const Header = (props) => {
 												newArticle: '',
 												imageUrl: '',
 												imageArticleUrl: '',
+												allArticleDatabase:{},
 												startComment: false,
 												menuBarUpload: false
 											})}
@@ -80,6 +82,7 @@ const Header = (props) => {
 												newArticle: '',
 												imageUrl: '',
 												imageArticleUrl: '',
+												allArticleDatabase:{},
 												startComment: false,
 												menuBarUpload: false
 											})}

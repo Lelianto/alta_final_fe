@@ -30,8 +30,8 @@ const UserOwnFile = (props) => {
                             <img className='logo-edit-control' src={more} alt="img"/>
                         </div>
                         <div class="dropdown-menu" style={{marginLeft:'-115px', marginTop:'-37px'}} aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="#">Ubah/Perbarui</a>
-                            <a class="dropdown-item" href="#">Hapus</a>
+                            <Link onClick={()=>props.editArticle(postingDetail.id)} class="dropdown-item" to="#">Ubah/Perbarui</Link>
+                            <Link class="dropdown-item" to="#">Hapus</Link>
                         </div>
                     </div>
                     <div className='row text-control'>
@@ -108,8 +108,8 @@ const UserOwnFile = (props) => {
                             <img className='logo-edit-control' src={more} alt="img"/>
                         </div>
                         <div class="dropdown-menu" style={{marginLeft:'-130px', marginTop:'-37px'}}  aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="#">Ubah/Perbarui</a>
-                            <a class="dropdown-item" href="#">Hapus</a>
+                            <Link class="dropdown-item" onClick={()=>props.editQuestion(postingDetail.id)} >Ubah/Perbarui</Link>
+                            <Link class="dropdown-item" >Hapus</Link>
                         </div>
                     </div>
                     <div className='row text-control'>

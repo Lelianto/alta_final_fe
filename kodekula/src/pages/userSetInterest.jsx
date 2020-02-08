@@ -24,17 +24,19 @@ class UserSetInterest extends Component {
     }
 
     editInterest = async (event, index) => {
-      let tags = this.state.tags
-      console.warn('ini let tag ', tags)
-      // tags[index]['checked'] = event.target.checked
-      this.setState({tags : tags})
-      if (event.target.checked === true) {
-        await this.state.tags.push(event.target.value)
-      } else {
-        const newTags = this.state.tags.filter(item => item !== event.target.value)
-        await this.setState({tags : newTags})
-      }
-      console.warn('tag',this.state.tags)
+      // const i = index*1
+      // let tags = await this.state.tags
+      // // console.warn('index', index)
+      // // console.warn('ini let tag ', tags[index])
+      // // tags[i].checked = event.target.checked
+      // this.setState({tags : tags})
+      // if (event.target.checked === true) {
+      //   await this.state.tags.push(event.target.value)
+      // } else {
+      //   const newTags = this.state.tags.filter(item => item !== event.target.value)
+      //   await this.setState({tags : newTags})
+      // }
+      // console.warn('tag',this.state.tags)
     }
 
     render() {
@@ -67,7 +69,7 @@ class UserSetInterest extends Component {
                       <img src={tag.photo_url} alt="" />
                   </div>
 								<div className="text-center" style={{backgroundColor:'#0f4c75', color:'white'}}>
-                  <input type="checkbox" name="tags" id="" checked={tag.checked} value={tag.name} onClick={(e)=>this.editInterest(e, tag.index)}/>
+                  <input type="checkbox" name="tags" id="" checked={tag.checked} value={tag.name}/>
 									<label className="form-check-label ml-3 tags-name" for="tags">
 										{tag.name}
 									</label>
