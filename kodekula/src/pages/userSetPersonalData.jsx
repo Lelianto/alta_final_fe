@@ -6,10 +6,13 @@ import PersonalData from '../components/userProfileSetting';
 import MenuBarSetting from '../components/menuBarSetting';
 
 class UserProfileSetting extends Component {
+  doSearch = () => {
+    this.props.history.push('/')
+  }
   render() {
     return (
       <div>
-        <Header/>
+        <Header doSearch={this.doSearch}/>
         <div className='container'>
           <div className='row'>
             <div className='col-md-3'>

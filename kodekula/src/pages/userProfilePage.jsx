@@ -29,10 +29,14 @@ class UserProfilePage extends Component {
 	// 	})
 	// }
 
+  doSearch = () => {
+    this.props.history.push('/')
+  }
+
   render() {
     return (
       <div>
-        <Header/>
+        <Header doSearch={this.doSearch}/>
         <UserProfile/>
         <div className='container'>
           <div className='row'>
@@ -41,7 +45,7 @@ class UserProfilePage extends Component {
             </div>
             <div className='col-md-9 user-own-file'>
               {/* {this.state.postingList.map((content, i) => <UserOwnFile typeContent={content.content_type} content={content}/>)} */}
-              <UserOwnFile/>
+              {/* <UserOwnFile/> */}
             </div>
           </div>
         </div>

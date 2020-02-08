@@ -14,10 +14,10 @@ const listContent = [ 'Artikel', 'Pertanyaan' ];
 class Home extends React.Component {
 	state = {
 		userInterest: [],
-		interestList : [],
-		filterInterest : [],
-		excludeTags : [],
-		postingList : [],
+		interestList: [],
+		filterInterest: [],
+		excludeTags: [],
+		postingList: [],
 		article: [
 			'Lorem ipsum dolor sit amet consectetur adipisicing elit',
 			'Alias corrupti velit illum sequi quas omnis esse ipsam sed aut delectus blanditiis',
@@ -28,9 +28,9 @@ class Home extends React.Component {
 	};
 
 	componentDidMount = async () => {
-		await this.getUserTags()
-		await this.getPostingList()
-    };
+		await this.getUserTags();
+		await this.getPostingList();
+	};
 
 	getUserTags = async () => {
 		const tags = {
@@ -38,25 +38,25 @@ class Home extends React.Component {
 			url: 'https://kodekula.com/users/me',
 			headers: {
 				'Content-Type': 'application/json',
-				'Authorization':'Bearer ' + localStorage.getItem("token")
+				Authorization: 'Bearer ' + localStorage.getItem('token')
 			},
-			validateStatus : (status) => {
-                return status < 500
-            }
+			validateStatus: (status) => {
+				return status < 500;
+			}
 		};
-		
-        await axios(tags)
+
+		await axios(tags)
 			.then(async (response) => {
-				await this.setState({userInterest : response.data.user_tag_data})
-				await store.setState({userInterest : response.data.user_tag_data})
+				await this.setState({ userInterest: response.data.user_tag_data });
+				await store.setState({ userInterest: response.data.user_tag_data });
 			})
 			.catch(async (error) => {
-				await console.warn(error)
-			})
-			
-			await this.getAllTags()
-		}
-		
+				await console.warn(error);
+			});
+
+		await this.getAllTags();
+	};
+
 	getAllTags = async () => {
 		const tags = {
 			method: 'get',
@@ -66,56 +66,59 @@ class Home extends React.Component {
 			}
 		};
 		await axios(tags)
-		.then(async (response) => {
-			await this.setState({interestList : response.data})
-			await store.setState({interestList : response.data})
-		})
-		.catch(async (error) => {
-			await console.warn(error)
-		})
-		
-		await this.filterTags()
-		
-	}
-	
+			.then(async (response) => {
+				await this.setState({ interestList: response.data });
+				await store.setState({ interestList: response.data });
+			})
+			.catch(async (error) => {
+				await console.warn(error);
+			});
+
+		await this.filterTags();
+	};
+
 	filterTags = async () => {
-		const interestList = this.state.interestList
-		const userInterest = this.state.userInterest
-		let filterInterest = []
-		let excludeTags = []
-		let i
-		for (i=0; i<interestList.length; i++) {
+		const interestList = this.state.interestList;
+		const userInterest = this.state.userInterest;
+		let filterInterest = [];
+		let excludeTags = [];
+		let i;
+		for (i = 0; i < interestList.length; i++) {
 			if (userInterest.includes(interestList[i].name)) {
-				filterInterest.push(interestList[i])
+				filterInterest.push(interestList[i]);
 			} else {
-				excludeTags.push(interestList[i])
+				excludeTags.push(interestList[i]);
 			}
 		}
 
-		console.warn('exclude', excludeTags)
-
-		await this.setState({filterInterest : filterInterest, excludeTags : excludeTags})
-		await store.setState({filterInterest : filterInterest, excludeTags : excludeTags})
-	}
+		await this.setState({ filterInterest: filterInterest, excludeTags: excludeTags });
+		await store.setState({ filterInterest: filterInterest, excludeTags: excludeTags });
+	};
 
 	getPostingList = async () => {
+		// console.warn('keyword', this.state.keyword);
+		const parameters = {
+			keyword: this.props.keyword
+		};
+
 		const posting = {
 			method: 'get',
 			url: 'https://kodekula.com/posting/toplevel',
 			headers: {
 				'Content-Type': 'application/json'
-			}
+			},
+			params: parameters
 		};
 		await axios(posting)
-		.then(async (response) => {
-			await this.setState({postingList : response.data.query_data})
-			// await store.setState({interestList : response.data})
-			console.warn('posting list', this.state.postingList)
-		})
-		.catch(async (error) => {
-			await console.warn(error)
-		})
-	}
+			.then(async (response) => {
+				await this.setState({ postingList: response.data.query_data });
+				// await store.setState({interestList : response.data})
+				console.warn('posting list', this.state.postingList);
+			})
+			.catch(async (error) => {
+				await console.warn(error);
+			});
+	};
 
 	seeAll = () => {
 		const suggestionList = document.getElementById('suggest-list');
@@ -131,47 +134,57 @@ class Home extends React.Component {
 
 	checkAll = () => {
 		const checkState = document.getElementById('all');
-		const userInterest = this.state.userInterest
+		const userInterest = this.state.userInterest;
 		if (checkState.checked === true) {
-			userInterest.map((item)=>{
-				const changeCheckedStatus = document.getElementById(item)
-				changeCheckedStatus.checked = true
-			})
+			userInterest.map((item) => {
+				const changeCheckedStatus = document.getElementById(item);
+				changeCheckedStatus.checked = true;
+			});
 		} else {
-			userInterest.map((item)=>{
-				const changeCheckedStatus = document.getElementById(item)
-				changeCheckedStatus.checked = false
-			})
+			userInterest.map((item) => {
+				const changeCheckedStatus = document.getElementById(item);
+				changeCheckedStatus.checked = false;
+			});
 		}
-	}
+	};
 
-	detailArticle = async (event)=> {
-        await store.setState({
-            userId:event
-		})
-        await this.props.history.push('/artikel/'+event)
-	}
+	detailArticle = async (event) => {
+		await store.setState({
+			userId: event
+		});
+		await this.props.history.push('/artikel/' + event);
+	};
 
-	goToDetailQuestion = async (event)=> {
-        store.setState({
-            userId:event
-		})
-		console.log('isi event', event)
-		console.log(store.getState().userId)
-        await this.props.history.push('/pertanyaan/'+event)
-    }
-	
+	goToDetailQuestion = async (event) => {
+		store.setState({
+			userId: event
+		});
+		await this.props.history.push('/pertanyaan/' + event);
+	};
+
 	render() {
 		return (
 			<React.Fragment>
-				<Header />
+				<Header doSearch={this.getPostingList} />
 				<div className="container-fluid pt-4">
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5">
-							<InterestList tags={this.state.filterInterest} excludeTags={this.state.excludeTags} seeAll={this.seeAll} checkAll={()=>this.checkAll()}/>
+							<InterestList
+								tags={this.state.filterInterest}
+								excludeTags={this.state.excludeTags}
+								seeAll={this.seeAll}
+								checkAll={() => this.checkAll()}
+							/>
 						</div>
 						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0">
-							{this.state.postingList.map((content, i) => <UserOwnFile typeContent={content.posting_detail.content_type} content={content} detailArticle={(e)=>this.detailArticle(e)} goToDetailQuestion={(e)=>this.goToDetailQuestion(e)}/>)}
+							{this.state.postingList.map((content, i) => (
+								<UserOwnFile
+									typeContent={content.posting_detail.content_type}
+									content={content}
+									detailArticle={(e) => this.detailArticle(e)}
+									goToDetailQuestion={(e) => this.goToDetailQuestion(e)}
+								/>
+							))}
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5">
 							<PopularList article={this.state.article} />
@@ -183,4 +196,4 @@ class Home extends React.Component {
 		);
 	}
 }
-export default connect('responseData', actions)(withRouter(Home));
+export default connect('responseData, keyword', actions)(withRouter(Home));

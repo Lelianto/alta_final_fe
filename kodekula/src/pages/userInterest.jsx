@@ -95,6 +95,10 @@ class UserInterestSetting extends Component {
         this.props.history.replace('/pengaturan-akun'+event1)
     }
 
+    doSearch = () => {
+      this.props.history.push('/')
+    }
+
     render() {
 
     let tagsList = this.state.filterInterest;
@@ -123,7 +127,7 @@ class UserInterestSetting extends Component {
 
     return (
       <div>
-        <Header/>
+        <Header doSearch={this.doSearch}/>
         <div className='container'>
           <div className='row'>
             <div className='col-md-3'>
@@ -133,7 +137,7 @@ class UserInterestSetting extends Component {
             <div className="interest-user user-username" style={{fontWeight:'bold', fontSize:'20px'}}>
               <div className="pl-2">
                 <span>Minat</span>
-                <Link onClick={()=>this.props.history.push('/minat/edit')}><img width='20px' height='20px' src={edit} alt="" style={{marginLeft:'3%'}}/></Link>
+                <Link onClick={()=>this.props.history.push('/pengaturan-akun/minat/edit')}><img width='20px' height='20px' src={edit} alt="" style={{marginLeft:'3%'}}/></Link>
                 <div className='row user-profile-border pt-3' style={{marginLeft:'3px'}}></div>
               </div>
                 <div className="row pl-2 pr-2 py-3 interest-list">
