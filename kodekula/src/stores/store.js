@@ -24,7 +24,7 @@ const initialState = {
 	password: '',
 	email: '',
 	job: '',
-	location: '',
+	locationPage: null,
 	articleId : '',
 	userInterest: [],
 	interestList: [],

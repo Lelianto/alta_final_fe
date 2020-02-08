@@ -4,18 +4,17 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import ProfileSetting from '../components/userProfileSetting';
 import MenuBarSetting from '../components/menuBarSetting';
-import { store } from '../stores/store';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { connect } from 'unistore/react';
+import { actions, store } from '../stores/store';
+import { withRouter, Link } from 'react-router-dom';
 
 class UserProfileSetting extends Component {
   state = {
     userData : {},
     userDetail : {},
-    userTagData : [],
-    oldPassword : '',
-    newPassword : '',
-    confirmPassword : ''
+    userTagData : []
   }
 
   handlePage = (event)=>{
@@ -41,62 +40,14 @@ class UserProfileSetting extends Component {
       await axios(user)
 			.then(async (response) => {
         await this.setState({userData : response.data.user_data, userDetail : response.data.user_detail_data, userTagData : response.data.user_tag_data})
-        console.warn('userdata', this.state.userData)
-        console.warn('userdetail', this.state.userDetail)
 			})
 			.catch(async (error) => {
 				await console.warn(error)
 			})
   }
-  changeState = async (event) => {
-    await this.setState({[event.target.name] : event.target.value})
-  }
-  changePassword = async () => {
-    if (this.state.newPassword === this.state.confirmPassword) {
-      const parameters = {
-        username : this.state.userData.username,
-        email : this.state.userData.email,
-        tags : this.state.userTagData,
-        password : this.state.oldPassword,
-        password_new : this.state.newPassword
-      }
-
-      const password = {
-        method: 'put',
-        url: 'https://api.kodekula.com/users/me',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization':'Bearer ' + localStorage.getItem("token")
-        },
-        validateStatus : (status) => {
-              return status < 500
-          },
-        data : parameters
-        };
-        await axios(password)
-        .then(async (response) => {
-          await Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'Ubah Password Berhasil',
-            showConfirmButton: false,
-            timer: 1500
-          })
-        })
-        .catch(async (error) => {
-          await console.warn(error)
-        })
-    } else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Uups...',
-        text: 'Konfirmasi Password tidak sesuai'
-    });
-    }
-  }
 
   doSearch = () => {
-    this.props.history.push('/')
+    this.props.history.push('/pencarian')
   }
 
   render() {
@@ -109,7 +60,7 @@ class UserProfileSetting extends Component {
               <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)}/>
             </div>
             <div className='col-md-9'>
-              <ProfileSetting handlePage={(event)=>this.handlePage(event)} userData={this.state.userData} userDetail={this.state.userDetail} changeState={(e)=>this.changeState(e)} changePassword={()=>this.changePassword()}/>
+              <ProfileSetting handlePage={(event)=>this.handlePage(event)} userData={this.state.userData} userDetail={this.state.userDetail}/>
             </div>
           </div>
         </div>
@@ -119,4 +70,4 @@ class UserProfileSetting extends Component {
   }
 }
 
-export default UserProfileSetting;
+export default connect("responseData, responseStatus",actions)(withRouter(UserProfileSetting));

@@ -53,6 +53,12 @@ class EditQuestionPage extends React.Component {
               }
             })
           };
+
+    doSearch = () => {
+    this.props.history.push('/pencarian')
+    }
+
+
 	render() {
         if(store.getState().isLoading){
             return(
@@ -63,7 +69,7 @@ class EditQuestionPage extends React.Component {
         } else {
             return (
                 <React.Fragment>
-                    <Header />
+                    <Header doSearch={this.doSearch}/>
                     <div className="container-fluid" style={{paddingTop:'100px'}}>
                         <div className='row'>
                         <div className='col-md-2'>

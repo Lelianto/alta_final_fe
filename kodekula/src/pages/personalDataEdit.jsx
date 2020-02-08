@@ -100,9 +100,9 @@ class UserProfileSetting extends Component {
     }
     await this.props.deleteResponse()
   }
-
+  
   doSearch = () => {
-    this.props.history.push('/')
+    this.props.history.push('/pencarian')
   }
 
   render() {

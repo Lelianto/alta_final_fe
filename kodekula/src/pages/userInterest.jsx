@@ -96,7 +96,7 @@ class UserInterestSetting extends Component {
     }
 
     doSearch = () => {
-      this.props.history.push('/')
+      this.props.history.push('/pencarian')
     }
 
     render() {

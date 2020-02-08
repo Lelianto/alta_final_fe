@@ -5,11 +5,8 @@ import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
 import Header from '../components/header';
 import Footer from '../components/footer';
-import InterestList from '../components/interestList';
 import PopularList from '../components/popularList';
 import AccessDetailArticle from '../components/detailArticleQuestion';
-import CommentArea from '../components/commentArea';
-import PreviewComment from '../components/previewComment';
 import axios from 'axios';
 import user from '../images/user.png';
 import ViewComment from '../components/viewComment';
@@ -61,7 +58,7 @@ class detailArticle extends React.Component {
     }
     
     doSearch = () => {
-        this.props.history.push('/')
+        this.props.history.push('/pencarian')
       }
       
     componentWillMount = async () => {
@@ -140,6 +137,7 @@ class detailArticle extends React.Component {
                                 <div className="col-md-2 text-center pt-3">
                                     <button className="btn btn-outline-primary" style={{width:'100%'}} onClick={()=>this.postComment()}>Kirim</button>
                                 </div>
+                                
                             </div>
 						</div>
 						<div className="col-lg-4 col-md-4 col-sm-12 col-12 mt-5">

@@ -7,8 +7,9 @@ import MenuBarSetting from '../components/menuBarSetting';
 
 class UserProfileSetting extends Component {
   doSearch = () => {
-    this.props.history.push('/')
+    this.props.history.push('/pencarian')
   }
+  
   render() {
     return (
       <div>
