@@ -74,7 +74,7 @@ const UserProfileSettings = (props) =>{
                                 :
                             </div>
                             <div className='col-md-6'>
-                                foto_profil.jpg
+                                {props.userDetail.photo_url}
                             </div>
                         </div>
                         <button onClick={()=>props.handlePage('/data-diri/edit')} type="button" class="btn btn-primary">Ubah</button>

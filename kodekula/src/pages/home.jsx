@@ -162,10 +162,14 @@ class Home extends React.Component {
 		await this.props.history.push('/pertanyaan/' + event);
 	};
 
+	doSearch = () => {
+		this.props.history.push('/pencarian')
+	}
+
 	render() {
 		return (
 			<React.Fragment>
-				<Header doSearch={this.getPostingList} />
+				<Header doSearch={this.doSearch} />
 				<div className="container-fluid pt-4">
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5">

@@ -50,10 +50,6 @@ class CommentArea extends React.Component {
         })
     }
 
-    handlePostComment = async () => {
-        await this.props.postComment()
-        await this.props.history.push("/pertanyaan/"+this.props.match.params.id)
-    }
     render() {
         return (
             <div style={{marginBottom:'20px'}}>
@@ -100,7 +96,7 @@ class CommentArea extends React.Component {
                 <span></span>}
                 
                 <div className='container'>
-                    <button onClick={()=>this.handlePostComment()} className='btn btn-grad'>
+                    <button onClick={()=>this.props.handlePostComment()} className='btn btn-grad'>
                         Kirim
                     </button>
                 </div>

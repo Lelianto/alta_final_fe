@@ -11,10 +11,12 @@ import { actions, store } from '../stores/store';
 import { withRouter, Link } from 'react-router-dom';
 import axios from 'axios';
 import edit from '../images/edit.png';
+import Loader from '../components/loader';
 
 class UserInterestSetting extends Component {
 
     state = {
+      userDetailData : {},
       userInterest: [],
       interestList : [],
       filterInterest : [],
@@ -28,7 +30,7 @@ class UserInterestSetting extends Component {
     getUserTags = async () => {
       const tags = {
         method: 'get',
-        url: 'https://api.kodekula.com/users/me',
+        url: store.getState().baseUrl+'/users/me',
         headers: {
           'Content-Type': 'application/json',
           'Authorization':'Bearer ' + localStorage.getItem("token")
@@ -37,12 +39,11 @@ class UserInterestSetting extends Component {
                   return status < 500
               }
       };
-      
-          await axios(tags)
+      await axios(tags)
         .then(async (response) => {
-          await this.setState({userInterest : response.data.user_tag_data})
-          await store.setState({userInterest : response.data.user_tag_data})
-
+          await this.setState({userInterest : response.data.user_tag_data, userDetailData : response.data.user_detail_data})
+          await store.setState({userInterest : response.data.user_tag_data, userOwnData:response.data.user_detail_data})
+          await console.log('isi res', this.props.userOwnData)
         })
         .catch(async (error) => {
           await console.warn(error)
@@ -54,7 +55,7 @@ class UserInterestSetting extends Component {
     getAllTags = async () => {
       const tags = {
         method: 'get',
-        url: 'https://api.kodekula.com/tags',
+        url: store.getState().baseUrl+'/tags',
         headers: {
           'Content-Type': 'application/json'
         }
@@ -131,7 +132,7 @@ class UserInterestSetting extends Component {
         <div className='container'>
           <div className='row'>
             <div className='col-md-3'>
-              <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)}/>
+              <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)} userOwnData={this.state.userDetailData}/>
             </div>
             <div className='col-md-9'>
             <div className="interest-user user-username" style={{fontWeight:'bold', fontSize:'20px'}}>
@@ -153,4 +154,4 @@ class UserInterestSetting extends Component {
   }
 }
 
-export default connect("filterInterest, interestList, userInterest, excludeTags",actions)(withRouter(UserInterestSetting));
+export default connect("filterInterest, interestList, userInterest, excludeTags, userOwnData, isLoading",actions)(withRouter(UserInterestSetting));
