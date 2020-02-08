@@ -19,6 +19,7 @@ class ArticlePage extends React.Component {
 		filterInterest : [],
 		excludeTags : [],
 		postingList : [],
+		// keyword : '',
 		tags: [ 'Python', 'Javascript', 'Django', 'ReactJS', 'Java', 'GoLang' ],
 		icon: [ 'bug_report', 'build', 'android', 'camera_enhance', 'autorenew', 'code' ],
 		article: [
@@ -46,6 +47,10 @@ class ArticlePage extends React.Component {
 		await this.getUserTags()
 		await this.getPostingList()
 	};
+
+	// setInput = (event) => {
+	// 	this.setState({[event.target.name] : event.target.value})
+	// };
 
 	getUserTags = async () => {
 		const tags = {
@@ -113,7 +118,8 @@ class ArticlePage extends React.Component {
 
 	getPostingList = async () => {
 		const parameter = {
-			content_type : 'article'
+			content_type : 'article',
+			keyword : this.props.keyword
 		}
 
 		const posting = {
@@ -180,7 +186,7 @@ class ArticlePage extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				<Header />
+				<Header doSearch={this.getPostingList} />
 				<div className="container-fluid pt-4">
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5">
@@ -202,4 +208,4 @@ class ArticlePage extends React.Component {
 		);
 	}
 }
-export default connect('', actions)(withRouter(ArticlePage));
+export default connect('keyword', actions)(withRouter(ArticlePage));

@@ -12,21 +12,27 @@ const Header = (props) => {
 	if (localStorage.getItem('email') === null) {
 		return (
 			<header>
-				<nav class="navbar navbar-expand-lg">
-					<Link className="logo-kodekula" to="/" onClick={()=>store.setState({
-						location : 'home',
-						articleTitle:'',
-						newArticle:'',
-						imageUrl:'',
-						imageArticleUrl:'',
-						startComment: false,
-						menuBarUpload:false,
-						allArticleDatabase:{}
-						})}>
-						<img  src={logo} alt="img" style={{width:'10%',marginTop:'-14px'}}/>
+				<nav className="navbar navbar-expand-lg">
+					<Link
+						className="logo-kodekula"
+						to="/"
+						onClick={() =>
+							store.setState({
+								location: 'home',
+								keyword : '',
+								articleTitle: '',
+								newArticle: '',
+								imageUrl: '',
+								imageArticleUrl: '',
+								allArticleDatabase:{},
+								startComment: false,
+								menuBarUpload: false
+							})}
+					>
+						<img src={logo} alt="img" width="10%" />
 					</Link>
 					<button
-						class="navbar-toggler"
+						className="navbar-toggler"
 						type="button"
 						data-toggle="collapse"
 						data-target="#navbarTogglerDemo02"
@@ -34,66 +40,77 @@ const Header = (props) => {
 						aria-expanded="false"
 						aria-label="Toggle navigation"
 					>
-						<span class="navbar-toggler-icon" />
+						<span className="navbar-toggler-icon" />
 					</button>
 
-					<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+					<div className="collapse navbar-collapse" id="navbarTogglerDemo02">
 						<div className="col-md-1">
-							<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-								<li class="nav-item">
-									<Link class="nav-link" to="/artikel" onClick={()=>store.setState({
-										location : 'article',
-										articleTitle:'',
-										newArticle:'',
-										imageUrl:'',
-										imageArticleUrl:'',
-										startComment: false,
-										menuBarUpload:false,
-										allArticleDatabase:{}
-										})}>
+							<ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+								<li className="nav-item">
+									<Link
+										className="nav-link"
+										to="/artikel"
+										onClick={() =>
+											store.setState({
+												location: 'article',
+												keyword : '',
+												articleTitle: '',
+												newArticle: '',
+												imageUrl: '',
+												imageArticleUrl: '',
+												allArticleDatabase:{},
+												startComment: false,
+												menuBarUpload: false
+											})}
+									>
 										Artikel
 									</Link>
 								</li>
 							</ul>
 						</div>
 						<div className="col-md-1">
-							<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-								<li class="nav-item">
-									<Link class="nav-link" to="/pertanyaan" onClick={()=>store.setState({
-										location : 'question',
-										articleTitle:'',
-										newArticle:'',
-										imageUrl:'',
-										imageArticleUrl:'',
-										startComment: false,
-										menuBarUpload:false,
-										allArticleDatabase:{}
-										})}>
+							<ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+								<li className="nav-item">
+									<Link
+										className="nav-link"
+										to="/pertanyaan"
+										onClick={() =>
+											store.setState({
+												location: 'question',
+												keyword : '',
+												articleTitle: '',
+												newArticle: '',
+												imageUrl: '',
+												imageArticleUrl: '',
+												allArticleDatabase:{},
+												startComment: false,
+												menuBarUpload: false
+											})}
+									>
 										Pertanyaan
 									</Link>
 								</li>
 							</ul>
 						</div>
 						<div className="col-md-7">
-							<form class="search-component form-inline my-2 my-lg-0">
+							<form
+								className="search-component form-inline my-2 my-lg-0"
+								onSubmit={(e) => e.preventDefault()}
+							>
 								<div className="col-md-11" style={{ paddingRight: '0px' }}>
 									<input
-										class="input-search-component form-control mr-sm-5"
-										type="search"
+										className="input-search-component form-control mr-sm-5"
+										type="text"
 										placeholder="Pencarian"
+										name="keyword"
 										style={{ width: '100%' }}
+										onChange={props.setInput}
 									/>
 								</div>
 								<div className="col-md-1" style={{ paddingLeft: '5px' }}>
-									<button onClick={()=>store.setState({location : 'search',
-									articleTitle:'',
-									newArticle:'',
-									imageUrl:'',
-									imageArticleUrl:'',
-									startComment: false,
-									menuBarUpload:false
-									})}
-										class="btn btn-info my-2 my-sm-0"
+									<button
+										onClick={props.doSearch}
+										className="btn btn-info my-2 my-sm-0"
 										type="submit"
 										style={{ paddingLeft: '25px', paddingRight: '25px' }}
 									>
@@ -102,31 +119,42 @@ const Header = (props) => {
 								</div>
 							</form>
 						</div>
-						<div className="col-md-1" />
-						<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-							<li class="nav-item">
-								<Link class="nav-link" to="/daftar" onClick={()=>store.setState({
-									articleTitle:'',
-									newArticle:'',
-									imageUrl:'',
-									imageArticleUrl:'',
-									startComment: false,
-									menuBarUpload:false
-									})} >
-									Daftar
-								</Link>
-							</li>
-						</ul>
-						<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-							<li class="nav-item">
-								<Link class="nav-link" to="/masuk" onClick={()=>store.setState({
-									articleTitle:'',
-									newArticle:'',
-									imageUrl:'',
-									imageArticleUrl:'',
-									startComment: false,
-									menuBarUpload:false
-									})} >
+						<div className="col-md-1">
+							<ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+								<li className="nav-item">
+									<Link
+										className="nav-link"
+										to="/daftar"
+										onClick={() =>
+											store.setState({
+												articleTitle: '',
+												newArticle: '',
+												imageUrl: '',
+												imageArticleUrl: '',
+												startComment: false,
+												menuBarUpload: false
+											})}
+									>
+										Daftar
+									</Link>
+								</li>
+							</ul>
+						</div>
+						<ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+							<li className="nav-item">
+								<Link
+									className="nav-link"
+									to="/masuk"
+									onClick={() =>
+										store.setState({
+											articleTitle: '',
+											newArticle: '',
+											imageUrl: '',
+											imageArticleUrl: '',
+											startComment: false,
+											menuBarUpload: false
+										})}
+								>
 									Masuk
 								</Link>
 							</li>
@@ -138,12 +166,12 @@ const Header = (props) => {
 	} else {
 		return (
 			<header>
-				<nav class="navbar navbar-expand-lg">
-					<Link className="logo-kodekula" to="/">
+				<nav className="navbar navbar-expand-lg">
+					<Link className="logo-kodekula" to="/" onClick={()=>store.setState({location : 'home', keyword : ''})}>
 						<img style={{ width: '10%' }} src={logo} alt="img" />
 					</Link>
 					<button
-						class="navbar-toggler"
+						className="navbar-toggler"
 						type="button"
 						data-toggle="collapse"
 						data-target="#navbarTogglerDemo02"
@@ -151,63 +179,75 @@ const Header = (props) => {
 						aria-expanded="false"
 						aria-label="Toggle navigation"
 					>
-						<span class="navbar-toggler-icon" />
+						<span className="navbar-toggler-icon" />
 					</button>
 
-					<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+					<div className="collapse navbar-collapse" id="navbarTogglerDemo02">
 						<div className="col-md-1">
-							<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-								<li class="nav-item">
-									<Link class="nav-link" to="/artikel" onClick={()=>store.setState({
-										location : 'article',
-										articleTitle:'',
-										newArticle:'',
-										imageUrl:'',
-										imageArticleUrl:'',
-										startComment: false,
-										menuBarUpload:false
-										})}>
+							<ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+								<li className="nav-item">
+									<Link
+										className="nav-link"
+										to="/artikel"
+										onClick={() =>
+											store.setState({
+												location: 'article',
+												keyword : '',
+												articleTitle: '',
+												newArticle: '',
+												imageUrl: '',
+												imageArticleUrl: '',
+												startComment: false,
+												menuBarUpload: false
+											})}
+									>
 										Artikel
 									</Link>
 								</li>
 							</ul>
 						</div>
 						<div className="col-md-1">
-							<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-								<li class="nav-item">
-									<Link class="nav-link" to="/pertanyaan" onClick={()=>store.setState({
-										location : 'question',
-										articleTitle:'',
-										newArticle:'',
-										imageUrl:'',
-										imageArticleUrl:'',
-										startComment: false,
-										menuBarUpload:false
-										})}>
+							<ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+								<li className="nav-item">
+									<Link
+										className="nav-link"
+										to="/pertanyaan"
+										onClick={() =>
+											store.setState({
+												location: 'question',
+												keyword : '',
+												articleTitle: '',
+												newArticle: '',
+												imageUrl: '',
+												imageArticleUrl: '',
+												startComment: false,
+												menuBarUpload: false
+											})}
+									>
 										Pertanyaan
 									</Link>
 								</li>
 							</ul>
 						</div>
 						<div className="col-md-7">
-							<form class="search-component form-inline my-2 my-lg-0">
+							<form
+								className="search-component form-inline my-2 my-lg-0"
+								onSubmit={(e) => e.preventDefault()}
+							>
 								<div className="col-md-11" style={{ paddingRight: '0px' }}>
 									<input
-										class="input-search-component form-control mr-sm-5"
-										type="search"
+										className="input-search-component form-control mr-sm-5"
+										type="text"
 										placeholder="Pencarian"
+										name="keyword"
 										style={{ width: '100%' }}
+										onChange={props.setInput}
 									/>
 								</div>
 								<div className="col-md-1" style={{ paddingLeft: '5px' }}>
-									<button onClick={()=>store.setState({location : 'search',
-									articleTitle:'',
-									newArticle:'',
-									imageUrl:'',
-									imageArticleUrl:'',
-									startComment: false,
-									menuBarUpload:false})}
-										class="btn btn-info my-2 my-sm-0"
+									<button
+										onClick={() => props.doSearch()}
+										className="btn btn-info my-2 my-sm-0"
 										type="submit"
 										style={{ paddingLeft: '25px', paddingRight: '25px' }}
 									>
@@ -217,43 +257,56 @@ const Header = (props) => {
 							</form>
 						</div>
 						<div className="col-md-1" />
-						<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-							<li class="nav-item">
-								<Link class="nav-link" to="/notification" onClick={()=>store.setState({
-									articleTitle:'',
-									newArticle:'',
-									imageUrl:'',
-									imageArticleUrl:'',
-									startComment: false,
-									menuBarUpload:false})}>
+						<ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+							<li className="nav-item">
+								<Link
+									className="nav-link"
+									to="/notification"
+									onClick={() =>
+										store.setState({
+											articleTitle: '',
+											newArticle: '',
+											imageUrl: '',
+											imageArticleUrl: '',
+											startComment: false,
+											menuBarUpload: false
+										})}
+								>
 									<img src={notification} alt="img" width="30px" />
 								</Link>
 							</li>
 						</ul>
-						<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-							<li class="nav-item dropleft">
+						<ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+							<li className="nav-item dropleft">
 								<Link
-									class="nav-link dropdown-toggle"
+									className="nav-link dropdown-toggle"
 									data-toggle="dropdown"
 									aria-haspopup="true"
 									aria-expanded="false"
 								>
 									<img src={user} alt="img" style={{ borderRadius: '50%' }} width="30px" />
 								</Link>
-								<div class="dropdown-menu" style={{ marginTop: '0px', marginRight: '0px' }}>
-									<Link class="dropdown-item" to="/profil" onClick={()=>store.setState({location : 'profil', articleTitle:'',
-									newArticle:'',
-									imageUrl:'',
-									imageArticleUrl:'',
-									startComment: false,
-									menuBarUpload:false
-									})}>
+								<div className="dropdown-menu" style={{ marginTop: '0px', marginRight: '0px' }}>
+									<Link
+										className="dropdown-item"
+										to="/profil"
+										onClick={() =>
+											store.setState({
+												location: 'profil',
+												articleTitle: '',
+												newArticle: '',
+												imageUrl: '',
+												imageArticleUrl: '',
+												startComment: false,
+												menuBarUpload: false
+											})}
+									>
 										Profil
 									</Link>
-									<Link class="dropdown-item" to="/pengaturan-akun">
+									<Link className="dropdown-item" to="/pengaturan-akun">
 										Pengaturan Akun
 									</Link>
-									<Link class="dropdown-item" to="/" onClick={() => props.afterSignOut()}>
+									<Link className="dropdown-item" to="/" onClick={() => props.afterSignOut()}>
 										Keluar
 									</Link>
 								</div>

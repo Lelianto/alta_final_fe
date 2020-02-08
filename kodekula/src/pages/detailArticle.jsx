@@ -60,6 +60,10 @@ class detailArticle extends React.Component {
 		}
     }
     
+    doSearch = () => {
+        this.props.history.push('/')
+      }
+      
     componentWillMount = async () => {
         const req = {
           method: "get",
@@ -105,7 +109,7 @@ class detailArticle extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				<Header />
+				<Header doSearch={this.doSearch}/>
 				<div className="container-fluid pt-4">
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 						<div className="col-lg-1 col-md-1 col-sm-12 col-12 mt-5">

@@ -17,7 +17,6 @@ import Loader from './loader';
 const UserOwnFile = (props) => {
     const userData = props.content.user_data
     const postingDetail = props.content.posting_detail
-    console.log('isi posting detail',postingDetail)
     if (props.menuBarUser ==='Artikel' || props.typeContent ==='article') {
         return (
             <div className='container own-article mt-4'>
@@ -97,7 +96,6 @@ const UserOwnFile = (props) => {
         </div>
         )
     } else if (props.menuBarUser ==='Pertanyaan' || props.typeContent ==='question') {
-        console.log('props di component', props)
         return (
             <div className='container own-article mt-4'>
             <div className='row'>
