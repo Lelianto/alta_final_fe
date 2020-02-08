@@ -18,7 +18,8 @@ class UserSetInterest extends Component {
       tags : [],
       interest : [],
       search : '',
-      searchList : []
+      searchList : [],
+      userDetail : this.props.userDetail
     }
 
     componentDidMount = async () => {
@@ -130,14 +131,13 @@ class UserSetInterest extends Component {
 					</React.Fragment>
 				);
 			});
-
     return (
       <div>
         <Header doSearch={this.doSearch}/>
         <div className='container'>
           <div className='row'>
             <div className='col-md-3'>
-              <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)}/>
+              <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)} userDetail={this.state.userDetail}/>
             </div>
             <div className='col-md-9'>
             <div className="interest-user user-username" style={{fontWeight:'bold', fontSize:'20px'}}>
@@ -166,4 +166,4 @@ class UserSetInterest extends Component {
   }
 }
 
-export default connect("filterInterest, interestList, userInterest, excludeTags, responseStatus",actions)(withRouter(UserSetInterest));
+export default connect("filterInterest, interestList, userInterest, excludeTags, responseStatus, userDetail",actions)(withRouter(UserSetInterest));

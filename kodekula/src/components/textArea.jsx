@@ -211,7 +211,7 @@ class TextArea extends React.Component {
                             </Link>
                         </div>
                             <div className='col-md-4'>
-                                    <input style={{fontSize:'12px', paddingRight:'0', width:'194px'}} className='btn-outline-info' type='file' id="file" name="file" onChange={this.fileSelectedHandler}/>
+                                    <input style={{fontSize:'12px', paddingRight:'0', width:'194px'}} className='btn-outline-info' type='file' id="file" name="file" onChange={(event)=>this.fileSelectedHandler(event)}/>
                             </div>
                             <div className='col-md-4'>
                                 <button style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn-outline-info' className='btn btn-info' type='file' onClick={()=>this.uploadPhoto()}>Upload</button>
@@ -224,7 +224,7 @@ class TextArea extends React.Component {
                             </Link>
                         </div>
                         <div className='col-md-4'>
-                            <input style={{fontSize:'12px', paddingRight:'0', width:'194px'}} className='btn-outline-info' type='file' onChange={()=>this.fileSelectedHandler()}/>
+                            <input style={{fontSize:'12px', paddingRight:'0', width:'194px'}} className='btn-outline-info' type='file' onChange={(event)=>this.fileSelectedHandler(event)}/>
                         </div>
                         <div className='col-md-4'>
                             <button className='btn' style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn btn-info' onClick={()=>this.uploadArticlePhoto()}>Upload</button>

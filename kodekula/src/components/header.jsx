@@ -26,7 +26,8 @@ const Header = (props) => {
 								imageArticleUrl: '',
 								allArticleDatabase:{},
 								startComment: false,
-								menuBarUpload: false
+								menuBarUpload: false,
+								isLoading:true
 							})}
 					>
 						<img src={logo} alt="img" width="10%" />
@@ -60,7 +61,8 @@ const Header = (props) => {
 												imageArticleUrl: '',
 												allArticleDatabase:{},
 												startComment: false,
-												menuBarUpload: false
+												menuBarUpload: false,
+												isLoading:true
 											})}
 									>
 										Artikel
@@ -84,7 +86,8 @@ const Header = (props) => {
 												imageArticleUrl: '',
 												allArticleDatabase:{},
 												startComment: false,
-												menuBarUpload: false
+												menuBarUpload: false,
+												isLoading:true
 											})}
 									>
 										Pertanyaan
@@ -132,7 +135,8 @@ const Header = (props) => {
 												imageUrl: '',
 												imageArticleUrl: '',
 												startComment: false,
-												menuBarUpload: false
+												menuBarUpload: false,
+												isLoading:true
 											})}
 									>
 										Daftar
@@ -153,7 +157,8 @@ const Header = (props) => {
 												imageUrl: '',
 												imageArticleUrl: '',
 												startComment: false,
-												menuBarUpload: false
+												menuBarUpload: false,
+												isLoading:true
 											})}
 									>
 										Masuk
@@ -200,7 +205,8 @@ const Header = (props) => {
 												imageUrl: '',
 												imageArticleUrl: '',
 												startComment: false,
-												menuBarUpload: false
+												menuBarUpload: false,
+												isLoading:true
 											})}
 									>
 										Artikel
@@ -223,7 +229,8 @@ const Header = (props) => {
 												imageUrl: '',
 												imageArticleUrl: '',
 												startComment: false,
-												menuBarUpload: false
+												menuBarUpload: false,
+												isLoading:true
 											})}
 									>
 										Pertanyaan
@@ -272,7 +279,8 @@ const Header = (props) => {
 											imageUrl: '',
 											imageArticleUrl: '',
 											startComment: false,
-											menuBarUpload: false
+											menuBarUpload: false,
+											isLoading:true
 										})}
 								>
 									<img src={notification} alt="img" width="30px" />
@@ -301,7 +309,8 @@ const Header = (props) => {
 												imageUrl: '',
 												imageArticleUrl: '',
 												startComment: false,
-												menuBarUpload: false
+												menuBarUpload: false,
+												isLoading:true
 											})}
 									>
 										Profil

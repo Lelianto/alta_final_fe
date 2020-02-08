@@ -10,11 +10,16 @@ import { connect } from 'unistore/react'
 import { Link, withRouter } from 'react-router-dom';
 
 const MenuBarSetting = (props)=> {
+    console.log('user detail', props.userDetail)
     return (
         <div className='container'>
             <div className='row menu-bar-photo'>
                 <div>
-                    <img className='dummy-photo-setting' src={user} alt="img"/>
+                    {props.userDetail.photo_url===null?
+                    <img className='dummy-photo-setting' src={user} />
+                    :
+                    <img className='dummy-photo-setting' src={props.userDetail.photo_url}/>
+                    }
                 </div>
             </div>
             <div onClick={()=>props.handleMainPage('/data-diri','Data Diri')} className='row menu-bar menu-bar-fix'>
@@ -36,4 +41,4 @@ const MenuBarSetting = (props)=> {
     )
 }
 
-export default connect("menuBarSetting",actions)(withRouter(MenuBarSetting));
+export default connect("menuBarSetting, userOwnData",actions)(withRouter(MenuBarSetting));

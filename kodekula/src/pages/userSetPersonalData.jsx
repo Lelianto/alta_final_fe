@@ -4,6 +4,10 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import PersonalData from '../components/userProfileSetting';
 import MenuBarSetting from '../components/menuBarSetting';
+import { storage } from '../firebase';
+import { actions, store } from '../stores/store';
+import { connect } from 'unistore/react'
+import { Link, withRouter } from 'react-router-dom';
 
 class UserProfileSetting extends Component {
   doSearch = () => {
@@ -20,7 +24,7 @@ class UserProfileSetting extends Component {
               <MenuBarSetting/>
             </div>
             <div className='col-md-9'>
-              <PersonalData/>
+              <PersonalData />
             </div>
           </div>
         </div>
@@ -30,4 +34,4 @@ class UserProfileSetting extends Component {
   }
 }
 
-export default UserProfileSetting;
+export default connect("menuBarSetting, keyword",actions)(withRouter(UserProfileSetting));

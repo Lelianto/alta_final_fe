@@ -111,7 +111,7 @@ class UserPasswordSetting extends Component {
         <div className='container'>
           <div className='row'>
             <div className='col-md-3'>
-              <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)}/>
+              <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)} userDetail={this.state.userDetail}/>
             </div>
             <div className='col-md-9'>
               <ProfileSetting handlePage={(event)=>this.handlePage(event)} userData={this.state.userData} userDetail={this.state.userDetail} changeState={this.changeState} changePassword={this.changePassword}/>

@@ -17,6 +17,7 @@ class Search extends React.Component {
 		filterInterest: [],
 		excludeTags: [],
 		postingList: [],
+		userDetail : {},
 		article: [
 			'Lorem ipsum dolor sit amet consectetur adipisicing elit',
 			'Alias corrupti velit illum sequi quas omnis esse ipsam sed aut delectus blanditiis',
@@ -46,8 +47,8 @@ class Search extends React.Component {
 
 		await axios(tags)
 			.then(async (response) => {
-				await this.setState({ userInterest: response.data.user_tag_data });
-				await store.setState({ userInterest: response.data.user_tag_data });
+				await this.setState({ userInterest: response.data.user_tag_data, userDetail : response.data.user_data });
+				// await store.setState({ userInterest: response.data.user_tag_data });
 			})
 			.catch(async (error) => {
 				await console.warn(error);
@@ -183,6 +184,7 @@ class Search extends React.Component {
 									content={content}
 									detailArticle={(e) => this.detailArticle(e)}
 									goToDetailQuestion={(e) => this.goToDetailQuestion(e)}
+									userDetail={this.state.userDetail}
 								/>
 							))}
 						</div>

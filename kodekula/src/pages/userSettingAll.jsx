@@ -27,7 +27,7 @@ class UserProfileSetting extends Component {
   componentDidMount = async () => {
     const user = {
 			method: 'get',
-			url: 'https://api.kodekula.com/users/me',
+			url: store.getState().baseUrl+'/users/me',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization':'Bearer ' + localStorage.getItem("token")
@@ -40,10 +40,57 @@ class UserProfileSetting extends Component {
       await axios(user)
 			.then(async (response) => {
         await this.setState({userData : response.data.user_data, userDetail : response.data.user_detail_data, userTagData : response.data.user_tag_data})
+        await store.setState({userData : response.data.user_data, userDetail : response.data.user_detail_data, userTagData : response.data.user_tag_data})
 			})
 			.catch(async (error) => {
 				await console.warn(error)
 			})
+  }
+  changeState = async (event) => {
+    await this.setState({[event.target.name] : event.target.value})
+  }
+  changePassword = async () => {
+    if (this.state.newPassword === this.state.confirmPassword) {
+      const parameters = {
+        username : this.state.userData.username,
+        email : this.state.userData.email,
+        tags : this.state.userTagData,
+        password : this.state.oldPassword,
+        password_new : this.state.newPassword
+      }
+
+      const password = {
+        method: 'put',
+        url: store.getState().baseUrl+'/users/me',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization':'Bearer ' + localStorage.getItem("token")
+        },
+        validateStatus : (status) => {
+              return status < 500
+          },
+        data : parameters
+        };
+        await axios(password)
+        .then(async (response) => {
+          await Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Ubah Password Berhasil',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        })
+        .catch(async (error) => {
+          await console.warn(error)
+        })
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Uups...',
+        text: 'Konfirmasi Password tidak sesuai'
+    });
+    }
   }
 
   doSearch = () => {
@@ -57,7 +104,7 @@ class UserProfileSetting extends Component {
         <div className='container'>
           <div className='row'>
             <div className='col-md-3'>
-              <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)}/>
+              <MenuBarSetting userDetail={this.state.userDetail} handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)}/>
             </div>
             <div className='col-md-9'>
               <ProfileSetting handlePage={(event)=>this.handlePage(event)} userData={this.state.userData} userDetail={this.state.userDetail}/>

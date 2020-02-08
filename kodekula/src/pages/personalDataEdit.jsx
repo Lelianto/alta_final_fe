@@ -5,6 +5,7 @@ import Footer from '../components/footer';
 import SetPersonalData from '../components/userSetPersonal';
 import MenuBarSetting from '../components/menuBarSetting';
 import axios from 'axios';
+import { storage } from '../firebase';
 import { Link, withRouter } from 'react-router-dom';
 import { actions, store } from '../stores/store';
 import { connect } from 'unistore/react'
@@ -12,11 +13,14 @@ import Swal from 'sweetalert2'
 
 class UserProfileSetting extends Component {
   state = {
-    firstName : '',
-    lastName : '',
-    jobTitle : '',
-    email : null,
-    tags : []
+    firstName : this.props.userDetail.first_name,
+    lastName : this.props.userDetail.last_name,
+    jobTitle : this.props.userDetail.job_title,
+    email : this.props.userData.email,
+    tags : this.props.userTagData,
+    imageArticle : null,
+    imageUrl : '',
+    userDetail : this.props.userDetail
   }
 
   handleMainPage = (event1, event2)=>{
@@ -26,14 +30,12 @@ class UserProfileSetting extends Component {
 
   setInput = async (event) => {
     await this.setState({ [event.target.name]: event.target.value });
-    await console.warn('name', this.state.firstName)
-    await console.warn('firstName', this.state.lastName)
   }
 
   componentDidMount = async () => {
     const user = {
 			method: 'get',
-			url: 'https://api.kodekula.com/users/me',
+			url: store.getState().baseUrl+'/users/me',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization':'Bearer ' + localStorage.getItem("token")
@@ -45,10 +47,14 @@ class UserProfileSetting extends Component {
 		
       await axios(user)
 			.then(async (response) => {
-        const userDetail = response.data.user_detail_data
-        const userData = response.data.user_data
-        const userTag = response.data.user_tag_data
-        await this.setState({firstName : userDetail.first_name, lastName : userDetail.last_name, jobTitle : userDetail.job_title, email : userData.email, tags : userTag})
+        const userDetail = await response.data.user_detail_data
+        // const userData = await response.data.user_data
+        // const userTag = await response.data.user_tag_data
+        // console.warn('userdetail get', userDetail)
+        // await this.setState({firstName : response.data.user_detail_data.first_name, lastName : response.data.user_detail_data.last_name, jobTitle : response.data.user_detail_data.job_title, email : response.data.user_data.email, tags : response.data.user_tag_data, imageUrl : userDetail.user_detail_data.photo_url, userDetail : userDetail})
+        await this.setState({imageUrl : userDetail.user_detail_data.photo_url, userDetail : userDetail, tags : response.data.user_tag_data})
+
+        console.warn('state user detail', this.state.userDetail)
 			})
 			.catch(async (error) => {
 				await console.warn(error)
@@ -62,21 +68,20 @@ class UserProfileSetting extends Component {
     } else {
       email = this.state.email
     }
-
+  
     const userDetail = {
 			username : localStorage.getItem("username"),
       email : email + ' ',
       first_name : this.state.firstName + ' ',
       last_name : this.state.lastName + ' ',
       job_title : this.state.jobTitle + ' ',
-      tags : this.state.tags
+      tags : this.state.tags,
+      photo_url : this.state.imageUrl
     }
-    
-    console.warn('params', userDetail)
 
 		const editUser = {
 			method: 'put',
-			url: 'https://api.kodekula.com/users/me',
+			url: store.getState().baseUrl+'/users/me',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization':'Bearer ' + localStorage.getItem("token")
@@ -105,6 +110,35 @@ class UserProfileSetting extends Component {
     this.props.history.push('/pencarian')
   }
 
+  fileSelectedHandler= async(event)=>{
+    if(event.target.files[0]){
+      await this.setState({
+        imageArticle:event.target.files[0]
+      })
+      await this.uploadPhoto()
+    }
+  }
+
+  uploadPhoto = async ()=>{
+      const image = this.state.imageArticle
+      const uploadPhotos = storage.ref(`images/${image.name}`).put(image);
+      await uploadPhotos.on('state_changed', 
+      (snapshot) => {
+          // Progress Function
+      }, 
+      (error) => {
+          // Error Function
+          console.log(error)
+      }, 
+      ()=>{
+          // Complete Function
+          storage.ref('images').child(image.name).getDownloadURL().then(url => {
+              this.setState({
+                  imageUrl:url
+              })
+          })
+      })
+  }
   render() {
     return (
       <div>
@@ -112,10 +146,10 @@ class UserProfileSetting extends Component {
         <div className='container'>
           <div className='row'>
             <div className='col-md-3'>
-              <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)}/>
+              <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)} userDetail={this.state.userDetail}/>
             </div>
             <div className='col-md-9'>
-              <SetPersonalData firstName={this.state.firstName} lastName={this.state.lastName} jobTitle={this.state.jobTitle} email={this.state.email} changeState={this.setInput} editUserData={this.editUserData}/>
+              <SetPersonalData fileSelectedHandler={(event)=>this.fileSelectedHandler(event)} firstName={this.state.firstName} lastName={this.state.lastName} jobTitle={this.state.jobTitle} email={this.state.email} imageUrl={this.state.imageUrl} changeState={this.setInput} editUserData={this.editUserData}/>
             </div>
           </div>
         </div>
@@ -125,4 +159,4 @@ class UserProfileSetting extends Component {
   }
 }
 
-export default connect("responseStatus",actions)(withRouter(UserProfileSetting));
+export default connect("responseStatus, userData, userDetail, userTagData",actions)(withRouter(UserProfileSetting));
