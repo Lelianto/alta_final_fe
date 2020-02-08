@@ -66,6 +66,14 @@ class SignIn extends React.Component {
 		this.props.history.push('/')
 	}
 
+	onSignIn = (googleUser) => {
+        var profile = googleUser.getBasicProfile();
+        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+        console.log('Name: ' + profile.getName());
+        console.log('Image URL: ' + profile.getImageUrl());
+        console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+      }
+
 	render() {
 		return (
 			<React.Fragment>
@@ -120,9 +128,13 @@ class SignIn extends React.Component {
 								</form>
 								<div className="text-center my-2">atau</div>
 								<div className="text-center register-button">
-									<button type="button" className="btn btn-outline-info">
-										Masuk dengan <img src={google2} alt="" width="75px" className="ml-1"/>
-									</button>
+								<div className='row'>
+                                    <div className='col-md-4'></div>
+                                    <div className='col-md-4'>
+                                        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                                    </div>
+                                    <div className='col-md-4'></div>
+                                </div>
 								</div>
 								<div className="text-center mt-3 register-login">
 									Belum punya akun? Daftar <Link to='/daftar' style={{textDecoration:'None'}}>disini</Link>

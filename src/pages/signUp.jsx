@@ -5,8 +5,6 @@ import logo from '../images/logo-kodekula.png';
 import google2 from '../images/google2.png';
 import { connect } from "unistore/react";
 import { actions, store } from "../stores/store";
-import eye from '../images/eye.svg'
-import axios from 'axios';
 import Swal from 'sweetalert2';
 import Header from '../components/header';
 import Footer from '../components/footer';
@@ -93,6 +91,14 @@ class SignUp extends React.Component {
         this.props.history.push('/')
     }
 
+    onSignIn = (googleUser) => {
+        var profile = googleUser.getBasicProfile();
+        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+        console.log('Name: ' + profile.getName());
+        console.log('Image URL: ' + profile.getImageUrl());
+        console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+      }
+
 	render() {
 		return (
 			<React.Fragment>
@@ -153,9 +159,16 @@ class SignUp extends React.Component {
                                     </div>
                                 </form>
                                 <div className='text-center my-2'>atau</div>
-                                <div className='text-center register-button'>
-                                    <button type="button" className="btn btn-outline-info">Daftar dengan <img src={google2} alt="" width='75px' className='ml-1'/></button>
+                                <div className='row'>
+                                    <div className='col-md-4'></div>
+                                    <div className='col-md-4'>
+                                        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                                    </div>
+                                    <div className='col-md-4'></div>
                                 </div>
+                                {/* <div className='text-center register-button'>
+                                    <button type="button" className="btn btn-outline-info">Daftar dengan <img src={google2} alt="" width='75px' className='ml-1'/></button>
+                                </div> */}
                                 <div className='text-center mt-3 register-login'>Sudah punya akun? Masuk <Link to='/masuk' style={{textDecoration:'None'}} >disini</Link></div>
                             </div>
                         </div>
