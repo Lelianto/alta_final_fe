@@ -33,7 +33,7 @@ class SignUp extends React.Component {
 	
         const signUp = {
             method:"post",
-            url: "https://kodekula.com/users",
+            url: "https://api.kodekula.com/users",
             headers: {
                 "Content-Type": "application/json"
             },
@@ -75,7 +75,7 @@ class SignUp extends React.Component {
 		
         const signIn = {
             method:"post",
-            url: "https://kodekula.com/auth",
+            url: "https://api.kodekula.com/auth",
             headers: {
                 "Content-Type": "application/json"
             },

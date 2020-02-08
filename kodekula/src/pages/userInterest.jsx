@@ -28,7 +28,7 @@ class UserInterestSetting extends Component {
     getUserTags = async () => {
       const tags = {
         method: 'get',
-        url: 'https://kodekula.com/users/me',
+        url: 'https://api.kodekula.com/users/me',
         headers: {
           'Content-Type': 'application/json',
           'Authorization':'Bearer ' + localStorage.getItem("token")
@@ -54,7 +54,7 @@ class UserInterestSetting extends Component {
     getAllTags = async () => {
       const tags = {
         method: 'get',
-        url: 'https://kodekula.com/tags',
+        url: 'https://api.kodekula.com/tags',
         headers: {
           'Content-Type': 'application/json'
         }

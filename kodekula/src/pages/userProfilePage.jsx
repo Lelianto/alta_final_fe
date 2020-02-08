@@ -15,7 +15,7 @@ class UserProfilePage extends Component {
   // componentDidMount = async () => {
 	// 	const posting = {
 	// 		method: 'get',
-	// 		url: 'https://kodekula.com/posting/toplevel',
+	// 		url: 'https://api.kodekula.com/posting/toplevel',
 	// 		headers: {
 	// 			'Content-Type': 'application/json'
 	// 		}

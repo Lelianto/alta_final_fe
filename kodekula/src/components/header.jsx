@@ -261,7 +261,7 @@ const Header = (props) => {
 							<li className="nav-item">
 								<Link
 									className="nav-link"
-									to="/notification"
+									to="/notifikasi"
 									onClick={() =>
 										store.setState({
 											articleTitle: '',
