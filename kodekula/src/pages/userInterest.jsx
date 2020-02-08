@@ -16,7 +16,7 @@ import Loader from '../components/loader';
 class UserInterestSetting extends Component {
 
     state = {
-      userDetailData : {},
+      userDetail : {},
       userInterest: [],
       interestList : [],
       filterInterest : [],
@@ -41,9 +41,8 @@ class UserInterestSetting extends Component {
       };
       await axios(tags)
         .then(async (response) => {
-          await this.setState({userInterest : response.data.user_tag_data, userDetailData : response.data.user_detail_data})
-          await store.setState({userInterest : response.data.user_tag_data, userOwnData:response.data.user_detail_data})
-          await console.log('isi res', this.props.userOwnData)
+          await this.setState({userInterest : response.data.user_tag_data, userDetail : response.data.user_detail_data})
+          await store.setState({userInterest : response.data.user_tag_data, userDetail:response.data.user_detail_data})
         })
         .catch(async (error) => {
           await console.warn(error)
@@ -97,7 +96,7 @@ class UserInterestSetting extends Component {
     }
 
     doSearch = () => {
-      this.props.history.push('/')
+      this.props.history.push('/pencarian')
     }
 
     render() {
@@ -132,7 +131,7 @@ class UserInterestSetting extends Component {
         <div className='container'>
           <div className='row'>
             <div className='col-md-3'>
-              <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)} userOwnData={this.state.userDetailData}/>
+              <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)} userDetail={this.state.userDetail}/>
             </div>
             <div className='col-md-9'>
             <div className="interest-user user-username" style={{fontWeight:'bold', fontSize:'20px'}}>

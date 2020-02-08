@@ -93,7 +93,7 @@ class ChooseInterest extends React.Component {
 	}
 
 	searchContent = () => {
-		this.props.history.push('/')
+		this.props.history.push('/pencarian')
 	}
 
 	render() {

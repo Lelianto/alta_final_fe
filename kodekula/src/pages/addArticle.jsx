@@ -9,8 +9,8 @@ import PreviewArticle from '../components/previewArticle';
 
 class AddArticlePage extends React.Component {
     doSearch = () => {
-        this.props.history.push('/')
-    }
+        this.props.history.push('/pencarian')
+      }
     
 	render() {
 		return (

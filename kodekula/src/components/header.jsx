@@ -18,7 +18,7 @@ const Header = (props) => {
 						to="/"
 						onClick={() =>
 							store.setState({
-								location: 'home',
+								locationPage: null,
 								keyword : '',
 								articleTitle: '',
 								newArticle: '',
@@ -53,7 +53,7 @@ const Header = (props) => {
 										to="/artikel"
 										onClick={() =>
 											store.setState({
-												location: 'article',
+												locationPage: 'article',
 												keyword : '',
 												articleTitle: '',
 												newArticle: '',
@@ -78,7 +78,7 @@ const Header = (props) => {
 										to="/pertanyaan"
 										onClick={() =>
 											store.setState({
-												location: 'question',
+												locationPage: 'question',
 												keyword : '',
 												articleTitle: '',
 												newArticle: '',
@@ -122,7 +122,7 @@ const Header = (props) => {
 								</div>
 							</form>
 						</div>
-						<div className="col-md-1">
+						<div className="col-md-1 ml-5">
 							<ul className="navbar-nav mr-auto mt-2 mt-lg-0">
 								<li className="nav-item">
 									<Link
@@ -144,26 +144,28 @@ const Header = (props) => {
 								</li>
 							</ul>
 						</div>
-						<ul className="navbar-nav mr-auto mt-2 mt-lg-0">
-							<li className="nav-item">
-								<Link
-									className="nav-link"
-									to="/masuk"
-									onClick={() =>
-										store.setState({
-											articleTitle: '',
-											newArticle: '',
-											imageUrl: '',
-											imageArticleUrl: '',
-											startComment: false,
-											menuBarUpload: false,
-											isLoading:true
-										})}
-								>
-									Masuk
-								</Link>
-							</li>
-						</ul>
+						<div className="col-md-1">
+							<ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+								<li className="nav-item">
+									<Link
+										className="nav-link"
+										to="/masuk"
+										onClick={() =>
+											store.setState({
+												articleTitle: '',
+												newArticle: '',
+												imageUrl: '',
+												imageArticleUrl: '',
+												startComment: false,
+												menuBarUpload: false,
+												isLoading:true
+											})}
+									>
+										Masuk
+									</Link>
+								</li>
+							</ul>
+						</div>
 					</div>
 				</nav>
 			</header>
@@ -172,7 +174,7 @@ const Header = (props) => {
 		return (
 			<header>
 				<nav className="navbar navbar-expand-lg">
-					<Link className="logo-kodekula" to="/" onClick={()=>store.setState({location : 'home', keyword : ''})}>
+					<Link className="logo-kodekula" to="/" onClick={()=>store.setState({locationPage : null, keyword : ''})}>
 						<img style={{ width: '10%' }} src={logo} alt="img" />
 					</Link>
 					<button
@@ -196,7 +198,7 @@ const Header = (props) => {
 										to="/artikel"
 										onClick={() =>
 											store.setState({
-												location: 'article',
+												locationPage: 'article',
 												keyword : '',
 												articleTitle: '',
 												newArticle: '',
@@ -220,7 +222,7 @@ const Header = (props) => {
 										to="/pertanyaan"
 										onClick={() =>
 											store.setState({
-												location: 'question',
+												locationPage: 'question',
 												keyword : '',
 												articleTitle: '',
 												newArticle: '',
@@ -272,6 +274,7 @@ const Header = (props) => {
 									onClick={() =>
 										store.setState({
 											articleTitle: '',
+											locationPage : null,
 											newArticle: '',
 											imageUrl: '',
 											imageArticleUrl: '',
@@ -300,7 +303,7 @@ const Header = (props) => {
 										to="/profil"
 										onClick={() =>
 											store.setState({
-												location: 'profil',
+												locationPage: null,
 												articleTitle: '',
 												newArticle: '',
 												imageUrl: '',
