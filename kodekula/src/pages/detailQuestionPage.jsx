@@ -28,18 +28,6 @@ class detailArticlePage extends React.Component {
 			'reiciendis mollitia error maxime earum totam, placeat quod! Ipsa, eum'
 		]
 	};
-
-	seeAll = () => {
-		const suggestionList = document.getElementById('suggest-list');
-		const showOrHide = document.getElementById('seeAll');
-		if (suggestionList.style.display === 'none') {
-			suggestionList.style.display = 'block';
-			showOrHide.innerHTML = 'Sembunyikan...';
-		} else {
-			suggestionList.style.display = 'none';
-			showOrHide.innerHTML = 'Lihat Semua...';
-		}
-	};
 	
 	handleQuestionPage =()=>{
 		const req = {
@@ -94,6 +82,10 @@ class detailArticlePage extends React.Component {
 		}
 	}
 
+	doSearch = () => {
+		this.props.history.push('/')
+	  }
+
 	componentWillMount = async () => {
 		await this.handleQuestionPage()
 	};
@@ -101,7 +93,7 @@ class detailArticlePage extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				<Header />
+				<Header doSearch={this.doSearch}/>
 				<div className="container-fluid pt-4">
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 						<div className="col-lg-1 col-md-1 col-sm-12 col-12 mt-5">

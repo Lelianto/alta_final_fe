@@ -50,9 +50,6 @@ class UserProfileSetting extends Component {
   }
   changeState = async (event) => {
     await this.setState({[event.target.name] : event.target.value})
-    console.warn('password lama', this.state.oldPassword)
-    console.warn('password baru', this.state.newPassword)
-    console.warn('password konfirmasi', this.state.confirmPassword)
   }
   changePassword = async () => {
     if (this.state.newPassword === this.state.confirmPassword) {
@@ -98,10 +95,14 @@ class UserProfileSetting extends Component {
     }
   }
 
+  doSearch = () => {
+    this.props.history.push('/')
+  }
+
   render() {
     return (
       <div>
-        <Header/>
+        <Header doSearch={this.doSearch}/>
         <div className='container'>
           <div className='row'>
             <div className='col-md-3'>
