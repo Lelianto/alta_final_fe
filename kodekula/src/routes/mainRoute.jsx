@@ -21,6 +21,7 @@ import DetailQuestionPage from '../pages/detailQuestionPage';
 import AdminLanding from '../pages/adminLandingPage';
 import EditArticle from '../pages/editArticle';
 import EditQuestion from '../pages/editQuestion';
+import Notification from '../pages/notification';
         
 const MainRoute = () => {
     return (
@@ -41,6 +42,7 @@ const MainRoute = () => {
                     <Route exact path="/daftar" component={SignUp}/>
                     <Route exact path="/pilih-minat" component={ChooseInterest}/>
                     <Route exact path="/masuk" component={SignIn}/>
+                    <Route exact path="/notifikasi" component={Notification}/>
                     <Route path="/pengaturan-akun/:event" component={UserProfileSetting} />
                     <Route path="/pengaturan-akun/:event/edit" component={UserSetPersonalData} />
                     <Route path="/pertanyaan/:id/edit" component={EditQuestion}/>
