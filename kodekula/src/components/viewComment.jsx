@@ -9,7 +9,7 @@ import Loader from './loader'
 
 class ViewComment extends React.Component {
   render() {
-    if(store.getState().allArticleDatabase === {} || store.getState().isLoading){
+    if(this.props.allArticleDatabase === {} || this.props.isLoading){
       return (
         <div>
           <Loader/>

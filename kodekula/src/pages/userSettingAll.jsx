@@ -28,7 +28,7 @@ class UserProfileSetting extends Component {
   componentDidMount = async () => {
     const user = {
 			method: 'get',
-			url: 'https://api.kodekula.com/users/me',
+			url: store.getState().baseUrl+'/users/me',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization':'Bearer ' + localStorage.getItem("token")
@@ -63,7 +63,7 @@ class UserProfileSetting extends Component {
 
       const password = {
         method: 'put',
-        url: 'https://api.kodekula.com/users/me',
+        url: store.getState().baseUrl+'/users/me',
         headers: {
           'Content-Type': 'application/json',
           'Authorization':'Bearer ' + localStorage.getItem("token")
@@ -106,7 +106,7 @@ class UserProfileSetting extends Component {
         <div className='container'>
           <div className='row'>
             <div className='col-md-3'>
-              <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)}/>
+              <MenuBarSetting userDetail={this.state.userDetail} handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)}/>
             </div>
             <div className='col-md-9'>
               <ProfileSetting handlePage={(event)=>this.handlePage(event)} userData={this.state.userData} userDetail={this.state.userDetail} changeState={(e)=>this.changeState(e)} changePassword={()=>this.changePassword()}/>

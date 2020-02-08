@@ -43,7 +43,8 @@ const initialState = {
 	seeComment:false,
 	lastArticleQuestion:'',
 	firstData:'',
-	startNew:true
+	startNew:true,
+	userOwnData:{}
 }
 
 export const store = createStore(initialState);
@@ -301,6 +302,7 @@ export const actions = (store) => ({
 		await store.setState({ responseStatus: getDataRes.status});
 		if (getDataRes.status === 200) {
 			await store.setState({ responseData: getDataRes.data}); 
+			await console.log('isi respon data user',store.getState().responseData)
 		}
 	},
 	getToken: async (state) => {
