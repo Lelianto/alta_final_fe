@@ -10,11 +10,14 @@ import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
 import { withRouter, Link } from 'react-router-dom';
 
-class UserProfileSetting extends Component {
+class UserPasswordSetting extends Component {
   state = {
     userData : {},
     userDetail : {},
-    userTagData : []
+    userTagData : [],
+    oldPassword : null,
+    newPassword : null,
+    confirmPassword : null
   }
 
   handlePage = (event)=>{
@@ -27,7 +30,7 @@ class UserProfileSetting extends Component {
   componentDidMount = async () => {
     const user = {
 			method: 'get',
-			url: store.getState().baseUrl+'/users/me',
+			url: 'https://api.kodekula.com/users/me',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization':'Bearer ' + localStorage.getItem("token")
@@ -40,7 +43,6 @@ class UserProfileSetting extends Component {
       await axios(user)
 			.then(async (response) => {
         await this.setState({userData : response.data.user_data, userDetail : response.data.user_detail_data, userTagData : response.data.user_tag_data})
-        await store.setState({userData : response.data.user_data, userDetail : response.data.user_detail_data, userTagData : response.data.user_tag_data})
 			})
 			.catch(async (error) => {
 				await console.warn(error)
@@ -61,7 +63,7 @@ class UserProfileSetting extends Component {
 
       const password = {
         method: 'put',
-        url: store.getState().baseUrl+'/users/me',
+        url: 'https://api.kodekula.com/users/me',
         headers: {
           'Content-Type': 'application/json',
           'Authorization':'Bearer ' + localStorage.getItem("token")
@@ -71,8 +73,8 @@ class UserProfileSetting extends Component {
           },
         data : parameters
         };
-        await axios(password)
-        .then(async (response) => {
+        await this.props.handleAPI(password)
+        if (this.props.responseStatus === 200) {
           await Swal.fire({
             position: 'center',
             icon: 'success',
@@ -80,10 +82,15 @@ class UserProfileSetting extends Component {
             showConfirmButton: false,
             timer: 1500
           })
-        })
-        .catch(async (error) => {
-          await console.warn(error)
-        })
+          await this.setState({oldPassword : null, newPassword : null, confirmPassword : null})
+          this.props.history.push('/pengaturan-akun')
+        } else if (this.props.responseStatus === 401) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Uups...',
+            text: 'Password Salah'
+        });
+        }
     } else {
       Swal.fire({
         icon: 'error',
@@ -104,10 +111,10 @@ class UserProfileSetting extends Component {
         <div className='container'>
           <div className='row'>
             <div className='col-md-3'>
-              <MenuBarSetting userDetail={this.state.userDetail} handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)}/>
+              <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)} userDetail={this.state.userDetail}/>
             </div>
             <div className='col-md-9'>
-              <ProfileSetting handlePage={(event)=>this.handlePage(event)} userData={this.state.userData} userDetail={this.state.userDetail}/>
+              <ProfileSetting handlePage={(event)=>this.handlePage(event)} userData={this.state.userData} userDetail={this.state.userDetail} changeState={this.changeState} changePassword={this.changePassword}/>
             </div>
           </div>
         </div>
@@ -117,4 +124,4 @@ class UserProfileSetting extends Component {
   }
 }
 
-export default connect("responseData, responseStatus",actions)(withRouter(UserProfileSetting));
+export default connect("responseData, responseStatus",actions)(withRouter(UserPasswordSetting));

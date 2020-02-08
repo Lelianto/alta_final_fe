@@ -13,13 +13,14 @@ import Swal from 'sweetalert2'
 
 class UserProfileSetting extends Component {
   state = {
-    firstName : '',
-    lastName : '',
-    jobTitle : '',
-    email : null,
-    tags : [],
+    firstName : this.props.userDetail.first_name,
+    lastName : this.props.userDetail.last_name,
+    jobTitle : this.props.userDetail.job_title,
+    email : this.props.userData.email,
+    tags : this.props.userTagData,
     imageArticle : null,
-    imageUrl : ''
+    imageUrl : '',
+    userDetail : this.props.userDetail
   }
 
   handleMainPage = (event1, event2)=>{
@@ -29,8 +30,6 @@ class UserProfileSetting extends Component {
 
   setInput = async (event) => {
     await this.setState({ [event.target.name]: event.target.value });
-    await console.warn('name', this.state.firstName)
-    await console.warn('firstName', this.state.lastName)
   }
 
   componentDidMount = async () => {
@@ -48,10 +47,14 @@ class UserProfileSetting extends Component {
 		
       await axios(user)
 			.then(async (response) => {
-        const userDetail = response.data.user_detail_data
-        const userData = response.data.user_data
-        const userTag = response.data.user_tag_data
-        await this.setState({firstName : userDetail.first_name, lastName : userDetail.last_name, jobTitle : userDetail.job_title, email : userData.email, tags : userTag, imageUrl : userDetail.user_detail_data.photo_url})
+        const userDetail = await response.data.user_detail_data
+        // const userData = await response.data.user_data
+        // const userTag = await response.data.user_tag_data
+        // console.warn('userdetail get', userDetail)
+        // await this.setState({firstName : response.data.user_detail_data.first_name, lastName : response.data.user_detail_data.last_name, jobTitle : response.data.user_detail_data.job_title, email : response.data.user_data.email, tags : response.data.user_tag_data, imageUrl : userDetail.user_detail_data.photo_url, userDetail : userDetail})
+        await this.setState({imageUrl : userDetail.user_detail_data.photo_url, userDetail : userDetail, tags : response.data.user_tag_data})
+
+        console.warn('state user detail', this.state.userDetail)
 			})
 			.catch(async (error) => {
 				await console.warn(error)
@@ -75,8 +78,6 @@ class UserProfileSetting extends Component {
       tags : this.state.tags,
       photo_url : this.state.imageUrl
     }
-    
-    console.warn('params', userDetail)
 
 		const editUser = {
 			method: 'put',
@@ -104,9 +105,9 @@ class UserProfileSetting extends Component {
     }
     await this.props.deleteResponse()
   }
-
+  
   doSearch = () => {
-    this.props.history.push('/')
+    this.props.history.push('/pencarian')
   }
 
   fileSelectedHandler= async(event)=>{
@@ -115,7 +116,6 @@ class UserProfileSetting extends Component {
         imageArticle:event.target.files[0]
       })
       await this.uploadPhoto()
-      console.log('isi global photo',this.state.imageArticle)
     }
   }
 
@@ -137,7 +137,6 @@ class UserProfileSetting extends Component {
                   imageUrl:url
               })
           })
-          console.log('isi Link global', this.state.imageUrl)
       })
   }
   render() {
@@ -147,7 +146,7 @@ class UserProfileSetting extends Component {
         <div className='container'>
           <div className='row'>
             <div className='col-md-3'>
-              <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)}/>
+              <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)} userDetail={this.state.userDetail}/>
             </div>
             <div className='col-md-9'>
               <SetPersonalData fileSelectedHandler={(event)=>this.fileSelectedHandler(event)} firstName={this.state.firstName} lastName={this.state.lastName} jobTitle={this.state.jobTitle} email={this.state.email} imageUrl={this.state.imageUrl} changeState={this.setInput} editUserData={this.editUserData}/>
@@ -160,4 +159,4 @@ class UserProfileSetting extends Component {
   }
 }
 
-export default connect("responseStatus",actions)(withRouter(UserProfileSetting));
+export default connect("responseStatus, userData, userDetail, userTagData",actions)(withRouter(UserProfileSetting));

@@ -24,7 +24,7 @@ const initialState = {
 	password: '',
 	email: '',
 	job: '',
-	location: '',
+	locationPage: null,
 	articleId : '',
 	userInterest: [],
 	interestList: [],
@@ -44,7 +44,9 @@ const initialState = {
 	lastArticleQuestion:'',
 	firstData:'',
 	startNew:true,
-	userOwnData:{}
+	userDetail:{},
+	userData : {},
+	userTagData : []
 }
 
 export const store = createStore(initialState);

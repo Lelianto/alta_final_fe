@@ -10,15 +10,15 @@ import { connect } from 'unistore/react'
 import { Link, withRouter } from 'react-router-dom';
 
 const MenuBarSetting = (props)=> {
-    console.log('isi user interest', props.userOwnData)
+    console.log('user detail', props.userDetail)
     return (
         <div className='container'>
             <div className='row menu-bar-photo'>
                 <div>
-                    {props.userDetail==null?
-                    <img className='dummy-photo-setting' src={user} alt="img"/>
+                    {props.userDetail.photo_url===null?
+                    <img className='dummy-photo-setting' src={user} />
                     :
-                    <img className='dummy-photo-setting' src={props.userDetail.photo_url} alt="img"/>
+                    <img className='dummy-photo-setting' src={props.userDetail.photo_url}/>
                     }
                 </div>
             </div>
