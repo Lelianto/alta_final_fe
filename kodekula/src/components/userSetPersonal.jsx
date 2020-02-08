@@ -8,6 +8,7 @@ import { Link, withRouter } from 'react-router-dom';
 
 
 const UserSetPersonal = (props) =>{
+    console.warn('props', props)
     return (
     <React.Fragment>
         <div className='container'>

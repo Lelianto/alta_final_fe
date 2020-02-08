@@ -11,9 +11,9 @@ import { Link, withRouter } from 'react-router-dom';
 
 class UserProfileSetting extends Component {
   doSearch = () => {
-    this.props.history.push('/')
+    this.props.history.push('/pencarian')
   }
-
+  
   render() {
     return (
       <div>
