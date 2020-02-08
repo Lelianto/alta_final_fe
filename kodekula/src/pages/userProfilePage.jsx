@@ -8,27 +8,6 @@ import MenuBarProfile from '../components/menuBarProfile';
 import axios from 'axios';
 
 class UserProfilePage extends Component {
-  // state = {
-  //   postingList : []
-  // }
-
-  // componentDidMount = async () => {
-	// 	const posting = {
-	// 		method: 'get',
-	// 		url: 'https://kodekula.com/posting/toplevel',
-	// 		headers: {
-	// 			'Content-Type': 'application/json'
-	// 		}
-	// 	};
-	// 	await axios(posting)
-	// 	.then(async (response) => {
-	// 		await this.setState({postingList : response.data})
-	// 	})
-	// 	.catch(async (error) => {
-	// 		await console.warn(error)
-	// 	})
-	// }
-
   render() {
     return (
       <div>

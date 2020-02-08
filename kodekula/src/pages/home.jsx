@@ -8,6 +8,7 @@ import InterestList from '../components/interestList';
 import PopularList from '../components/popularList';
 import UserOwnFile from '../components/userOwnFile';
 import axios from 'axios';
+import Loader from '../components/loader';
 
 const listContent = [ 'Artikel', 'Pertanyaan' ];
 
@@ -18,6 +19,7 @@ class Home extends React.Component {
 		filterInterest : [],
 		excludeTags : [],
 		postingList : [],
+		isLoading:false,
 		article: [
 			'Lorem ipsum dolor sit amet consectetur adipisicing elit',
 			'Alias corrupti velit illum sequi quas omnis esse ipsam sed aut delectus blanditiis',
@@ -35,7 +37,7 @@ class Home extends React.Component {
 	getUserTags = async () => {
 		const tags = {
 			method: 'get',
-			url: 'https://kodekula.com/users/me',
+			url: store.getState().baseUrl+'/users/me',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization':'Bearer ' + localStorage.getItem("token")
@@ -60,7 +62,7 @@ class Home extends React.Component {
 	getAllTags = async () => {
 		const tags = {
 			method: 'get',
-			url: 'https://kodekula.com/tags',
+			url: store.getState().baseUrl+'/tags',
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -68,7 +70,7 @@ class Home extends React.Component {
 		await axios(tags)
 		.then(async (response) => {
 			await this.setState({interestList : response.data})
-			await store.setState({interestList : response.data})
+			await store.setState({interestList : response.data, isLoading : false})
 		})
 		.catch(async (error) => {
 			await console.warn(error)
@@ -95,20 +97,20 @@ class Home extends React.Component {
 		console.warn('exclude', excludeTags)
 
 		await this.setState({filterInterest : filterInterest, excludeTags : excludeTags})
-		await store.setState({filterInterest : filterInterest, excludeTags : excludeTags})
+		await store.setState({filterInterest : filterInterest, excludeTags : excludeTags, isLoading : false})
 	}
 
 	getPostingList = async () => {
 		const posting = {
 			method: 'get',
-			url: 'https://kodekula.com/posting/toplevel',
+			url: store.getState().baseUrl+'/posting/toplevel',
 			headers: {
 				'Content-Type': 'application/json'
 			}
 		};
 		await axios(posting)
 		.then(async (response) => {
-			await this.setState({postingList : response.data.query_data})
+			await this.setState({postingList : response.data.query_data, isLoading:false})
 			// await store.setState({interestList : response.data})
 			console.warn('posting list', this.state.postingList)
 		})
@@ -162,25 +164,33 @@ class Home extends React.Component {
     }
 	
 	render() {
-		return (
-			<React.Fragment>
-				<Header />
-				<div className="container-fluid pt-4">
-					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
-						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5">
-							<InterestList tags={this.state.filterInterest} excludeTags={this.state.excludeTags} seeAll={this.seeAll} checkAll={()=>this.checkAll()}/>
-						</div>
-						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0">
-							{this.state.postingList.map((content, i) => <UserOwnFile typeContent={content.posting_detail.content_type} content={content} detailArticle={(e)=>this.detailArticle(e)} goToDetailQuestion={(e)=>this.goToDetailQuestion(e)}/>)}
-						</div>
-						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5">
-							<PopularList article={this.state.article} />
+		if(this.props.isLoading){
+			return (
+				<div>
+					<Loader/>
+				</div>
+			)
+		} else {
+			return (
+				<React.Fragment>
+					<Header />
+					<div className="container-fluid pt-4">
+						<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
+							<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5">
+								<InterestList tags={this.state.filterInterest} excludeTags={this.state.excludeTags} seeAll={this.seeAll} checkAll={()=>this.checkAll()}/>
+							</div>
+							<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0">
+								{this.state.postingList.map((content, i) => <UserOwnFile typeContent={content.posting_detail.content_type} content={content} detailArticle={(e)=>this.detailArticle(e)} goToDetailQuestion={(e)=>this.goToDetailQuestion(e)}/>)}
+							</div>
+							<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5">
+								<PopularList article={this.state.article} />
+							</div>
 						</div>
 					</div>
-				</div>
-				<Footer />
-			</React.Fragment>
-		);
+					<Footer />
+				</React.Fragment>
+			);
+		}
 	}
 }
-export default connect('responseData', actions)(withRouter(Home));
+export default connect('responseData, isLoading', actions)(withRouter(Home));

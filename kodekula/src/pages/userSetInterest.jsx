@@ -22,28 +22,6 @@ class UserSetInterest extends Component {
     console.warn('user', userInterest)
     console.warn('exclude', excludeTags)
 
-		// let tagData;
-		// if (tagsList !== undefined && tagsList !== null) {
-		// 	tagData = tagsList.map((tag) => {
-		// 		return (
-		// 			<React.Fragment>
-		// 				<div className="col-lg-3 col-md-3 col-sm-4 col-4 img-interest pb-3">
-		// 					<div className="border">
-        //           <div className='logo-tags' style={{ height:'200px'}}>
-        //               <img src={tag.photo_url} alt="" />
-        //           </div>
-		// 						<div className="text-center" style={{backgroundColor:'#0f4c75', color:'white'}}>
-		// 							<label className="form-check-label ml-3 tags-name" for="tags">
-		// 								{tag.name}
-		// 							</label>
-		// 						</div>
-		// 					</div>
-		// 				</div>
-		// 			</React.Fragment>
-		// 		);
-		// 	});
-        // }
-
     return (
       <div>
         <Header/>

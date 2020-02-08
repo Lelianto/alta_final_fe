@@ -9,47 +9,6 @@ import user from '../images/user.png';
 import Loader from './loader';
 
 class detailArticle extends React.Component {
-  componentWillMount = async () => {
-    const req = {
-      method: "get",
-      url: store.getState().baseUrl+"/posting/toplevel/"+this.props.match.params.id
-    }; 
-    const questionIdParam = this.props.match.params.id
-    const self = this
-    await axios(req)
-        .then((response) => {
-          console.log('isi respon detail',response.data.posting_data)
-          store.setState({ 
-            allArticleDatabase: response.data, 
-            isLoading:false,
-            questionId:questionIdParam
-          })
-          console.log('hasil detail ke store',store.getState().allArticleDatabase)
-          return response
-        })
-        .catch((error)=>{
-          console.log(error)
-          store.setState({ 
-            isLoading: false
-          })
-          switch (error.response.status) {
-            case 401 :
-                self.props.history.push('/login')
-                break
-            case 403 :
-                self.props.history.push('/403')
-                break
-            case 404 :
-                self.props.history.push('/404')
-                break
-            case 500 :
-                self.props.history.push('/500')
-                break
-            default :
-                break
-          }
-        })
-      };
   render() {
     if(store.getState().isLoading || store.getState().allArticleDatabase === {}) {
       return (
