@@ -22,7 +22,7 @@ class ChooseInterest extends React.Component {
 	componentDidMount = async () => {
 		const tags = {
 			method: 'get',
-			url: 'https://kodekula.com/tags',
+			url: 'https://api.kodekula.com/tags',
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -64,7 +64,7 @@ class ChooseInterest extends React.Component {
 
 		const editUser = {
 			method: 'put',
-			url: 'https://kodekula.com/users/me',
+			url: 'https://api.kodekula.com/users/me',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization':'Bearer ' + localStorage.getItem("token")
