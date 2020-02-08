@@ -55,7 +55,7 @@ class ArticlePage extends React.Component {
 	getUserTags = async () => {
 		const tags = {
 			method: 'get',
-			url: 'https://kodekula.com/users/me',
+			url: 'https://api.kodekula.com/users/me',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization':'Bearer ' + localStorage.getItem("token")
@@ -80,7 +80,7 @@ class ArticlePage extends React.Component {
 	getAllTags = async () => {
 		const tags = {
 			method: 'get',
-			url: 'https://kodekula.com/tags',
+			url: 'https://api.kodekula.com/tags',
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -124,7 +124,7 @@ class ArticlePage extends React.Component {
 
 		const posting = {
 			method: 'get',
-			url: 'https://kodekula.com/posting/toplevel',
+			url: 'https://api.kodekula.com/posting/toplevel',
 			headers: {
 				'Content-Type': 'application/json'
 			},
