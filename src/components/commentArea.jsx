@@ -75,7 +75,7 @@ class CommentArea extends React.Component {
                         <input style={{fontSize:'12px', paddingRight:'0', width:'194px'}} className='btn-outline-info' type='file' onChange={this.fileSelectedHandler}/>
                     </div>
                     <div className='col-md-4'>
-                        <button className='btn' style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn btn-info' onClick={this.uploadArticlePhoto}>Upload</button>
+                        <button className='btn' style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className="btn btn-info" onClick={this.uploadArticlePhoto}>Upload</button>
                     </div>
                     <div className="col-sm-4">
                         <Link style={{textDecoration:'none'}} className='link-button-text-area'>

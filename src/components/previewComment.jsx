@@ -17,7 +17,7 @@ class PreviewComment extends React.Component {
           <div className='row'>
             <div className='col-md-3 '>
               <div className='col-md-12'>
-                  <img className='writer-photo-comment' width='100%' src={user} alt="img"/>
+                  <img className='writer-photo-comment' width='100%' src={user} alt=""/>
                   <div>
                     <Link style={{textDecoration: 'none', color:'#385898', fontSize:'12px'}}>Ini adalah User ID : 01</Link>
                   </div>
@@ -32,7 +32,7 @@ class PreviewComment extends React.Component {
                   Preview Komentar
                 </div>
                   <div>
-                    <img style={{width:'100%'}} src={this.props.imageUrl}/>
+                    <img style={{width:'100%'}} src={this.props.imageUrl} alt=""/>
                   </div>
                   <div className='preview-comment-control'>
                     {htmlArticle}

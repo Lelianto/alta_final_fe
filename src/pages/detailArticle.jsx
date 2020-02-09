@@ -7,6 +7,7 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import PopularList from '../components/popularList';
 import AccessDetailArticle from '../components/detailArticleQuestion';
+import { Helmet } from 'react-helmet';
 import axios from 'axios';
 import user from '../images/user.png';
 import ViewComment from '../components/viewComment';
@@ -153,6 +154,10 @@ class DetailArticle extends React.Component {
 			<React.Fragment>
 				<Header doSearch={this.doSearch}/>
 				<div className="container-fluid pt-4">
+                    <Helmet>
+                        <title>Artikel</title>
+                        <meta name="description" content="Berisi artikel yang membahas tentang pemrograman" />
+                    </Helmet>
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 						<div className="col-lg-1 col-md-1 col-sm-12 col-12 mt-5">
 						</div>
@@ -182,7 +187,6 @@ class DetailArticle extends React.Component {
                                 <div className="col-md-2 text-center pt-3">
                                     <button className="btn btn-outline-primary" style={{width:'100%'}} onClick={()=>this.postComment()}>Kirim</button>
                                 </div>
-                                
                             </div>
 						</div>
 						<div className="col-lg-4 col-md-4 col-sm-12 col-12 mt-5">
