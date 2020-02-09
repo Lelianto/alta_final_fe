@@ -114,7 +114,6 @@ class Home extends React.Component {
 			.then(async (response) => {
 				await this.setState({ postingList: response.data.query_data });
 				// await store.setState({interestList : response.data})
-				console.warn('posting list', this.state.postingList);
 			})
 			.catch(async (error) => {
 				await console.warn(error);
@@ -167,13 +166,14 @@ class Home extends React.Component {
 		this.props.history.push('/pencarian')
 	}
 
+
 	render() {
 		return (
 			<React.Fragment>
 				<Header doSearch={this.doSearch} />
 				<div className="container-fluid pt-4">
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
-						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5">
+						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5 overflow">
 							<InterestList
 								tags={this.state.filterInterest}
 								excludeTags={this.state.excludeTags}
@@ -181,7 +181,7 @@ class Home extends React.Component {
 								checkAll={() => this.checkAll()}
 							/>
 						</div>
-						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0">
+						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow">
 							{this.state.postingList.map((content, i) => (
 								<UserOwnFile
 									typeContent={content.posting_detail.content_type}
@@ -192,7 +192,7 @@ class Home extends React.Component {
 								/>
 							))}
 						</div>
-						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5">
+						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow">
 							<PopularList article={this.state.article} />
 						</div>
 					</div>

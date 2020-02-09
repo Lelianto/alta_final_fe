@@ -169,7 +169,7 @@ class Search extends React.Component {
 				<Header doSearch={this.getPostingList} />
 				<div className="container-fluid pt-4">
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
-						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5">
+						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5 overflow">
 							<InterestList
 								tags={this.state.filterInterest}
 								excludeTags={this.state.excludeTags}
@@ -177,7 +177,7 @@ class Search extends React.Component {
 								checkAll={() => this.checkAll()}
 							/>
 						</div>
-						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0">
+						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow">
 							{this.state.postingList.map((content, i) => (
 								<UserOwnFile
 									typeContent={content.posting_detail.content_type}
@@ -188,7 +188,7 @@ class Search extends React.Component {
 								/>
 							))}
 						</div>
-						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5">
+						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow">
 							<PopularList article={this.state.article} />
 						</div>
 					</div>
