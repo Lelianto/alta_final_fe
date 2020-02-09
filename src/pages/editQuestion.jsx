@@ -53,46 +53,51 @@ class EditQuestionPage extends React.Component {
               }
             })
           };
-	render() {
-        if(store.getState().isLoading){
-            return(
-                <div>
-                    <Loader/>
-                </div>
-            )
-        } else {
-            return (
-                <React.Fragment>
-                    <Header />
-                    <div className="container-fluid" style={{paddingTop:'100px'}}>
-                        <div className='row'>
-                        <div className='col-md-2'>
     
-                        </div>
-                            <div className='col-md-8'>
-                                <TextArea typeText='Masukkan Judul Pertanyaan'/>
-                                <div className='row button-area-control'>
-                                    <div className='col-md-4'>
-                                    </div>
-                                    <div className='col-md-4'>
-                                        <div className='btn btn-grad' style={{marginBottom:'50px', fontSize:'15px',padding:'15px'}} onClick={()=>this.props.updateQuestion()}>Edit / Perbarui Pertanyaan</div>
-                                    </div>
-                                    <div className='col-md-4'>
+        handleEditQuestion = async () => {
+            await this.props.updateQuestion()
+            await this.props.history.push('/pertanyaan/'+store.getState().articleId)
+        }
+        render() {
+            if(store.getState().isLoading){
+                return(
+                    <div>
+                        <Loader/>
+                    </div>
+                )
+            } else {
+                return (
+                    <React.Fragment>
+                        <Header />
+                        <div className="container-fluid" style={{paddingTop:'100px'}}>
+                            <div className='row'>
+                            <div className='col-md-2'>
+        
+                            </div>
+                                <div className='col-md-8'>
+                                    <TextArea typeText='Masukkan Judul Pertanyaan'/>
+                                    <div className='row button-area-control'>
+                                        <div className='col-md-4'>
+                                        </div>
+                                        <div className='col-md-4'>
+                                            <div className='btn btn-grad' style={{marginBottom:'50px', fontSize:'15px',padding:'15px'}} onClick={()=>this.handleEditQuestion()}>Edit / Perbarui Pertanyaan</div>
+                                        </div>
+                                        <div className='col-md-4'>
+                                        </div>
                                     </div>
                                 </div>
+                                <div className='col-md-2'>
+        
+                                </div>
+                                {/* <div className='col-md-6'>
+                                    <PreviewArticle/>
+                                </div> */}
                             </div>
-                            <div className='col-md-2'>
-    
-                            </div>
-                            {/* <div className='col-md-6'>
-                                <PreviewArticle/>
-                            </div> */}
                         </div>
-                    </div>
-                    <Footer />
-                </React.Fragment>
-            );
+                        <Footer />
+                    </React.Fragment>
+                );
+            }
         }
-	}
-}
+    }
 export default connect('menuBarUpload, codeCompilerResult, isLoading', actions)(withRouter(EditQuestionPage));

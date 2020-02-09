@@ -9,9 +9,9 @@ import axios from 'axios';
 
 class UserProfilePage extends Component {
 
-  doSearch = () => {
-    this.props.history.push('/')
-  }
+  // doSearch = () => {
+  //   this.props.history.push('/')
+  // }
 
   render() {
     return (

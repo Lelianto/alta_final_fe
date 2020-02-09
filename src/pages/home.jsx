@@ -166,6 +166,27 @@ class Home extends React.Component {
 		this.props.history.push('/pencarian')
 	}
 
+	detailArticle = async (event)=> {
+        await store.setState({
+            userId:event
+		})
+        await this.props.history.push('/artikel/'+event)
+	}
+	
+	editArticle = async (event)=> {
+        await store.setState({
+            userId:event
+		})
+        await this.props.history.push('/artikel/'+event +'/edit')
+	}
+
+	editQuestion = async (event)=> {
+        await store.setState({
+            userId:event
+		})
+        await this.props.history.push('/pertanyaan/'+event +'/edit')
+	}
+	
 	render() {
 		return (
 			<React.Fragment>
@@ -184,9 +205,16 @@ class Home extends React.Component {
 							{this.state.postingList.map((content, i) => (
 								<UserOwnFile
 									typeContent={content.posting_detail.content_type}
+									content={content} editArticle={(e)=>this.editArticle(e)} editQuestion={(e)=>this.editQuestion(e)}
+									detailArticle={(e) => this.detailArticle(e)}
+									goToDetailQuestion={(e) => this.goToDetailQuestion(e)}
+								/>
+								<UserOwnFile
+									typeContent={content.posting_detail.content_type}
 									content={content}
 									detailArticle={(e) => this.detailArticle(e)}
 									goToDetailQuestion={(e) => this.goToDetailQuestion(e)}
+									userDetail ={this.state.userDetail}
 								/>
 							))}
 						</div>
