@@ -53,7 +53,11 @@ class EditQuestionPage extends React.Component {
               }
             })
           };
-    
+        
+        doSearch = () => {
+            this.props.history.push('/pencarian')
+        }
+
         handleEditQuestion = async () => {
             await this.props.updateQuestion()
             await this.props.history.push('/pertanyaan/'+store.getState().articleId)
@@ -68,7 +72,7 @@ class EditQuestionPage extends React.Component {
             } else {
                 return (
                     <React.Fragment>
-                        <Header />
+                        <Header doSearch={this.doSearch}/>
                         <div className="container-fluid" style={{paddingTop:'100px'}}>
                             <div className='row'>
                             <div className='col-md-2'>

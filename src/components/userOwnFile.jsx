@@ -15,8 +15,10 @@ import { Markup } from 'interweave';
 import Loader from './loader';
 
 const UserOwnFile = (props) => {
+    
     const userData = props.content.user_data
     const postingDetail = props.content.posting_detail
+    
     if (props.menuBarUser ==='Artikel' || props.typeContent ==='article') {
         return (
             <div className='container own-article mt-4'>
@@ -26,13 +28,17 @@ const UserOwnFile = (props) => {
                         <Link className='col-md-11 title-article-control'  onClick={()=>props.detailArticle(postingDetail.id)} >
                             {postingDetail.title} 
                         </Link>
-                        <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img className='logo-edit-control' src={more} alt="img"/>
+                        {props.userDetail.user_id === postingDetail.user_id ?
+                        <div> 
+                            <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img className='logo-edit-control' src={more} alt="img"/>
+                            </div>
+                            <div class="dropdown-menu" style={{marginLeft:'-115px', marginTop:'-37px'}} aria-labelledby="dropdownMenuLink">
+                                <Link onClick={()=>props.editArticle(postingDetail.id)} class="dropdown-item" to="#">Ubah/Perbarui</Link>
+                                <Link class="dropdown-item" to="#">Hapus</Link>
+                            </div>
                         </div>
-                        <div class="dropdown-menu" style={{marginLeft:'-115px', marginTop:'-37px'}} aria-labelledby="dropdownMenuLink">
-                            <Link onClick={()=>props.editArticle(postingDetail.id)} class="dropdown-item" to="#">Ubah/Perbarui</Link>
-                            <Link class="dropdown-item" to="#">Hapus</Link>
-                        </div>
+                        : null }
                     </div>
                     <div className='row text-control'>
                         <div className='col-md-4 username-control'>
@@ -49,7 +55,7 @@ const UserOwnFile = (props) => {
                     <div className='row'>
                         {postingDetail.banner_photo_url !== null ? <img className='image-control' src={postingDetail.banner_photo_url} alt="img"/> : null}
                     </div>
-                    <div className='row detail-article-control'>
+                    <div className='row detail-article-control text-truncate'>
                         <Markup content={postingDetail.html_content}/>
                     </div>
                     <div className='row tag-control-article'>
@@ -85,7 +91,7 @@ const UserOwnFile = (props) => {
                                     </div>
                                 }
                                 <div className='col-md-4'>
-                                    <img style={{width:'100%'}} src={comment} alt="img"/> 5
+                                    <img style={{width:'100%'}} src={comment} alt="img"/>{postingDetail.sl_amount}
                                 </div>
                             </div>
                         </div>
@@ -104,13 +110,17 @@ const UserOwnFile = (props) => {
                         <Link onClick={()=>props.goToDetailQuestion(postingDetail.id)} className='col-md-11 title-article-control'>
                             {postingDetail.title}
                         </Link>
-                        <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img className='logo-edit-control' src={more} alt="img"/>
+                        {props.userDetail.user_id === postingDetail.user_id ?
+                        <div>
+                            <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img className='logo-edit-control' src={more} alt="img"/>
+                            </div>
+                            <div class="dropdown-menu" style={{marginLeft:'-130px', marginTop:'-37px'}}  aria-labelledby="dropdownMenuLink">
+                                <Link class="dropdown-item" onClick={()=>props.editQuestion(postingDetail.id)} >Ubah/Perbarui</Link>
+                                <Link class="dropdown-item" >Hapus</Link>
+                            </div>
                         </div>
-                        <div class="dropdown-menu" style={{marginLeft:'-130px', marginTop:'-37px'}}  aria-labelledby="dropdownMenuLink">
-                            <Link class="dropdown-item" onClick={()=>props.editQuestion(postingDetail.id)} >Ubah/Perbarui</Link>
-                            <Link class="dropdown-item" >Hapus</Link>
-                        </div>
+                        : null }
                     </div>
                     <div className='row text-control'>
                         <div className='col-md-4 username-control'>
@@ -160,7 +170,7 @@ const UserOwnFile = (props) => {
                                     </div>
                                 }
                                 <div className='col-md-4'>
-                                    <img style={{width:'100%'}} src={comment} alt="img"/> 5
+                                    <img style={{width:'100%'}} src={comment} alt="img"/>{postingDetail.sl_amount}
                                 </div>
                             </div>
                         </div>

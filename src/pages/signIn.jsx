@@ -61,7 +61,7 @@ class SignIn extends React.Component {
 	}
 
 	doSearch = () => {
-		this.props.history.push('/')
+		this.props.history.push('/pencarian')
 	}
 
 	onSignIn = (googleUser) => {

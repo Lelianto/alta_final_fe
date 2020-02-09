@@ -16,13 +16,15 @@ import Article from '../pages/articlePage';
 import Question from '../pages/questionPage';
 import AddArticle from '../pages/addArticle';
 import AddQuestion from '../pages/addQuestion';
-import UserSetInterest from '../pages/userSetInterest'
+import UserSetInterest from '../pages/userSetInterest';
+import UserSetPassword from '../pages/userSetPassword';
 import DetailArticle from '../pages/detailArticle';
 import DetailQuestionPage from '../pages/detailQuestionPage';
 import AdminLanding from '../pages/adminLandingPage';
 import EditArticle from '../pages/editArticle';
 import EditQuestion from '../pages/editQuestion';
 import Notification from '../pages/notification';
+import Search from '../pages/searchPage'
         
 const MainRoute = () => {
     return (
@@ -38,12 +40,15 @@ const MainRoute = () => {
                     <Route exact path="/profil" component={UserProfilePage} />  
                     <Route exact path="/pengaturan-akun" component={UserProfileSetting} />
                     <Route exact path="/pengaturan-akun/data-diri/edit" component={PersonalDataEdit} />
+                    <Route exact path="/pengaturan-akun/ubah-password" component={UserSetPassword} />
                     <Route exact path="/pengaturan-akun/minat" component={PersonalDataInterest} />
                     <Route exact path="/pengaturan-akun/minat/edit" component={UserSetInterest} />
                     <Route exact path="/daftar" component={SignUp}/>
                     <Route exact path="/pilih-minat" component={ChooseInterest}/>
                     <Route exact path="/masuk" component={SignIn}/>
                     <Route exact path="/notifikasi" component={Notification}/>
+                    <Route exact path="/pencarian" component={Search}/>
+                    <Route path="/pencarian/:event" component={Search}/>
                     <Route path="/pengaturan-akun/:event" component={UserProfileSetting} />
                     <Route path="/pengaturan-akun/:event/edit" component={UserSetPersonalData} />
                     <Route path="/pertanyaan/:id/edit" component={EditQuestion}/>

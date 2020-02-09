@@ -11,6 +11,10 @@ import axios from 'axios';
 import Loader from '../components/loader'
 
 class EditArticlePage extends React.Component {
+    doSearch = () => {
+        this.props.history.push('/pencarian')
+      }
+
     componentWillMount = async () => {
         console.log('id param', this.props.match.params.id)
         const req = {
@@ -70,7 +74,7 @@ class EditArticlePage extends React.Component {
         } else {
             return (
                 <React.Fragment>
-                    <Header />
+                    <Header doSearch={this.doSearch}/>
                     <div className="container-fluid" style={{paddingTop:'100px'}}>
                         <div className='row'>
                         <div className='col-md-2'>

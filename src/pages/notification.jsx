@@ -19,9 +19,9 @@ class Notification extends React.Component {
         answers: [ 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae, odio. Tempore aspernatur a rem nam similique numquam maxime, odit, voluptate aliquam officiis qui nobis aliquid amet ea fuga ipsa iure!' ]
     }
 
-	doSearch = () => {
-		this.props.history.push('/')
-	}
+    doSearch = () => {
+        this.props.history.push('/pencarian')
+      }
 
 	render() {
 

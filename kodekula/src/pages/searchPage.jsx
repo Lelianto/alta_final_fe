@@ -9,9 +9,8 @@ import PopularList from '../components/popularList';
 import UserOwnFile from '../components/userOwnFile';
 import axios from 'axios';
 
-const listContent = [ 'Artikel', 'Pertanyaan' ];
 
-class Home extends React.Component {
+class Search extends React.Component {
 	state = {
 		userInterest: [],
 		interestList: [],
@@ -97,9 +96,11 @@ class Home extends React.Component {
 	};
 
 	getPostingList = async () => {
-		// console.warn('keyword', this.state.keyword);
+        console.warn('location', this.props.locationPage)
+        console.warn('keyword', this.props.keyword)
 		const parameters = {
-			keyword: this.props.keyword
+            keyword: this.props.keyword,
+            content_type : this.props.locationPage
 		};
 
 		const posting = {
@@ -113,7 +114,7 @@ class Home extends React.Component {
 		await axios(posting)
 			.then(async (response) => {
 				await this.setState({ postingList: response.data.query_data });
-				// await store.setState({interestList : response.data})
+				console.warn('posting list', this.state.postingList);
 			})
 			.catch(async (error) => {
 				await console.warn(error);
@@ -162,35 +163,10 @@ class Home extends React.Component {
 		await this.props.history.push('/pertanyaan/' + event);
 	};
 
-	doSearch = () => {
-		this.props.history.push('/pencarian')
-	}
-
-	detailArticle = async (event)=> {
-        await store.setState({
-            userId:event
-		})
-        await this.props.history.push('/artikel/'+event)
-	}
-	
-	editArticle = async (event)=> {
-        await store.setState({
-            userId:event
-		})
-        await this.props.history.push('/artikel/'+event +'/edit')
-	}
-
-	editQuestion = async (event)=> {
-        await store.setState({
-            userId:event
-		})
-        await this.props.history.push('/pertanyaan/'+event +'/edit')
-	}
-	
 	render() {
 		return (
 			<React.Fragment>
-				<Header doSearch={this.doSearch} />
+				<Header doSearch={this.getPostingList} />
 				<div className="container-fluid pt-4">
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5 overflow">
@@ -205,9 +181,10 @@ class Home extends React.Component {
 							{this.state.postingList.map((content, i) => (
 								<UserOwnFile
 									typeContent={content.posting_detail.content_type}
-									content={content} editArticle={(e)=>this.editArticle(e)} editQuestion={(e)=>this.editQuestion(e)}
+									content={content}
 									detailArticle={(e) => this.detailArticle(e)}
-									goToDetailQuestion={(e) => this.goToDetailQuestion(e)} userDetail ={this.state.userDetail}
+									goToDetailQuestion={(e) => this.goToDetailQuestion(e)}
+									userDetail={this.state.userDetail}
 								/>
 							))}
 						</div>
@@ -221,4 +198,4 @@ class Home extends React.Component {
 		);
 	}
 }
-export default connect('responseData, keyword', actions)(withRouter(Home));
+export default connect('responseData, keyword, locationPage', actions)(withRouter(Search));
