@@ -1,3 +1,7 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Allow: /
+Allow: /artikel
+Allow: /pertanyaan
+Allow: /masuk
+Allow: /daftar

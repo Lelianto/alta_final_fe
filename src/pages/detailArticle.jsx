@@ -5,11 +5,9 @@ import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
 import Header from '../components/header';
 import Footer from '../components/footer';
-import InterestList from '../components/interestList';
 import PopularList from '../components/popularList';
 import AccessDetailArticle from '../components/detailArticleQuestion';
-import CommentArea from '../components/commentArea';
-import PreviewComment from '../components/previewComment';
+import { Helmet } from 'react-helmet';
 import axios from 'axios';
 import user from '../images/user.png';
 import ViewComment from '../components/viewComment';
@@ -156,36 +154,40 @@ class DetailArticle extends React.Component {
 			<React.Fragment>
 				<Header doSearch={this.doSearch}/>
 				<div className="container-fluid pt-4">
+          <Helmet>
+              <title>Artikel</title>
+              <meta name="description" content="Berisi artikel yang membahas tentang pemrograman" />
+          </Helmet>
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 						<div className="col-lg-1 col-md-1 col-sm-12 col-12 mt-5">
 						</div>
 						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0" >
-                            <AccessDetailArticle/>
-                            {store.getState().seeComment?
-                                <div>
-                                    <button className='btn btn-grad' onClick={()=>this.handleSeeComment()} style={{textAlign:'center', marginBottom:'20px', fontWeight:'bold', fontSize:'15px'}}>
-                                        Lihat Komentar...
-                                    </button>
-                                </div>
-                            :
-                                <div>
-                                    <button className='btn btn-grad' onClick={()=>this.handleSeeComment()} style={{textAlign:'center', marginBottom:'20px', fontWeight:'bold', fontSize:'15px'}}>
-                                        Sembunyikan Komentar...
-                                    </button>
-                                        <ViewComment/>
-                                </div>
-                            }
-                            <div className="border py-2 ml-1 mr-1 row bg-white">
-                                <div className="col-md-2">
-                                    <img src={user} alt="" width="90%" style={{borderRadius : '50%'}}/>
-                                </div>
-                                <div className="col-md-8 form-group" style={{paddingTop:'18px'}}>
-                                    <input type="text" className="form-control" placeholder="Tuliskan komentar anda" onChange={(e)=>this.changeState(e)}/>
-                                </div>
-                                <div className="col-md-2 text-center pt-3">
-                                    <button className="btn btn-outline-primary" style={{width:'100%'}} onClick={()=>this.postComment()}>Kirim</button>
-                                </div>
-                            </div>
+              <AccessDetailArticle/>
+              {store.getState().seeComment?
+                  <div>
+                      <button className='btn btn-grad' onClick={()=>this.handleSeeComment()} style={{textAlign:'center', marginBottom:'20px', fontWeight:'bold', fontSize:'15px'}}>
+                          Lihat Komentar...
+                      </button>
+                  </div>
+              :
+                  <div>
+                      <button className='btn btn-grad' onClick={()=>this.handleSeeComment()} style={{textAlign:'center', marginBottom:'20px', fontWeight:'bold', fontSize:'15px'}}>
+                          Sembunyikan Komentar...
+                      </button>
+                          <ViewComment/>
+                  </div>
+              }
+              <div className="border py-2 ml-1 mr-1 row bg-white">
+                  <div className="col-md-2">
+                      <img src={user} alt="" width="90%" style={{borderRadius : '50%'}}/>
+                  </div>
+                  <div className="col-md-8 form-group" style={{paddingTop:'18px'}}>
+                      <input type="text" className="form-control" placeholder="Tuliskan komentar anda" onChange={(e)=>this.changeState(e)}/>
+                  </div>
+                  <div className="col-md-2 text-center pt-3">
+                      <button className="btn btn-outline-primary" style={{width:'100%'}} onClick={()=>this.postComment()}>Kirim</button>
+                  </div>
+              </div>
 						</div>
 						<div className="col-lg-4 col-md-4 col-sm-12 col-12 mt-5">
 							<PopularList article={this.state.article} />

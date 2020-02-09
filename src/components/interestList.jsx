@@ -18,13 +18,13 @@ const InterestList = (props) => {
                     <div className="pl-2">
                         <div className="mb-3">
                             <input type="checkbox" id='all' defaultChecked onClick={()=>props.checkAll()}/>
-                            <img src={all} className="pr-2 ml-2" width='30px'/>
+                            <img src={all} alt="" className="pr-2 ml-2" width='30px'/>
                             <label for='all' style={{color:'#1b262c', fontSize:'14px'}}>Semua</label>
                         </div>
                         {props.tags.map((value) => (
                             <div className='mb-3'>
                                 <input type="checkbox" id={value.name} defaultChecked/>
-                                <img src={value.photo_url} className="pr-2 ml-2" width="30px"/>
+                                <img src={value.photo_url} alt="img" className="pr-2 ml-2" width="30px"/>
                                 <label for={value.name} style={{color:'#1b262c', fontSize:'14px'}}>{value.name}</label>
                             </div>
                         ))}
@@ -40,7 +40,7 @@ const InterestList = (props) => {
                         {props.excludeTags.map((value) => (
                             <div className='mb-3' >
                                 <input type="checkbox" id={value.name}/>
-                                <img src={value.photo_url} className="pr-2 ml-2" width="30px"/>
+                                <img src={value.photo_url} alt="" className="pr-2 ml-2" width="30px"/>
                                 <label for={value.name} style={{color:'#1b262c', fontSize:'14px'}}>{value.name}</label>
                             </div>
                         ))}
