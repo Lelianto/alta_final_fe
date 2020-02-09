@@ -18,7 +18,7 @@ const UserOwnFile = (props) => {
     
     const userData = props.content.user_data
     const postingDetail = props.content.posting_detail
-
+    
     if (props.menuBarUser ==='Artikel' || props.typeContent ==='article') {
         return (
             <div className='container own-article mt-4'>
@@ -55,7 +55,7 @@ const UserOwnFile = (props) => {
                     <div className='row'>
                         {postingDetail.banner_photo_url !== null ? <img className='image-control' src={postingDetail.banner_photo_url} alt=""/> : null}
                     </div>
-                    <div className='row detail-article-control'>
+                    <div className='row detail-article-control text-truncate'>
                         <Markup content={postingDetail.html_content}/>
                     </div>
                     <div className='row tag-control-article'>

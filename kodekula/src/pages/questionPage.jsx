@@ -193,16 +193,16 @@ class QuestionPage extends React.Component {
 				<Header doSearch={this.doSearch} />
 				<div className="container-fluid pt-4">
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
-						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5">
+						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5 overflow">
 							<InterestList tags={this.state.filterInterest} excludeTags={this.state.excludeTags} seeAll={this.seeAll} checkAll={()=>this.checkAll()}/>
 						</div>
-						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0">
+						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow">
 							<Link style={{textDecoration:'none', color:'white'}} to='/pertanyaan/tulis'>
 								<button to='/artikel/tulis' className='btn btn-success button-write-article-control mt-4'>Tulis Pertanyaan</button>
 							</Link>
 							{this.state.postingList.map((content, i) => <UserOwnFile editQuestion={(e)=>this.editQuestion(e)} goToDetailQuestion={(event)=>this.goToDetailQuestion(event)} typeContent={content.posting_detail.content_type} content={content} userDetail={this.state.userDetail}/>)}
 						</div>
-						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5">
+						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow" >
 							<PopularList article={this.state.article} />
 						</div>
 					</div>
