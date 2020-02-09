@@ -12,6 +12,7 @@
     "gatsby-plugin-sitemap": "^2.2.27",
     "google-auth-library": "^5.9.2",
     "interweave": "^12.2.0",
+    "jquery": "^3.4.1",
     "react": "^16.12.0",
     "react-ckeditor-component": "^1.1.0",
     "react-dom": "^16.12.0",
@@ -19,11 +20,13 @@
     "react-router-dom": "^5.1.2",
     "react-router-sitemap": "^1.2.0",
     "react-scripts": "3.3.0",
+    "react-snap": "^1.23.0",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^9.6.1",
     "unistore": "^3.5.1"
   },
   "scripts": {
+    "postbuild": "react-snap",
     "sitemap": "babel-node ./src/routes/sitemap-generator.js",
     "start": "react-scripts start",
     "build": "react-scripts build",

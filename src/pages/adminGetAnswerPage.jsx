@@ -27,16 +27,16 @@ class AdminLandingPage extends React.Component {
 						<div className='col-md-3'></div>
 						
 						<div className='col-md-2' style={{paddingLeft:'30px', paddingRight:'30px'}}>
-							<div className='box-control btn-warning' style={{paddingBottom:'25px', paddingTop:'25px', fontSize:'12px',border: '2px solid sandybrown', marginLeft:'-16px', marginRight:'-16px'}}>
-								Daftar Pengguna
+							<div className='box-control btn-warning' style={{paddingBottom:'25px', paddingTop:'25px', fontSize:'12px', border: '2px solid sandybrown', marginLeft:'-16px', marginRight:'-16px'}}>
+								Daftar Jawaban
 							</div>
                     	</div>
 						<div className='col-md-2'>
 
 						</div>
-						<div className='col-md-2' style={{paddingLeft:'30px', paddingRight:'30px'}}>
-							<div onClick={()=>this.handleChangePageMenu('/pengguna/grafik')} className='box-control btn-warning' style={{paddingBottom:'25px', paddingTop:'25px', fontSize:'12px', marginLeft:'-16px', marginRight:'-16px'}}>
-								Grafik Pengguna
+						<div onClick={()=>this.handleChangePageMenu('/jawaban/grafik')} className='col-md-2' style={{paddingLeft:'30px', paddingRight:'30px'}}>
+							<div className='box-control btn-warning' style={{paddingBottom:'25px', paddingTop:'25px', fontSize:'12px', marginLeft:'-16px', marginRight:'-16px'}}>
+								Grafik Jawaban
 							</div>
                     	</div>
 						<div className='col-md-3'></div>
