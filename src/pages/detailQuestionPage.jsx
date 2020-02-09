@@ -5,7 +5,7 @@ import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
 import Header from '../components/header';
 import Footer from '../components/footer';
-import InterestList from '../components/interestList';
+import { Helmet } from 'react-helmet';
 import PopularList from '../components/popularList';
 import AccessDetailArticle from '../components/detailArticleQuestion';
 import CommentArea from '../components/commentArea';
@@ -69,7 +69,8 @@ class detailArticlePage extends React.Component {
                       break
                 }
               })
-    }
+	}
+	
     componentWillMount = async () => {
         await this.getAllFirst()
     };
@@ -101,6 +102,10 @@ class detailArticlePage extends React.Component {
 		return (
 			<React.Fragment>
 				<Header doSearch={this.doSearch}/>
+				<Helmet>
+					<title>Pertanyaan</title>
+					<meta name="description" content="Berisi artikel yang membahas tentang pemrograman" />
+				</Helmet>
 				<div className="container-fluid pt-4">
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 						<div className="col-lg-1 col-md-1 col-sm-12 col-12 mt-5">

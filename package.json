@@ -9,17 +9,22 @@
     "axios": "^0.19.1",
     "firebase": "^7.8.0",
     "form-data": "^3.0.0",
+    "gatsby-plugin-sitemap": "^2.2.27",
+    "google-auth-library": "^5.9.2",
     "interweave": "^12.2.0",
     "react": "^16.12.0",
     "react-ckeditor-component": "^1.1.0",
     "react-dom": "^16.12.0",
+    "react-helmet": "^5.2.1",
     "react-router-dom": "^5.1.2",
+    "react-router-sitemap": "^1.2.0",
     "react-scripts": "3.3.0",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^9.6.1",
     "unistore": "^3.5.1"
   },
   "scripts": {
+    "sitemap": "babel-node ./src/routes/sitemap-generator.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -39,5 +44,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@netlify/plugin-sitemap": "^0.1.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-register": "^6.26.0"
   }
 }

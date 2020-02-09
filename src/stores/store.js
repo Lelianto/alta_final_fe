@@ -231,6 +231,7 @@ export const actions = (store) => ({
 			content_status:0
 		};
 		// articleDetails = JSON.stringify(articleDetails)
+		console.log('isi req article', articleDetails)
 		const req = {
 			method: 'put',
 			url: state.baseUrl + '/posting/toplevel/' + state.articleId,

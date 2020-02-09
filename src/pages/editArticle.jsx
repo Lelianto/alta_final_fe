@@ -58,6 +58,10 @@ class EditArticlePage extends React.Component {
               }
             })
           };
+    handleEditArticle = async () => {
+        await this.props.updateArticle()
+        await this.props.history.push('/artikel/'+store.getState().articleId)
+    }
 
 	render() {
         console.log('belum keisi')
@@ -82,7 +86,7 @@ class EditArticlePage extends React.Component {
                                     <div className='col-md-4'>
                                     </div>
                                     <div className='col-md-4'>
-                                        <div className='btn btn-grad' style={{marginBottom:'50px', fontSize:'15px',padding:'15px'}} onClick={()=>this.props.updateArticle()}>Edit / Perbarui Artikel</div>
+                                        <div className='btn btn-grad' style={{marginBottom:'50px', fontSize:'15px',padding:'15px'}} onClick={()=>this.handleEditArticle()}>Edit / Perbarui Artikel</div>
                                     </div>
                                     <div className='col-md-4'>
                                     </div>
