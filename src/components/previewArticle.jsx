@@ -18,7 +18,7 @@ class PreviewArticle extends React.Component {
             </div>
             <div style={{fontWeight:'Bold', fontSize:'25px'}}>{this.props.articleTitle}</div>
               <div>
-                <img style={{width:'100%'}} src={this.props.imageUrl}/>
+                <img style={{width:'100%'}} src={this.props.imageUrl} alt=""/>
               </div>
               <div className='preview-article-control'>
                 {htmlArticle}

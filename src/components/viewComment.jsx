@@ -4,6 +4,7 @@ import { actions, store } from '../stores/store';
 import { connect } from 'unistore/react'
 import { withRouter, Link } from 'react-router-dom';
 import { Markup } from 'interweave';
+import { Helmet } from 'react-helmet';
 import user from '../images/user.png';
 import Loader from './loader'
 import like from '../images/like.png';
@@ -25,6 +26,10 @@ const ViewComment = (props) => {
       <div>
         {allComment.map((comment, index)=>
         <div style={{textAlign:'left', marginBottom:'20px'}}>
+          <Helmet>
+            <title>{comment.user_data.username}</title>
+            <meta name="description" content={comment.posting_detail.html_content} />
+          </Helmet>
           <div className='container-fluid user-comment-control'>
             <div className='row'>
               <div className='col-md-2 '>
