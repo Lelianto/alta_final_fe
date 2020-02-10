@@ -23,7 +23,7 @@ const InterestList = (props) => {
                         </div>
                         {props.tags.map((value) => (
                             <div className='mb-3'>
-                                <input type="checkbox" id={value.name} defaultChecked/>
+                                <input type="checkbox" name={value.name} value={value.name} id={value.name} onClick={props.chooseTags} defaultChecked/>
                                 <img src={value.photo_url} alt="img" className="pr-2 ml-2" width="30px"/>
                                 <label for={value.name} style={{color:'#1b262c', fontSize:'14px'}}>{value.name}</label>
                             </div>
@@ -39,7 +39,7 @@ const InterestList = (props) => {
                     <div id='suggest-list' style={{display:'none'}}>
                         {props.excludeTags.map((value) => (
                             <div className='mb-3' >
-                                <input type="checkbox" id={value.name}/>
+                                <input type="checkbox" name={value.name} value={value.name} id={value.name} onClick={props.chooseTags}/>
                                 <img src={value.photo_url} alt="" className="pr-2 ml-2" width="30px"/>
                                 <label for={value.name} style={{color:'#1b262c', fontSize:'14px'}}>{value.name}</label>
                             </div>

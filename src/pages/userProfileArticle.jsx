@@ -88,7 +88,7 @@ class UserProfileArticle extends Component {
 								<UserOwnFile
 									typeContent="article"
 									content={content}
-									userDetail={this.state.userDetail}
+									userDetail={this.state.userData}
                                     userData={this.state.userData}
                                     editArticle={(e)=>this.editArticle(e)}
 									detailArticle={(e) => this.detailArticle(e)}

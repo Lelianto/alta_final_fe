@@ -91,7 +91,7 @@ class UserProfilePage extends Component {
                     content={content} 
                     editQuestion={(e)=>this.editQuestion(e)}
                     goToDetailQuestion={(e) => this.goToDetailQuestion(e)} 
-                    userDetail ={this.state.userDetail}
+                    userDetail ={this.state.userData}
                     userData = {this.state.userData}
                   />
               ))}

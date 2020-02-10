@@ -65,24 +65,17 @@ const UserOwnFile = (props) => {
                     <div className='row detail-article-control text-truncate'>
                         <Markup content={postingDetail.html_content}/>
                     </div>
-                    <div className='row tag-control-article'>
-                        <div className='col-md-6'>
+                    <div className='row tag-control-article align-items-end'>
+                        <div className='col-md-8'>
                             <div className='row'>
-                                <div className='col-md-3 tag-control-arc'>
-                                    #python
-                                </div>
-                                <div className='col-md-3 tag-control-arc'>
-                                    #flask
-                                </div>
-                                <div className='col-md-3 tag-control-arc'>
-                                    #restful
-                                </div>
-                                <div className='col-md-3 tag-control-arc'>
-                                    #pytest
-                                </div>
+                                {postingDetail.tags.map((tag)=>(
+                                    <div className='col-md-3 tag-control-arc'>
+                                        #{tag}
+                                    </div>
+                                ))}
                             </div>
                         </div>
-                        <div className='col-md-3'></div>
+                        <div className='col-md-1'></div>
                         <div className='col-md-3'>
                             <div className='row'>
                                 <div className='col-md-4'>
@@ -153,23 +146,16 @@ const UserOwnFile = (props) => {
                     </div>
 
                     <div className='row tag-control-article'>
-                        <div className='col-md-6'>
+                        <div className='col-md-8 align-items-end'>
                             <div className='row'>
-                                <div className='col-md-3 tag-control-arc'>
-                                    #python
-                                </div>
-                                <div className='col-md-3 tag-control-arc'>
-                                    #flask
-                                </div>
-                                <div className='col-md-3 tag-control-arc'>
-                                    #restful
-                                </div>
-                                <div className='col-md-3 tag-control-arc'>
-                                    #pytest
-                                </div>
+                                {postingDetail.tags.map((tag)=>(
+                                    <div className='col-md-3 tag-control-arc'>
+                                        #{tag}
+                                    </div>
+                                ))}
                             </div>
                         </div>
-                        <div className='col-md-3'></div>
+                        <div className='col-md-1'></div>
                         <div className='col-md-3'>
                             <div className='row'>
                                 <div className='col-md-4'>
@@ -200,9 +186,9 @@ const UserOwnFile = (props) => {
             <div className='row'>
                 <div className='col-md-12 box-control bg-white'>
                     <div className='row text-control'>
-                        <div className='col-md-11 detail-answer-control'>
+                        <Link to={'/pertanyaan/'+props.content.parent_detail.id}  className='col-md-11 detail-answer-control'>
                             {props.content.parent_detail.title}
-                        </div>
+                        </Link>
                         <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img className='logo-edit-control' src={more} alt="img"/>
                         </div>
