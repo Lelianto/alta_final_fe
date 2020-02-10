@@ -26,7 +26,6 @@
     "unistore": "^3.5.1"
   },
   "scripts": {
-    // "postbuild": "react-snap",
     "sitemap": "babel-node ./src/routes/sitemap-generator.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
