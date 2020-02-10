@@ -188,37 +188,44 @@ class Home extends React.Component {
 	}
 	
 	render() {
-		return (
-			<React.Fragment>
-				<Header doSearch={this.doSearch} />
-				<div className="container-fluid pt-4">
-					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
-						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5 overflow">
-							<InterestList
-								tags={this.state.filterInterest}
-								excludeTags={this.state.excludeTags}
-								seeAll={this.seeAll}
-								checkAll={() => this.checkAll()}
-							/>
-						</div>
-						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow">
-							{this.state.postingList.map((content, i) => (
-								<UserOwnFile
-									typeContent={content.posting_detail.content_type}
-									content={content} editArticle={(e)=>this.editArticle(e)} editQuestion={(e)=>this.editQuestion(e)}
-									detailArticle={(e) => this.detailArticle(e)}
-									goToDetailQuestion={(e) => this.goToDetailQuestion(e)} userDetail ={this.state.userDetail}
+		if(localStorage.getItem('username')==='admin'){
+			this.props.history.push('/admin/pengguna')
+			return (
+				<div></div>
+			)
+		} else {
+			return (
+				<React.Fragment>
+					<Header doSearch={this.doSearch} />
+					<div className="container-fluid pt-4">
+						<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
+							<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5 overflow">
+								<InterestList
+									tags={this.state.filterInterest}
+									excludeTags={this.state.excludeTags}
+									seeAll={this.seeAll}
+									checkAll={() => this.checkAll()}
 								/>
-							))}
-						</div>
-						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow">
-							<PopularList article={this.state.article} />
+							</div>
+							<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow">
+								{this.state.postingList.map((content, i) => (
+									<UserOwnFile
+										typeContent={content.posting_detail.content_type}
+										content={content} editArticle={(e)=>this.editArticle(e)} editQuestion={(e)=>this.editQuestion(e)}
+										detailArticle={(e) => this.detailArticle(e)}
+										goToDetailQuestion={(e) => this.goToDetailQuestion(e)} userDetail ={this.state.userDetail}
+									/>
+								))}
+							</div>
+							<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow">
+								<PopularList article={this.state.article} />
+							</div>
 						</div>
 					</div>
-				</div>
-				<Footer />
-			</React.Fragment>
-		);
+					<Footer />
+				</React.Fragment>
+			);
+		}
 	}
 }
 export default connect('responseData, keyword', actions)(withRouter(Home));

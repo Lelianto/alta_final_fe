@@ -94,7 +94,6 @@ class SignUp extends React.Component {
     }
 
     googleSignIn = async () => {
-        console.log('masukkk')
         const parameters = {
             id_token : localStorage.getItem('gmail_token')
         }
@@ -118,17 +117,11 @@ class SignUp extends React.Component {
         await localStorage.removeItem('gmail_token', this.state.responseData.token)
         await localStorage.removeItem('gmail_username', this.state.responseData.username)
         await localStorage.removeItem('gmail_email', this.state.responseData.username)
-        await this.props.history.push('/pilih-minat')
-        // if (getDataRes.status === 200) {
-        // } else{
-        //     console.log('isi error', getDataRes)
-        // }
-        // await this.afterSignIn()                    
+        await this.props.history.push('/pilih-minat')                  
     }
 
 	render() {
         if(localStorage.getItem('gmail_token')!==null){
-            console.log('awallll')
             this.googleSignIn()
             return(
                 <div>
@@ -197,7 +190,7 @@ class SignUp extends React.Component {
                                     <div className='row'>
                                         <div className='col-md-4'></div>
                                         <div className='col-md-4'>
-                                            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                                            <button style={{border:'none', backgroundColor:'white'}} class="g-signin2" data-onsuccess="onSignIn"></button>
                                         </div>
                                         <div className='col-md-4'></div>
                                     </div>

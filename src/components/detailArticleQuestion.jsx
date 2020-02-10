@@ -23,7 +23,7 @@ const DetailArticleQuestion =(props)=> {
       return (
         <div style={{textAlign:'left', marginBottom:'20px', marginTop:'25px'}}>
           <Helmet>
-            <title>{contentNew.posting_data.posting_detail.title}</title>
+            {/* <title>{contentNew.posting_data.posting_detail.title}</title> */}
             <meta name="description" content={htmlArticle} />
           </Helmet>
           <div className='col-md-12 box-control'>

@@ -46,7 +46,8 @@ const initialState = {
 	startNew:true,
 	userDetail:{},
 	userData : {},
-	userTagData : []
+	userTagData : [],
+	waiting:true
 }
 
 export const store = createStore(initialState);
@@ -127,6 +128,35 @@ export const actions = (store) => ({
 					.catch((error) => {
 						return false;
 					});
+			})
+			.catch((error) => {
+				return false;
+			});
+	},
+
+	compileCode: async (state) => {
+		store.setState({
+			waiting: true
+		})
+		const input = {
+			clientId:"7ca457a9e69e521b689e09b0ce2bc0d9",
+			clientSecret:"2bba055e98a958d83de4a9d59e8b1efe46c04e77b5b9ef825d2484675a98fc48",
+			language:"python3",
+			script: state.wordCode 
+		}
+		const req = {
+			method: 'post',
+			url: "https://cors-anywhere.herokuapp.com/https://api.jdoodle.com/v1/execute ",
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			data: input
+		};
+		await axios(req)
+			.then((response) => {
+				store.setState({
+					codeCompilerResult: response.data.output
+				});
 			})
 			.catch((error) => {
 				return false;

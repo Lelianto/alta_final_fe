@@ -155,7 +155,7 @@ class DetailArticle extends React.Component {
 				<Header doSearch={this.doSearch}/>
 				<div className="container-fluid pt-4">
                     <Helmet>
-                        <title>Artikel</title>
+                        {/* <title>Artikel</title> */}
                         <meta name="description" content="Berisi artikel yang membahas tentang pemrograman" />
                     </Helmet>
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>

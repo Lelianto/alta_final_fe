@@ -103,7 +103,7 @@ class detailArticlePage extends React.Component {
 			<React.Fragment>
 				<Header doSearch={this.doSearch}/>
 				<Helmet>
-					<title>Pertanyaan</title>
+					{/* <title>Pertanyaan</title> */}
 					<meta name="description" content="Berisi artikel yang membahas tentang pemrograman" />
 				</Helmet>
 				<div className="container-fluid pt-4">
