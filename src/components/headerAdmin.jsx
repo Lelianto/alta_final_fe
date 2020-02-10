@@ -9,7 +9,7 @@ import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
 
 const Header = (props) => {
-	if (localStorage.getItem('email') === null) {
+	if (localStorage.getItem('username') === null) {
 		return (
 			<header>
 				<nav class="navbar navbar-expand-lg">

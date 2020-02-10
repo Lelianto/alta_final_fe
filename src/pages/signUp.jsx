@@ -112,17 +112,18 @@ class SignUp extends React.Component {
         const getDataRes = await axios(signUp);
         await self.setState({ responseData: getDataRes.data}); 
         await console.log('isi respon data user',this.state.responseData)
-        localStorage.setItem('token', this.state.responseData.token)
+        await localStorage.setItem('token', this.state.responseData.token)
+        await localStorage.setItem('username', this.state.responseData.username)
+        await localStorage.setItem('email', this.state.responseData.email)
+        await localStorage.removeItem('gmail_token', this.state.responseData.token)
+        await localStorage.removeItem('gmail_username', this.state.responseData.username)
+        await localStorage.removeItem('gmail_email', this.state.responseData.username)
         await this.props.history.push('/pilih-minat')
         // if (getDataRes.status === 200) {
         // } else{
         //     console.log('isi error', getDataRes)
         // }
         // await this.afterSignIn()                    
-    }
-
-    handleSignIn = async (event) => {
-        await console.log('isi event', event)
     }
 
 	render() {
@@ -196,7 +197,7 @@ class SignUp extends React.Component {
                                     <div className='row'>
                                         <div className='col-md-4'></div>
                                         <div className='col-md-4'>
-                                            <div onChange={()=>this.handleSignIn(localStorage.getItem('gmail_email'))} class="g-signin2" data-onsuccess="onSignIn"></div>
+                                            <div class="g-signin2" data-onsuccess="onSignIn"></div>
                                         </div>
                                         <div className='col-md-4'></div>
                                     </div>
