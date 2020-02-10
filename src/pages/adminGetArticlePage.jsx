@@ -7,7 +7,6 @@ import Header from '../components/headerAdmin';
 import Footer from '../components/footer';
 import AdminMenu from '../components/adminMenu'
 
-
 class AdminLandingPage extends React.Component {
 	handleChangePage = (event) => {
 		console.log(event)
@@ -43,6 +42,35 @@ class AdminLandingPage extends React.Component {
 					</div>
 				</div>
 				<div className='container'>
+					<div className='row' style={{paddingTop:'30px'}}>
+						<div className="col-md-12">
+							<form
+								className="search-component form-inline my-2 my-lg-0"
+								onSubmit={(e) => e.preventDefault()}
+							>
+								<div className="col-md-10" style={{ paddingRight: '0px' }}>
+									<input
+										className="input-search-component form-control mr-sm-5"
+										type="text"
+										placeholder="Pencarian"
+										name="keyword"
+										style={{ width: '100%' }}
+										// onChange={props.setInput}
+									/>
+								</div>
+								<div className="col-md-1" style={{ paddingLeft: '5px' }}>
+									<button
+										// onClick={() => props.doSearch()}
+										className="btn btn-info my-2 my-sm-0"
+										type="submit"
+										style={{ paddingLeft: '25px', paddingRight: '25px' }}
+									>
+										Cari
+									</button>
+								</div>
+							</form>
+						</div>
+					</div>
 					<div className='row' style={{paddingTop:'30px', paddingBottom:'75px'}}>
 						<table class="table table-bordered">
 						<thead>

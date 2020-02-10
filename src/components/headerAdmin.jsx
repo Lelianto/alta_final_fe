@@ -42,18 +42,8 @@ const Header = (props) => {
 							<li className="nav-item">
 								<Link
 									className="nav-link"
-									onClick={() =>
-										store.setState({
-											locationPage: 'article',
-											keyword : '',
-											articleTitle: '',
-											newArticle: '',
-											imageUrl: '',
-											imageArticleUrl: '',
-											startComment: false,
-											menuBarUpload: false,
-											isLoading:true
-										})}
+									onClick={() => props.afterSignOut()}
+									to='/'
 								>
 									Keluar
 								</Link>

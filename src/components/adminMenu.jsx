@@ -14,6 +14,14 @@ const AdminMenu = (props) => {
 			<div className='container'>
 				<div className='row' style={{paddingTop:'100px'}}>
                     <div className='col-md-1'>
+
+                    </div>
+                    <div className='col-md-11 text-justify'>
+                        <h1 style={{paddingLeft:'7px', paddingBottom:'30px'}}>
+                            Hai, Admin
+                        </h1>
+                    </div>
+                    <div className='col-md-1'>
                     </div>
                     <div className='col-md-2'>
                         <div onClick={()=>props.handleChangePage('/pengguna')} className='box-control btn-grad' style={{paddingBottom:'25px', paddingTop:'25px', fontSize:'15px'}}>

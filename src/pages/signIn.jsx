@@ -55,11 +55,21 @@ class SignIn extends React.Component {
 		};
 
 		await this.props.handleAPI(userDetail)
-		await localStorage.setItem('email', this.props.responseData.user_data.email)
-		await this.props.history.push("/")
-		await this.props.deleteResponse()
+		await this.setLocalStorage()
+		
 	}
 
+	setLocalStorage = () =>{
+		// console.log(this.props.responseData)
+		if(this.props.responseData.is_admin==='true'){
+			this.props.history.push("/admin/pengguna")
+			this.props.deleteResponse()
+		} else {
+			localStorage.setItem('email', this.props.responseData.user_data.email)
+			this.props.history.push("/")
+			this.props.deleteResponse()
+		}
+	}
 	doSearch = () => {
 		this.props.history.push('/pencarian')
 	}

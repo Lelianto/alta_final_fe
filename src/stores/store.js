@@ -257,6 +257,7 @@ export const actions = (store) => ({
 				return false;
 			});
 	},
+
 	updateQuestion: async (state) => {
 		const title = state.articleTitle;
 		const content_type = 'question';
@@ -308,6 +309,7 @@ export const actions = (store) => ({
 			await console.log('isi respon data user',store.getState().responseData)
 		}
 	},
+	
 	getToken: async (state) => {
 		const responseData = await state.responseData;
 		console.warn('respon', responseData);

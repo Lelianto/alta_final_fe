@@ -21,7 +21,7 @@ class ColumnChart extends Component {
 					{ label: "NuxtJS",  y: 28  },
 					{ label: "MySQL",  y: 30  },
 					{ label: "MongoDB", y: 25  },
-					{ label: "Redis", y: 15  },
+					{ label: "Redis", y: 60  },
 					{ label: "Flask",  y: 20  },
 					{ label: "Python",  y: 22  }
 				]
