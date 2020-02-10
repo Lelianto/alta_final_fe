@@ -28,7 +28,7 @@ class SignUp extends React.Component {
             email : this.state.email,
             password : this.state.password
         };
-	
+        
         const signUp = {
             method:"post",
             url: store.getState().baseUrl+"/users",
@@ -40,7 +40,7 @@ class SignUp extends React.Component {
                 return status < 500
             }
         };
-            
+        console.log('isi signup google', signUp)
         if (this.state.username !== null && this.state.email !== null && this.state.password !==null && this.state.confirmPassword !== null) {
             if (this.state.password === this.state.confirmPassword) {
                 await this.props.handleAPI(signUp)
@@ -103,6 +103,7 @@ class SignUp extends React.Component {
             email: profile.getEmail(),
             password: id_token
         })
+        await this.afterSignUp()
       }
 
 	render() {
