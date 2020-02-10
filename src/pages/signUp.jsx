@@ -103,7 +103,7 @@ class SignUp extends React.Component {
             email: profile.getEmail(),
             password: id_token
         })
-        await this.afterSignUp()
+        this.afterSignUp()
       }
 
 	render() {
