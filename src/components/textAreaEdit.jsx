@@ -170,6 +170,7 @@ class TextAreaEdit extends React.Component {
     }
     
     render() {
+        console.log('isi semua data',this.props.allArticleDatabase)
         const addedTag = this.state.tagging
         const textAreaContent = this.props.allArticleDatabase.posting_data.posting_detail
         const htmlContent = <Markup content={textAreaContent.html_content}/>

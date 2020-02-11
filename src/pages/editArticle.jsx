@@ -11,6 +11,7 @@ import axios from 'axios';
 import Loader from '../components/loader'
 
 class EditArticlePage extends React.Component {
+    
     doSearch = () => {
         this.props.history.push('/pencarian')
       }
@@ -61,7 +62,7 @@ class EditArticlePage extends React.Component {
     }
 
 	render() {
-        if(store.getState().isLoading){
+        if(store.getState().allArticleDatabase===null){
             return(
                 <div>
                     <Loader/>

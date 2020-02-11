@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <meta name="google-site-verification" content="Qy8emOC4BzgZfYFLe_ubT1w8fLqNuBxL9178kAlhrMk" />
     <meta name="google-site-verification" content="2EVZqKPSwfJuS5-3rCSJNnkaj7VR3C-8nXY2uXD7xTU" />
     <!-- Google Tag Manager -->
@@ -19,7 +20,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id" content="32546986898-ufdiq6pa0sjqcfccpk1f6m1d70fbo63c.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="164164000203-aeirfg61lk5363cp27fri0odtq32cp7u.apps.googleusercontent.com">
 
     <meta property="og:title" content="Kodekula membantu programmer Indonesia">
     <meta property="og:type" content="article">
@@ -27,7 +28,10 @@
     <meta property="og:image" content="https://code.org/shared/images/social-media/codeorg2019_social.png">
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="Web ini dibuat oleh mentee Alterra"/>
+    <meta name="description" content="proyek akhir, web development, programming, coding, kode, indonesia, react, javascript, python"/>
     <meta name="keywords" content="proyek akhir, web development, programming, coding, kode, indonesia, react, javascript, python">
+    <meta name="keywords" content="belajar mengatasi kendala programming">
+    <meta name="keywords" content="mempelajari react untuk proyek akhir">
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -110,5 +114,94 @@
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
     </script>
-  </body>
+
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+  <script>
+      function handleSidebar() {
+          // To make current link active
+        var pageURL = $(location).attr('href');
+        var URLSplits = pageURL.split('/');
+
+        if (URLSplits.length === 4) {
+          var routeURL = '/' + URLSplits[URLSplits.length - 1] ;
+          var activeNestedList = $('.sub-menu  > .list-group-item > a[href="' + routeURL + '"]').parent();
+          if (activeNestedList.length !== 0 && !activeNestedList.hasClass('active')) {
+            $('.sub-menu > .list-group-item').removeClass('active');  
+            activeNestedList.parent().addClass("show");
+          }
+        }
+        
+        function toggleSidebar() {
+          if(jQuery(window).innerWidth() <= 992) {
+              jQuery("#sidebar").addClass("invisible");    
+            } else {
+              jQuery("#sidebar").removeClass("invisible");
+            }
+        }
+        toggleSidebar();         
+        jQuery(window).on("resize",function(){
+            toggleSidebar();
+        });
+        jQuery(".toggle-sidebar").on("click",function(){
+          jQuery("#sidebar").toggleClass("invisible");
+        });
+        jQuery("#sidebar a").on("click",function(){
+          jQuery("#sidebar .sub-menu").removeClass("show");
+          jQuery(this).parent().parent().addClass("show");
+        });
+     if (document.createEvent) { // W3C
+    var ev = document.createEvent('Event');
+    ev.initEvent('resize', true, true);
+    window.dispatchEvent(ev);
+    }
+    else { // IE
+    element = document.documentElement;
+    var event = document.createEventObject();
+    element.fireEvent("onresize", event);
+    }
+      }
+      if(window.addEventListener){
+          window.addEventListener('load', handleSidebar)
+      }else{
+          window.attachEvent('onload', handleSidebar)
+      }
+    </script>
+
+  <script type="text/javascript" src="signInGoogle.js"></script>
+  <script type="text/javascript" src="logInGoogle.js"></script>
+  <script>
+    function signOut() {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        console.log('User signed out.');
+      });
+    }
+  </script>
+  
+  <script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+    </script>
+
+
+</body>
 </html>
