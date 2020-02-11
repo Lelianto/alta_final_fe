@@ -96,9 +96,15 @@ class CommentArea extends React.Component {
                 <span></span>}
                 
                 <div className='container'>
-                    <button onClick={()=>this.props.handlePostComment()} className='btn btn-grad'>
+                    {this.props.newArticle===''?
+                        <button type='button' disabled className='btn btn-grad'>
                         Kirim
-                    </button>
+                        </button>
+                    :
+                        <button onClick={()=>this.props.handlePostComment()} className='btn btn-grad'>
+                            Kirim
+                        </button>
+                    }
                 </div>
             </div>
         )

@@ -24,7 +24,11 @@ class AddArticlePage extends React.Component {
                                 <div className='col-md-4'>
                                 </div>
                                 <div className='col-md-4'>
-                                    <div className='btn btn-grad' style={{marginBottom:'50px', fontSize:'15px',padding:'15px'}} onClick={()=>this.props.uploadArticle()}>Unggah Artikel</div>
+                                    {this.props.newArticle === '' || this.props.articleTitle === ''?
+                                        <button disabled className='btn btn-grad' style={{marginBottom:'50px', fontSize:'15px',padding:'15px'}}>Unggah Artikel</button>
+                                    :
+                                        <button className='btn btn-grad' style={{marginBottom:'50px', fontSize:'15px',padding:'15px'}} onClick={()=>this.props.uploadArticle()}>Unggah Artikel</button>
+                                    }
                                 </div>
                                 <div className='col-md-4'>
                                 </div>
@@ -40,4 +44,4 @@ class AddArticlePage extends React.Component {
 		);
 	}
 }
-export default connect('menuBarUpload', actions)(withRouter(AddArticlePage));
+export default connect('menuBarUpload, articleTitle, newArticle', actions)(withRouter(AddArticlePage));
