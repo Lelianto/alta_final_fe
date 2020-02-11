@@ -80,7 +80,7 @@ class QuestionPage extends React.Component {
 			console.log('tidak ada')
 			this.fetchPosts(page)
 		}
-		console.log('isi slug',this.props.match.params)
+		console.log('isi slug',this.props.match.params.data.slug)
 		let slug = this.props.match.params.slug;
 
 		butter.post.retrieve(slug).then((resp) => {
