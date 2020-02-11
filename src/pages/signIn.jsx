@@ -101,6 +101,11 @@ class SignIn extends React.Component {
         await localStorage.removeItem('gmail_email', this.state.responseData.username)
         await this.props.history.push('/')                  
 	}
+
+	handleGoogleSignUp=()=>{
+        const signUp = true
+        localStorage.setItem('status', signUp)
+	}
 	
 	render() {
 		if(localStorage.getItem('gmail_token')!==null){
@@ -166,7 +171,7 @@ class SignIn extends React.Component {
 									<div className='row'>
 										<div className='col-md-4'></div>
 										<div className='col-md-4'>
-											<div class="g-signin2" data-onsuccess="onLogIn"></div>
+											<div onClick={()=>this.handleGoogleSignUp()} class="g-signin2" data-onsuccess="onLogIn"></div>
 										</div>
 										<div className='col-md-4'></div>
 									</div>

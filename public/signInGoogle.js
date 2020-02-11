@@ -7,8 +7,11 @@ async function onSignIn(googleUser){
     console.log(username)
     console.log(profile)
     console.log('token', googleUser.getAuthResponse())
-    localStorage.setItem('gmail_username', username)
-    localStorage.setItem('gmail_email', profile.getEmail())
-    localStorage.setItem('gmail_token', id_token)
-    window.location.replace('http://localhost:3000/daftar')
+    if(localStorage.getItem('status')){
+        localStorage.setItem('gmail_username', username)
+        localStorage.setItem('gmail_email', profile.getEmail())
+        localStorage.setItem('gmail_token', id_token)
+        localStorage.removeItem('status')
+        window.location.replace('http://localhost:3000/daftar')
+    }
 }

@@ -119,6 +119,10 @@ class SignUp extends React.Component {
         await localStorage.removeItem('gmail_email', this.state.responseData.username)
         await this.props.history.push('/pilih-minat')                  
     }
+    handleGoogleSignUp=()=>{
+        const signUp = true
+        localStorage.setItem('status', signUp)
+    }
 
 	render() {
         if(localStorage.getItem('gmail_token')!==null){
@@ -190,7 +194,7 @@ class SignUp extends React.Component {
                                     <div className='row'>
                                         <div className='col-md-4'></div>
                                         <div className='col-md-4'>
-                                            <button style={{border:'none', backgroundColor:'white'}} class="g-signin2" data-onsuccess="onSignIn"></button>
+                                            <button onClick={()=>this.handleGoogleSignUp()} style={{border:'none', backgroundColor:'white'}} class="g-signin2" data-onsuccess="onSignIn"></button>
                                         </div>
                                         <div className='col-md-4'></div>
                                     </div>
