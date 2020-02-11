@@ -68,11 +68,13 @@ const UserOwnFile = (props) => {
                     <div className='row tag-control-article align-items-end'>
                         <div className='col-md-8'>
                             <div className='row'>
-                                {postingDetail.tags.map((tag)=>(
-                                    <div className='col-md-3 tag-control-arc'>
-                                        #{tag}
-                                    </div>
-                                ))}
+                                {postingDetail.tags !== undefined ? 
+                                    postingDetail.tags.map((tag)=>(
+                                        <div className='col-md-3 tag-control-arc'>
+                                            #{tag}
+                                        </div>
+                                    ))
+                                : null}
                             </div>
                         </div>
                         <div className='col-md-1'></div>
@@ -148,11 +150,13 @@ const UserOwnFile = (props) => {
                     <div className='row tag-control-article'>
                         <div className='col-md-8 align-items-end'>
                             <div className='row'>
-                                {postingDetail.tags.map((tag)=>(
-                                    <div className='col-md-3 tag-control-arc'>
-                                        #{tag}
-                                    </div>
-                                ))}
+                                {postingDetail.tags !== undefined ? 
+                                    postingDetail.tags.map((tag)=>(
+                                        <div className='col-md-3 tag-control-arc'>
+                                            #{tag}
+                                        </div>
+                                    ))
+                                : null}
                             </div>
                         </div>
                         <div className='col-md-1'></div>

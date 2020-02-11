@@ -12,42 +12,48 @@ const InterestList = (props) => {
 	return (
 		<React.Fragment>
             <div className="pl-2 pr-2 pt-4 mr-2 fixed-left" >
-                {localStorage.getItem('email') !== null ? 
-                <React.Fragment>
-                    <div className="home-title mb-3 pl-2">Lini Masa</div>
-                    <div className="pl-2">
-                        <div className="mb-3">
-                            <input type="checkbox" id='all' defaultChecked onClick={()=>props.checkAll()}/>
-                            <img src={all} alt="" className="pr-2 ml-2" width='30px'/>
-                            <label for='all' style={{color:'#1b262c', fontSize:'14px'}}>Semua</label>
-                        </div>
-                        {props.tags.map((value) => (
-                            <div className='mb-3'>
-                                <input type="checkbox" name={value.name} value={value.name} id={value.name} onClick={props.chooseTags} defaultChecked/>
-                                <img src={value.photo_url} alt="img" className="pr-2 ml-2" width="30px"/>
-                                <label for={value.name} style={{color:'#1b262c', fontSize:'14px'}}>{value.name}</label>
-                            </div>
-                        ))}
-                    </div>
-                </React.Fragment>
+                {localStorage.getItem('email')!==null && props.tags.length > 0 ? 
+                    <div className="home-title mb-3 pl-2">Minat</div>
                 : null}
-                {props.locationPage === 'home' && localStorage.getItem('email') === null ? <div className="suggestion pl-2 mb-3">Lini Masa</div> : <div className="suggestion pl-2 mb-3">Saran</div> }
-                <div className="pl-2">
-                    <div className="row mb-3 pl-3">
-                        <Link style={{textDecoration:'none', fontSize:'15px'}} onClick={()=>props.seeAll()}id='seeAll'>Lihat Semua...</Link>
-                    </div>
-                    <div id='suggest-list' style={{display:'none'}}>
-                        {props.excludeTags.map((value) => (
-                            <div className='mb-3' >
-                                <input type="checkbox" name={value.name} value={value.name} id={value.name} onClick={props.chooseTags}/>
-                                <img src={value.photo_url} alt="" className="pr-2 ml-2" width="30px"/>
-                                <label for={value.name} style={{color:'#1b262c', fontSize:'14px'}}>{value.name}</label>
+                    <div className="pl-2">
+                        {props.tags.length > 1 ? 
+                            <div className="mb-3">
+                                <input type="checkbox" id='all' defaultChecked onClick={()=>props.checkAll()}/>
+                                <img src={all} alt="" className="pr-2 ml-2" width='30px'/>
+                                <label for='all' style={{color:'#1b262c', fontSize:'14px'}}>Semua</label>
                             </div>
-                        ))}
+                        : null}
+                        { 
+                            props.tags.map((value) => (
+                                <div className='mb-3'>
+                                    <input type="checkbox" name={value.name} value={value.name} id={value.name} onClick={props.chooseTags} defaultChecked/>
+                                    <img src={value.photo_url} alt="img" className="pr-2 ml-2" width="30px"/>
+                                    <label for={value.name} style={{color:'#1b262c', fontSize:'14px'}}>{value.name}</label>
+                                </div>
+                            ))}
+                       
+                    </div>
+                {props.locationPage === null || localStorage.getItem('email') === null ? 
+                <div>
+                    <div className="suggestion pl-2 mb-3">Saran</div>
+                    <div className="pl-2">
+                        <div className="row mb-3 pl-3">
+                            <Link style={{textDecoration:'none', fontSize:'15px'}} onClick={()=>props.seeAll()}id='seeAll'>Lihat Semua...</Link>
+                        </div>
+                        <div id='suggest-list' style={{display:'none'}}>
+                            {props.excludeTags.map((value) => (
+                                <div className='mb-3' >
+                                    <input type="checkbox" name='suggest' value={value.name} id={value.name} onClick={props.chooseTags}/>
+                                    <img src={value.photo_url} alt="" className="pr-2 ml-2" width="30px"/>
+                                    <label for={value.name} style={{color:'#1b262c', fontSize:'14px'}}>{value.name}</label>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
+                : null}
             </div>
 		</React.Fragment>
 	);
 };
-export default connect('isLoading', actions)(withRouter(InterestList));
+export default connect('isLoading, locationPage', actions)(withRouter(InterestList));

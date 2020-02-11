@@ -7,6 +7,7 @@ import UserOwnFile from '../components/userOwnFile';
 import MenuBarProfile from '../components/menuBarProfile';
 import axios from 'axios';
 import { actions, store } from '../stores/store';
+import Loader from '../components/loader'
 
 class UserProfilePage extends Component {
 
@@ -39,7 +40,9 @@ class UserProfilePage extends Component {
     };
 
     const questionRes = await axios(question)
-    this.setState({questions : questionRes.data.query_data})
+    console.warn(questionRes)
+    await this.setState({questions : questionRes.data.query_data})
+    await console.warn('question', this.state.questions)
   }
 
   getUserDetail = async () => {
@@ -74,33 +77,41 @@ class UserProfilePage extends Component {
   };
 
   render() {
-    return (
-      <div>
-        <Header doSearch={this.doSearch}/>
-        <UserProfile userData={this.state.userData} userDetail={this.state.userDetail}/>
-        <div className='container'>
-          <div className='row'>
-            <div className='col-md-3' style={{paddingTop:'5%'}}>
-              <MenuBarProfile/>
-            </div>
-            <div className='col-md-9 user-own-file'>
-              <h5 className="text-center profile-title">Pertanyaan</h5>
-              {this.state.questions.map((content) => (
-                <UserOwnFile
-                    typeContent="question"
-                    content={content} 
-                    editQuestion={(e)=>this.editQuestion(e)}
-                    goToDetailQuestion={(e) => this.goToDetailQuestion(e)} 
-                    userDetail ={this.state.userData}
-                    userData = {this.state.userData}
-                  />
-              ))}
+
+    if(this.state.questions === {}) {
+      return (
+        <Loader/>
+      )
+    } else {
+
+      return (
+        <div>
+          <Header doSearch={this.doSearch}/>
+          <UserProfile userData={this.state.userData} userDetail={this.state.userDetail}/>
+          <div className='container'>
+            <div className='row'>
+              <div className='col-md-3' style={{paddingTop:'5%'}}>
+                <MenuBarProfile/>
+              </div>
+              <div className='col-md-9 user-own-file'>
+                <h5 className="text-center profile-title">Pertanyaan</h5>
+                {this.state.questions.map((content) => (
+                  <UserOwnFile
+                      typeContent="question"
+                      content={content} 
+                      editQuestion={(e)=>this.editQuestion(e)}
+                      goToDetailQuestion={(e) => this.goToDetailQuestion(e)} 
+                      userDetail ={this.state.userData}
+                      userData = {this.state.userData}
+                    />
+                ))}
+              </div>
             </div>
           </div>
+          <Footer/>
         </div>
-        <Footer/>
-      </div>
-    );
+      );
+    }
   }
 }
 

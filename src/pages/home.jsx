@@ -117,7 +117,6 @@ class Home extends React.Component {
 		await axios(posting)
 			.then(async (response) => {
 				await this.setState({ postingList: response.data.query_data });
-				await console.warn('isi posting list state', this.state.postingList);
 			})
 			.catch(async (error) => {
 				await console.warn(error);
@@ -125,11 +124,24 @@ class Home extends React.Component {
 	};
 
 	filterPosting = async () => {
+		let chosenTags = []
+		if (this.state.chosenTags.length > 0) {
+			chosenTags = this.state.chosenTags
+		} else {
+			if (this.state.userInterest.length === 0) {
+				this.state.excludeTags.map((tag)=>{
+					chosenTags.push(tag.name)
+				})
+			} else {
+				chosenTags = this.state.userInterest
+			}
+		}
+
 		const postingList = await this.state.postingList;
 		const chosenPost = []
 		postingList.map((post) => {
 			post.posting_detail.tags.map((tag) => {
-				if (this.state.chosenTags.includes(tag)) {
+				if (chosenTags.includes(tag)) {
 					if (chosenPost.includes(post) === false) {
 						chosenPost.push(post);
 					}
@@ -163,19 +175,16 @@ class Home extends React.Component {
 					chosenTags.push(item)
 				}
 			});
+			await this.setState({chosenTags : chosenTags})
 		} else {
-			console.warn('user', userInterest)
-			console.warn('chosen', this.state.chosenTags)
-			userInterest.map((item) => {
+			userInterest.map(async (item) => {
 				const changeCheckedStatus = document.getElementById(item);
 				changeCheckedStatus.checked = false;
-				if(chosenTags.includes(item)) {
-					chosenTags.filter(tag => tag !== item)
-				}
 			});
+			const newTags = chosenTags.filter(tag => !userInterest.includes(tag))
+			await this.setState({chosenTags : newTags})
 		}
-
-		await this.setState({chosenTags : chosenTags})
+		
 		await this.filterPosting()
 	};
 
@@ -219,9 +228,8 @@ class Home extends React.Component {
 	};
 
 	chooseTags = async (event) => {
-		// const checkState = document.getElementById('all');
-		// const checkStateSuggest = document.getElementById('suggest');
-		// if (checkState.checked === false || event.target.id === 'suggest') {
+		const checkState = document.getElementById('all');
+		if (event.target.name === 'suggest' || checkState.checked === false) {
 			let chosenTags = this.state.chosenTags
 			if (event.target.checked === true) {
 				if(chosenTags.includes(event.target.value)===false){
@@ -233,10 +241,9 @@ class Home extends React.Component {
 					chosenTags = newTags
 				}
 			}
-			await console.warn('CT', this.state.chosenTags)
 			await this.setState({chosenTags : chosenTags})
 			await this.filterPosting()
-		// }
+		}
 	}
 
 
