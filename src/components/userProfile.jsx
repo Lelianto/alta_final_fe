@@ -26,7 +26,7 @@ const UserProfile = (props) =>{
                             :
                         </div>
                         <div className='col-md-8'>
-                            UserKodeKula
+                            {props.userData.username}
                         </div>
                     </div>
                     <div className='user-full-name row'>
@@ -37,7 +37,7 @@ const UserProfile = (props) =>{
                             :
                         </div>
                         <div className='col-md-8'>
-                            User Kodekula
+                            {props.userDetail.first_name+props.userDetail.last_name}
                         </div>
                     </div>
                     <div className='row user-job'>
@@ -48,18 +48,18 @@ const UserProfile = (props) =>{
                             :
                         </div>
                         <div className='col-md-5'>
-                            Software Engineer
+                            {props.userDetail.job_title}
                         </div>
                         <div className='join-this-web col-md-3'>
-                            Bergabung sejak 29 Januari 2020
+                            Bergabung sejak {props.userData.created_at}
                         </div>
                     </div>
                     <div className='row user-profile-border'>
                         
                     </div>
-                    <div className='row title-menu-bar'>
+                    {/* <div className='row title-menu-bar'>
                         {props.menuBarUser}
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

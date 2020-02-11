@@ -46,24 +46,17 @@ const DetailArticleQuestion =(props)=> {
               <div className='preview-article-control'>
                 {htmlArticle}
               </div>
-              <div className='row tag-control-article'>
-                <div className='col-md-6'>
-                    <div className='row text-center'>
-                        <div className='col-md-3 tag-control-arc'>
-                            #python
-                        </div>
-                        <div className='col-md-3 tag-control-arc'>
-                            #flask
-                        </div>
-                        <div className='col-md-3 tag-control-arc'>
-                            #restful
-                        </div>
-                        <div className='col-md-3 tag-control-arc'>
-                            #pytest
-                        </div>
+              <div className='row tag-control-article align-items-end'>
+                <div className='col-md-8'>
+                    <div className='row text-center '>
+                      {contentNew.posting_data.posting_detail.tags.map((tag)=>(
+                          <div className='col-md-3 tag-control-arc'>
+                              #{tag}
+                          </div>
+                      ))}
                     </div>
                 </div>
-                <div className='col-md-3'></div>
+                <div className='col-md-1'></div>
                 <div className='col-md-3'>
                     <div className='row'>
                         <div className='col-md-4 text-center'>

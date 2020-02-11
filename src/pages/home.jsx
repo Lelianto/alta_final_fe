@@ -8,8 +8,7 @@ import InterestList from '../components/interestList';
 import PopularList from '../components/popularList';
 import UserOwnFile from '../components/userOwnFile';
 import axios from 'axios';
-
-const listContent = [ 'Artikel', 'Pertanyaan' ];
+import Loader from '../components/loader';
 
 class Home extends React.Component {
 	state = {
@@ -18,7 +17,9 @@ class Home extends React.Component {
 		filterInterest: [],
 		excludeTags: [],
 		postingList: [],
-		userDetail : {},
+		userDetail: {},
+		chosenTags: [],
+		chosenPost: [],
 		article: [
 			'Lorem ipsum dolor sit amet consectetur adipisicing elit',
 			'Alias corrupti velit illum sequi quas omnis esse ipsam sed aut delectus blanditiis',
@@ -28,9 +29,10 @@ class Home extends React.Component {
 		]
 	};
 
-	componentDidMount = async () => {
+	componentWillMount = async () => {
 		await this.getUserTags();
 		await this.getPostingList();
+		await this.filterPosting();
 	};
 
 	getUserTags = async () => {
@@ -48,13 +50,16 @@ class Home extends React.Component {
 
 		await axios(tags)
 			.then(async (response) => {
-				await this.setState({ userInterest: response.data.user_tag_data, userDetail : response.data.user_data });
-				// await store.setState({ userInterest: response.data.user_tag_data });
+				await this.setState({
+					userInterest: response.data.user_tag_data,
+					userDetail: response.data.user_data
+				});
 			})
 			.catch(async (error) => {
 				await console.warn(error);
 			});
 
+		await this.setState({chosenTags : this.state.userInterest.slice()})
 		await this.getAllTags();
 	};
 
@@ -97,7 +102,6 @@ class Home extends React.Component {
 	};
 
 	getPostingList = async () => {
-		// console.warn('keyword', this.state.keyword);
 		const parameters = {
 			keyword: this.props.keyword
 		};
@@ -113,11 +117,38 @@ class Home extends React.Component {
 		await axios(posting)
 			.then(async (response) => {
 				await this.setState({ postingList: response.data.query_data });
-				// await store.setState({interestList : response.data})
 			})
 			.catch(async (error) => {
 				await console.warn(error);
 			});
+	};
+
+	filterPosting = async () => {
+		let chosenTags = []
+		if (this.state.chosenTags.length > 0) {
+			chosenTags = this.state.chosenTags
+		} else {
+			if (this.state.userInterest.length === 0) {
+				this.state.excludeTags.map((tag)=>{
+					chosenTags.push(tag.name)
+				})
+			} else {
+				chosenTags = this.state.userInterest
+			}
+		}
+
+		const postingList = await this.state.postingList;
+		const chosenPost = []
+		postingList.map((post) => {
+			post.posting_detail.tags.map((tag) => {
+				if (chosenTags.includes(tag)) {
+					if (chosenPost.includes(post) === false) {
+						chosenPost.push(post);
+					}
+				}
+			});
+		});
+		await this.setState({chosenPost : chosenPost})
 	};
 
 	seeAll = () => {
@@ -132,20 +163,29 @@ class Home extends React.Component {
 		}
 	};
 
-	checkAll = () => {
+	checkAll = async () => {
 		const checkState = document.getElementById('all');
 		const userInterest = this.state.userInterest;
+		let chosenTags = this.state.chosenTags
 		if (checkState.checked === true) {
 			userInterest.map((item) => {
 				const changeCheckedStatus = document.getElementById(item);
 				changeCheckedStatus.checked = true;
+				if (chosenTags.includes(item) === false) {
+					chosenTags.push(item)
+				}
 			});
+			await this.setState({chosenTags : chosenTags})
 		} else {
-			userInterest.map((item) => {
+			userInterest.map(async (item) => {
 				const changeCheckedStatus = document.getElementById(item);
 				changeCheckedStatus.checked = false;
 			});
+			const newTags = chosenTags.filter(tag => !userInterest.includes(tag))
+			await this.setState({chosenTags : newTags})
 		}
+		
+		await this.filterPosting()
 	};
 
 	detailArticle = async (event) => {
@@ -163,62 +203,94 @@ class Home extends React.Component {
 	};
 
 	doSearch = () => {
-		this.props.history.push('/pencarian')
+		this.props.history.push('/pencarian');
+	};
+
+	detailArticle = async (event) => {
+		await store.setState({
+			userId: event
+		});
+		await this.props.history.push('/artikel/' + event);
+	};
+
+	editArticle = async (event) => {
+		await store.setState({
+			userId: event
+		});
+		await this.props.history.push('/artikel/' + event + '/edit');
+	};
+
+	editQuestion = async (event) => {
+		await store.setState({
+			userId: event
+		});
+		await this.props.history.push('/pertanyaan/' + event + '/edit');
+	};
+
+	chooseTags = async (event) => {
+		const checkState = document.getElementById('all');
+		if (event.target.name === 'suggest' || checkState.checked === false) {
+			let chosenTags = this.state.chosenTags
+			if (event.target.checked === true) {
+				if(chosenTags.includes(event.target.value)===false){
+					chosenTags.push(event.target.value)
+				}
+			} else {
+				if(chosenTags.includes(event.target.value)===true) {
+					let newTags = chosenTags.filter(item => item !== event.target.value)
+					chosenTags = newTags
+				}
+			}
+			await this.setState({chosenTags : chosenTags})
+			await this.filterPosting()
+		}
 	}
 
-	detailArticle = async (event)=> {
-        await store.setState({
-            userId:event
-		})
-        await this.props.history.push('/artikel/'+event)
-	}
-	
-	editArticle = async (event)=> {
-        await store.setState({
-            userId:event
-		})
-        await this.props.history.push('/artikel/'+event +'/edit')
-	}
 
-	editQuestion = async (event)=> {
-        await store.setState({
-            userId:event
-		})
-        await this.props.history.push('/pertanyaan/'+event +'/edit')
-	}
-	
 	render() {
-		return (
-			<React.Fragment>
-				<Header doSearch={this.doSearch} />
-				<div className="container-fluid pt-4">
-					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
-						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5 overflow">
-							<InterestList
-								tags={this.state.filterInterest}
-								excludeTags={this.state.excludeTags}
-								seeAll={this.seeAll}
-								checkAll={() => this.checkAll()}
-							/>
-						</div>
-						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow">
-							{this.state.postingList.map((content, i) => (
-								<UserOwnFile
-									typeContent={content.posting_detail.content_type}
-									content={content} editArticle={(e)=>this.editArticle(e)} editQuestion={(e)=>this.editQuestion(e)}
-									detailArticle={(e) => this.detailArticle(e)}
-									goToDetailQuestion={(e) => this.goToDetailQuestion(e)} userDetail ={this.state.userDetail}
+		if (this.state.chosenPost === []) {
+			return (
+				<div>
+					<Loader />
+				</div>
+			);
+		} else {
+			return (
+				<React.Fragment>
+					<Header doSearch={this.doSearch} />
+					<div className="container-fluid pt-4">
+						<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
+							<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5 overflow">
+								<InterestList
+									tags={this.state.filterInterest}
+									excludeTags={this.state.excludeTags}
+									seeAll={this.seeAll}
+									checkAll={() => this.checkAll()}
+									chooseTags={this.chooseTags}
 								/>
-							))}
-						</div>
-						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow">
-							<PopularList article={this.state.article} />
+							</div>
+							<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow">
+								{this.state.chosenPost.map((content, i) => (
+									<UserOwnFile
+										typeContent={content.posting_detail.content_type}
+										content={content}
+										editArticle={(e) => this.editArticle(e)}
+										editQuestion={(e) => this.editQuestion(e)}
+										detailArticle={(e) => this.detailArticle(e)}
+										goToDetailQuestion={(e) => this.goToDetailQuestion(e)}
+										userDetail={this.state.userDetail}
+									/>
+								))}
+							</div>
+							<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow">
+								<PopularList article={this.state.article} />
+							</div>
 						</div>
 					</div>
-				</div>
-				<Footer />
-			</React.Fragment>
-		);
+					<Footer />
+				</React.Fragment>
+			);
+		}
 	}
 }
 export default connect('responseData, keyword', actions)(withRouter(Home));

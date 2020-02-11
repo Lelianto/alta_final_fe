@@ -1,6 +1,6 @@
 .user-profile {
   padding-top: 100px;
-  padding-bottom: 50px;
+  /* padding-bottom: 50px; */
 }
 .dummy-photo {
   width: 85%;
@@ -57,4 +57,9 @@
 .user-own-file {
   padding-left: 4%;
   padding-right: 4%;
+}
+
+.profile-title {
+  font-family: 'liberation_sansbold';
+  font-size: 27px;
 }

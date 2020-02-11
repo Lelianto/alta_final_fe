@@ -17,7 +17,7 @@ const PopularList = (props) => {
                     <div>
                         <div className='row mb-3 mr-2'>
                             <div className="col-2">
-                                <i className='material-icons pr-1 pt-1' style={{color : '#0f4c75', fontSize:'18px'}}>radio_button_checked</i>
+                                <i className='material-icons pr-1 pt-1' style={{color : '#0f4c75', fontSize:'18px'}}>label</i>
                             </div>
                             <div className="col-10">
                                 <Link style={{textDecoration: 'none', fontSize:'15px'}}>{value}</Link>
@@ -34,7 +34,7 @@ const PopularList = (props) => {
                     <div>
                         <div className='row mb-3 mr-2'>
                             <div className="col-2">
-                                <i className='material-icons pr-1 pt-1' style={{color : '#0f4c75', fontSize:'18px'}}>radio_button_checked</i>
+                                <i className='material-icons pr-1 pt-1' style={{color : '#0f4c75', fontSize:'18px'}}>label</i>
                             </div>
                             <div className="col-10">
                                 <Link style={{textDecoration: 'none', fontSize:'15px'}}>{value}</Link>
