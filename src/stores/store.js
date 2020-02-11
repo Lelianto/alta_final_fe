@@ -48,7 +48,9 @@ const initialState = {
 	userData : {},
 	userTagData : [],
 	waiting:true,
-	tags : []
+	tags : [],
+	allUser:[],
+	allTag:[]
 }
 
 export const store = createStore(initialState);

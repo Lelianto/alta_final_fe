@@ -8,9 +8,12 @@ import Footer from '../components/footer';
 import InterestList from '../components/interestList';
 import PopularList from '../components/popularList';
 import UserOwnFile from '../components/userOwnFile';
+import Butter from 'buttercms';
+import { Helmet } from 'react-helmet';
 import axios from 'axios';
 
 const listContent = [ 'Artikel' ];
+const butter = Butter('31d63e3ae80e878f31b54be79123e3052be26bd4');
 
 class ArticlePage extends React.Component {
 	state = {
@@ -21,6 +24,8 @@ class ArticlePage extends React.Component {
 		postingList : [],
 		chosenTags: [],
 		chosenPost: [],
+		loaded:false,
+		resp:null,
 		userDetail : {},
 		article: [
 			'Lorem ipsum dolor sit amet consectetur adipisicing elit',
@@ -30,6 +35,40 @@ class ArticlePage extends React.Component {
 			'reiciendis mollitia error maxime earum totam, placeat quod! Ipsa, eum'
 		]
 	};
+
+	fetchPosts =(page) => {
+		butter.post.list({page: page, page_size: 10}).then((resp) => {
+		  this.setState({
+			loaded: true,
+			resp: resp.data
+		  })
+		  console.log('isi respon fetching', this.state.resp)
+		});
+	  }
+	
+	componentWillMount = () => {
+		console.log(this.props.match)
+		let page = 1
+		if(this.props.match.params.page !== null){
+			console.log('ada')
+			page = this.props.match.params.page || 1
+			this.fetchPosts(page)
+		} else {
+			console.log('tidak ada')
+			this.fetchPosts(page)
+		}
+	}
+
+	componentWillReceiveProps(nextProps) {
+		this.setState({loaded: false});
+		let page = 1
+		if(nextProps.match.params.page !== null){
+			let page = nextProps.match.params.page || 1
+			this.fetchPosts(page)
+		} else {
+			this.fetchPosts(page)
+		}
+	}
 
 	seeAll = () => {
 		const suggestionList = document.getElementById('suggest-list');
@@ -47,6 +86,10 @@ class ArticlePage extends React.Component {
 		await this.getUserTags();
 		await this.getPostingList();
 		await this.filterPosting();
+		const { match } = this.props
+		const resp = await butter.page.retrieve('*', 'beranda')
+		this.setState(resp.data)
+		console.log('new item',resp.data)
 	};
 
 	getUserTags = async () => {
@@ -258,6 +301,12 @@ class ArticlePage extends React.Component {
 		return (
 			<React.Fragment>
 				<Header doSearch={this.doSearch} />
+					<Helmet>
+						<title>Artikel Kodekula</title>
+						<meta name="description" content="temukan ribuan artikel pemrograman dan teknik hacking di bagian halaman ini" />
+						<meta name="og:title" content="Selalu temukan cara paling efektif untuk belajar dan berbagi tentang pemrograman" />
+						<meta name="og:description" content="Membaca adalah salah satu cara kita berbagi dnegan diri sendiri, menulis adalah cara kita berbagi dengan dunia." />
+					</Helmet>
 				<div className="container-fluid pt-4">
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5 overflow">

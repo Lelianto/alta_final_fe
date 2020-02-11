@@ -8,9 +8,12 @@ import Footer from '../components/footer';
 import InterestList from '../components/interestList';
 import PopularList from '../components/popularList';
 import UserOwnFile from '../components/userOwnFile';
+import { Helmet } from 'react-helmet'
 import axios from 'axios';
+import Butter from 'buttercms'
 
 const listContent = [ 'Artikel' ];
+const butter = Butter('31d63e3ae80e878f31b54be79123e3052be26bd4');
 
 class QuestionPage extends React.Component {
 	state = {
@@ -21,6 +24,9 @@ class QuestionPage extends React.Component {
 		postingList : [],
 		userDetail : {},
 		chosenTags: [],
+		loaded:false,
+		resp:null,
+		post:null,
 		chosenPost: [],
 		article: [
 			'Lorem ipsum dolor sit amet consectetur adipisicing elit',
@@ -47,7 +53,55 @@ class QuestionPage extends React.Component {
 		await this.getUserTags()
 		await this.getPostingList()
 		await this.filterPosting();
+		const { match } = this.props
+		const resp = await butter.page.retrieve('*', 'beranda')
+		this.setState(resp.data)
+		console.log('new item',resp.data)
 	};
+
+	fetchPosts =(page) => {
+		butter.post.list({page: 1, page_size: 10}).then((resp) => {
+		  this.setState({
+			loaded: true,
+			resp: resp.data
+		  })
+		  console.log('isi respon fetching', this.state.resp)
+		});
+	  }
+	
+	componentWillMount = () => {
+		console.log(this.props.match)
+		let page = 1
+		if(this.props.match.params.page !== null){
+			console.log('ada')
+			page = this.props.match.params.page || 1
+			this.fetchPosts(page)
+		} else {
+			console.log('tidak ada')
+			this.fetchPosts(page)
+		}
+		console.log('isi slug',this.props.match.params)
+		let slug = this.props.match.params.slug;
+
+		butter.post.retrieve(slug).then((resp) => {
+			this.setState({
+				loaded: true,
+				post: resp.data.data
+			})
+			console.log('isi post', this.state.post)
+		});
+	}
+
+	componentWillReceiveProps(nextProps) {
+		this.setState({loaded: false});
+		let page = 1
+		if(nextProps.match.params.page !== null){
+			let page = nextProps.match.params.page || 1
+			this.fetchPosts(page)
+		} else {
+			this.fetchPosts(page)
+		}
+	}
 
 	getUserTags = async () => {
 		const tags = {
@@ -239,6 +293,12 @@ class QuestionPage extends React.Component {
 		return (
 			<React.Fragment>
 				<Header doSearch={this.doSearch} />
+					<Helmet>
+						<title>Pertanyaan Kodekula</title>
+						<meta name="description" content="Bertanya bukan berarti tidak akan mengerti, hanya saja belum dilalui" />
+						<meta name="og:title" content="Selalu temukan cara untuk berdiskusi tentang pemrograman" />
+						<meta name="og:description" content="Bertanya adalah cara paling efektif untuk menyelesaikan masalah, terutama dalam pemrograman." />
+					</Helmet>
 				<div className="container-fluid pt-4">
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5 overflow">

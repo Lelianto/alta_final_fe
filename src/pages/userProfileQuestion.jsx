@@ -6,27 +6,36 @@ import UserProfile from '../components/userProfile';
 import UserOwnFile from '../components/userOwnFile';
 import MenuBarProfile from '../components/menuBarProfile';
 import axios from 'axios';
-import { actions, store } from '../stores/store';
+import { store } from '../stores/store';
 import Loader from '../components/loader'
 
 class UserProfilePage extends Component {
-
-  state = {
-    userData : {},
-    userDetail : {},
-    questions : []
+  constructor(props) {
+    super(props);
+    this.state = { 
+      userData : {},
+      userDetail : {},
+      questions : []
+     };
+    this.handleClick = this.handleClick.bind(this);
   }
 
-  doSearch = () => {
+  // state = {
+  //   userData : {},
+  //   userDetail : {},
+  //   questions : []
+  // }
+
+  doSearch(){
     this.props.history.push('/pencarian')
   }
 
-  componentDidMount = async () => {
+  async componentDidMount() {
     await this.getUserDetail()
     await this.getUserQuestion()
   }
 
-  getUserQuestion = async () => {
+  async getUserQuestion(){
     const question = {
       method: 'get',
       url: store.getState().baseUrl+'/users/me/question',
@@ -45,7 +54,7 @@ class UserProfilePage extends Component {
     await console.warn('question', this.state.questions)
   }
 
-  getUserDetail = async () => {
+  async getUserDetail (){
     const user = {
       method: 'get',
       url: store.getState().baseUrl+'/users/me',
@@ -62,14 +71,14 @@ class UserProfilePage extends Component {
     this.setState({userData : userRes.data.user_data, userDetail : userRes.data.user_detail_data})
   }
 
-  editQuestion = async (event)=> {
+  async editQuestion(event){
     await store.setState({
         userId:event
     })
         await this.props.history.push('/pertanyaan/'+event +'/edit')
     }
 
-  goToDetailQuestion = async (event) => {
+  goToDetailQuestion = async(event)=>{
     store.setState({
       userId: event
     });
