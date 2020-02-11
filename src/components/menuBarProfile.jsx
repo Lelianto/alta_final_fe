@@ -13,22 +13,22 @@ const MenuBarProfile = ()=> {
     return (
         <div className='container'>
             <div onClick={()=>store.setState({menuBarUser: 'Pertanyaan'})} className='row menu-bar menu-bar-fix'>
-                <Link className='link-menu-bar' to='#'>
+                <Link className='link-menu-bar' to='/profil/pertanyaan'>
                     <img style={{width:'15%'}} src={question} alt="img"/>   Pertanyaan
                 </Link>
             </div>
             <div onClick={()=>store.setState({menuBarUser: 'Jawaban'})} className='row menu-bar'>
-                <Link className='link-menu-bar' to='#'>
+                <Link className='link-menu-bar' to='/profil/jawaban'>
                     <img style={{width:'15%'}} src={answer} alt="img"/>   Jawaban
                 </Link>
             </div>
             <div onClick={()=>store.setState({menuBarUser: 'Artikel'})} className='row menu-bar'>
-                <Link className='link-menu-bar' to='#'>
+                <Link className='link-menu-bar' to='/profil/artikel'>
                     <img style={{width:'15%'}} src={article} alt="img"/>   Artikel
                 </Link>
             </div>
             <div onClick={()=>store.setState({menuBarUser: 'Reputasi'})} className='row menu-bar'>
-                <Link className='link-menu-bar' to='#'>
+                <Link className='link-menu-bar' to='/profil/reputasi'>
                     <img style={{width:'15%'}} src={reputation} alt="img"/>   Reputasi
                 </Link>
             </div>
