@@ -7,8 +7,8 @@ import { actions, store } from '../stores/store';
 import { storage } from '../firebase'
 import Loader from '../components/loader'
 import { Markup } from 'interweave';
+import axios from 'axios';
 
-const listTags = ['reactjs','python','mysql']
 class TextArea extends React.Component {
     constructor(props){
         super(props);
@@ -26,7 +26,6 @@ class TextArea extends React.Component {
   
     onChange=(evt)=>{
         const newContent = evt.editor.getData();
-        console.log('isi event target', newContent)
         store.setState({
             newArticle: newContent
         })
@@ -34,7 +33,6 @@ class TextArea extends React.Component {
     
     onUpdate=(evt)=>{
         const newContent = evt.editor.getData();
-        console.log('isi event target', newContent)
         store.setState({
             lastArticleQuestion: newContent
         })
@@ -90,7 +88,7 @@ class TextArea extends React.Component {
         })
     }
 
-    escFunction(event){
+    escFunction = (event) => {
         if(event.keyCode === 13) {
             store.setState({
                 wordCode: event.target.value + ';'
@@ -103,41 +101,59 @@ class TextArea extends React.Component {
         }
     }
 
-    componentDidMount(){
+    componentDidMount = () => {
         document.addEventListener("keydown", this.escFunction, false);
+        this.getAllTags()
     }
 
-    componentWillUnmount(){
+    getAllTags = async () => {
+		const tags = {
+			method: 'get',
+			url: 'https://api.kodekula.com/tags',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		};
+		await axios(tags)
+			.then(async (response) => {
+                response.data.map((tag)=>(
+                    this.state.taggingList.push(tag.name)
+                ))
+			})
+			.catch(async (error) => {
+				await console.warn(error);
+			});
+	};
+
+    componentWillUnmount = () => {
         document.removeEventListener("keydown", this.escFunction, false);
     }
 
     controlTag = async (event) => {
-        console.log(event.target.checked)
         let taggingList = this.state.taggingList
         taggingList['checked'] =event.target.checked
         this.setState({taggingList:taggingList})
         if(event.target.checked){
             await this.state.tagging.push(event.target.value)
+            await store.setState({tags : this.state.tagging})
         } else {
             const newTags = this.state.tagging.filter(item => item !== event.target.value)
             await this.setState({tagging:newTags})
+            await store.setState({tags : newTags})
         }
-        await console.log('isi tag list',this.state.taggingList)
     } 
     
     render() {
         const addedTag = this.state.tagging
-        // console.log(this.props.match.path === '/pertanyaan/tulis')
         if(store.getState().allArticleDatabase===null || this.props.match.path === '/pertanyaan/tulis' || this.props.match.path === '/artikel/tulis'){
-            console.log(store.getState().allArticleDatabase)
             return (
                 <div style={{marginBottom:'20px'}}>
                     <div className='row'>
                         <div className="col-sm-12">
                             {this.props.typeText==='Masukkan Judul Pertanyaan'?
-                                <input data-toggle="tooltip" data-placement="bottom" title="Klik untuk memunculkan menu upload" type="text" onChange={(e)=>this.props.changeInput(e)} className="form-control input-box" onClick={()=>store.setState({menuBarUpload:true})} id="articleTitle" placeholder='Masukkan Judul Pertanyaan' name="judulartikel" required/>
+                                <input data-toggle="tooltip" data-placement="bottom" title="Klik untuk memunculkan menu upload" type="text" onChange={(e)=>this.props.changeInput(e)} className="form-control input-box" onClick={()=>store.setState({menuBarUpload:true})} id="articleTitle" placeholder='Masukkan Judul Pertanyaan' name="articleTitle" required/>
                                 :
-                                <input data-toggle="tooltip" data-placement="bottom" title="Klik untuk memunculkan menu upload" type="text" onChange={(e)=>this.props.changeInput(e)} className="form-control input-box" onClick={()=>store.setState({menuBarUpload:true})} id="articleTitle" placeholder='Masukkan Judul Artikel' name="judulartikel" required/>
+                                <input data-toggle="tooltip" data-placement="bottom" title="Klik untuk memunculkan menu upload" type="text" onChange={(e)=>this.props.changeInput(e)} className="form-control input-box" onClick={()=>store.setState({menuBarUpload:true})} id="articleTitle" placeholder='Masukkan Judul Artikel' name="articleTitle" required/>
                             }
                         </div>
                     </div>
@@ -161,7 +177,7 @@ class TextArea extends React.Component {
                                     <div className='row'>
                                         {addedTag.map((tag,i)=>
                                         <div className='col-md-3'>
-                                            <div className='control-choosen-tag'>
+                                            <div className='control-choosen-tag text-left background-tag-control mb-2' style={{fontSize:'12px', color:'white'}}>
                                                 {tag}
                                             </div>
                                         </div>
@@ -185,8 +201,8 @@ class TextArea extends React.Component {
                                             <div class="row control-width dropdown-menu">
                                                 <div className='col-md-12'>
                                                     <div className='row'>
-                                                        {listTags.map((tag)=>
-                                                            <div className='col-md-4 text-center background-tag-control'>
+                                                        {this.state.taggingList.map((tag)=>
+                                                            <div className='col-md-3 text-left background-tag-control mb-2'>
                                                             <div style={{fontSize:'12px', textDecoration:'none'}} class="dropdown-item1" to="#"><input type="checkbox" onClick={(event)=>this.controlTag(event)} name="code" value={tag}/>{tag}</div>
                                                             </div>
                                                         )}
@@ -301,7 +317,7 @@ class TextArea extends React.Component {
                                     <div className='row'>
                                         {addedTag.map((tag,i)=>
                                         <div className='col-md-3'>
-                                            <div className='control-choosen-tag'>
+                                            <div className='control-choosen-tag text-left background-tag-control mb-2' style={{fontSize:'12px', color:'white'}}>
                                                 {tag}
                                             </div>
                                         </div>
@@ -325,8 +341,8 @@ class TextArea extends React.Component {
                                             <div class="row control-width dropdown-menu">
                                                 <div className='col-md-12'>
                                                     <div className='row'>
-                                                        {listTags.map((tag)=>
-                                                            <div className='col-md-4 text-center background-tag-control'>
+                                                        {this.state.taggingList.map((tag)=>
+                                                            <div className='col-md-3 text-left background-tag-control mb-2'>
                                                             <div style={{fontSize:'12px', textDecoration:'none'}} class="dropdown-item1" to="#"><input type="checkbox" onClick={(event)=>this.controlTag(event)} name="code" value={tag}/>{tag}</div>
                                                             </div>
                                                         )}

@@ -4,7 +4,7 @@ import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
 import Header from '../components/header';
 import Footer from '../components/footer';
-import TextArea from '../components/textArea'; 
+import TextAreaEdit from '../components/textAreaEdit'; 
 import PreviewArticle from '../components/previewArticle';
 import Loader from '../components/loader';
 import axios from 'axios'
@@ -79,7 +79,7 @@ class EditQuestionPage extends React.Component {
         
                             </div>
                                 <div className='col-md-8'>
-                                    <TextArea typeText='Masukkan Judul Pertanyaan'/>
+                                    <TextAreaEdit typeText='Masukkan Judul Pertanyaan'/>
                                     <div className='row button-area-control'>
                                         <div className='col-md-4'>
                                         </div>

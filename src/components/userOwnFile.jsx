@@ -42,8 +42,15 @@ const UserOwnFile = (props) => {
                     </div>
                     <div className='row text-control'>
                         <div className='col-md-4 username-control'>
-                            <img className='writer-photo' src={user} alt="img"/>
-                            <Link style={{textDecoration: 'none', color:'#385898'}}>{userData.username}</Link>
+                        {userData !== undefined ? 
+                        <div>
+                            <img className='writer-photo' src={user} alt="img"/><Link style={{textDecoration: 'none', color:'#385898'}}>{userData.username}</Link>
+                        </div> 
+                        :
+                        <div>
+                            <img className='writer-photo' src={user} alt="img"/><Link style={{textDecoration: 'none', color:'#385898'}}>{props.userData.username}</Link>
+                        </div> 
+                        }
                         </div>
                         <div className='col-md-5'>
                             
@@ -58,24 +65,19 @@ const UserOwnFile = (props) => {
                     <div className='row detail-article-control text-truncate'>
                         <Markup content={postingDetail.html_content}/>
                     </div>
-                    <div className='row tag-control-article'>
-                        <div className='col-md-6'>
+                    <div className='row tag-control-article align-items-end'>
+                        <div className='col-md-8'>
                             <div className='row'>
-                                <div className='col-md-3 tag-control-arc'>
-                                    #python
-                                </div>
-                                <div className='col-md-3 tag-control-arc'>
-                                    #flask
-                                </div>
-                                <div className='col-md-3 tag-control-arc'>
-                                    #restful
-                                </div>
-                                <div className='col-md-3 tag-control-arc'>
-                                    #pytest
-                                </div>
+                                {postingDetail.tags !== undefined ? 
+                                    postingDetail.tags.map((tag)=>(
+                                        <div className='col-md-3 tag-control-arc'>
+                                            #{tag}
+                                        </div>
+                                    ))
+                                : null}
                             </div>
                         </div>
-                        <div className='col-md-3'></div>
+                        <div className='col-md-1'></div>
                         <div className='col-md-3'>
                             <div className='row'>
                                 <div className='col-md-4'>
@@ -124,7 +126,15 @@ const UserOwnFile = (props) => {
                     </div>
                     <div className='row text-control'>
                         <div className='col-md-4 username-control'>
-                            <img className='writer-photo' src={user} alt="img"/><Link style={{textDecoration: 'none', color:'#385898'}}>{userData.username}</Link>
+                            {userData !== undefined ? 
+                            <div>
+                                <img className='writer-photo' src={user} alt="img"/><Link style={{textDecoration: 'none', color:'#385898'}}>{userData.username}</Link>
+                            </div> 
+                            :
+                            <div>
+                                <img className='writer-photo' src={user} alt="img"/><Link style={{textDecoration: 'none', color:'#385898'}}>{props.userData.username}</Link>
+                            </div> 
+                            }
                         </div>
                         <div className='col-md-5'>
                             
@@ -138,23 +148,18 @@ const UserOwnFile = (props) => {
                     </div>
 
                     <div className='row tag-control-article'>
-                        <div className='col-md-6'>
+                        <div className='col-md-8 align-items-end'>
                             <div className='row'>
-                                <div className='col-md-3 tag-control-arc'>
-                                    #python
-                                </div>
-                                <div className='col-md-3 tag-control-arc'>
-                                    #flask
-                                </div>
-                                <div className='col-md-3 tag-control-arc'>
-                                    #restful
-                                </div>
-                                <div className='col-md-3 tag-control-arc'>
-                                    #pytest
-                                </div>
+                                {postingDetail.tags !== undefined ? 
+                                    postingDetail.tags.map((tag)=>(
+                                        <div className='col-md-3 tag-control-arc'>
+                                            #{tag}
+                                        </div>
+                                    ))
+                                : null}
                             </div>
                         </div>
-                        <div className='col-md-3'></div>
+                        <div className='col-md-1'></div>
                         <div className='col-md-3'>
                             <div className='row'>
                                 <div className='col-md-4'>
@@ -179,15 +184,15 @@ const UserOwnFile = (props) => {
             </div>
         </div>
         )
-    } else if (props.menuBarUser ==='Jawaban') {
+    } else if (props.menuBarUser ==='Jawaban' || props.typeContent ==='answer') {
         return (
             <div className='container own-article'>
             <div className='row'>
                 <div className='col-md-12 box-control bg-white'>
                     <div className='row text-control'>
-                        <div className='col-md-11 detail-answer-control'>
-                            Bagaimana cara menaklukan asyncronous Javascript?
-                        </div>
+                        <Link to={'/pertanyaan/'+props.content.parent_detail.id}  className='col-md-11 detail-answer-control'>
+                            {props.content.parent_detail.title}
+                        </Link>
                         <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img className='logo-edit-control' src={more} alt="img"/>
                         </div>
@@ -207,7 +212,7 @@ const UserOwnFile = (props) => {
                             <div className='row'>
                                 <div className='col-md-12 box-control-answered'>
                                     <div className='row detail-question-answered-control'>
-                                    Memahami asynchronus adalah salah satu hal penting dalam dunia Javascript. Topik ini sering dilewatkan ketika masih di tahap belajar fundamental mungkin karena konsepnya terlalu ribet dijelaskan atau alasan lain. Bahkan banyak yang sudah bertahun-tahun menggunakan javascript ternyata masih banyak yang masih kurang paham dengan konsep asynchronous. Walaupun secara praktek mungkin sudah sering digunakan.Ada banyak sekali implementasi asynchronous dalam javascript seperti event, timer, request ajax, listener, interaksi user dan masih banyak lagi. NodeJS merupakan salah satu contoh sukses platform javascript yang sangat bergantung pada teknik asynchronus.
+                                    <Markup content={props.content.posting_detail.html_content}/>
                                     </div>
                                 </div>
                             </div>
@@ -231,11 +236,11 @@ const UserOwnFile = (props) => {
                                 </div>
                                 {(props.likeAnswer === true)?
                                     <div className='col-md-4'>
-                                        <img onClick={()=>store.setState({likeAnswer:false})} style={{width:'100%'}} src={like} alt="img"/> 51
+                                        <img onClick={()=>store.setState({likeAnswer:false})} style={{width:'100%'}} src={like} alt="img"/>{props.content.posting_detail.point+1}
                                     </div>
                                     :
                                     <div className='col-md-4'>
-                                        <img onClick={()=>store.setState({likeAnswer:true})} style={{width:'100%'}} src={havelike} alt="img"/> 50
+                                        <img onClick={()=>store.setState({likeAnswer:true})} style={{width:'100%'}} src={havelike} alt="img"/>{props.content.posting_detail.point}
                                     </div>
                                 }
                             </div>
@@ -245,7 +250,7 @@ const UserOwnFile = (props) => {
             </div>
         </div>
         )
-    } else if (props.menuBarUser ==='Reputasi') {
+    } else if (props.menuBarUser ==='Reputasi' || props.typeContent ==='reputation') {
         return (
             <div className='container own-article'>
                 <div className='row'>

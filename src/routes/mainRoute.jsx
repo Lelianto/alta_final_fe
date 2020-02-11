@@ -3,7 +3,10 @@ import { BrowserRouter, Switch } from 'react-router-dom';
 import { Route } from 'react-router';
 import { Provider } from 'unistore/react';
 import { store } from '../stores/store';
-import UserProfilePage from '../pages/userProfilePage';
+import UserProfileQuestion from '../pages/userProfileQuestion';
+import UserProfileArticle from '../pages/userProfileArticle';
+import UserProfileAnswer from '../pages/userProfileAnswer';
+import UserProfileReputation from '../pages/userProfileReputation';
 import UserProfileSetting from '../pages/userSettingAll';
 import UserSetPersonalData from '../pages/userSetPersonalData';
 import PersonalDataEdit from '../pages/personalDataEdit';
@@ -57,7 +60,10 @@ const MainRoute = () => {
                     <Route exact path="/pertanyaan" component={Question}/>
                     <Route exact path="/artikel/tulis" component={AddArticle}/>
                     <Route exact path="/pertanyaan/tulis" component={AddQuestion}/>
-                    <Route exact path="/profil" component={UserProfilePage} />  
+                    <Route exact path="/profil/pertanyaan" component={UserProfileQuestion} />  
+                    <Route exact path="/profil/artikel" component={UserProfileArticle} />  
+                    <Route exact path="/profil/jawaban" component={UserProfileAnswer} />  
+                    <Route exact path="/profil/reputasi" component={UserProfileReputation} />  
                     <Route exact path="/pengaturan-akun" component={UserProfileSetting} />
                     <Route exact path="/pengaturan-akun/data-diri/edit" component={PersonalDataEdit} />
                     <Route exact path="/pengaturan-akun/ubah-password" component={UserSetPassword} />

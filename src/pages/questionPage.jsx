@@ -20,6 +20,8 @@ class QuestionPage extends React.Component {
 		excludeTags : [],
 		postingList : [],
 		userDetail : {},
+		chosenTags: [],
+		chosenPost: [],
 		article: [
 			'Lorem ipsum dolor sit amet consectetur adipisicing elit',
 			'Alias corrupti velit illum sequi quas omnis esse ipsam sed aut delectus blanditiis',
@@ -44,11 +46,8 @@ class QuestionPage extends React.Component {
 	componentDidMount = async () => {
 		await this.getUserTags()
 		await this.getPostingList()
+		await this.filterPosting();
 	};
-
-	// setInput = (event) => {
-	// 	this.setState({[event.target.name] : event.target.value})
-	// };
 
 	getUserTags = async () => {
 		const tags = {
@@ -66,13 +65,13 @@ class QuestionPage extends React.Component {
         await axios(tags)
 			.then(async (response) => {
 				await this.setState({userInterest : response.data.user_tag_data, userDetail : response.data.user_data})
-				// await store.setState({userInterest : response.data.user_tag_data})
 			})
 			.catch(async (error) => {
 				await console.warn(error)
 			})
-			
-			await this.getAllTags()
+
+		await this.setState({chosenTags : this.state.userInterest.slice()})
+		await this.getAllTags()
 		}
 	
 	getAllTags = async () => {
@@ -131,13 +130,39 @@ class QuestionPage extends React.Component {
 		await axios(posting)
 		.then(async (response) => {
 			await this.setState({postingList : response.data.query_data})
-			// await store.setState({interestList : response.data})
-			console.warn('posting list', this.state.postingList)
 		})
 		.catch(async (error) => {
 			await console.warn(error)
 		})
 	}
+
+	filterPosting = async () => {
+		let chosenTags = []
+		if (this.state.chosenTags.length > 0) {
+			chosenTags = this.state.chosenTags
+		} else {
+			if (this.state.userInterest.length === 0) {
+				this.state.excludeTags.map((tag)=>{
+					chosenTags.push(tag.name)
+				})
+			} else {
+				chosenTags = this.state.userInterest
+			}
+		}
+
+		const postingList = await this.state.postingList;
+		const chosenPost = []
+		postingList.map((post) => {
+			post.posting_detail.tags.map((tag) => {
+				if (chosenTags.includes(tag)) {
+					if (chosenPost.includes(post) === false) {
+						chosenPost.push(post);
+					}
+				}
+			});
+		});
+		await this.setState({chosenPost : chosenPost})
+	};
 
 	seeAll = () => {
 		const suggestionList = document.getElementById('suggest-list');
@@ -151,21 +176,30 @@ class QuestionPage extends React.Component {
 		}
 	};
 
-	checkAll = () => {
+	checkAll = async () => {
 		const checkState = document.getElementById('all');
-		const userInterest = this.state.userInterest
+		const userInterest = this.state.userInterest;
+		let chosenTags = this.state.chosenTags
 		if (checkState.checked === true) {
-			userInterest.map((item)=>{
-				const changeCheckedStatus = document.getElementById(item)
-				changeCheckedStatus.checked = true
-			})
+			userInterest.map((item) => {
+				const changeCheckedStatus = document.getElementById(item);
+				changeCheckedStatus.checked = true;
+				if (chosenTags.includes(item) === false) {
+					chosenTags.push(item)
+				}
+			});
+			await this.setState({chosenTags : chosenTags})
 		} else {
-			userInterest.map((item)=>{
-				const changeCheckedStatus = document.getElementById(item)
-				changeCheckedStatus.checked = false
-			})
+			userInterest.map(async (item) => {
+				const changeCheckedStatus = document.getElementById(item);
+				changeCheckedStatus.checked = false;
+			});
+			const newTags = chosenTags.filter(tag => !userInterest.includes(tag))
+			await this.setState({chosenTags : newTags})
 		}
-	}
+		
+		await this.filterPosting()
+	};
 
 	goToDetailQuestion = async (event)=> {
         store.setState({
@@ -211,10 +245,12 @@ class QuestionPage extends React.Component {
 							<Link style={{textDecoration:'none', color:'white'}} to='/pertanyaan/tulis'>
 								<button to='/artikel/tulis' className='btn btn-success button-write-article-control mt-4'>Tulis Pertanyaan</button>
 							</Link>
-							<InterestList tags={this.state.filterInterest} excludeTags={this.state.excludeTags} seeAll={this.seeAll} checkAll={()=>this.checkAll()}/>
+							<InterestList tags={this.state.filterInterest} excludeTags={this.state.excludeTags} seeAll={this.seeAll} checkAll={()=>this.checkAll()
+							}
+							chooseTags={this.chooseTags}/>
 						</div>
 						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow">
-							{this.state.postingList.map((content, i) => <UserOwnFile editQuestion={(e)=>this.editQuestion(e)} goToDetailQuestion={(event) =>this.goToDetailQuestion(event)} deleteQuestion={(e)=>this.deleteQuestion(e)} typeContent={content.posting_detail.content_type} content={content} userDetail={this.state.userDetail}/>)}
+							{this.state.chosenPost.map((content, i) => <UserOwnFile editQuestion={(e)=>this.editQuestion(e)} goToDetailQuestion={(event) =>this.goToDetailQuestion(event)} deleteQuestion={(e)=>this.deleteQuestion(e)} typeContent={content.posting_detail.content_type} content={content} userDetail={this.state.userDetail}/>)}
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow" >
 							<PopularList article={this.state.article} />

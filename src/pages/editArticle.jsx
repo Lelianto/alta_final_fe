@@ -4,7 +4,7 @@ import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
 import Header from '../components/header';
 import Footer from '../components/footer';
-import TextArea from '../components/textArea'; 
+import TextAreaEdit from '../components/textAreaEdit'; 
 import Accordion from '../components/accordionExplain'
 import PreviewArticle from '../components/previewArticle';
 import axios from 'axios';
@@ -16,7 +16,6 @@ class EditArticlePage extends React.Component {
       }
 
     componentWillMount = async () => {
-        console.log('id param', this.props.match.params.id)
         const req = {
           method: "get",
           url: store.getState().baseUrl+"/posting/toplevel/"+this.props.match.params.id
@@ -25,14 +24,12 @@ class EditArticlePage extends React.Component {
         const self = this
         await axios(req)
             .then((response) => {
-              console.log('isi respon detail',response.data.posting_data)
               store.setState({ 
                 allArticleDatabase: response.data, 
                 isLoading:false,
                 questionId:questionIdParam,
                 firstData:response.data.posting_data.posting_detail.html_content,
               })
-              console.log('hasil detail ke store',store.getState().allArticleDatabase)
               return response
             })
             .catch((error)=>{
@@ -64,7 +61,6 @@ class EditArticlePage extends React.Component {
     }
 
 	render() {
-        console.log('belum keisi')
         if(store.getState().isLoading){
             return(
                 <div>
@@ -81,7 +77,7 @@ class EditArticlePage extends React.Component {
 
                         </div>
                             <div className='col-md-8'>
-                                <TextArea/>
+                                <TextAreaEdit/>
                                 <div className='row button-area-control'>
                                     <div className='col-md-4'>
                                     </div>

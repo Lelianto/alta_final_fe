@@ -19,9 +19,9 @@ class ArticlePage extends React.Component {
 		filterInterest : [],
 		excludeTags : [],
 		postingList : [],
+		chosenTags: [],
+		chosenPost: [],
 		userDetail : {},
-		tags: [ 'Python', 'Javascript', 'Django', 'ReactJS', 'Java', 'GoLang' ],
-		icon: [ 'bug_report', 'build', 'android', 'camera_enhance', 'autorenew', 'code' ],
 		article: [
 			'Lorem ipsum dolor sit amet consectetur adipisicing elit',
 			'Alias corrupti velit illum sequi quas omnis esse ipsam sed aut delectus blanditiis',
@@ -44,8 +44,9 @@ class ArticlePage extends React.Component {
 	};
 
 	componentDidMount = async () => {
-		await this.getUserTags()
-		await this.getPostingList()
+		await this.getUserTags();
+		await this.getPostingList();
+		await this.filterPosting();
 	};
 
 	getUserTags = async () => {
@@ -69,9 +70,10 @@ class ArticlePage extends React.Component {
 			.catch(async (error) => {
 				await console.warn(error)
 			})
-			
-			await this.getAllTags()
-		}
+
+		await this.setState({chosenTags : this.state.userInterest.slice()})
+		await this.getAllTags()
+	}
 	
 	getAllTags = async () => {
 		const tags = {
@@ -130,8 +132,6 @@ class ArticlePage extends React.Component {
 		await axios(posting)
 		.then(async (response) => {
 			await this.setState({postingList : response.data.query_data})
-			// await store.setState({interestList : response.data})
-			console.warn('posting list', this.state.postingList)
 		})
 		.catch(async (error) => {
 			await console.warn(error)
@@ -150,21 +150,58 @@ class ArticlePage extends React.Component {
 		}
 	};
 
-	checkAll = () => {
-		const checkState = document.getElementById('all');
-		const userInterest = this.state.userInterest
-		if (checkState.checked === true) {
-			userInterest.map((item)=>{
-				const changeCheckedStatus = document.getElementById(item)
-				changeCheckedStatus.checked = true
-			})
+	filterPosting = async () => {
+		let chosenTags = []
+		if (this.state.chosenTags.length > 0) {
+			chosenTags = this.state.chosenTags
 		} else {
-			userInterest.map((item)=>{
-				const changeCheckedStatus = document.getElementById(item)
-				changeCheckedStatus.checked = false
-			})
+			if (this.state.userInterest.length === 0) {
+				this.state.excludeTags.map((tag)=>{
+					chosenTags.push(tag.name)
+				})
+			} else {
+				chosenTags = this.state.userInterest
+			}
 		}
-	}
+
+		const postingList = await this.state.postingList;
+		const chosenPost = []
+		postingList.map((post) => {
+			post.posting_detail.tags.map((tag) => {
+				if (chosenTags.includes(tag)) {
+					if (chosenPost.includes(post) === false) {
+						chosenPost.push(post);
+					}
+				}
+			});
+		});
+		await this.setState({chosenPost : chosenPost})
+	};
+
+	checkAll = async () => {
+		const checkState = document.getElementById('all');
+		const userInterest = this.state.userInterest;
+		let chosenTags = this.state.chosenTags
+		if (checkState.checked === true) {
+			userInterest.map((item) => {
+				const changeCheckedStatus = document.getElementById(item);
+				changeCheckedStatus.checked = true;
+				if (chosenTags.includes(item) === false) {
+					chosenTags.push(item)
+				}
+			});
+			await this.setState({chosenTags : chosenTags})
+		} else {
+			userInterest.map(async (item) => {
+				const changeCheckedStatus = document.getElementById(item);
+				changeCheckedStatus.checked = false;
+			});
+			const newTags = chosenTags.filter(tag => !userInterest.includes(tag))
+			await this.setState({chosenTags : newTags})
+		}
+		
+		await this.filterPosting()
+	};
 
 	detailArticle = async (event)=> {
         await store.setState({
@@ -198,6 +235,25 @@ class ArticlePage extends React.Component {
 		this.props.history.push('/pencarian/artikel')
 	}
 
+	chooseTags = async (event) => {
+		const checkState = document.getElementById('all');
+		if (event.target.name === 'suggest' || checkState.checked === false) {
+			let chosenTags = this.state.chosenTags
+			if (event.target.checked === true) {
+				if(chosenTags.includes(event.target.value)===false){
+					chosenTags.push(event.target.value)
+				}
+			} else {
+				if(chosenTags.includes(event.target.value)===true) {
+					let newTags = chosenTags.filter(item => item !== event.target.value)
+					chosenTags = newTags
+				}
+			}
+			await this.setState({chosenTags : chosenTags})
+			await this.filterPosting()
+		}
+	}
+
 	render() {
 		return (
 			<React.Fragment>
@@ -208,10 +264,11 @@ class ArticlePage extends React.Component {
 							<Link style={{textDecoration:'none', color:'white'}} to='/artikel/tulis'>
 								<button to='/artikel/tulis' className='btn btn-success button-write-article-control mt-4'>Tulis Artikel</button>
 							</Link>
-							<InterestList tags={this.state.filterInterest} excludeTags={this.state.excludeTags} seeAll={this.seeAll} checkAll={()=>this.checkAll()}/>
+							<InterestList tags={this.state.filterInterest} excludeTags={this.state.excludeTags} seeAll={this.seeAll} checkAll={()=>this.checkAll()}
+							chooseTags={this.chooseTags}/>
 						</div>
 						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow">
-							{this.state.postingList.map((content, i) => 			<UserOwnFile typeContent={content.posting_detail.content_type} content={content} deleteArticle={(e)=>this.deleteArticle(e)} editArticle={(e)=>this.editArticle(e)} detailArticle={(e)=>this.detailArticle(e)} userDetail={this.state.userDetail}/>)}
+							{this.state.chosenPost.map((content, i) => 			<UserOwnFile  deleteArticle={(e)=>this.deleteArticle(e)} typeContent={content.posting_detail.content_type} content={content} editArticle={(e)=>this.editArticle(e)} detailArticle={(e)=>this.detailArticle(e)} userDetail={this.state.userDetail}/>)}
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow">
 							<PopularList article={this.state.article} />
