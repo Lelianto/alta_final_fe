@@ -46,17 +46,17 @@ const initialState = {
 	startNew:true,
 	userDetail:{},
 	userData : {},
-	userTagData : []
+	userTagData : [],
+	tags : []
 }
 
 export const store = createStore(initialState);
 
 export const actions = (store) => ({
 	changeInput: async (state, e) => {
-		console.log('isi e',e)
-		store.setState({
-			articleTitle: e.target.value
-		});
+		// store.setState({
+		// 	articleTitle: e.target.value
+		// });
 		await store.setState({ [e.target.name]: e.target.value });
 	},
 
@@ -150,7 +150,8 @@ export const actions = (store) => ({
 			title: title,
 			content_type: content_type,
 			html_content: joinEnter,
-			banner_photo_url: banner_photo_url
+			banner_photo_url: banner_photo_url,
+			tags : state.tags
 		};
 		// articleDetails = JSON.stringify(articleDetails)
 		const req = {
@@ -190,7 +191,8 @@ export const actions = (store) => ({
 			"title" : title,
 			"content_type" : content_type,
 			"html_content" : joinEnter,
-			"banner_photo_url" : banner_photo_url
+			"banner_photo_url" : banner_photo_url,
+			"tags" : state.tags
 		};
 		const req = {
 			method: 'post',
@@ -228,7 +230,8 @@ export const actions = (store) => ({
 			content_type: content_type,
 			html_content: joinEnter,
 			banner_photo_url: banner_photo_url,
-			content_status:0
+			content_status:0,
+			tags : state.tags
 		};
 		// articleDetails = JSON.stringify(articleDetails)
 		console.log('isi req article', articleDetails)
@@ -271,7 +274,8 @@ export const actions = (store) => ({
 			content_type: content_type,
 			html_content: joinEnter,
 			banner_photo_url: banner_photo_url,
-			content_status:0
+			content_status:0,
+			tags : state.tags
 		};
 		// articleDetails = JSON.stringify(articleDetails)
 		const req = {
@@ -283,7 +287,6 @@ export const actions = (store) => ({
 			data: articleDetails
 		};
 		// data=JSON.stringify(data)
-		console.log(articleDetails);
 		await axios(req)
 			.then((response) => {
 				store.setState({

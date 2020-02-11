@@ -300,7 +300,7 @@ const Header = (props) => {
 								<div className="dropdown-menu" style={{ marginTop: '0px', marginRight: '0px' }}>
 									<Link
 										className="dropdown-item"
-										to="/profil"
+										to="/profil/pertanyaan"
 										onClick={() =>
 											store.setState({
 												locationPage: null,
