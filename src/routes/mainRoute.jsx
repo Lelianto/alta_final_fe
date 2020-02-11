@@ -24,6 +24,17 @@ import UserSetPassword from '../pages/userSetPassword';
 import DetailArticle from '../pages/detailArticle';
 import DetailQuestionPage from '../pages/detailQuestionPage';
 import AdminLanding from '../pages/adminLandingPage';
+import AdminArticle from '../pages/adminGetArticlePage';
+import AdminQuestion from '../pages/adminGetQuestionPage';
+import AdminTag from '../pages/adminGetTagPage';
+import AdminAnswer from '../pages/adminGetAnswerPage';
+
+import AdminUserGraph from '../pages/adminUserGraphPage';
+import AdminArticleGraph from '../pages/adminArticleGraphPage';
+import AdminQuestionGraph from '../pages/adminQuestionGraphPage';
+import AdminTagGraph from '../pages/adminTagGraphPage';
+import AdminAnswerGraph from '../pages/adminAnswerGraphPage';
+
 import EditArticle from '../pages/editArticle';
 import EditQuestion from '../pages/editQuestion';
 import Notification from '../pages/notification';
@@ -35,7 +46,16 @@ const MainRoute = () => {
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/" component={Home}/>
-                    <Route exact path="/admin" component={AdminLanding}/>
+                    <Route exact path="/admin/pengguna" component={AdminLanding}/>
+                    <Route exact path="/admin/artikel" component={AdminArticle}/>
+                    <Route exact path="/admin/pertanyaan" component={AdminQuestion}/>
+                    <Route exact path="/admin/jawaban" component={AdminAnswer}/>
+                    <Route exact path="/admin/tag" component={AdminTag}/>
+                    <Route exact path="/admin/pengguna/grafik" component={AdminUserGraph}/>
+                    <Route exact path="/admin/artikel/grafik" component={AdminArticleGraph}/>
+                    <Route exact path="/admin/pertanyaan/grafik" component={AdminQuestionGraph}/>
+                    <Route exact path="/admin/jawaban/grafik" component={AdminAnswerGraph}/>
+                    <Route exact path="/admin/tag/grafik" component={AdminTagGraph}/>
                     <Route exact path="/artikel" component={Article}/>
                     <Route exact path="/pertanyaan" component={Question}/>
                     <Route exact path="/artikel/tulis" component={AddArticle}/>

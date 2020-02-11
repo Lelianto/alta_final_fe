@@ -27,7 +27,7 @@ const ViewComment = (props) => {
         {allComment.map((comment, index)=>
         <div style={{textAlign:'left', marginBottom:'20px'}}>
           <Helmet>
-            <title>{comment.user_data.username}</title>
+            {/* <title>{comment.user_data.username}</title> */}
             <meta name="description" content={comment.posting_detail.html_content} />
           </Helmet>
           <div className='container-fluid user-comment-control'>

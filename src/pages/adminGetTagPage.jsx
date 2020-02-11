@@ -9,23 +9,34 @@ import AdminMenu from '../components/adminMenu'
 
 
 class AdminLandingPage extends React.Component {
+	handleChangePage = (event) => {
+		console.log(event)
+		this.props.history.push('/admin'+event)
+	}
+	handleChangePageMenu = (event) => {
+		console.log(event)
+		this.props.history.push('/admin'+event)
+	}
 	render() {
 		return (
 			<React.Fragment>
 				<Header />
-				<AdminMenu/>
+				<AdminMenu handleChangePage={(event)=>this.handleChangePage(event)}/>
 				<div className='container'>
 					<div className='row' style={{paddingTop:'50px'}}>
 						<div className='col-md-3'></div>
 						
-						<div className='col-md-3' style={{paddingLeft:'30px', paddingRight:'30px'}}>
-							<div className='box-control btn-warning' style={{paddingBottom:'25px', paddingTop:'25px',     border: '2px solid sandybrown'}}>
-								Daftar User
+						<div className='col-md-2' style={{paddingLeft:'30px', paddingRight:'30px'}}>
+							<div className='box-control btn-warning' style={{paddingBottom:'25px', paddingTop:'25px', fontSize:'12px', border: '2px solid sandybrown', marginLeft:'-16px', marginRight:'-16px'}}>
+								Daftar Tag
 							</div>
                     	</div>
-						<div className='col-md-3' style={{paddingLeft:'30px', paddingRight:'30px'}}>
-							<div className='box-control btn-warning' style={{paddingBottom:'25px', paddingTop:'25px'}}>
-								Grafik User
+						<div className='col-md-2'>
+
+						</div>
+						<div className='col-md-2' style={{paddingLeft:'30px', paddingRight:'30px'}}>
+							<div onClick={()=>this.handleChangePageMenu('/tag/grafik')} className='box-control btn-warning' style={{paddingBottom:'25px', paddingTop:'25px', fontSize:'12px', marginLeft:'-16px', marginRight:'-16px'}}>
+								Grafik Tag
 							</div>
                     	</div>
 						<div className='col-md-3'></div>
@@ -33,6 +44,35 @@ class AdminLandingPage extends React.Component {
 				</div>
 				<div className='container'>
 					<div className='row' style={{paddingTop:'30px'}}>
+						<div className="col-md-12">
+							<form
+								className="search-component form-inline my-2 my-lg-0"
+								onSubmit={(e) => e.preventDefault()}
+							>
+								<div className="col-md-10" style={{ paddingRight: '0px' }}>
+									<input
+										className="input-search-component form-control mr-sm-5"
+										type="text"
+										placeholder="Pencarian"
+										name="keyword"
+										style={{ width: '100%' }}
+										// onChange={props.setInput}
+									/>
+								</div>
+								<div className="col-md-1" style={{ paddingLeft: '5px' }}>
+									<button
+										// onClick={() => props.doSearch()}
+										className="btn btn-info my-2 my-sm-0"
+										type="submit"
+										style={{ paddingLeft: '25px', paddingRight: '25px' }}
+									>
+										Cari
+									</button>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div className='row' style={{paddingTop:'30px', paddingBottom:'75px'}}>
 						<table class="table table-bordered">
 						<thead>
 							<tr>

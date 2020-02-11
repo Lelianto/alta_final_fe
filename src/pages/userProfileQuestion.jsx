@@ -83,7 +83,6 @@ class UserProfilePage extends Component {
         <Loader/>
       )
     } else {
-
       return (
         <div>
           <Header doSearch={this.doSearch}/>

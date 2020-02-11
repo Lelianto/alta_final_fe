@@ -47,6 +47,7 @@ const initialState = {
 	userDetail:{},
 	userData : {},
 	userTagData : [],
+	waiting:true,
 	tags : []
 }
 
@@ -133,6 +134,35 @@ export const actions = (store) => ({
 			});
 	},
 
+	compileCode: async (state) => {
+		store.setState({
+			waiting: true
+		})
+		const input = {
+			clientId:"7ca457a9e69e521b689e09b0ce2bc0d9",
+			clientSecret:"2bba055e98a958d83de4a9d59e8b1efe46c04e77b5b9ef825d2484675a98fc48",
+			language:"python3",
+			script: state.wordCode 
+		}
+		const req = {
+			method: 'post',
+			url: "https://cors-anywhere.herokuapp.com/https://api.jdoodle.com/v1/execute ",
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			data: input
+		};
+		await axios(req)
+			.then((response) => {
+				store.setState({
+					codeCompilerResult: response.data.output
+				});
+			})
+			.catch((error) => {
+				return false;
+			});
+	},
+
 	setGlobal: async (state, event) => {
 		await store.setState({ [event.target.name]: event.target.value });
 	},
@@ -166,6 +196,7 @@ export const actions = (store) => ({
 		console.log(articleDetails);
 		await axios(req)
 			.then((response) => {
+				console.log(response.data)
 				store.setState({
 					menuBarUpload:false,
 					articleTitle:'',
@@ -174,6 +205,7 @@ export const actions = (store) => ({
 				})
 			})
 			.catch((error) => {
+				console.log(error)
 				return false;
 			});
 	},
@@ -260,6 +292,93 @@ export const actions = (store) => ({
 				return false;
 			});
 	},
+
+	delArticle: async (state) => {
+		const title = state.articleTitle;
+		const content_type = 'article';
+		const originArticle = state.lastArticleQuestion;
+		const splitArticle = originArticle.split('"');
+		const joinArticle = splitArticle.join(" '");
+		const splitEnter = joinArticle.split('\n');
+		const joinEnter = splitEnter.join('');
+		const banner_photo_url = state.imageUrl;
+		const articleDetails = {
+			title: title,
+			content_type: content_type,
+			html_content: joinEnter,
+			banner_photo_url: banner_photo_url,
+			content_status:2
+		};
+		console.log('isi req article', articleDetails)
+		const req = {
+			method: 'put',
+			url: state.baseUrl + '/posting/toplevel/' + state.articleId,
+			headers: {
+				Authorization: 'Bearer ' + localStorage.getItem('token')
+			},
+			data: articleDetails
+		};
+		// data=JSON.stringify(data)
+		console.log(articleDetails);
+		await axios(req)
+			.then((response) => {
+				store.setState({
+					menuBarUpload:false,
+					articleTitle:'',
+					newArticle:'',
+					imageUrl:'',
+					lastArticleQuestion:''
+				})
+				return response
+			})
+			.catch((error) => {
+				return false;
+			});
+	},
+
+	delQuestion: async (state) => {
+		const title = state.articleTitle;
+		const content_type = 'question';
+		const originArticle = state.lastArticleQuestion;
+		const splitArticle = originArticle.split('"');
+		const joinArticle = splitArticle.join(" '");
+		const splitEnter = joinArticle.split('\n');
+		const joinEnter = splitEnter.join('');
+		const banner_photo_url = state.imageUrl;
+		const articleDetails = {
+			title: title,
+			content_type: content_type,
+			html_content: joinEnter,
+			banner_photo_url: banner_photo_url,
+			content_status:2
+		};
+		console.log('isi req article', articleDetails)
+		const req = {
+			method: 'put',
+			url: state.baseUrl + '/posting/toplevel/' + state.articleId,
+			headers: {
+				Authorization: 'Bearer ' + localStorage.getItem('token')
+			},
+			data: articleDetails
+		};
+		// data=JSON.stringify(data)
+		console.log(articleDetails);
+		await axios(req)
+			.then((response) => {
+				store.setState({
+					menuBarUpload:false,
+					articleTitle:'',
+					newArticle:'',
+					imageUrl:'',
+					lastArticleQuestion:''
+				})
+				return response
+			})
+			.catch((error) => {
+				return false;
+			});
+	},
+
 	updateQuestion: async (state) => {
 		const title = state.articleTitle;
 		const content_type = 'question';
@@ -311,6 +430,7 @@ export const actions = (store) => ({
 			await console.log('isi respon data user',store.getState().responseData)
 		}
 	},
+	
 	getToken: async (state) => {
 		const responseData = await state.responseData;
 		console.warn('respon', responseData);
