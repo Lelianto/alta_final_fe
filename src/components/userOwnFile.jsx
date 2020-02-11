@@ -44,7 +44,7 @@ const UserOwnFile = (props) => {
                         <div className='col-md-4 username-control'>
                         {userData !== undefined ? 
                         <div>
-                            <img className='writer-photo' src={user} alt="img"/><Link style={{textDecoration: 'none', color:'#385898'}}>{userData.username}</Link>
+                            <img className='writer-photo' src={user} alt="img"/><Link style={{textDecoration: 'none', color:'#385898'}}>{userData.display_name}</Link>
                         </div> 
                         :
                         <div>

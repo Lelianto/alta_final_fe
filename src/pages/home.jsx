@@ -246,7 +246,6 @@ class Home extends React.Component {
 		}
 	}
 
-
 	render() {
 		if (this.state.chosenPost === []) {
 			return (

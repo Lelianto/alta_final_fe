@@ -40,9 +40,7 @@ class UserProfilePage extends Component {
     };
 
     const questionRes = await axios(question)
-    console.warn(questionRes)
     await this.setState({questions : questionRes.data.query_data})
-    await console.warn('question', this.state.questions)
   }
 
   getUserDetail = async () => {
@@ -66,7 +64,7 @@ class UserProfilePage extends Component {
     await store.setState({
         userId:event
     })
-        await this.props.history.push('/pertanyaan/'+event +'/edit')
+    await this.props.history.push('/pertanyaan/'+event +'/edit')
     }
 
   goToDetailQuestion = async (event) => {
