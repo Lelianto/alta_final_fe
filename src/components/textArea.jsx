@@ -127,7 +127,7 @@ class TextArea extends React.Component {
     
     render() {
         const addedTag = this.state.tagging
-        console.log(this.props.match.path === '/pertanyaan/tulis')
+        // console.log(this.props.match.path === '/pertanyaan/tulis')
         if(store.getState().allArticleDatabase===null || this.props.match.path === '/pertanyaan/tulis' || this.props.match.path === '/artikel/tulis'){
             console.log(store.getState().allArticleDatabase)
             return (
@@ -135,9 +135,9 @@ class TextArea extends React.Component {
                     <div className='row'>
                         <div className="col-sm-12">
                             {this.props.typeText==='Masukkan Judul Pertanyaan'?
-                                <input type="text" onChange={(e)=>this.props.changeInput(e)} className="form-control input-box" onClick={()=>store.setState({menuBarUpload:true})} id="articleTitle" placeholder='Masukkan Judul Pertanyaan' name="judulartikel" required/>
+                                <input data-toggle="tooltip" data-placement="bottom" title="Klik untuk memunculkan menu upload" type="text" onChange={(e)=>this.props.changeInput(e)} className="form-control input-box" onClick={()=>store.setState({menuBarUpload:true})} id="articleTitle" placeholder='Masukkan Judul Pertanyaan' name="judulartikel" required/>
                                 :
-                                <input type="text" onChange={(e)=>this.props.changeInput(e)} className="form-control input-box" onClick={()=>store.setState({menuBarUpload:true})} id="articleTitle" placeholder='Masukkan Judul Artikel' name="judulartikel" required/>
+                                <input data-toggle="tooltip" data-placement="bottom" title="Klik untuk memunculkan menu upload" type="text" onChange={(e)=>this.props.changeInput(e)} className="form-control input-box" onClick={()=>store.setState({menuBarUpload:true})} id="articleTitle" placeholder='Masukkan Judul Artikel' name="judulartikel" required/>
                             }
                         </div>
                     </div>
@@ -205,7 +205,7 @@ class TextArea extends React.Component {
                         <div className='row' style={{marginBottom:'10px', marginTop:'10px'}}>
                         <div onClick={this.fileUploadHandler} className="col-sm-4">
                             <Link style={{textDecoration:'none'}} className='link-button-text-area'>
-                                <div type='file' className='button-text-area'>
+                                <div data-toggle="tooltip" data-placement="bottom" title="Sebagai Foto Utama" type='file' className='button-text-area'>
                                     Pilih Gambar Utama
                                 </div>
                             </Link>
@@ -214,11 +214,15 @@ class TextArea extends React.Component {
                                     <input style={{fontSize:'12px', paddingRight:'0', width:'194px'}} className='btn-outline-info' type='file' id="file" name="file" onChange={(event)=>this.fileSelectedHandler(event)}/>
                             </div>
                             <div className='col-md-4'>
-                                <button style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn-outline-info' className='btn btn-info' type='file' onClick={()=>this.uploadPhoto()}>Upload</button>
+                                {this.props.imageArticle===null?
+                                    <button disabled style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn-outline-info' className='btn btn-info' type='file'>Upload</button>
+                                :
+                                    <button style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn-outline-info' className='btn btn-info' type='file' onClick={()=>this.uploadPhoto()}>Upload</button>
+                                }
                             </div>
                         <div className="col-sm-4">
                             <Link style={{textDecoration:'none'}} className='link-button-text-area'>
-                                <div className='button-text-area'>
+                                <div data-toggle="tooltip" data-placement="bottom" title="Copy gambar yang tercetak" className='button-text-area'>
                                     Upload Gambar Artikel
                                 </div>
                             </Link>
@@ -227,10 +231,14 @@ class TextArea extends React.Component {
                             <input style={{fontSize:'12px', paddingRight:'0', width:'194px'}} className='btn-outline-info' type='file' onChange={(event)=>this.fileSelectedHandler(event)}/>
                         </div>
                         <div className='col-md-4'>
-                            <button className='btn' style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn btn-info' onClick={()=>this.uploadArticlePhoto()}>Upload</button>
+                            {this.props.imageArticle===null?
+                                <button disabled className='btn' style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn btn-info'>Upload</button>
+                            :
+                                <button className='btn' style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn btn-info' onClick={()=>this.uploadArticlePhoto()}>Upload</button>
+                            }
                         </div>
                         <div className="col-sm-4">
-                            <Link style={{textDecoration:'none'}} className='link-button-text-area'>
+                            <Link data-toggle="tooltip" data-placement="bottom" title="Paste pada text area" style={{textDecoration:'none'}} className='link-button-text-area'>
                                 <div className='button-text-area'>
                                     Link Gambar Artikel
                                 </div>
@@ -346,7 +354,11 @@ class TextArea extends React.Component {
                                     <input style={{fontSize:'12px', paddingRight:'0', width:'194px'}} className='btn-outline-info' type='file' id="file" name="file" onChange={this.fileSelectedHandler}/>
                             </div>
                             <div className='col-md-4'>
-                                <button style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn-outline-info' className='btn btn-info' type='file' onClick={()=>this.uploadPhoto()}>Upload</button>
+                                {this.props.imageArticle===null?
+                                    <button disabled style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn-outline-info' className='btn btn-info' type='file'>Upload</button>
+                                :
+                                    <button style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn-outline-info' className='btn btn-info' type='file' onClick={()=>this.uploadPhoto()}>Upload</button>
+                                }
                             </div>
                         <div className="col-sm-4">
                             <Link style={{textDecoration:'none'}} className='link-button-text-area'>
@@ -359,7 +371,11 @@ class TextArea extends React.Component {
                             <input style={{fontSize:'12px', paddingRight:'0', width:'194px'}} className='btn-outline-info' type='file' onChange={(event)=>this.fileSelectedHandler(event)}/>
                         </div>
                         <div className='col-md-4'>
-                            <button className='btn' style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn btn-info' onClick={()=>this.uploadArticlePhoto()}>Upload</button>
+                            {this.props.imageArticle===null?
+                                <button disabled className='btn' style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn btn-info'>Upload</button>
+                            :
+                                <button className='btn' style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn btn-info' onClick={()=>this.uploadArticlePhoto()}>Upload</button>
+                            }
                         </div>
                         <div className="col-sm-4">
                             <Link style={{textDecoration:'none'}} className='link-button-text-area'>

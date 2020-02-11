@@ -47,7 +47,8 @@ const initialState = {
 	userDetail:{},
 	userData : {},
 	userTagData : [],
-	waiting:true
+	waiting:true,
+	regexEmail:/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$/
 }
 
 export const store = createStore(initialState);
@@ -195,6 +196,7 @@ export const actions = (store) => ({
 		console.log(articleDetails);
 		await axios(req)
 			.then((response) => {
+				console.log(response.data)
 				store.setState({
 					menuBarUpload:false,
 					articleTitle:'',
@@ -203,6 +205,7 @@ export const actions = (store) => ({
 				})
 			})
 			.catch((error) => {
+				console.log(error)
 				return false;
 			});
 	},
@@ -261,6 +264,92 @@ export const actions = (store) => ({
 			content_status:0
 		};
 		// articleDetails = JSON.stringify(articleDetails)
+		console.log('isi req article', articleDetails)
+		const req = {
+			method: 'put',
+			url: state.baseUrl + '/posting/toplevel/' + state.articleId,
+			headers: {
+				Authorization: 'Bearer ' + localStorage.getItem('token')
+			},
+			data: articleDetails
+		};
+		// data=JSON.stringify(data)
+		console.log(articleDetails);
+		await axios(req)
+			.then((response) => {
+				store.setState({
+					menuBarUpload:false,
+					articleTitle:'',
+					newArticle:'',
+					imageUrl:'',
+					lastArticleQuestion:''
+				})
+				return response
+			})
+			.catch((error) => {
+				return false;
+			});
+	},
+
+	delArticle: async (state) => {
+		const title = state.articleTitle;
+		const content_type = 'article';
+		const originArticle = state.lastArticleQuestion;
+		const splitArticle = originArticle.split('"');
+		const joinArticle = splitArticle.join(" '");
+		const splitEnter = joinArticle.split('\n');
+		const joinEnter = splitEnter.join('');
+		const banner_photo_url = state.imageUrl;
+		const articleDetails = {
+			title: title,
+			content_type: content_type,
+			html_content: joinEnter,
+			banner_photo_url: banner_photo_url,
+			content_status:2
+		};
+		console.log('isi req article', articleDetails)
+		const req = {
+			method: 'put',
+			url: state.baseUrl + '/posting/toplevel/' + state.articleId,
+			headers: {
+				Authorization: 'Bearer ' + localStorage.getItem('token')
+			},
+			data: articleDetails
+		};
+		// data=JSON.stringify(data)
+		console.log(articleDetails);
+		await axios(req)
+			.then((response) => {
+				store.setState({
+					menuBarUpload:false,
+					articleTitle:'',
+					newArticle:'',
+					imageUrl:'',
+					lastArticleQuestion:''
+				})
+				return response
+			})
+			.catch((error) => {
+				return false;
+			});
+	},
+
+	delQuestion: async (state) => {
+		const title = state.articleTitle;
+		const content_type = 'question';
+		const originArticle = state.lastArticleQuestion;
+		const splitArticle = originArticle.split('"');
+		const joinArticle = splitArticle.join(" '");
+		const splitEnter = joinArticle.split('\n');
+		const joinEnter = splitEnter.join('');
+		const banner_photo_url = state.imageUrl;
+		const articleDetails = {
+			title: title,
+			content_type: content_type,
+			html_content: joinEnter,
+			banner_photo_url: banner_photo_url,
+			content_status:2
+		};
 		console.log('isi req article', articleDetails)
 		const req = {
 			method: 'put',

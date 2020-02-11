@@ -3,7 +3,8 @@ import CanvasJSReact from '../styles/js/canvasjs.react';
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
  
 class ColumnChart extends Component {
-		render() {
+	render() {
+		// const tag = [{nama_tag:"ReactJS", jumlah_tag:10}, {nama_tag:"ReactJS", jumlah_tag:10}]
 		const options = {
 			title: {
 				text: "Perbandingan Penggunaan Tag"

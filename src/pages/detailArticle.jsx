@@ -39,7 +39,9 @@ class DetailArticle extends React.Component {
                   isLoading:false,
                   questionId:questionIdParam
                 })
-                console.log('hasil detail ke store',store.getState().allArticleDatabase)
+                self.setState({
+                    comment:''
+                })
                 return response
               })
               .catch((error)=>{
@@ -87,8 +89,16 @@ class DetailArticle extends React.Component {
             data: parameters
         };
         await this.props.handleAPI(comment)
-        await this.getAllFirst()
-        await this.props.history.push('/artikel/'+this.props.questionId)
+        if(this.state.comment!==''){
+            this.setState({
+                comment:''
+            })
+            await this.getAllFirst()
+            await this.props.history.push('/artikel/'+this.props.questionId)
+        } else {
+            await this.getAllFirst()
+            await this.props.history.push('/artikel/'+this.props.questionId)
+        }
     }
 
     handleSeeComment=()=>{
@@ -184,9 +194,15 @@ class DetailArticle extends React.Component {
                                 <div className="col-md-8 form-group" style={{paddingTop:'18px'}}>
                                     <input type="text" className="form-control" placeholder="Tuliskan komentar anda" onChange={(e)=>this.changeState(e)}/>
                                 </div>
-                                <div className="col-md-2 text-center pt-3">
-                                    <button className="btn btn-outline-primary" style={{width:'100%'}} onClick={()=>this.postComment()}>Kirim</button>
-                                </div>
+                                {this.state.comment===''?
+                                    <div className="col-md-2 text-center pt-3">
+                                        <button disabled className="btn btn-outline-primary" style={{width:'100%'}}>Kirim</button>
+                                    </div>
+                                :
+                                    <div className="col-md-2 text-center pt-3">
+                                        <button className="btn btn-outline-primary" style={{width:'100%'}} onClick={()=>this.postComment()}>Kirim</button>
+                                    </div>
+                                }
                             </div>
 						</div>
 						<div className="col-lg-4 col-md-4 col-sm-12 col-12 mt-5">
