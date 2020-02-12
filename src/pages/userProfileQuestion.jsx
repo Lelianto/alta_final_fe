@@ -6,21 +6,22 @@ import UserProfile from '../components/userProfile';
 import UserOwnFile from '../components/userOwnFile';
 import MenuBarProfile from '../components/menuBarProfile';
 import axios from 'axios';
-import { actions, store } from '../stores/store';
+import { store, actions  } from '../stores/store';
 import Loader from '../components/loader'
-import { connect } from 'unistore/react';
+import { connect} from 'unistore/react';
 import { withRouter, Link } from 'react-router-dom';
 
 class UserProfilePage extends Component {
-
-  state = {
-    userData : {},
-    userDetail : {},
-    questions : [],
-    userDataLoading : true
-  }
-
-  doSearch = () => {
+  constructor(props) {
+    super(props);
+    this.state = { 
+      userData : {},
+      userDetail : {},
+      questions : [],
+      userDataLoading : true
+     };
+    }
+  doSearch = ()=>{
     this.props.history.push('/pencarian')
   }
 
@@ -29,7 +30,7 @@ class UserProfilePage extends Component {
     await this.getUserQuestion()
   }
 
-  getUserQuestion = async () => {
+  getUserQuestion = async ()=>{
     const question = {
       method: 'get',
       // url: store.getState().baseUrl+'/users/me/question',
@@ -47,7 +48,7 @@ class UserProfilePage extends Component {
     await this.setState({questions : questionRes.data.query_data})
   }
 
-  getUserDetail = async () => {
+  getUserDetail = async () =>{
     const user = {
       method: 'get',
       // url: store.getState().baseUrl+'/users/me',
@@ -65,14 +66,14 @@ class UserProfilePage extends Component {
     this.setState({userData : userRes.data.user_data, userDetail : userRes.data.user_detail_data, userDataLoading : false})
   }
 
-  editQuestion = async (event)=> {
+  editQuestion = async (event) =>{
     await store.setState({
         userId:event
     })
     await this.props.history.push('/pertanyaan/'+event +'/edit')
     }
 
-  goToDetailQuestion = async (event) => {
+  goToDetailQuestion = async(event)=>{
     store.setState({
       userId: event
     });

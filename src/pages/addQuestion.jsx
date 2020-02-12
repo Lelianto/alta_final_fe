@@ -12,6 +12,11 @@ class AddQuestionPage extends React.Component {
     doSearch = () => {
         this.props.history.push('/pencarian')
       }
+    
+    handleUploadQuestion = () => {
+        this.props.uploadQuestion()
+        this.props.history.push('/pertanyaan')
+    }
 
 	render() {
 		return (
@@ -25,7 +30,7 @@ class AddQuestionPage extends React.Component {
                                 <div className='col-md-4'>
                                 </div>
                                 <div className='col-md-4'>
-                                    <div className='btn btn-grad' style={{marginBottom:'50px', fontSize:'15px',padding:'15px'}} onClick={()=>this.props.uploadQuestion()}>Unggah Pertanyaan</div>
+                                    <div className='btn btn-grad' style={{marginBottom:'50px', fontSize:'15px',padding:'15px'}} onClick={()=>this.handleUploadQuestion()}>Unggah Pertanyaan</div>
                                 </div>
                                 <div className='col-md-4'>
                                 </div>

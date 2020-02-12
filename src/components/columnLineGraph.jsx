@@ -18,8 +18,8 @@ class LineChart extends Component {
 			},
 			axisX: {
 				title: "Bulan Februari",
-				prefix: "Tanggal ",
-				interval: 2
+				prefix: "",
+				interval: 1
 			},
 			data: [{
 				type: "line",
@@ -47,7 +47,14 @@ class LineChart extends Component {
 					{ x: 20, y: 54 },
 					{ x: 21, y: 59 },
 					{ x: 22, y: 64 },
-					{ x: 23, y: 59 }
+					{ x: 23, y: 59 },
+					{ x: 24, y: 59.5 },
+					{ x: 25, y: 63 },
+					{ x: 26, y: 58 },
+					{ x: 27, y: 54 },
+					{ x: 28, y: 59 },
+					{ x: 29, y: 64 },
+					{ x: 30, y: 59 }
 				]
 			}]
 		}
