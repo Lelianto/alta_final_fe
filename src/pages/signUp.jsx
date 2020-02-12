@@ -75,7 +75,7 @@ class SignUp extends React.Component {
 		
         const signIn = {
             method:"post",
-            url: "http://13.229.122.5:5000/auth",
+            url: "https://kodekula.herokuapp.com/auth",
             headers: {
                 "Content-Type": "application/json"
             },
