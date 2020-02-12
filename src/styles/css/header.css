@@ -34,9 +34,6 @@ header {
   transition: 0.5s;
   background: linear-gradient(3deg, #314755, #48b3e6);
   background-size: 400% 400%;
-  /* -webkit-animation: header 3s ease infinite;
-  -moz-animation: header 3s ease infinite; */
-  /* animation: header 3s ease infinite; */
 }
 @-webkit-keyframes header {
   0% {

@@ -8,8 +8,11 @@ import InterestList from '../components/interestList';
 import PopularList from '../components/popularList';
 import UserOwnFile from '../components/userOwnFile';
 import axios from 'axios';
+import Butter from 'buttercms'
+import { Helmet } from 'react-helmet';
 import Loader from '../components/loader';
 
+const butter = Butter('31d63e3ae80e878f31b54be79123e3052be26bd4');
 class Home extends React.Component {
 	state = {
 		userInterest: [],
@@ -26,18 +29,56 @@ class Home extends React.Component {
 		contentLoading : true,
 		popularLoading : true
 	};
+	
+	componentDidMount = async () => {
+		const { match } = this.props
+		const resp = await butter.page.retrieve('*', 'beranda')
+		this.setState(resp.data)
+		console.log('new item',resp.data)
+	}
 
 	componentWillMount = async () => {
 		await this.getUserTags();
 		await this.getPostingList();
 		await this.filterPosting();
+		console.log(this.props.match)
+		let page = 1
+		if(this.props.match.params.page !== null){
+			console.log('ada')
+			page = this.props.match.params.page || 1
+			this.fetchPosts(page)
+		} else {
+			console.log('tidak ada')
+			this.fetchPosts(page)
+		}
 		await this.props.getPopular();
 	};
+
+	fetchPosts =(page) => {
+		butter.post.list({page: page, page_size: 10}).then((resp) => {
+		  this.setState({
+			loaded: true,
+			resp: resp.data
+		  })
+		  console.log('isi respon fetching', this.state.resp)
+		});
+	  }
+
+	componentWillReceiveProps(nextProps) {
+		this.setState({loaded: false});
+		let page = 1
+		if(nextProps.match.params.page !== null){
+			let page = nextProps.match.params.page || 1
+			this.fetchPosts(page)
+		} else {
+			this.fetchPosts(page)
+		}
+	}
 
 	getUserTags = async () => {
 		const tags = {
 			method: 'get',
-			url: 'https://kodekula.herokuapp.com/users/me',
+			url: store.getState().baseUrl+'/users/me',
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -65,7 +106,7 @@ class Home extends React.Component {
 	getAllTags = async () => {
 		const tags = {
 			method: 'get',
-			url: 'https://kodekula.herokuapp.com/tags',
+			url: store.getState().baseUrl+'/tags',
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -107,7 +148,7 @@ class Home extends React.Component {
 
 		const posting = {
 			method: 'get',
-			url: 'https://kodekula.herokuapp.com/posting/toplevel',
+			url: store.getState().baseUrl+'/posting/toplevel',
 			headers: {
 				'Content-Type': 'application/json'
 			},
@@ -254,6 +295,7 @@ class Home extends React.Component {
 		})
 		await this.props.delQuestion()
 		await this.getPostingList()
+		await this.filterPosting()
         await this.props.history.push('/')
 	}
 
@@ -266,6 +308,7 @@ class Home extends React.Component {
 		})
 		await this.props.delArticle()
 		await this.getPostingList()
+		await this.filterPosting()
         await this.props.history.push('/')
 	}
 
@@ -287,6 +330,12 @@ class Home extends React.Component {
 			return (
 				<React.Fragment>
 					<Header doSearch={this.doSearch} />
+					<Helmet>
+						<title>Kodekula</title>
+						<meta name="description" content="datanglah setiap kamu bingung dengan pemrograman dan temukan di sini" />
+						<meta name="og:title" content="Selalu temukan cara paling efektif dalam pemrograman" />
+						<meta name="og:description" content="Perlu jam terbang yang tinggi untuk dapat menguasai pemrograman. Pemrograman adalah untuk orang yang kreatif, taktis, dan tentunya tidak mudah menyerah." />
+					</Helmet>
 					<div className="container-fluid pt-4">
 						<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 							<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5 overflow">

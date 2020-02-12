@@ -30,7 +30,7 @@ class UserPasswordSetting extends Component {
   componentDidMount = async () => {
     const user = {
 			method: 'get',
-			url: 'https://kodekula.herokuapp.com/users/me',
+			url: store.getState().baseUrl+ '/users/me',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization':'Bearer ' + localStorage.getItem("token")
@@ -63,7 +63,7 @@ class UserPasswordSetting extends Component {
 
       const password = {
         method: 'put',
-        url: 'https://kodekula.herokuapp.com/users/me',
+        url: store.getState().baseUrl+ '/users/me',
         headers: {
           'Content-Type': 'application/json',
           'Authorization':'Bearer ' + localStorage.getItem("token")

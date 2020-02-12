@@ -109,7 +109,7 @@ class TextArea extends React.Component {
     getAllTags = async () => {
 		const tags = {
 			method: 'get',
-			url: 'https://kodekula.herokuapp.com/tags',
+			url: store.getState().baseUrl+'/tags',
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -248,7 +248,7 @@ class TextArea extends React.Component {
                         </div>
                         <div className='col-md-4'>
                             {this.props.imageArticle===null?
-                                <button disabled className='btn' style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn btn-info'>Upload</button>
+                                <button disabled className='btn' style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className="btn btn-info">Upload</button>
                             :
                                 <button className='btn' style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn btn-info' onClick={()=>this.uploadArticlePhoto()}>Upload</button>
                             }

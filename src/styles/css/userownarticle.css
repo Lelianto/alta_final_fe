@@ -68,10 +68,10 @@
 .detail-article-control {
   padding-top: 10px;
   text-align: justify;
-  padding-left: 18px;
+  padding-left: 10px;
   margin-right: 0;
   overflow: hidden;
-  /* height: 6.6em; */
+  height: 6.6em;
 }
 .detail-answered-control {
   padding-top: 10px;

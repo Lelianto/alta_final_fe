@@ -35,7 +35,7 @@ class Search extends React.Component {
 	getUserTags = async () => {
 		const tags = {
 			method: 'get',
-			url: 'https://kodekula.herokuapp.com/users/me',
+			url: store.getState().baseUrl+ '/users/me',
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -60,7 +60,7 @@ class Search extends React.Component {
 	getAllTags = async () => {
 		const tags = {
 			method: 'get',
-			url: 'https://kodekula.herokuapp.com/tags',
+			url: store.getState().baseUrl+ '/tags',
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -105,7 +105,7 @@ class Search extends React.Component {
 
 		const posting = {
 			method: 'get',
-			url: 'https://kodekula.herokuapp.com/posting/toplevel',
+			url: store.getState().baseUrl+ '/posting/toplevel',
 			headers: {
 				'Content-Type': 'application/json'
 			},
