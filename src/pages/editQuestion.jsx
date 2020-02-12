@@ -10,6 +10,10 @@ import Loader from '../components/loader';
 import axios from 'axios'
 
 class EditQuestionPage extends React.Component {
+    state = {
+        textAreaLoading : true
+    }
+    
     componentWillMount = async () => {
         console.log('id param', this.props.match.params.id)
         const req = {
@@ -19,15 +23,14 @@ class EditQuestionPage extends React.Component {
         const questionIdParam = this.props.match.params.id
         const self = this
         await axios(req)
-            .then((response) => {
-              console.log('isi respon detail',response.data.posting_data)
-              store.setState({ 
+            .then(async (response) => {
+              await store.setState({ 
                 allArticleDatabase: response.data, 
                 isLoading:false,
                 questionId:questionIdParam,
                 firstData:response.data.posting_data.posting_detail.html_content,
               })
-              console.log('hasil detail ke store',store.getState().allArticleDatabase)
+              await this.setState({textAreaLoading : false})
               return response
             })
             .catch((error)=>{
@@ -79,7 +82,13 @@ class EditQuestionPage extends React.Component {
         
                             </div>
                                 <div className='col-md-8'>
+                                {this.state.textAreaLoading === true ?
+                                <div>
+                                    <Loader/>
+                                </div> :
                                     <TextAreaEdit typeText='Masukkan Judul Pertanyaan'/>
+                                }
+                                    
                                     <div className='row button-area-control'>
                                         <div className='col-md-4'>
                                         </div>

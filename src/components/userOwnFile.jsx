@@ -12,23 +12,31 @@ import { actions, store } from '../stores/store';
 import { connect } from 'unistore/react'
 import { withRouter, Link } from 'react-router-dom';
 import { Markup } from 'interweave';
+import Truncate from 'react-truncate'
 import Loader from './loader';
+import Moment from 'react-moment';
 
 const UserOwnFile = (props) => {
     
     const userData = props.content.user_data
     const postingDetail = props.content.posting_detail
-    
+
     if (props.menuBarUser ==='Artikel' || props.typeContent ==='article') {
         return (
             <div className='container own-article mt-4'>
             <div className='row'>
                 <div className='col-md-12 box-control bg-white'>
                     <div className='row text-control'>
-                        <Link className='col-md-11 title-article-control'  onClick={()=>props.detailArticle(postingDetail.id)} >
+                    {postingDetail.content_status === 2 ? 
+                        <div className='col-md-11 title-article-control' >
+                            {postingDetail.title} 
+                        </div>
+                        :
+                        <Link className='col-md-11 title-article-control' onClick={()=>props.detailArticle(postingDetail.id)} >
                             {postingDetail.title} 
                         </Link>
-                        {props.userDetail.user_id === postingDetail.user_id ?
+                    }
+                        {props.userDetail.user_id === postingDetail.user_id && postingDetail.content_status === 0 && store.getState().urlProfile === 'http://13.229.122.5:5000/users/me'?
                         <div> 
                             <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img className='logo-edit-control' src={more} alt="img"/>
@@ -38,36 +46,53 @@ const UserOwnFile = (props) => {
                                 <Link onClick={()=>props.deleteArticle(postingDetail)} class="dropdown-item">Hapus</Link>
                             </div>
                         </div>
+                        : postingDetail.content_status === 2 ?  
+                            <div className='row col-md-4 text-center' style={{backgroundColor:'red', fontWeight:'bold', color:'white', margin:'10px', height:'25px', paddingLeft:'26px'}}>
+                                <i className="material-icons">delete</i>
+                                <p>
+                                    Artikel telah dihapus
+                                </p>
+                            </div>
                         : null }
                     </div>
                     <div className='row text-control'>
                         <div className='col-md-4 username-control'>
-                        {userData !== undefined ? 
                         <div>
-                            <img className='writer-photo' src={user} alt="img"/><Link style={{textDecoration: 'none', color:'#385898'}}>{userData.username}</Link>
+                            {userData.photo_url !== null || userData.photo_url !== "null" ? 
+                                <img className='writer-photo' src={userData.photo_url} alt="" style={{height:'38px', width:'38px'}}/>
+                                :
+                                <img className='writer-photo' src={user} alt="img"/>
+                            }
+                            {postingDetail.content_status === 2 ? 
+                                <Link style={{textDecoration: 'none', color:'#385898'}}>{userData.display_name}</Link>
+                            :
+                                <Link onClick={()=>props.getProfile(postingDetail.user_id, userData.username)} style={{textDecoration: 'none', color:'#385898'}}>{userData.display_name}</Link>
+                            }
                         </div> 
-                        :
-                        <div>
-                            <img className='writer-photo' src={user} alt="img"/><Link style={{textDecoration: 'none', color:'#385898'}}>{props.userData.username}</Link>
-                        </div> 
-                        }
                         </div>
                         <div className='col-md-5'>
                             
-                        </div>
-                        <div className='col-md-3 time-article-control'>
-                            {postingDetail.created_at}
                         </div>
                     </div>
                     <div className='row'>
                         {postingDetail.banner_photo_url !== null ? <img className='image-control' src={postingDetail.banner_photo_url} alt="img"/> : null}
                     </div>
                     <div className='row detail-article-control text-truncate'>
-                        <Markup content={postingDetail.html_content}/>
+                        <Truncate lines={3}>
+                            <Markup content={postingDetail.html_content}/>
+                        </Truncate>
+                    </div>
+                    <div className='col-md-12 ml-0 pl-1 time-article-control text-left'>
+                        <Moment fromNow ago>{postingDetail.created_at}</Moment> ago
+                        {postingDetail.updated_at !== null ? 
+                    <React.Fragment>
+                      &nbsp;&nbsp;&nbsp;&nbsp; Edited
+                    </React.Fragment>
+                    : null }
                     </div>
                     <div className='row tag-control-article align-items-end'>
                         <div className='col-md-8'>
-                            <div className='row'>
+                            <div className='row' style={{paddingLeft:'7px'}}>
                                 {postingDetail.tags !== undefined ? 
                                     postingDetail.tags.map((tag)=>(
                                         <div className='col-md-3 tag-control-arc'>
@@ -109,10 +134,16 @@ const UserOwnFile = (props) => {
             <div className='row'>
                 <div className='col-md-12 box-control bg-white'>
                     <div className='row text-control'>
-                        <Link onClick={()=>props.goToDetailQuestion(postingDetail.id)} className='col-md-11 title-article-control'>
-                            {postingDetail.title}
+                        {postingDetail.content_status === 2 ? 
+                        <div className='col-md-11 title-article-control' >
+                            {postingDetail.title} 
+                        </div>
+                        :
+                        <Link className='col-md-11 title-article-control' onClick={()=>props.goToDetailQuestion(postingDetail.id)} >
+                            {postingDetail.title} 
                         </Link>
-                        {props.userDetail.user_id === postingDetail.user_id ?
+                    }
+                        {props.userDetail.user_id === postingDetail.user_id && postingDetail.content_status === 0 && store.getState().urlProfile === 'http://13.229.122.5:5000/users/me' ?
                         <div>
                             <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img className='logo-edit-control' src={more} alt="img"/>
@@ -122,34 +153,52 @@ const UserOwnFile = (props) => {
                                 <Link onClick={()=>props.deleteQuestion(postingDetail)} class="dropdown-item" >Hapus</Link>
                             </div>
                         </div>
-                        : null }
+                        : postingDetail.content_status === 2 ?
+                            <div className='row col-md-5 text-center' style={{backgroundColor:'red', fontWeight:'bold', color:'white', margin:'10px', height:'25px', paddingLeft:'37px'}}>
+                                <i className="material-icons">delete</i>
+                                <p>
+                                    Pertanyaan telah dihapus
+                                </p>
+                            </div>
+                        :
+                            null
+                        }
                     </div>
                     <div className='row text-control'>
                         <div className='col-md-4 username-control'>
-                            {userData !== undefined ? 
                             <div>
-                                <img className='writer-photo' src={user} alt="img"/><Link style={{textDecoration: 'none', color:'#385898'}}>{userData.username}</Link>
-                            </div> 
-                            :
-                            <div>
-                                <img className='writer-photo' src={user} alt="img"/><Link style={{textDecoration: 'none', color:'#385898'}}>{props.userData.username}</Link>
-                            </div> 
-                            }
+                                {userData.photo_url !== null ? 
+                                    <img className='writer-photo' src={userData.photo_url} alt="img" style={{height:'38px', width:'38px'}}/>
+                                    :
+                                    <img className='writer-photo' src={user} alt="img"/>
+                                }
+                                {postingDetail.content_status === 2 ? 
+                                    <Link style={{textDecoration: 'none', color:'#385898'}}>{userData.display_name}</Link>
+                                :
+                                    <Link onClick={()=>props.getProfile(postingDetail.user_id, userData.username)} style={{textDecoration: 'none', color:'#385898'}}>{userData.display_name}</Link>
+                                }
+                            </div>
                         </div>
                         <div className='col-md-5'>
                             
                         </div>
-                        <div className='col-md-3 time-article-control'>
-                            {postingDetail.created_at}
-                        </div>
                     </div>
                     <div className='row detail-article-control'>
+                    <Truncate lines={3} ellipsis={<span>...</span>}>
                         <Markup content={postingDetail.html_content}/>
+                    </Truncate>
                     </div>
-
-                    <div className='row tag-control-article'>
-                        <div className='col-md-8 align-items-end'>
-                            <div className='row'>
+                    <div className='col-md-12 ml-0 pl-1 time-article-control text-left'>
+                        <Moment fromNow ago>{postingDetail.created_at}</Moment> ago
+                        {postingDetail.updated_at !== null ? 
+                    <React.Fragment>
+                      &nbsp;&nbsp;&nbsp;&nbsp; Edited
+                    </React.Fragment>
+                    : null }
+                    </div>
+                    <div className='row tag-control-article align-items-end'>
+                        <div className='col-md-8'>
+                            <div className='row' style={{paddingLeft:'7px'}}>
                                 {postingDetail.tags !== undefined ? 
                                     postingDetail.tags.map((tag)=>(
                                         <div className='col-md-3 tag-control-arc'>
@@ -193,15 +242,7 @@ const UserOwnFile = (props) => {
                         <Link to={'/pertanyaan/'+props.content.parent_detail.id}  className='col-md-11 detail-answer-control'>
                             {props.content.parent_detail.title}
                         </Link>
-                        <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img className='logo-edit-control' src={more} alt="img"/>
-                        </div>
-                        <div class="dropdown-menu" style={{marginLeft:'-130px', marginTop:'-27px'}} aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="#">Ubah/Perbarui</a>
-                            <a class="dropdown-item" href="#">Hapus</a>
-                        </div>
                     </div>
-
                     <div className='row'>
                         <div className='detail-answered-control'>
                             Jawaban

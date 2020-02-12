@@ -6,6 +6,7 @@ import { connect } from 'unistore/react'
 import { withRouter } from 'react-router-dom';
 import user from '../images/user.png';
 import Loader from './loader';
+import Moment from 'react-moment';
 
 const UserProfile = (props) =>{
     return (
@@ -14,7 +15,11 @@ const UserProfile = (props) =>{
             <div className='row user-profile'>
                 <div className='col-md-3'>
                     <div>
-                        <img className='dummy-photo' src={user} alt="img"/>
+                        {props.userDetail.photo_url !== undefined && props.userDetail.photo_url !== null? 
+                            <img className='dummy-photo' src={props.userDetail.photo_url} alt="img" style={{height : '217px', width:'217px'}}/>
+                        :
+                            <img className='dummy-photo' src={user} alt="img"/>
+                        }
                     </div>
                 </div>
                 <div className='col-md-9'>
@@ -51,7 +56,10 @@ const UserProfile = (props) =>{
                             {props.userDetail.job_title}
                         </div>
                         <div className='join-this-web col-md-3'>
-                            Bergabung sejak {props.userData.created_at}
+                            Bergabung sejak &nbsp; &nbsp;
+                            <Moment format="DD/MM/YYYY">
+                            {props.userData.created_at}
+                            </Moment>
                         </div>
                     </div>
                     <div className='row user-profile-border'>

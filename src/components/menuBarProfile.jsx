@@ -10,25 +10,33 @@ import { connect } from 'unistore/react'
 import { Link, withRouter } from 'react-router-dom';
 
 const MenuBarProfile = ()=> {
+
+    let path;
+    if(store.getState().urlProfile === 'http://13.229.122.5:5000/users/me'){
+        path = '/profil'
+    } else {
+        path = '/profil/'+store.getState().uname
+    }
+
     return (
         <div className='container'>
             <div onClick={()=>store.setState({menuBarUser: 'Pertanyaan'})} className='row menu-bar menu-bar-fix'>
-                <Link className='link-menu-bar' to='/profil/pertanyaan'>
+                <Link className='link-menu-bar' to={path+'/pertanyaan'}>
                     <img style={{width:'15%'}} src={question} alt="img"/>   Pertanyaan
                 </Link>
             </div>
             <div onClick={()=>store.setState({menuBarUser: 'Jawaban'})} className='row menu-bar'>
-                <Link className='link-menu-bar' to='/profil/jawaban'>
+                <Link className='link-menu-bar'  to={path+'/jawaban'}>
                     <img style={{width:'15%'}} src={answer} alt="img"/>   Jawaban
                 </Link>
             </div>
             <div onClick={()=>store.setState({menuBarUser: 'Artikel'})} className='row menu-bar'>
-                <Link className='link-menu-bar' to='/profil/artikel'>
+                <Link className='link-menu-bar'  to={path+'/artikel'}>
                     <img style={{width:'15%'}} src={article} alt="img"/>   Artikel
                 </Link>
             </div>
             <div onClick={()=>store.setState({menuBarUser: 'Reputasi'})} className='row menu-bar'>
-                <Link className='link-menu-bar' to='/profil/reputasi'>
+                <Link className='link-menu-bar'  to={path+'/reputasi'}>
                     <img style={{width:'15%'}} src={reputation} alt="img"/>   Reputasi
                 </Link>
             </div>

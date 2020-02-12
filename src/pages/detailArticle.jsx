@@ -15,14 +15,7 @@ import Accordion from '../components/accordionExplain'
 
 class DetailArticle extends React.Component {
 	state = {
-        comment : '',
-		article: [
-			'Lorem ipsum dolor sit amet consectetur adipisicing elit',
-			'Alias corrupti velit illum sequi quas omnis esse ipsam sed aut delectus blanditiis',
-			'Deserunt dolor temporibus enim deleniti a!',
-			'Pariatur exercitationem atque non excepturi, cum',
-			'reiciendis mollitia error maxime earum totam, placeat quod! Ipsa, eum'
-		]
+        comment : ''
     };
     getAllFirst = ()=>{
         const req = {
@@ -67,9 +60,6 @@ class DetailArticle extends React.Component {
                 }
               })
     }
-    componentWillMount = async () => {
-        await this.getAllFirst()
-    };
     
     changeState = async (event) => {
         await this.setState({comment : event.target.value})
@@ -118,46 +108,52 @@ class DetailArticle extends React.Component {
       }
       
     componentWillMount = async () => {
-        const req = {
-          method: "get",
-          url: store.getState().baseUrl+"/posting/toplevel/"+this.props.match.params.id
-        }; 
-        const questionIdParam = this.props.match.params.id
-        const self = this
-        await axios(req)
-            .then((response) => {
-              console.log('isi respon detail',response.data.posting_data.posting_detail.html_content)
-              store.setState({ 
-                allArticleDatabase: response.data, 
-                isLoading:false,
-                questionId:questionIdParam
-              })
-              console.log('hasil detail first data',store.getState().allArticleDatabase)
-              return response
-            })
-            .catch((error)=>{
-              console.log(error)
-              store.setState({ 
-                isLoading: false
-              })
-              switch (error.response.status) {
-                case 401 :
-                    self.props.history.push('/login')
-                    break
-                case 403 :
-                    self.props.history.push('/403')
-                    break
-                case 404 :
-                    self.props.history.push('/404')
-                    break
-                case 500 :
-                    self.props.history.push('/500')
-                    break
-                default :
-                    break
-              }
-            })
-          };
+        await this.getAllFirst()
+        await this.props.getPopular();
+    };
+
+    editArticle = async (event) => {
+        await store.setState({
+            userId: event
+        });
+        await this.props.history.push('/artikel/' + event + '/edit');
+    };
+
+	deleteArticle = async (event)=> {
+		console.log('isi event',event)
+		store.setState({
+			articleId:event.id,
+			articleTitle:event.title,
+			lastArticleQuestion:event.html_content,
+			imageUrl:event.banner_photo_url
+		})
+		await this.props.delArticle()
+		console.log('DELETED')
+		// await this.getPostingList()
+        await this.props.history.push('/')
+	}
+
+	getProfile = async (id, username) => {
+		await store.setState({
+			urlProfile : 'http://13.229.122.5:5000/users/'+id,
+			uname : username
+		})
+		await this.props.history.push('/profil/'+username+'/pertanyaan')
+    }
+    
+    detailArticle = async (event) => {
+		await store.setState({
+			userId: event
+		});
+		await this.props.history.push('/artikel/' + event);
+    };
+    
+    goToDetailQuestion = async (event) => {
+		store.setState({
+			userId: event
+		});
+		await this.props.history.push('/pertanyaan/' + event);
+	};
 
 	render() {
 		return (
@@ -171,8 +167,12 @@ class DetailArticle extends React.Component {
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 						<div className="col-lg-1 col-md-1 col-sm-12 col-12 mt-5">
 						</div>
-						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0" >
-                            <AccessDetailArticle/>
+						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow" >
+                            <AccessDetailArticle 
+                                editArticle={(e) => this.editArticle(e)}
+                                deleteArticle={(e)=>this.deleteArticle(e)} 
+                                getProfile={this.getProfile}
+                            />
                             {store.getState().seeComment?
                                 <div>
                                     <button className='btn btn-grad' onClick={()=>this.handleSeeComment()} style={{textAlign:'center', marginBottom:'20px', fontWeight:'bold', fontSize:'15px'}}>
@@ -205,8 +205,8 @@ class DetailArticle extends React.Component {
                                 }
                             </div>
 						</div>
-						<div className="col-lg-4 col-md-4 col-sm-12 col-12 mt-5">
-							<PopularList article={this.state.article} />
+						<div className="col-lg-4 col-md-4 col-sm-12 col-12 mt-5 overflow">
+							<PopularList detailArticle={(e)=>this.detailArticle(e)} detailQuestion={(e)=>this.goToDetailQuestion(e)}/>
                             <Accordion/>
 						</div>
 					</div>
