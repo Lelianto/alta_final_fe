@@ -53,7 +53,9 @@ const initialState = {
 	allTag:[],
 	allQuestion:[],
 	allAnswer:[],
-	allArticle:[]
+	allArticle:[],
+	menu:'',
+	allData:[]
 }
 
 export const store = createStore(initialState);

@@ -12,9 +12,15 @@ import Loader from '../components/loader'
 
 class AdminLandingPage extends React.Component {
 	handleChangePage = (event) => {
+		console.log(event)
+		localStorage.removeItem('grafik')
 		this.props.history.push('/admin'+event)
 	}
 	handleChangePageMenu = (event) => {
+		store.setState({
+			menu:'/user'
+		})
+		localStorage.setItem('grafik', '/user')
 		this.props.history.push('/admin'+event)
 	}
 	getAllUser = async () => {
@@ -28,7 +34,7 @@ class AdminLandingPage extends React.Component {
             const self = this
             await axios(req)
                 .then(function (response) {
-					store.setState({ allUser: response.data, isLoading:false})
+					store.setState({ allUser: response.data, isLoading:false, menu:'/user'})
 					console.log('all user', store.getState().allUser)
                     return response
                 })

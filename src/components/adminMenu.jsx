@@ -65,7 +65,6 @@ class AdminMenu extends React.Component {
             await axios(req)
                 .then(function (response) {
 					store.setState({ allUser: response.data, isLoading:false})
-					console.log('all user', store.getState().allUser)
                     return response
                 })
                 .catch((error)=>{
@@ -245,7 +244,7 @@ class AdminMenu extends React.Component {
                         </div>
                     </div>
                     <div className='col-md-2'>
-                        <div onClick={()=>this.props.handleChangePage('/artikel')} className='box-control btn-glow' style={{paddingBottom:'25px', paddingTop:'25px', fontSize:'15px'}}>
+                        <div onClick={()=>this.props.handleChangePage('/artikel')} className='box-control btn-glow' style={{ paddingBottom:'25px', paddingTop:'25px', fontSize:'15px' }}>
                             Artikel
                         </div>   
                     </div>

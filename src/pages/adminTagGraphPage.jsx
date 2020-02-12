@@ -7,6 +7,7 @@ import Header from '../components/headerAdmin';
 import Footer from '../components/footer';
 import AdminMenu from '../components/adminMenu';
 import Loader from '../components/loader'
+import axios from 'axios'
 // import Graph from '../components/columnBoxGraph';
 import Graph from '../components/tagGraph'
 
@@ -14,14 +15,59 @@ import Graph from '../components/tagGraph'
 class AdminLandingPage extends React.Component {
 	handleChangePage = (event) => {
 		console.log(event)
+		localStorage.removeItem('grafik')
 		this.props.history.push('/admin'+event)
 	}
 	handleChangePageMenu = (event) => {
-		console.log(event)
+		store.setState({
+			menu:'/tag'
+		})
+		localStorage.setItem('grafik', '/tag')
 		this.props.history.push('/admin'+event)
 	}
+	getAmount = async () => {
+        const req = {
+            method: "get",
+            url: store.getState().baseUrl+"/admin/tag",
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem('token')
+            }
+            }; 
+            const self = this
+            await axios(req)
+                .then(function (response) {
+					console.log('masuk')
+					store.setState({ allTag: response.data, isLoading:false})
+					console.log('isi tag asli', store.getState().allTag)
+                    return response
+                })
+                .catch((error)=>{
+                    store.setState({ 
+                        isLoading: false
+                    })
+                    switch (error.response.status) {
+                        case 401 :
+                            self.props.history.push('/401')
+                            break
+                        case 403 :
+                            self.props.history.push('/403')
+                            break
+                        case 404 :
+                            self.props.history.push('/404')
+                            break
+                        case 422 :
+                            self.props.history.push('/422')
+                            break
+                        case 500 :
+                            self.props.history.push('/500')
+                            break
+                        default :
+                            break
+                    }
+				})
+            }
 	render() {
-		if(this.props.allTag===null){
+		if(this.props.allTag===[] || this.props.allTag === undefined){
 			return (
 				<div>
 					<Loader/>
