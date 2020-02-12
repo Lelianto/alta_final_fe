@@ -36,7 +36,7 @@ const UserOwnFile = (props) => {
                             {postingDetail.title} 
                         </Link>
                     }
-                        {props.userDetail.user_id === postingDetail.user_id && postingDetail.content_status === 0 && store.getState().urlProfile === 'http://13.229.122.5:5000/users/me'?
+                        {props.userDetail.user_id === postingDetail.user_id && postingDetail.content_status === 0 && store.getState().urlProfile === 'https://kodekula.herokuapp.com/users/me'?
                         <div> 
                             <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img className='logo-edit-control' src={more} alt="img"/>
@@ -143,7 +143,7 @@ const UserOwnFile = (props) => {
                             {postingDetail.title} 
                         </Link>
                     }
-                        {props.userDetail.user_id === postingDetail.user_id && postingDetail.content_status === 0 && store.getState().urlProfile === 'http://13.229.122.5:5000/users/me' ?
+                        {props.userDetail.user_id === postingDetail.user_id && postingDetail.content_status === 0 && store.getState().urlProfile === 'https://kodekula.herokuapp.com/users/me' ?
                         <div>
                             <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img className='logo-edit-control' src={more} alt="img"/>

@@ -115,7 +115,7 @@ class TextAreaEdit extends React.Component {
     getAllTags = async () => {
 		const tags = {
 			method: 'get',
-			url: 'http://13.229.122.5:5000/tags',
+			url: 'https://kodekula.herokuapp.com/tags',
 			headers: {
 				'Content-Type': 'application/json'
 			}

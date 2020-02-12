@@ -37,7 +37,7 @@ class Home extends React.Component {
 	getUserTags = async () => {
 		const tags = {
 			method: 'get',
-			url: 'http://13.229.122.5:5000/users/me',
+			url: 'https://kodekula.herokuapp.com/users/me',
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -65,7 +65,7 @@ class Home extends React.Component {
 	getAllTags = async () => {
 		const tags = {
 			method: 'get',
-			url: 'http://13.229.122.5:5000/tags',
+			url: 'https://kodekula.herokuapp.com/tags',
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -107,7 +107,7 @@ class Home extends React.Component {
 
 		const posting = {
 			method: 'get',
-			url: 'http://13.229.122.5:5000/posting/toplevel',
+			url: 'https://kodekula.herokuapp.com/posting/toplevel',
 			headers: {
 				'Content-Type': 'application/json'
 			},
@@ -271,7 +271,7 @@ class Home extends React.Component {
 
 	getProfile = async (id, username) => {
 		await store.setState({
-			urlProfile : 'http://13.229.122.5:5000/users/'+id,
+			urlProfile : 'https://kodekula.herokuapp.com/users/'+id,
 			uname : username
 		})
 		await this.props.history.push('/profil/'+username+'/pertanyaan')
