@@ -52,8 +52,12 @@ const DetailArticleQuestion =(props)=> {
                   : null
                 }
                 <div className='row text-control'>
-                  <div className='col-md-4 username-control' style={{paddingLeft:'34px'}}>
-                      <img className='writer-photo' src={user} alt=""/>
+                  <div className='col-md-12 username-control' style={{paddingLeft:'34px'}}>
+                            {contentNew.posting_data.user_data.photo_url !== null || contentNew.posting_data.user_data.photo_url !== "null" ? 
+                                <img className='writer-photo' src={contentNew.posting_data.user_data.photo_url} alt="" style={{height:'38px', width:'38px'}}/>
+                                :
+                                <img className='writer-photo' src={user} alt=""/>
+                            }
                       <Link onClick={()=>props.getProfile(contentNew.posting_data.posting_detail.user_id, contentNew.posting_data.user_data.username)} style={{textDecoration: 'none', color:'#385898'}}>{contentNew.posting_data.user_data.display_name}</Link>
                   </div>
                   <div className='col-md-5'>
@@ -63,11 +67,16 @@ const DetailArticleQuestion =(props)=> {
               <div>
                 <img style={{width:'100%', marginTop:'10px', marginBottom:'20px'}} src={contentNew.posting_data.posting_detail.banner_photo_url} alt=""/>
               </div>
-              <div className='preview-article-control overflow' style={{paddingLeft:'22px', overflow:'auto'}}>
+              <div className='preview-article-control overflow col-md-12' style={{paddingLeft:'22px', overflow:'auto', height: 'auto'}}>
                 {htmlArticle}
               </div>
-              <div className='col-md-3 text-left pl-4 time-article-control'>
+              <div className='col-md-12 text-left pl-4 time-article-control'>
                   <Moment fromNow ago>{contentNew.posting_data.posting_detail.created_at}</Moment> ago
+                  {contentNew.posting_data.posting_detail.updated_at !== null ? 
+                    <React.Fragment>
+                      &nbsp;&nbsp;&nbsp;&nbsp; Edited
+                    </React.Fragment>
+                    : null }
                   </div>
               <div className='row tag-control-article align-items-end'>
                 <div className='col-md-8'>

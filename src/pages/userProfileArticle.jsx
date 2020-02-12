@@ -5,6 +5,7 @@ import Footer from '../components/footer';
 import UserProfile from '../components/userProfile';
 import UserOwnFile from '../components/userOwnFile';
 import MenuBarProfile from '../components/menuBarProfile';
+import Loader from '../components/loader';
 import axios from 'axios';
 import { actions, store } from '../stores/store';
 import { connect } from 'unistore/react';
@@ -14,7 +15,9 @@ class UserProfileArticle extends Component {
 	state = {
 		userData: {},
 		userDetail: {},
-		articles: []
+		articles: [],
+		userDataLoading : true,
+		contentLoading : true
 	};
 
 	doSearch = () => {
@@ -41,9 +44,7 @@ class UserProfileArticle extends Component {
 		};
 
 		let articleRes = await axios(article);
-		// const article = articleRes.data.query_data
-		// const filterArticle = articleRes.filter(item => !item.)
-		this.setState({ articles: articleRes.data.query_data });
+		this.setState({ articles: articleRes.data.query_data, contentLoading : false });
 	};
 
 	getUserDetail = async () => {
@@ -61,7 +62,7 @@ class UserProfileArticle extends Component {
 		};
 
 		const userRes = await axios(user);
-		this.setState({ userData: userRes.data.user_data, userDetail: userRes.data.user_detail_data });
+		this.setState({ userData: userRes.data.user_data, userDetail: userRes.data.user_detail_data, userDataLoading : false });
 	};
 
 	detailArticle = async (event)=> {
@@ -79,7 +80,6 @@ class UserProfileArticle extends Component {
 	}
 
 	deleteArticle = async (event)=> {
-		console.log('isi event',event)
 		store.setState({
 			articleId:event.id,
 			articleTitle:event.title,
@@ -87,7 +87,6 @@ class UserProfileArticle extends Component {
 			imageUrl:event.banner_photo_url
 		})
 		await this.props.delArticle()
-		console.log('DELETED')
 		await this.getUserArticle()
         await this.props.history.push('/profil/artikel')
 	}
@@ -97,7 +96,12 @@ class UserProfileArticle extends Component {
 		return (
 			<div>
 				<Header doSearch={this.doSearch} />
-				<UserProfile userData={this.state.userData} userDetail={this.state.userDetail} />
+				{this.state.userDataLoading === true? 
+				<div className="pl-5 pr-5">
+					<Loader/>
+				</div> :
+				<UserProfile userData={this.state.userData} userDetail={this.state.userDetail}/>
+				}
 				<div className="container">
 					<div className="row">
 						<div className="col-md-3" style={{ paddingTop: '5%' }}>
@@ -105,7 +109,12 @@ class UserProfileArticle extends Component {
 						</div>
 						<div className="col-md-9 user-own-file overflow">
 							<h5 className="text-center profile-title">Artikel</h5>
-							{this.state.articles.map((content) => (
+							{this.state.contentLoading === true ?
+						<div>
+							<Loader/>
+						</div>	
+						:
+							this.state.articles.map((content) => (
 								<UserOwnFile
 									typeContent="article"
 									content={content}
@@ -115,7 +124,8 @@ class UserProfileArticle extends Component {
 									detailArticle={(e) => this.detailArticle(e)}
 									deleteArticle={(e)=>this.deleteArticle(e)} 
 								/>
-							))}
+							))
+						}
 						</div>
 					</div>
 				</div>

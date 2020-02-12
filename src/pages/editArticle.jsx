@@ -11,6 +11,10 @@ import axios from 'axios';
 import Loader from '../components/loader'
 
 class EditArticlePage extends React.Component {
+
+    state = {
+        textAreaLoading : true
+    }
     
     doSearch = () => {
         this.props.history.push('/pencarian')
@@ -24,13 +28,15 @@ class EditArticlePage extends React.Component {
         const questionIdParam = this.props.match.params.id
         const self = this
         await axios(req)
-            .then((response) => {
-              store.setState({ 
+            .then(async (response) => {
+              await store.setState({ 
                 allArticleDatabase: response.data, 
                 isLoading:false,
                 questionId:questionIdParam,
                 firstData:response.data.posting_data.posting_detail.html_content,
               })
+              await this.setState({textAreaLoading : false})
+
               return response
             })
             .catch((error)=>{
@@ -78,7 +84,12 @@ class EditArticlePage extends React.Component {
 
                         </div>
                             <div className='col-md-8'>
-                                <TextAreaEdit/>
+                                {this.state.textAreaLoading === true ?
+                                <div>
+                                    <Loader/>
+                                </div> :
+                                    <TextAreaEdit/>
+                                }
                                 <div className='row button-area-control'>
                                     <div className='col-md-4'>
                                     </div>

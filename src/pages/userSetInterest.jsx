@@ -81,7 +81,7 @@ class UserSetInterest extends Component {
   
       const editUser = {
         method: 'put',
-        url: 'https://api.kodekula.com/users/me',
+        url: 'http://13.229.122.5:5000/users/me',
         headers: {
           'Content-Type': 'application/json',
           'Authorization':'Bearer ' + localStorage.getItem("token")

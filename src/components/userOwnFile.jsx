@@ -36,7 +36,7 @@ const UserOwnFile = (props) => {
                             {postingDetail.title} 
                         </Link>
                     }
-                        {props.userDetail.user_id === postingDetail.user_id && postingDetail.content_status === 0 && store.getState().urlProfile === 'https://api.kodekula.com/users/me'?
+                        {props.userDetail.user_id === postingDetail.user_id && postingDetail.content_status === 0 && store.getState().urlProfile === 'http://13.229.122.5:5000/users/me'?
                         <div> 
                             <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img className='logo-edit-control' src={more} alt="img"/>
@@ -58,7 +58,11 @@ const UserOwnFile = (props) => {
                     <div className='row text-control'>
                         <div className='col-md-4 username-control'>
                         <div>
-                            <img className='writer-photo' src={user} alt="img"/>
+                            {userData.photo_url !== null || userData.photo_url !== "null" ? 
+                                <img className='writer-photo' src={userData.photo_url} alt="" style={{height:'38px', width:'38px'}}/>
+                                :
+                                <img className='writer-photo' src={user} alt="img"/>
+                            }
                             {postingDetail.content_status === 2 ? 
                                 <Link style={{textDecoration: 'none', color:'#385898'}}>{userData.display_name}</Link>
                             :
@@ -78,8 +82,13 @@ const UserOwnFile = (props) => {
                             <Markup content={postingDetail.html_content}/>
                         </Truncate>
                     </div>
-                    <div className='col-md-2 ml-0 pl-1 time-article-control text-left'>
+                    <div className='col-md-12 ml-0 pl-1 time-article-control text-left'>
                         <Moment fromNow ago>{postingDetail.created_at}</Moment> ago
+                        {postingDetail.updated_at !== null ? 
+                    <React.Fragment>
+                      &nbsp;&nbsp;&nbsp;&nbsp; Edited
+                    </React.Fragment>
+                    : null }
                     </div>
                     <div className='row tag-control-article align-items-end'>
                         <div className='col-md-8'>
@@ -134,7 +143,7 @@ const UserOwnFile = (props) => {
                             {postingDetail.title} 
                         </Link>
                     }
-                        {props.userDetail.user_id === postingDetail.user_id && postingDetail.content_status === 0 && store.getState().urlProfile === 'https://api.kodekula.com/users/me' ?
+                        {props.userDetail.user_id === postingDetail.user_id && postingDetail.content_status === 0 && store.getState().urlProfile === 'http://13.229.122.5:5000/users/me' ?
                         <div>
                             <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img className='logo-edit-control' src={more} alt="img"/>
@@ -158,7 +167,11 @@ const UserOwnFile = (props) => {
                     <div className='row text-control'>
                         <div className='col-md-4 username-control'>
                             <div>
-                                <img className='writer-photo' src={user} alt="img"/>
+                                {userData.photo_url !== null ? 
+                                    <img className='writer-photo' src={userData.photo_url} alt="img" style={{height:'38px', width:'38px'}}/>
+                                    :
+                                    <img className='writer-photo' src={user} alt="img"/>
+                                }
                                 {postingDetail.content_status === 2 ? 
                                     <Link style={{textDecoration: 'none', color:'#385898'}}>{userData.display_name}</Link>
                                 :
@@ -175,8 +188,13 @@ const UserOwnFile = (props) => {
                         <Markup content={postingDetail.html_content}/>
                     </Truncate>
                     </div>
-                    <div className='col-md-2 ml-0 pl-1 time-article-control text-left'>
+                    <div className='col-md-12 ml-0 pl-1 time-article-control text-left'>
                         <Moment fromNow ago>{postingDetail.created_at}</Moment> ago
+                        {postingDetail.updated_at !== null ? 
+                    <React.Fragment>
+                      &nbsp;&nbsp;&nbsp;&nbsp; Edited
+                    </React.Fragment>
+                    : null }
                     </div>
                     <div className='row tag-control-article align-items-end'>
                         <div className='col-md-8'>

@@ -19,7 +19,7 @@ const initialState = {
 	codeCompilerUrl: 'https://cors-anywhere.herokuapp.com/api.paiza.io:80/runners/create',
 	getCodeResultUrl: 'https://cors-anywhere.herokuapp.com/api.paiza.io:80/runners/get_details',
 	codeCompilerResult: '',
-	baseUrl: 'https://api.kodekula.com',
+	baseUrl: 'http://13.229.122.5:5000',
 	username: '',
 	password: '',
 	email: '',
@@ -52,7 +52,8 @@ const initialState = {
 	urlProfile : '',
 	uname : '',
 	popularArticle : [],
-	popularQuestion : []
+	popularQuestion : [],
+	popularLoading : true
 }
 
 export const store = createStore(initialState);
@@ -60,9 +61,7 @@ export const store = createStore(initialState);
 export const actions = (store) => ({
 	changeInput: async (state, e) => {
 		const title = await e.target.value
-		console.warn('const ', title)
 		await store.setState({ articleTitle: title });
-		await console.warn('title', state.articleTitle)
 	},
 
 	/**
@@ -490,7 +489,7 @@ export const actions = (store) => ({
 	getPopular : async () => {
 		const popular = {
 			method: 'get',
-			url: 'https://api.kodekula.com/posting/popular',
+			url: 'http://13.229.122.5:5000/posting/popular',
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -499,7 +498,8 @@ export const actions = (store) => ({
 		const popularContent = await axios(popular)
 		await store.setState({ 
 			popularArticle : popularContent.data.popular_art,
-			popularQuestion : popularContent.data.popular_que
+			popularQuestion : popularContent.data.popular_que,
+			popularLoading : false
 		})
 	}
 

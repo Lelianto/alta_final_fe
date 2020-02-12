@@ -122,7 +122,7 @@ class detailArticlePage extends React.Component {
 
 	getProfile = async (id, username) => {
 		await store.setState({
-			urlProfile : 'https://api.kodekula.com/users/'+id,
+			urlProfile : 'http://13.229.122.5:5000/users/'+id,
 			uname : username
 		})
 		await this.props.history.push('/profil/'+username+'/pertanyaan')

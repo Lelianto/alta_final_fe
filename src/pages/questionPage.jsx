@@ -9,6 +9,7 @@ import InterestList from '../components/interestList';
 import PopularList from '../components/popularList';
 import UserOwnFile from '../components/userOwnFile';
 import axios from 'axios';
+import Loader from '../components/loader';
 
 const listContent = [ 'Artikel' ];
 
@@ -22,13 +23,7 @@ class QuestionPage extends React.Component {
 		userDetail : {},
 		chosenTags: [],
 		chosenPost: [],
-		article: [
-			'Lorem ipsum dolor sit amet consectetur adipisicing elit',
-			'Alias corrupti velit illum sequi quas omnis esse ipsam sed aut delectus blanditiis',
-			'Deserunt dolor temporibus enim deleniti a!',
-			'Pariatur exercitationem atque non excepturi, cum',
-			'reiciendis mollitia error maxime earum totam, placeat quod! Ipsa, eum'
-		]
+		contentLoading : true
 	};
 
 	seeAll = () => {
@@ -162,7 +157,7 @@ class QuestionPage extends React.Component {
 				}
 			});
 		});
-		await this.setState({chosenPost : chosenPost})
+		await this.setState({chosenPost : chosenPost, contentLoading : false})
 	};
 
 	seeAll = () => {
@@ -246,7 +241,7 @@ class QuestionPage extends React.Component {
 
 	getProfile = async (id, username) => {
 		await store.setState({
-			urlProfile : 'https://api.kodekula.com/users/'+id,
+			urlProfile : 'http://13.229.122.5:5000/users/'+id,
 			uname : username
 		})
 		await this.props.history.push('/profil/'+username+'/pertanyaan')
@@ -267,10 +262,22 @@ class QuestionPage extends React.Component {
 							chooseTags={this.chooseTags}/>
 						</div>
 						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow">
-							{this.state.chosenPost.map((content, i) => <UserOwnFile editQuestion={(e)=>this.editQuestion(e)} goToDetailQuestion={(event) =>this.goToDetailQuestion(event)} deleteQuestion={(e)=>this.deleteQuestion(e)} typeContent={content.posting_detail.content_type} content={content} userDetail={this.state.userDetail} getProfile={this.getProfile}/>)}
+							{this.state.contentLoading === true? 
+							<div>
+								<Loader/>
+							</div> 
+							:
+								this.state.chosenPost.map((content, i) => <UserOwnFile editQuestion={(e)=>this.editQuestion(e)} goToDetailQuestion={(event) =>this.goToDetailQuestion(event)} deleteQuestion={(e)=>this.deleteQuestion(e)} typeContent={content.posting_detail.content_type} content={content} userDetail={this.state.userDetail} getProfile={this.getProfile}/>)
+							}
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow" >
-							<PopularList detailArticle={(e)=>this.detailArticle(e)} detailQuestion={(e)=>this.goToDetailQuestion(e)} />
+							{this.props.popularLoading === true ?
+							<div className='pl-5 pr-5'>
+								<Loader/>
+							</div> 
+							:
+							<PopularList detailArticle={(e)=>this.detailArticle(e)} detailQuestion={(e)=>this.goToDetailQuestion(e)}/>
+							}
 						</div>
 					</div>
 				</div>
@@ -279,4 +286,4 @@ class QuestionPage extends React.Component {
 		);
 	}
 }
-export default connect('keyword', actions)(withRouter(QuestionPage));
+export default connect('keyword, popularLoading', actions)(withRouter(QuestionPage));

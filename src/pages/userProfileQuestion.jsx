@@ -16,7 +16,8 @@ class UserProfilePage extends Component {
   state = {
     userData : {},
     userDetail : {},
-    questions : []
+    questions : [],
+    userDataLoading : true
   }
 
   doSearch = () => {
@@ -61,7 +62,7 @@ class UserProfilePage extends Component {
     };
 
     const userRes = await axios(user)
-    this.setState({userData : userRes.data.user_data, userDetail : userRes.data.user_detail_data})
+    this.setState({userData : userRes.data.user_data, userDetail : userRes.data.user_detail_data, userDataLoading : false})
   }
 
   editQuestion = async (event)=> {
@@ -102,7 +103,12 @@ class UserProfilePage extends Component {
       return (
         <div>
           <Header doSearch={this.doSearch}/>
+          {this.state.userDataLoading === true? 
+          <div className="pl-5 pr-5">
+            <Loader/>
+          </div> :
           <UserProfile userData={this.state.userData} userDetail={this.state.userDetail}/>
+          }
           <div className='container'>
             <div className='row'>
               <div className='col-md-3' style={{paddingTop:'5%'}}>

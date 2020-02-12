@@ -109,7 +109,7 @@ class TextArea extends React.Component {
     getAllTags = async () => {
 		const tags = {
 			method: 'get',
-			url: 'https://api.kodekula.com/tags',
+			url: 'http://13.229.122.5:5000/tags',
 			headers: {
 				'Content-Type': 'application/json'
 			}
