@@ -59,49 +59,6 @@ class QuestionPage extends React.Component {
 		console.log('new item',resp.data)
 	};
 
-	// fetchPosts =(page) => {
-	// 	butter.post.list({page: 1, page_size: 10}).then((resp) => {
-	// 	  this.setState({
-	// 		loaded: true,
-	// 		resp: resp.data
-	// 	  })
-	// 	  console.log('isi respon fetching', this.state.resp)
-	// 	});
-	//   }
-	
-	// componentWillMount = () => {
-	// 	console.log(this.props.match)
-	// 	let page = 1
-	// 	if(this.props.match.params.page !== null){
-	// 		console.log('ada')
-	// 		page = this.props.match.params.page || 1
-	// 		this.fetchPosts(page)
-	// 	} else {
-	// 		console.log('tidak ada')
-	// 		this.fetchPosts(page)
-	// 	}
-	// 	let slug = this.props.match.params.slug;
-
-	// 	butter.post.retrieve(slug).then((resp) => {
-	// 		this.setState({
-	// 			loaded: true,
-	// 			post: resp.data.data
-	// 		})
-	// 		console.log('isi post', this.state.post)
-	// 	});
-	// }
-
-	// componentWillReceiveProps(nextProps) {
-	// 	this.setState({loaded: false});
-	// 	let page = 1
-	// 	if(nextProps.match.params.page !== null){
-	// 		let page = nextProps.match.params.page || 1
-	// 		this.fetchPosts(page)
-	// 	} else {
-	// 		this.fetchPosts(page)
-	// 	}
-	// }
-
 	getUserTags = async () => {
 		const tags = {
 			method: 'get',
