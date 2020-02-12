@@ -27,7 +27,8 @@ const Header = (props) => {
 								allArticleDatabase:{},
 								startComment: false,
 								menuBarUpload: false,
-								isLoading:true
+								isLoading:true,
+								urlProfile : 'http://13.229.122.5:5000/users/me'
 							})}
 					>
 						<img src={logo} alt="img" width="10%" />
@@ -62,7 +63,8 @@ const Header = (props) => {
 												allArticleDatabase:{},
 												startComment: false,
 												menuBarUpload: false,
-												isLoading:true
+												isLoading:true,
+												urlProfile : 'http://13.229.122.5:5000/users/me'
 											})}
 									>
 										Artikel
@@ -87,7 +89,8 @@ const Header = (props) => {
 												allArticleDatabase:{},
 												startComment: false,
 												menuBarUpload: false,
-												isLoading:true
+												isLoading:true,
+												urlProfile : 'http://13.229.122.5:5000/users/me'
 											})}
 									>
 										Pertanyaan
@@ -174,7 +177,7 @@ const Header = (props) => {
 		return (
 			<header>
 				<nav className="navbar navbar-expand-lg">
-					<Link className="logo-kodekula" to="/" onClick={()=>store.setState({locationPage : null, keyword : ''})}>
+					<Link className="logo-kodekula" to="/" onClick={()=>store.setState({locationPage : null, keyword : '', urlProfile : 'http://13.229.122.5:5000/users/me'})}>
 						<img style={{ width: '10%' }} src={logo} alt="img" />
 					</Link>
 					<button
@@ -206,7 +209,8 @@ const Header = (props) => {
 												imageArticleUrl: '',
 												startComment: false,
 												menuBarUpload: false,
-												isLoading:true
+												isLoading:true,
+												urlProfile : 'http://13.229.122.5:5000/users/me'
 											})}
 									>
 										Artikel
@@ -230,7 +234,8 @@ const Header = (props) => {
 												imageArticleUrl: '',
 												startComment: false,
 												menuBarUpload: false,
-												isLoading:true
+												isLoading:true,
+												urlProfile : 'http://13.229.122.5:5000/users/me'
 											})}
 									>
 										Pertanyaan
@@ -310,12 +315,13 @@ const Header = (props) => {
 												imageArticleUrl: '',
 												startComment: false,
 												menuBarUpload: false,
-												isLoading:true
+												isLoading:true,
+												urlProfile : 'http://13.229.122.5:5000/users/me'
 											})}
 									>
 										Profil
 									</Link>
-									<Link className="dropdown-item" to="/pengaturan-akun">
+									<Link className="dropdown-item" to="/pengaturan-akun/data-diri">
 										Pengaturan Akun
 									</Link>
 									<Link className="dropdown-item" to="/" onClick={() => props.afterSignOut()}>
