@@ -135,7 +135,7 @@ class DetailArticle extends React.Component {
 
 	getProfile = async (id, username) => {
 		await store.setState({
-			urlProfile : 'http://13.229.122.5:5000/users/'+id,
+			urlProfile : 'https://kodekula.herokuapp.com/users/'+id,
 			uname : username
 		})
 		await this.props.history.push('/profil/'+username+'/pertanyaan')

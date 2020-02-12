@@ -19,7 +19,7 @@ const initialState = {
 	codeCompilerUrl: 'https://cors-anywhere.herokuapp.com/api.paiza.io:80/runners/create',
 	getCodeResultUrl: 'https://cors-anywhere.herokuapp.com/api.paiza.io:80/runners/get_details',
 	codeCompilerResult: '',
-	baseUrl: 'http://13.229.122.5:5000',
+	baseUrl: 'https://kodekula.herokuapp.com',
 	username: '',
 	password: '',
 	email: '',
@@ -489,7 +489,7 @@ export const actions = (store) => ({
 	getPopular : async () => {
 		const popular = {
 			method: 'get',
-			url: 'http://13.229.122.5:5000/posting/popular',
+			url: 'https://kodekula.herokuapp.com/posting/popular',
 			headers: {
 				'Content-Type': 'application/json'
 			}
