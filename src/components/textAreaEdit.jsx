@@ -15,6 +15,7 @@ class TextAreaEdit extends React.Component {
         this.escFunction = this.escFunction.bind(this);
         this.state = {
             tagging : this.props.allArticleDatabase.posting_data.posting_detail.tags,
+            articleTitle : this.props.allArticleDatabase.posting_data.posting_detail.title,
             taggingList : [],
             search : '',
             searchList : []
@@ -105,13 +106,16 @@ class TextAreaEdit extends React.Component {
 
     componentDidMount = () => {
         document.addEventListener("keydown", this.escFunction, false);
+        store.setState({
+            articleTitle : this.props.allArticleDatabase.posting_data.posting_detail.title
+        })
         this.getAllTags()
     }
 
     getAllTags = async () => {
 		const tags = {
 			method: 'get',
-			url: 'https://api.kodekula.com/tags',
+			url: 'http://13.229.122.5:5000/tags',
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -148,12 +152,10 @@ class TextAreaEdit extends React.Component {
         if(event.target.checked){
             await this.state.tagging.push(event.target.value)
             await store.setState({tags : this.state.tagging})
-            console.warn('tag di store', this.props.tags)
         } else {
             const newTags = this.state.tagging.filter(item => item !== event.target.value)
             await this.setState({tagging:newTags})
             await store.setState({tags : newTags})
-            console.warn('tag di store', this.props.tags)
         }
     } 
 
@@ -168,16 +170,20 @@ class TextAreaEdit extends React.Component {
           await this.setState({searchList : this.state.taggingList })
         }
     }
-    
+
+    setInput = async (e) => {
+        const title = await e.target.value
+        await this.setState({articleTitle : title})
+        await store.setState({articleTitle : title})
+    }
+
     render() {
-        console.log('isi semua data',this.props.allArticleDatabase)
         const addedTag = this.state.tagging
         const textAreaContent = this.props.allArticleDatabase.posting_data.posting_detail
         const htmlContent = <Markup content={textAreaContent.html_content}/>
 
         store.setState({
             lastArticleQuestion: htmlContent.props.content,
-            articleTitle: textAreaContent.title,
             articleId: textAreaContent.id,
             tags : addedTag
         })
@@ -186,11 +192,13 @@ class TextAreaEdit extends React.Component {
             <div style={{marginBottom:'20px'}}>
                 <div className='row'>
                     <div className="col-sm-12">
+                        <form onSubmit={e => e.preventDefault()}>
                         {this.props.typeText==='Masukkan Judul Pertanyaan'?
-                            <input placeholder={textAreaContent.title} type="text" onChange={(e)=>this.props.changeInput(e)} className="form-control input-box" onClick={()=>store.setState({menuBarUpload:true})} id="articleTitle" name="judulartikel" required/>
+                            <input type="text" onChange={this.setInput} className="form-control input-box" id="articleTitle" name="articleTitle" value={this.state.articleTitle} onClick={()=>store.setState({menuBarUpload:true})}/>
                             :
-                            <input placeholder={textAreaContent.title} type="text" onChange={(e)=>this.props.changeInput(e)} className="form-control input-box" onClick={()=>store.setState({menuBarUpload:true})} id="articleTitle" name="judulartikel" required/>
+                            <input type="text" onChange={this.setInput} className="form-control input-box" id="articleTitle" name="articleTitle" value={this.state.articleTitle} onClick={()=>store.setState({menuBarUpload:true})}/>
                         }
+                        </form>
                     </div>
                 </div>
                 <CKEditor 
@@ -307,4 +315,4 @@ class TextAreaEdit extends React.Component {
     }
 }
 
-export default connect('selectedFile, isLoading, tagWritings, menuBarUpload, imageArticleUrl, allArticleDatabase, newArticle, imageArticle, imageUrl, listCode, wordCode, tags', actions)(withRouter(TextAreaEdit));
+export default connect('selectedFile, isLoading, tagWritings, menuBarUpload, imageArticleUrl, allArticleDatabase, newArticle, imageArticle, imageUrl, listCode, wordCode, tags, articleTitle', actions)(withRouter(TextAreaEdit));

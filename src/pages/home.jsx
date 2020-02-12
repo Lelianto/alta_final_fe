@@ -20,25 +20,24 @@ class Home extends React.Component {
 		userDetail: {},
 		chosenTags: [],
 		chosenPost: [],
-		article: [
-			'Lorem ipsum dolor sit amet consectetur adipisicing elit',
-			'Alias corrupti velit illum sequi quas omnis esse ipsam sed aut delectus blanditiis',
-			'Deserunt dolor temporibus enim deleniti a!',
-			'Pariatur exercitationem atque non excepturi, cum',
-			'reiciendis mollitia error maxime earum totam, placeat quod! Ipsa, eum'
-		]
+		popularArticle: [],
+		popularQuestion: [],
+		interestLoading : true,
+		contentLoading : true,
+		popularLoading : true
 	};
 
 	componentWillMount = async () => {
 		await this.getUserTags();
 		await this.getPostingList();
 		await this.filterPosting();
+		await this.props.getPopular();
 	};
 
 	getUserTags = async () => {
 		const tags = {
 			method: 'get',
-			url: 'https://api.kodekula.com/users/me',
+			url: 'http://13.229.122.5:5000/users/me',
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -66,7 +65,7 @@ class Home extends React.Component {
 	getAllTags = async () => {
 		const tags = {
 			method: 'get',
-			url: 'https://api.kodekula.com/tags',
+			url: 'http://13.229.122.5:5000/tags',
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -97,7 +96,7 @@ class Home extends React.Component {
 			}
 		}
 
-		await this.setState({ filterInterest: filterInterest, excludeTags: excludeTags });
+		await this.setState({ filterInterest: filterInterest, excludeTags: excludeTags, interestLoading : false });
 		await store.setState({ filterInterest: filterInterest, excludeTags: excludeTags });
 	};
 
@@ -108,7 +107,7 @@ class Home extends React.Component {
 
 		const posting = {
 			method: 'get',
-			url: 'https://api.kodekula.com/posting/toplevel',
+			url: 'http://13.229.122.5:5000/posting/toplevel',
 			headers: {
 				'Content-Type': 'application/json'
 			},
@@ -148,7 +147,7 @@ class Home extends React.Component {
 				}
 			});
 		});
-		await this.setState({chosenPost : chosenPost})
+		await this.setState({chosenPost : chosenPost, contentLoading : false})
 	};
 
 	seeAll = () => {
@@ -247,7 +246,6 @@ class Home extends React.Component {
 	}
 	
 	deleteQuestion = async (event)=> {
-		console.log('isi event',event)
 		store.setState({
 			articleId:event.id,
 			articleTitle:event.title,
@@ -255,13 +253,11 @@ class Home extends React.Component {
 			imageUrl:event.banner_photo_url
 		})
 		await this.props.delQuestion()
-		console.log('DELETED')
 		await this.getPostingList()
         await this.props.history.push('/')
 	}
 
 	deleteArticle = async (event)=> {
-		console.log('isi event',event)
 		store.setState({
 			articleId:event.id,
 			articleTitle:event.title,
@@ -269,9 +265,16 @@ class Home extends React.Component {
 			imageUrl:event.banner_photo_url
 		})
 		await this.props.delArticle()
-		console.log('DELETED')
 		await this.getPostingList()
         await this.props.history.push('/')
+	}
+
+	getProfile = async (id, username) => {
+		await store.setState({
+			urlProfile : 'http://13.229.122.5:5000/users/'+id,
+			uname : username
+		})
+		await this.props.history.push('/profil/'+username+'/pertanyaan')
 	}
 
 	render() {
@@ -287,6 +290,11 @@ class Home extends React.Component {
 					<div className="container-fluid pt-4">
 						<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 							<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5 overflow">
+								{this.state.interestLoading === true ? 
+								<div className='pl-5 pr-5'>
+									<Loader/>
+								</div>
+								:
 								<InterestList
 									tags={this.state.filterInterest}
 									excludeTags={this.state.excludeTags}
@@ -294,9 +302,12 @@ class Home extends React.Component {
 									checkAll={() => this.checkAll()}
 									chooseTags={this.chooseTags}
 								/>
+								}
 							</div>
 							<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow">
-								{this.state.chosenPost.map((content, i) => (
+							{this.state.contentLoading === true ?
+								<div> <Loader/> </div> :
+								this.state.chosenPost.map((content, i) => (
 									<UserOwnFile deleteArticle={(e)=>this.deleteArticle(e)} deleteQuestion={(e)=>this.deleteQuestion(e)}
 										typeContent={content.posting_detail.content_type}
 										content={content}
@@ -305,11 +316,19 @@ class Home extends React.Component {
 										detailArticle={(e) => this.detailArticle(e)}
 										goToDetailQuestion={(e) => this.goToDetailQuestion(e)}
 										userDetail={this.state.userDetail}
+										getProfile={this.getProfile}
 									/>
-								))}
+								))
+								}
 							</div>
 							<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow">
-								<PopularList article={this.state.article} />
+								{this.props.popularLoading === true ?
+								<div className='pl-5 pr-5'>
+									<Loader/>
+								</div> 
+								:
+								<PopularList detailArticle={(e)=>this.detailArticle(e)} detailQuestion={(e)=>this.goToDetailQuestion(e)}/>
+								}
 							</div>
 						</div>
 					</div>
@@ -319,4 +338,4 @@ class Home extends React.Component {
 		}
 	}
 }
-export default connect('responseData, keyword', actions)(withRouter(Home));
+export default connect('responseData, keyword, popularLoading', actions)(withRouter(Home));

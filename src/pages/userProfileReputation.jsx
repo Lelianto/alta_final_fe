@@ -28,7 +28,8 @@ class UserProfileReputation extends Component {
   getUserDetail = async () => {
     const user = {
       method: 'get',
-      url: store.getState().baseUrl+'/users/me',
+      // url: store.getState().baseUrl+'/users/me',
+      url: store.getState().urlProfile,
       headers: {
         'Content-Type': 'application/json',
         'Authorization':'Bearer ' + localStorage.getItem("token")
@@ -52,7 +53,7 @@ class UserProfileReputation extends Component {
             <div className='col-md-3' style={{paddingTop:'5%'}}>
               <MenuBarProfile/>
             </div>
-            <div className='col-md-9 user-own-file'>
+            <div className='col-md-9 user-own-file overflow'>
               <h5 className="text-center profile-title">Pertanyaan</h5>
                 <UserOwnFile
                     typeContent="reputation"
