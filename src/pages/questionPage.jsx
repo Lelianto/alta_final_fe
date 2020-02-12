@@ -8,10 +8,12 @@ import Footer from '../components/footer';
 import InterestList from '../components/interestList';
 import PopularList from '../components/popularList';
 import UserOwnFile from '../components/userOwnFile';
+import { Helmet } from 'react-helmet'
 import axios from 'axios';
+import Butter from 'buttercms'
 import Loader from '../components/loader';
 
-const listContent = [ 'Artikel' ];
+const butter = Butter('31d63e3ae80e878f31b54be79123e3052be26bd4');
 
 class QuestionPage extends React.Component {
 	state = {
@@ -22,6 +24,9 @@ class QuestionPage extends React.Component {
 		postingList : [],
 		userDetail : {},
 		chosenTags: [],
+		loaded:false,
+		resp:null,
+		post:null,
 		chosenPost: [],
 		contentLoading : true
 	};
@@ -42,6 +47,8 @@ class QuestionPage extends React.Component {
 		await this.getUserTags()
 		await this.getPostingList()
 		await this.filterPosting();
+		const resp = await butter.page.retrieve('*', 'beranda')
+		this.setState(resp.data)
 		await this.props.getPopular();
 	};
 
@@ -114,7 +121,7 @@ class QuestionPage extends React.Component {
 			content_type : 'question',
 			keyword : this.props.keyword
 		}
-
+		console.log('berhasil masuk ke render lagi')
 		const posting = {
 			method: 'get',
 			url: store.getState().baseUrl+'/posting/toplevel',
@@ -125,6 +132,7 @@ class QuestionPage extends React.Component {
 		};
 		await axios(posting)
 		.then(async (response) => {
+			console.log('sekarang sungguh-sungguh berhasil')
 			await this.setState({postingList : response.data.query_data})
 		})
 		.catch(async (error) => {
@@ -251,6 +259,12 @@ class QuestionPage extends React.Component {
 		return (
 			<React.Fragment>
 				<Header doSearch={this.doSearch} />
+					<Helmet>
+						<title>Pertanyaan Kodekula</title>
+						<meta name="description" content="Bertanya bukan berarti tidak akan mengerti, hanya saja belum dilalui" />
+						<meta name="og:title" content="Selalu temukan cara untuk berdiskusi tentang pemrograman" />
+						<meta name="og:description" content="Bertanya adalah cara paling efektif untuk menyelesaikan masalah, terutama dalam pemrograman." />
+					</Helmet>
 				<div className="container-fluid pt-4">
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5 overflow">

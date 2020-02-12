@@ -11,7 +11,10 @@ class AddArticlePage extends React.Component {
     doSearch = () => {
         this.props.history.push('/pencarian')
       }
-    
+    handleUploadArticle = () => {
+        this.props.uploadArticle()
+        this.props.history.push('/artikel')
+    }
 	render() {
 		return (
 			<React.Fragment>
@@ -27,7 +30,7 @@ class AddArticlePage extends React.Component {
                                     {this.props.newArticle === '' || this.props.articleTitle === ''?
                                         <button disabled className='btn btn-grad' style={{marginBottom:'50px', fontSize:'15px',padding:'15px'}}>Unggah Artikel</button>
                                     :
-                                        <button className='btn btn-grad' style={{marginBottom:'50px', fontSize:'15px',padding:'15px'}} onClick={()=>this.props.uploadArticle()}>Unggah Artikel</button>
+                                        <button className='btn btn-grad' style={{marginBottom:'50px', fontSize:'15px',padding:'15px'}} onClick={()=>this.handleUploadArticle()}>Unggah Artikel</button>
                                     }
                                 </div>
                                 <div className='col-md-4'>

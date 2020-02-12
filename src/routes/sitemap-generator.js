@@ -2,7 +2,7 @@ require("babel-register")({
     presets: ["es2015", "react"]
   });
    
-  const router = require("./mainRoutes").default;
+  const router = require("./mainRoute").default;
   const Sitemap = require("react-router-sitemap").default;
   
   function generateSitemap() {
@@ -12,5 +12,5 @@ require("babel-register")({
             .save("./public/sitemap.xml")
       );
   }
-  
+
   generateSitemap();
