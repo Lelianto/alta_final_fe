@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import CanvasJSReact from '../styles/js/canvasjs.react';
-import axios from 'axios';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
-import Loader from '../components/loader'
-var CanvasJSChart = CanvasJSReact.CanvasJSChart;
- 
-class ColumnChart extends Component {
-	getAllTag = async () => {
-		console.log('masuk')
+import axios from 'axios'
+import Loader from './loader'
+import { LineChart, PieChart, ColumnChart } from 'react-chartkick'
+import 'chart.js'
+
+class Chart extends Component {
+    getAllTag = async () => {
         const req = {
             method: "get",
             url: store.getState().baseUrl+"/admin/tag",
@@ -49,54 +48,34 @@ class ColumnChart extends Component {
                             break
                     }
 				})
-			}
+            }
+            
 	componentDidMount = ()=>{
 		this.getAllTag()
-		}
-	render() {
-		if(this.props.isLoading){
-			return(
-				<div>
-					<Loader/>
-				</div>
-			)
-		} else {
-			const tags = this.props.allTag.query_data
-			const dataPoints = []
-			tags.map((tag, i)=>{
-				const label = {
-					label:tag.name,
-					y:tag.total_follower
-				}
-				dataPoints.push(label)
-			})
-			console.log(dataPoints)
-			const options = {
-				title: {
-					text: "Perbandingan Penggunaan Tag"
-				},
-				animationEnabled: true,
-				data: [
-				{
-					// Change type to "doughnut", "line", "splineArea", etc.
-					type: "column",
-					dataPoints: dataPoints
-				}
-				]
-			}
-			
-			return (
-			<div>
-				<div style={{width:'725px', paddingTop:'50px'}}>
-					<CanvasJSChart options = {options} 
-						/* onRef={ref => this.chart = ref} */
-					/>
-				</div>
-				{/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
-			</div>
-			);
-		}
-	}
+    }
+    
+    render () {
+        if(this.props.isLoading){
+            return (
+                <div>
+                    <Loader/>
+                </div>
+            )
+        } else {
+            const tags = this.props.allTag.query_data
+            const dataPoints = []
+            tags.map((tag, i)=>{
+                const label = [tag.name,tag.total_follower]
+                dataPoints.push(label)
+            })
+            return (
+                <div>
+                    <ColumnChart data={dataPoints}/>
+                </div>
+            )
+        }
+    }
 }
 
-export default connect('allTag, isLoading', actions)(withRouter(ColumnChart));
+export default connect('allTag, isLoading', actions)(withRouter(Chart));
+

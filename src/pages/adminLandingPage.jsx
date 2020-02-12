@@ -57,11 +57,11 @@ class AdminLandingPage extends React.Component {
                     }
 				})
 			}
-	componentDidMount = ()=>{
+	componentWillMount = ()=>{
 			this.getAllUser()
 		}
 	render() {
-		if(this.props.isLoading){
+		if(this.props.isLoading || this.props.allUser===null){
 			return (
 				<div>
 					<Loader/>

@@ -17,7 +17,7 @@ class UserProfilePage extends Component {
       userDetail : {},
       questions : []
      };
-    this.handleClick = this.handleClick.bind(this);
+    // this.handleClick = this.handleClick.bind(this);
   }
 
   // state = {

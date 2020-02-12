@@ -61,11 +61,12 @@ class AdminLandingPage extends React.Component {
                     }
 				})
 			}
-		componentDidMount = ()=>{
+		componentWillMount = ()=>{
 			this.getAllTag()
-		}
+	}
+
 	render() {
-		if(this.props.isLoading){
+		if(this.props.isLoading || this.props.allTag===null){
 			return (
 				<div>
 					<Loader/>

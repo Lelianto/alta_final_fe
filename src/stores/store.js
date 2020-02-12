@@ -50,7 +50,10 @@ const initialState = {
 	waiting:true,
 	tags : [],
 	allUser:[],
-	allTag:[]
+	allTag:[],
+	allQuestion:[],
+	allAnswer:[],
+	allArticle:[]
 }
 
 export const store = createStore(initialState);
