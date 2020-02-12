@@ -14,7 +14,11 @@ const UserProfile = (props) =>{
             <div className='row user-profile'>
                 <div className='col-md-3'>
                     <div>
-                        <img className='dummy-photo' src={user} alt="img"/>
+                        {props.userDetail.photo_url !== undefined && props.userDetail.photo_url !== null? 
+                            <img className='dummy-photo' src={props.userDetail.photo_url} alt="img" style={{height : '217px', width:'217px'}}/>
+                        :
+                            <img className='dummy-photo' src={user} alt="img"/>
+                        }
                     </div>
                 </div>
                 <div className='col-md-9'>

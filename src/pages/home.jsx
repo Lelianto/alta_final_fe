@@ -20,19 +20,15 @@ class Home extends React.Component {
 		userDetail: {},
 		chosenTags: [],
 		chosenPost: [],
-		article: [
-			'Lorem ipsum dolor sit amet consectetur adipisicing elit',
-			'Alias corrupti velit illum sequi quas omnis esse ipsam sed aut delectus blanditiis',
-			'Deserunt dolor temporibus enim deleniti a!',
-			'Pariatur exercitationem atque non excepturi, cum',
-			'reiciendis mollitia error maxime earum totam, placeat quod! Ipsa, eum'
-		]
+		popularArticle: [],
+		popularQuestion: []
 	};
 
 	componentWillMount = async () => {
 		await this.getUserTags();
 		await this.getPostingList();
 		await this.filterPosting();
+		await this.props.getPopular();
 	};
 
 	getUserTags = async () => {
@@ -245,14 +241,49 @@ class Home extends React.Component {
 			await this.filterPosting()
 		}
 	}
+	
+	deleteQuestion = async (event)=> {
+		console.log('isi event',event)
+		store.setState({
+			articleId:event.id,
+			articleTitle:event.title,
+			lastArticleQuestion:event.html_content,
+			imageUrl:event.banner_photo_url
+		})
+		await this.props.delQuestion()
+		console.log('DELETED')
+		await this.getPostingList()
+        await this.props.history.push('/')
+	}
+
+	deleteArticle = async (event)=> {
+		console.log('isi event',event)
+		store.setState({
+			articleId:event.id,
+			articleTitle:event.title,
+			lastArticleQuestion:event.html_content,
+			imageUrl:event.banner_photo_url
+		})
+		await this.props.delArticle()
+		console.log('DELETED')
+		await this.getPostingList()
+        await this.props.history.push('/')
+	}
+
+	getProfile = async (id, username) => {
+		await store.setState({
+			urlProfile : 'https://api.kodekula.com/users/'+id,
+			uname : username
+		})
+		await this.props.history.push('/profil/'+username+'/pertanyaan')
+	}
 
 	render() {
-		if (this.state.chosenPost === []) {
+		if(localStorage.getItem('username')==='admin'){
+			this.props.history.push('/admin/pengguna')
 			return (
-				<div>
-					<Loader />
-				</div>
-			);
+				<div></div>
+			)
 		} else {
 			return (
 				<React.Fragment>
@@ -270,7 +301,7 @@ class Home extends React.Component {
 							</div>
 							<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow">
 								{this.state.chosenPost.map((content, i) => (
-									<UserOwnFile
+									<UserOwnFile deleteArticle={(e)=>this.deleteArticle(e)} deleteQuestion={(e)=>this.deleteQuestion(e)}
 										typeContent={content.posting_detail.content_type}
 										content={content}
 										editArticle={(e) => this.editArticle(e)}
@@ -278,11 +309,12 @@ class Home extends React.Component {
 										detailArticle={(e) => this.detailArticle(e)}
 										goToDetailQuestion={(e) => this.goToDetailQuestion(e)}
 										userDetail={this.state.userDetail}
+										getProfile={this.getProfile}
 									/>
 								))}
 							</div>
 							<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow">
-								<PopularList article={this.state.article} />
+								<PopularList detailArticle={(e)=>this.detailArticle(e)} detailQuestion={(e)=>this.goToDetailQuestion(e)}/>
 							</div>
 						</div>
 					</div>

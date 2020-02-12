@@ -8,6 +8,7 @@ import Loader from './loader';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
+
 const InterestList = (props) => {
 	return (
 		<React.Fragment>
@@ -20,15 +21,15 @@ const InterestList = (props) => {
                             <div className="mb-3">
                                 <input type="checkbox" id='all' defaultChecked onClick={()=>props.checkAll()}/>
                                 <img src={all} alt="" className="pr-2 ml-2" width='30px'/>
-                                <label for='all' style={{color:'#1b262c', fontSize:'14px'}}>Semua</label>
+                                <label for='all' style={{color:'#1b262c', fontSize:'14px', cursor:'pointer'}}>Semua</label>
                             </div>
                         : null}
                         { 
                             props.tags.map((value) => (
                                 <div className='mb-3'>
-                                    <input type="checkbox" name={value.name} value={value.name} id={value.name} onClick={props.chooseTags} defaultChecked/>
-                                    <img src={value.photo_url} alt="img" className="pr-2 ml-2" width="30px"/>
-                                    <label for={value.name} style={{color:'#1b262c', fontSize:'14px'}}>{value.name}</label>
+                                        <input type="checkbox" name={value.name} value={value.name} id={value.name} onClick={props.chooseTags} defaultChecked/>
+                                        <img src={value.photo_url} alt="img" className="pr-2 ml-2" width="30px"/>
+                                        <label for={value.name} style={{color:'#1b262c', fontSize:'14px', cursor:'pointer'}}>{value.name}</label>
                                 </div>
                             ))}
                        
@@ -45,7 +46,7 @@ const InterestList = (props) => {
                                 <div className='mb-3' >
                                     <input type="checkbox" name='suggest' value={value.name} id={value.name} onClick={props.chooseTags}/>
                                     <img src={value.photo_url} alt="" className="pr-2 ml-2" width="30px"/>
-                                    <label for={value.name} style={{color:'#1b262c', fontSize:'14px'}}>{value.name}</label>
+                                    <label for={value.name} style={{color:'#1b262c', fontSize:'14px', cursor:'pointer'}}>{value.name}</label>
                                 </div>
                             ))}
                         </div>

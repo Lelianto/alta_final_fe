@@ -18,7 +18,7 @@ const MenuBarSetting = (props)=> {
                     {props.userDetail.photo_url===null?
                     <img className='dummy-photo-setting' src={user} />
                     :
-                    <img className='dummy-photo-setting' src={props.userDetail.photo_url}/>
+                    <img className='dummy-photo-setting' style={{height : '217px', width:'217px'}} src={props.userDetail.photo_url}/>
                     }
                 </div>
             </div>

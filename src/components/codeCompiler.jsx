@@ -4,6 +4,7 @@ import CKEditor from "react-ckeditor-component";
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
+import Loader from '../components/loader';
 import { storage } from '../firebase'
 import axios from 'axios'
 
@@ -41,14 +42,18 @@ class CodeCompiler extends React.Component {
                         <textarea name="" id="" cols='45' rows="10" value={this.props.wordCode} onChange={(e)=>this.escFunction(e)}></textarea>
                     </div>
                     <div className='col-md-12'>
-                        <button className='btn btn-grad' onClick={()=>this.props.codeCompiler()}>Compile Code</button>
+                        <button className='btn btn-grad' onClick={()=>this.props.compileCode()}>Compile Code</button>
                     </div>
                     <div className='col-md-12'>
                         <div style={{marginTop:'20px',padding:'20px', backgroundColor:'white', borderRadius:'2px', marginLeft:'8px', marginRight:'8px'}}>
                             Hasil Compile Code :
                         </div>
-                        {store.getState().codeCompilerResult === ''?
-                            <span></span>
+                        {store.getState().codeCompilerResult === '' ?
+                            <div className='container'>
+                                <div class="spinner-grow" style={{width: '3rem', height: '3rem'}} role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
                         :
                             <div style={{marginTop:'20px',padding:'20px', backgroundColor:'white', borderRadius:'2px', marginLeft:'8px', marginRight:'8px'}}>
                                 {store.getState().codeCompilerResult}

@@ -47,6 +47,7 @@ class ArticlePage extends React.Component {
 		await this.getUserTags();
 		await this.getPostingList();
 		await this.filterPosting();
+		await this.props.getPopular();
 	};
 
 	getUserTags = async () => {
@@ -216,6 +217,28 @@ class ArticlePage extends React.Component {
 		})
         await this.props.history.push('/artikel/'+event +'/edit')
 	}
+
+	deleteArticle = async (event)=> {
+		console.log('isi event',event)
+		store.setState({
+			articleId:event.id,
+			articleTitle:event.title,
+			lastArticleQuestion:event.html_content,
+			imageUrl:event.banner_photo_url
+		})
+		await this.props.delArticle()
+		console.log('DELETED')
+		await this.getPostingList()
+		await this.filterPosting()
+        await this.props.history.push('/artikel')
+	}
+
+	goToDetailQuestion = async (event) => {
+		store.setState({
+			userId: event
+		});
+		await this.props.history.push('/pertanyaan/' + event);
+	};
 	
 	doSearch = () => {
 		this.props.history.push('/pencarian/artikel')
@@ -240,6 +263,14 @@ class ArticlePage extends React.Component {
 		}
 	}
 
+	getProfile = async (id, username) => {
+		await store.setState({
+			urlProfile : 'https://api.kodekula.com/users/'+id,
+			uname : username
+		})
+		await this.props.history.push('/profil/'+username+'/pertanyaan')
+	}
+
 	render() {
 		return (
 			<React.Fragment>
@@ -247,17 +278,17 @@ class ArticlePage extends React.Component {
 				<div className="container-fluid pt-4">
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5 overflow">
+							<Link style={{textDecoration:'none', color:'white'}} to='/artikel/tulis'>
+								<button to='/artikel/tulis' className='btn btn-success button-write-article-control mt-4'>Tulis Artikel</button>
+							</Link>
 							<InterestList tags={this.state.filterInterest} excludeTags={this.state.excludeTags} seeAll={this.seeAll} checkAll={()=>this.checkAll()}
 							chooseTags={this.chooseTags}/>
 						</div>
 						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow">
-							<Link style={{textDecoration:'none', color:'white'}} to='/artikel/tulis'>
-								<button to='/artikel/tulis' className='btn btn-success button-write-article-control mt-4'>Tulis Artikel</button>
-							</Link>
-							{this.state.chosenPost.map((content, i) => 			<UserOwnFile typeContent={content.posting_detail.content_type} content={content} editArticle={(e)=>this.editArticle(e)} detailArticle={(e)=>this.detailArticle(e)} userDetail={this.state.userDetail}/>)}
+							{this.state.chosenPost.map((content, i) => <UserOwnFile  deleteArticle={(e)=>this.deleteArticle(e)} typeContent={content.posting_detail.content_type} content={content} editArticle={(e)=>this.editArticle(e)} detailArticle={(e)=>this.detailArticle(e)} userDetail={this.state.userDetail} getProfile={this.getProfile}/>)}
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow">
-							<PopularList article={this.state.article} />
+							<PopularList detailArticle={(e)=>this.detailArticle(e)} detailQuestion={(e)=>this.goToDetailQuestion(e)}/>
 						</div>
 					</div>
 				</div>

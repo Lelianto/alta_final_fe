@@ -7,6 +7,8 @@ import UserOwnFile from '../components/userOwnFile';
 import MenuBarProfile from '../components/menuBarProfile';
 import axios from 'axios';
 import { actions, store } from '../stores/store';
+import { connect } from 'unistore/react';
+import { withRouter, Link } from 'react-router-dom';
 
 class UserProfileArticle extends Component {
 	state = {
@@ -27,7 +29,8 @@ class UserProfileArticle extends Component {
 	getUserArticle = async () => {
 		const article = {
 			method: 'get',
-			url: store.getState().baseUrl + '/users/me/article',
+			url: store.getState().urlProfile+'/article',
+			// url: store.getState().baseUrl + '/users/me/article',
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -37,14 +40,17 @@ class UserProfileArticle extends Component {
 			}
 		};
 
-		const articleRes = await axios(article);
+		let articleRes = await axios(article);
+		// const article = articleRes.data.query_data
+		// const filterArticle = articleRes.filter(item => !item.)
 		this.setState({ articles: articleRes.data.query_data });
 	};
 
 	getUserDetail = async () => {
 		const user = {
 			method: 'get',
-			url: store.getState().baseUrl + '/users/me',
+			url: store.getState().urlProfile,
+			// url: store.getState().baseUrl + '/users/me',
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -72,6 +78,21 @@ class UserProfileArticle extends Component {
         await this.props.history.push('/artikel/'+event +'/edit')
 	}
 
+	deleteArticle = async (event)=> {
+		console.log('isi event',event)
+		store.setState({
+			articleId:event.id,
+			articleTitle:event.title,
+			lastArticleQuestion:event.html_content,
+			imageUrl:event.banner_photo_url
+		})
+		await this.props.delArticle()
+		console.log('DELETED')
+		await this.getUserArticle()
+        await this.props.history.push('/profil/artikel')
+	}
+
+
 	render() {
 		return (
 			<div>
@@ -82,7 +103,7 @@ class UserProfileArticle extends Component {
 						<div className="col-md-3" style={{ paddingTop: '5%' }}>
 							<MenuBarProfile />
 						</div>
-						<div className="col-md-9 user-own-file">
+						<div className="col-md-9 user-own-file overflow">
 							<h5 className="text-center profile-title">Artikel</h5>
 							{this.state.articles.map((content) => (
 								<UserOwnFile
@@ -92,6 +113,7 @@ class UserProfileArticle extends Component {
                                     userData={this.state.userData}
                                     editArticle={(e)=>this.editArticle(e)}
 									detailArticle={(e) => this.detailArticle(e)}
+									deleteArticle={(e)=>this.deleteArticle(e)} 
 								/>
 							))}
 						</div>
@@ -103,4 +125,4 @@ class UserProfileArticle extends Component {
 	}
 }
 
-export default UserProfileArticle;
+export default connect('', actions)(withRouter(UserProfileArticle));

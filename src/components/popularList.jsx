@@ -6,6 +6,7 @@ import '../styles/css/home.css'
 import all from '../images/all.svg'
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import Truncate from 'react-truncate'
 
 const PopularList = (props) => {
 	return (
@@ -13,14 +14,18 @@ const PopularList = (props) => {
             <div className="border rounded pl-3 pr-2 pt-4 ml-2 mr-2 fixed-left bg-white mt-4" style={{backgroundColor:'#f8f9fa'}}>
                 <div className="home-title mb-3 pl-2">Artikel Populer</div>
                 <div className="pl-1">
-                    {props.article.map((value) => (
+                    {props.popularArticle.map((value) => (
                     <div>
                         <div className='row mb-3 mr-2'>
                             <div className="col-2">
                                 <i className='material-icons pr-1 pt-1' style={{color : '#0f4c75', fontSize:'18px'}}>label</i>
                             </div>
-                            <div className="col-10">
-                                <Link style={{textDecoration: 'none', fontSize:'15px'}}>{value}</Link>
+                            <div className="col-10 pl-0">
+                                    <Link onClick={()=>props.detailArticle(value.id)} style={{textDecoration: 'none', fontSize:'15px'}}>
+                                <Truncate lines={2}>
+                                        {value.title}
+                                </Truncate>
+                                    </Link>
                             </div>
                         </div>
                     </div>
@@ -30,14 +35,18 @@ const PopularList = (props) => {
             <div className="border bg-white rounded pl-3 pr-2 pt-4 ml-2 mr-2 mt-4 fixed-left" style={{backgroundColor:'#f8f9fa'}}>
                 <div className="home-title mb-3 pl-2">Pertanyaan Populer</div>
                 <div className="pl-1">
-                    {props.article.map((value) => (
+                    {props.popularQuestion.map((value) => (
                     <div>
                         <div className='row mb-3 mr-2'>
                             <div className="col-2">
                                 <i className='material-icons pr-1 pt-1' style={{color : '#0f4c75', fontSize:'18px'}}>label</i>
                             </div>
-                            <div className="col-10">
-                                <Link style={{textDecoration: 'none', fontSize:'15px'}}>{value}</Link>
+                            <div className="col-10 pl-0">
+                                    <Link onClick={()=>props.detailQuestion(value.id)} style={{textDecoration: 'none', fontSize:'15px'}}>
+                                <Truncate lines={2}>
+                                        {value.title}
+                                </Truncate>
+                                    </Link>
                             </div>
                         </div>
                     </div>
@@ -47,4 +56,4 @@ const PopularList = (props) => {
 		</React.Fragment>
 	);
 };
-export default connect('', actions)(withRouter(PopularList));
+export default connect('popularArticle, popularQuestion', actions)(withRouter(PopularList));

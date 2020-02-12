@@ -27,7 +27,8 @@ class UserProfileAnswer extends Component {
 	getUserAnswer = async () => {
 		const answer = {
 			method: 'get',
-			url: store.getState().baseUrl + '/users/me/answer',
+			// url: store.getState().baseUrl + '/users/me/answer',
+			url: store.getState().urlProfile+'/answer',
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -44,7 +45,8 @@ class UserProfileAnswer extends Component {
 	getUserDetail = async () => {
 		const user = {
 			method: 'get',
-			url: store.getState().baseUrl + '/users/me',
+			// url: store.getState().baseUrl + '/users/me',
+			url: store.getState().urlProfile,
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -68,7 +70,7 @@ class UserProfileAnswer extends Component {
 						<div className="col-md-3" style={{ paddingTop: '5%' }}>
 							<MenuBarProfile />
 						</div>
-						<div className="col-md-9 user-own-file">
+						<div className="col-md-9 user-own-file overflow">
 							<h5 className="text-center profile-title">Jawaban</h5>
 							{this.state.answers.map((content) => (
 								<UserOwnFile
