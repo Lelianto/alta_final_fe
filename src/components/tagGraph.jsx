@@ -65,7 +65,7 @@ class Chart extends Component {
             const tags = this.props.allTag.query_data
             const dataPoints = []
             tags.map((tag, i)=>{
-                const label = [tag.name,tag.total_follower]
+                const label = [tag.name,tag.tl_tag_count]
                 dataPoints.push(label)
             })
             return (
