@@ -296,8 +296,8 @@ class Home extends React.Component {
 			imageUrl:event.banner_photo_url
 		})
 		await this.props.delQuestion()
-		console.log('DELETED')
-		await this.getPostingList()
+		await console.log('DELETED')
+		await this.componentWillMount()
         await this.props.history.push('/')
 	}
 
@@ -310,8 +310,8 @@ class Home extends React.Component {
 			imageUrl:event.banner_photo_url
 		})
 		await this.props.delArticle()
-		console.log('DELETED')
-		await this.getPostingList()
+		await console.log('DELETED')
+		await this.componentWillMount()
         await this.props.history.push('/')
 	}
 

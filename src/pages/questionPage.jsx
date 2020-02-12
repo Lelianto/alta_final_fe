@@ -128,7 +128,7 @@ class QuestionPage extends React.Component {
 			content_type : 'question',
 			keyword : this.props.keyword
 		}
-
+		console.log('berhasil masuk ke render lagi')
 		const posting = {
 			method: 'get',
 			url: store.getState().baseUrl+'/posting/toplevel',
@@ -139,7 +139,7 @@ class QuestionPage extends React.Component {
 		};
 		await axios(posting)
 		.then(async (response) => {
-			console.log()
+			console.log('sekarang sungguh-sungguh berhasil')
 			await this.setState({postingList : response.data.query_data})
 		})
 		.catch(async (error) => {
@@ -242,7 +242,7 @@ class QuestionPage extends React.Component {
 		})
 		await this.props.delQuestion()
 		console.log('DELETED')
-		await this.getPostingList()
+		await this.componentDidMount()
         await this.props.history.push('/pertanyaan')
 	}
 	

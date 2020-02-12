@@ -90,9 +90,12 @@ class AdminLandingPage extends React.Component {
 					</div>
 				</div>
 				<div className='container'>
-					<div className='row' style={{paddingTop:'30px', paddingBottom:'75px'}}>
+					<div className='row' style={{paddingTop:'50px', paddingBottom:'75px'}}>
+						<h4 style={{paddingBottom:'30px'}} className='col-md-12'>
+							Total Jawaban terhadap Waktu
+						</h4>
 						<div className='col-md-2'></div>
-						<div className='col-md-8'>
+						<div className='col-md-8' style={{backgroundColor:'white', borderRadius:'15px', padding:'20px'}}>
 							<Graph/>
 						</div>
 						<div className='col-md-2'></div>

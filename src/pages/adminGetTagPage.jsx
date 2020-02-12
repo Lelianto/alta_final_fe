@@ -108,28 +108,74 @@ class AdminLandingPage extends React.Component {
 						<div className='row' style={{paddingTop:'30px'}}>
 							<div className="col-md-12">
 								<form
-									className="search-component form-inline my-2 my-lg-0"
+									// className="search-component form-inline my-2 my-lg-0"
 									onSubmit={(e) => e.preventDefault()}
 								>
-									<div className="col-md-10" style={{ paddingRight: '0px' }}>
-										<input
-											className="input-search-component form-control mr-sm-5"
-											type="text"
-											placeholder="Pencarian"
-											name="keyword"
-											style={{ width: '100%' }}
-											// onChange={props.setInput}
-										/>
+									<div className='row'>
+										<div className='col-md-1'>
+
+										</div>
+										<div className="col-md-8" style={{ paddingRight: '0px' }}>
+											<input
+												className="input-search-component form-control mr-sm-5"
+												type="text"
+												placeholder="Pencarian"
+												name="keyword"
+												style={{ width: '98%' }}
+												// onChange={props.setInput}
+											/>
+										</div>
+										<div className="col-md-1" style={{ paddingLeft: '5px' }}>
+											<button
+												// onClick={() => props.doSearch()}
+												className="btn btn-info my-2 my-sm-0"
+												type="submit"
+												style={{ paddingLeft: '52px', paddingRight: '52px', marginLeft:'22px' }}
+											>
+												Cari
+											</button>
+										</div>
+										<div className='col-md-1'>
+
+										</div>
 									</div>
-									<div className="col-md-1" style={{ paddingLeft: '5px' }}>
-										<button
-											// onClick={() => props.doSearch()}
-											className="btn btn-info my-2 my-sm-0"
-											type="submit"
-											style={{ paddingLeft: '25px', paddingRight: '25px' }}
-										>
-											Cari
-										</button>
+								</form>
+								<form>
+									<div className='row' style={{paddingTop:'30px'}}>
+										<div className='col-md-1'>
+
+										</div>
+										<div className='col-md-4'>
+											<input
+												className="input-search-component form-control mr-sm-5"
+												type="text"
+												placeholder="Nama Tag Baru"
+												name="newTag"
+												style={{ width: '100%' }}
+												// onChange={props.setInput}
+											/>
+										</div>
+										<div className='col-md-4'>
+											<input
+												className="input-search-component form-control mr-sm-5"
+												type="text"
+												placeholder="Masukkan Link Logo"
+												name="newLogo"
+												style={{ width: '100%' }}
+												// onChange={props.setInput}
+											/>
+										</div>
+										<div className='col-md-2'>
+											<button
+												// onClick={() => props.doSearch()}
+												className="btn btn-info my-2 my-sm-0"
+												type="submit"
+												style={{ paddingLeft: '25px', paddingRight: '25px' }}
+											>
+												Tambahkan
+											</button>
+										</div>
+										<div className='col-md-1'></div>
 									</div>
 								</form>
 							</div>

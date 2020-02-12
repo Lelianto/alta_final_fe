@@ -86,10 +86,8 @@ class ArticlePage extends React.Component {
 		await this.getUserTags();
 		await this.getPostingList();
 		await this.filterPosting();
-		const { match } = this.props
 		const resp = await butter.page.retrieve('*', 'beranda')
 		this.setState(resp.data)
-		console.log('new item',resp.data)
 	};
 
 	getUserTags = async () => {
@@ -270,7 +268,7 @@ class ArticlePage extends React.Component {
 		})
 		await this.props.delArticle()
 		console.log('DELETED')
-		await this.getPostingList()
+		await this.componentDidMount()
         await this.props.history.push('/artikel')
 	}
 	
