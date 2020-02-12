@@ -3,6 +3,7 @@ import { BrowserRouter, Switch } from 'react-router-dom';
 import { Route } from 'react-router';
 import { Provider } from 'unistore/react';
 import { store } from '../stores/store';
+
 import UserProfileQuestion from '../pages/userProfileQuestion';
 import UserProfileArticle from '../pages/userProfileArticle';
 import UserProfileAnswer from '../pages/userProfileAnswer';
@@ -11,18 +12,24 @@ import UserProfileSetting from '../pages/userSettingAll';
 import UserSetPersonalData from '../pages/userSetPersonalData';
 import PersonalDataEdit from '../pages/personalDataEdit';
 import PersonalDataInterest from '../pages/userInterest';
+
 import SignUp from '../pages/signUp';
-import SignIn from '../pages/signIn';
 import ChooseInterest from '../pages/chooseInterest';
+import SignIn from '../pages/signIn';
+
 import Home from '../pages/home';
 import Article from '../pages/articlePage';
 import Question from '../pages/questionPage';
+
 import AddArticle from '../pages/addArticle';
 import AddQuestion from '../pages/addQuestion';
+
 import UserSetInterest from '../pages/userSetInterest';
 import UserSetPassword from '../pages/userSetPassword';
+
 import DetailArticle from '../pages/detailArticle';
 import DetailQuestionPage from '../pages/detailQuestionPage';
+
 import AdminLanding from '../pages/adminLandingPage';
 import AdminArticle from '../pages/adminGetArticlePage';
 import AdminQuestion from '../pages/adminGetQuestionPage';
@@ -37,8 +44,11 @@ import AdminAnswerGraph from '../pages/adminAnswerGraphPage';
 
 import EditArticle from '../pages/editArticle';
 import EditQuestion from '../pages/editQuestion';
+
 import Notification from '../pages/notification';
 import Search from '../pages/searchPage'
+import NotFound from '../pages/notFound'
+
         
 const MainRoute = () => {
     return (
@@ -46,6 +56,7 @@ const MainRoute = () => {
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/" component={Home}/>
+                    <Route exact path="/404" component={NotFound}/>
                     <Route exact path="/admin/pengguna" component={AdminLanding}/>
                     <Route exact path="/admin/artikel" component={AdminArticle}/>
                     <Route exact path="/admin/pertanyaan" component={AdminQuestion}/>
@@ -64,7 +75,11 @@ const MainRoute = () => {
                     <Route exact path="/profil/artikel" component={UserProfileArticle} />  
                     <Route exact path="/profil/jawaban" component={UserProfileAnswer} />  
                     <Route exact path="/profil/reputasi" component={UserProfileReputation} />  
-                    <Route exact path="/pengaturan-akun" component={UserProfileSetting} />
+                    <Route exact path="/profil/:username/pertanyaan" component={UserProfileQuestion} />  
+                    <Route exact path="/profil/:username/artikel" component={UserProfileArticle} />  
+                    <Route exact path="/profil/:username/jawaban" component={UserProfileAnswer} />  
+                    <Route exact path="/profil/:username/reputasi" component={UserProfileReputation} />  
+                    <Route exact path="/pengaturan-akun/data-diri" component={UserProfileSetting} />
                     <Route exact path="/pengaturan-akun/data-diri/edit" component={PersonalDataEdit} />
                     <Route exact path="/pengaturan-akun/ubah-password" component={UserSetPassword} />
                     <Route exact path="/pengaturan-akun/minat" component={PersonalDataInterest} />

@@ -10,7 +10,7 @@ const initialState = {
 	newArticle: '',
 	selectedFile: null,
 	uploadPhotoUrl: 'https://api.pixhost.to/images',
-	articleTitle: '',
+	articleTitle : '',
 	imageArticle: null,
 	imageUrl: '',
 	imageArticleUrl: '',
@@ -19,7 +19,7 @@ const initialState = {
 	codeCompilerUrl: 'https://cors-anywhere.herokuapp.com/api.paiza.io:80/runners/create',
 	getCodeResultUrl: 'https://cors-anywhere.herokuapp.com/api.paiza.io:80/runners/get_details',
 	codeCompilerResult: '',
-	baseUrl: 'https://kodekula.herokuapp.com',
+	baseUrl: 'http://13.229.122.5:5000',
 	username: '',
 	password: '',
 	email: '',
@@ -55,17 +55,20 @@ const initialState = {
 	allAnswer:[],
 	allArticle:[],
 	menu:'',
-	allData:[]
+	allData:[],
+	urlProfile : '',
+	uname : '',
+	popularArticle : [],
+	popularQuestion : [],
+	popularLoading : true
 }
 
 export const store = createStore(initialState);
 
 export const actions = (store) => ({
 	changeInput: async (state, e) => {
-		// store.setState({
-		// 	articleTitle: e.target.value
-		// });
-		await store.setState({ [e.target.name]: e.target.value });
+		const title = await e.target.value
+		await store.setState({ articleTitle: title });
 	},
 
 	/**
@@ -172,6 +175,7 @@ export const actions = (store) => ({
 
 	setGlobal: async (state, event) => {
 		await store.setState({ [event.target.name]: event.target.value });
+		await console.warn('article title', state.articleTitle)
 	},
 
 	uploadArticle: async (state) => {
@@ -487,5 +491,23 @@ export const actions = (store) => ({
 			.catch(error => {
 				return false
 		})
+	},
+
+	getPopular : async () => {
+		const popular = {
+			method: 'get',
+			url: 'https://kodekula.herokuapp.com/posting/popular',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		};
+
+		const popularContent = await axios(popular)
+		await store.setState({ 
+			popularArticle : popularContent.data.popular_art,
+			popularQuestion : popularContent.data.popular_que,
+			popularLoading : false
+		})
 	}
+
 });

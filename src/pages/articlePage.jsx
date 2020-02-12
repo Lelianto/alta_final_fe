@@ -11,8 +11,8 @@ import UserOwnFile from '../components/userOwnFile';
 import Butter from 'buttercms';
 import { Helmet } from 'react-helmet';
 import axios from 'axios';
+import Loader from '../components/loader';
 
-const listContent = [ 'Artikel' ];
 const butter = Butter('31d63e3ae80e878f31b54be79123e3052be26bd4');
 
 class ArticlePage extends React.Component {
@@ -27,13 +27,9 @@ class ArticlePage extends React.Component {
 		loaded:false,
 		resp:null,
 		userDetail : {},
-		article: [
-			'Lorem ipsum dolor sit amet consectetur adipisicing elit',
-			'Alias corrupti velit illum sequi quas omnis esse ipsam sed aut delectus blanditiis',
-			'Deserunt dolor temporibus enim deleniti a!',
-			'Pariatur exercitationem atque non excepturi, cum',
-			'reiciendis mollitia error maxime earum totam, placeat quod! Ipsa, eum'
-		]
+		popularLoading : true,
+		contentLoading : true,
+		interestLoading : true
 	};
 
 	fetchPosts =(page) => {
@@ -88,6 +84,7 @@ class ArticlePage extends React.Component {
 		await this.filterPosting();
 		const resp = await butter.page.retrieve('*', 'beranda')
 		this.setState(resp.data)
+		await this.props.getPopular();
 	};
 
 	getUserTags = async () => {
@@ -152,7 +149,7 @@ class ArticlePage extends React.Component {
 			}
 		}
 
-		await this.setState({filterInterest : filterInterest, excludeTags : excludeTags})
+		await this.setState({filterInterest : filterInterest, excludeTags : excludeTags, interestLoading : false})
 		await store.setState({filterInterest : filterInterest, excludeTags : excludeTags})
 	}
 
@@ -216,7 +213,7 @@ class ArticlePage extends React.Component {
 				}
 			});
 		});
-		await this.setState({chosenPost : chosenPost})
+		await this.setState({chosenPost : chosenPost, contentLoading : false})
 	};
 
 	checkAll = async () => {
@@ -259,7 +256,6 @@ class ArticlePage extends React.Component {
 	}
 
 	deleteArticle = async (event)=> {
-		console.log('isi event',event)
 		store.setState({
 			articleId:event.id,
 			articleTitle:event.title,
@@ -267,10 +263,17 @@ class ArticlePage extends React.Component {
 			imageUrl:event.banner_photo_url
 		})
 		await this.props.delArticle()
-		console.log('DELETED')
-		await this.componentDidMount()
+		await this.getPostingList()
+		await this.filterPosting()
         await this.props.history.push('/artikel')
 	}
+
+	goToDetailQuestion = async (event) => {
+		store.setState({
+			userId: event
+		});
+		await this.props.history.push('/pertanyaan/' + event);
+	};
 	
 	doSearch = () => {
 		this.props.history.push('/pencarian/artikel')
@@ -295,6 +298,14 @@ class ArticlePage extends React.Component {
 		}
 	}
 
+	getProfile = async (id, username) => {
+		await store.setState({
+			urlProfile : 'https://kodekula.herokuapp.com/users/'+id,
+			uname : username
+		})
+		await this.props.history.push('/profil/'+username+'/pertanyaan')
+	}
+
 	render() {
 		return (
 			<React.Fragment>
@@ -311,14 +322,32 @@ class ArticlePage extends React.Component {
 							<Link style={{textDecoration:'none', color:'white'}} to='/artikel/tulis'>
 								<button to='/artikel/tulis' className='btn btn-success button-write-article-control mt-4'>Tulis Artikel</button>
 							</Link>
+							{this.state.interestLoading === true ?
+							<div className='pl-5 pr-5'>
+								<Loader/>
+							</div>
+						:	
 							<InterestList tags={this.state.filterInterest} excludeTags={this.state.excludeTags} seeAll={this.seeAll} checkAll={()=>this.checkAll()}
 							chooseTags={this.chooseTags}/>
+						}
 						</div>
 						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow">
-							{this.state.chosenPost.map((content, i) => 			<UserOwnFile  deleteArticle={(e)=>this.deleteArticle(e)} typeContent={content.posting_detail.content_type} content={content} editArticle={(e)=>this.editArticle(e)} detailArticle={(e)=>this.detailArticle(e)} userDetail={this.state.userDetail}/>)}
+							{this.state.contentLoading === true? 
+							<div className="pr-5 pl-5">
+								<Loader/>
+							</div>
+							:
+								this.state.chosenPost.map((content, i) => <UserOwnFile  deleteArticle={(e)=>this.deleteArticle(e)} typeContent={content.posting_detail.content_type} content={content} editArticle={(e)=>this.editArticle(e)} detailArticle={(e)=>this.detailArticle(e)} userDetail={this.state.userDetail} getProfile={this.getProfile}/>)
+							}
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow">
-							<PopularList article={this.state.article} />
+							{this.props.popularLoading === true ?
+								<div className='pl-5 pr-5'>
+									<Loader/>
+								</div> 
+								:
+								<PopularList detailArticle={(e)=>this.detailArticle(e)} detailQuestion={(e)=>this.goToDetailQuestion(e)}/>
+								}
 						</div>
 					</div>
 				</div>
@@ -327,4 +356,4 @@ class ArticlePage extends React.Component {
 		);
 	}
 }
-export default connect('keyword', actions)(withRouter(ArticlePage));
+export default connect('keyword, popularLoading', actions)(withRouter(ArticlePage));

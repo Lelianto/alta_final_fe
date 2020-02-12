@@ -72,7 +72,8 @@ class detailArticlePage extends React.Component {
 	}
 	
     componentWillMount = async () => {
-        await this.getAllFirst()
+		await this.getAllFirst()
+        await this.props.getPopular();
     };
 
 
@@ -98,6 +99,49 @@ class detailArticlePage extends React.Component {
 		this.props.history.push('/pencarian')
 	  }
 
+    editQuestion = async (event) => {
+        await store.setState({
+            userId: event
+        });
+        await this.props.history.push('/pertanyaan/' + event + '/edit');
+    };
+
+    deleteQuestion = async (event)=> {
+		console.log('isi event',event)
+		store.setState({
+			articleId:event.id,
+			articleTitle:event.title,
+			lastArticleQuestion:event.html_content,
+			imageUrl:event.banner_photo_url
+		})
+		await this.props.delQuestion()
+		console.log('DELETED')
+		// await this.getPostingList()
+        await this.props.history.push('/')
+	}
+
+	getProfile = async (id, username) => {
+		await store.setState({
+			urlProfile : 'https://kodekula.herokuapp.com/users/'+id,
+			uname : username
+		})
+		await this.props.history.push('/profil/'+username+'/pertanyaan')
+	}
+
+	detailArticle = async (event) => {
+		await store.setState({
+			userId: event
+		});
+		await this.props.history.push('/artikel/' + event);
+    };
+    
+    goToDetailQuestion = async (event) => {
+		store.setState({
+			userId: event
+		});
+		await this.props.history.push('/pertanyaan/' + event);
+	};
+
 	render() {
 		return (
 			<React.Fragment>
@@ -110,8 +154,12 @@ class detailArticlePage extends React.Component {
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 						<div className="col-lg-1 col-md-1 col-sm-12 col-12 mt-5">
 						</div>
-						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0" >
-							<AccessDetailArticle/>
+						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow" >
+							<AccessDetailArticle
+								editQuestion={(e) => this.editQuestion(e)}
+								deleteQuestion={(e)=>this.deleteQuestion(e)}
+								getProfile={this.getProfile}
+							/>
 						{store.getState().seeComment?
 							<div>
 								<button className='btn btn-grad' onClick={()=>this.handleSeeComment()} style={{textAlign:'center', marginBottom:'20px', fontWeight:'bold', fontSize:'15px'}}>
@@ -129,8 +177,8 @@ class detailArticlePage extends React.Component {
 
 							<CommentArea handlePostComment={()=>this.handlePostComment()}/>
 						</div>
-						<div className="col-lg-4 col-md-4 col-sm-12 col-12 mt-5">
-							<PopularList article={this.state.article} />
+						<div className="col-lg-4 col-md-4 col-sm-12 col-12 mt-5 overflow">
+							<PopularList detailArticle={(e)=>this.detailArticle(e)} detailQuestion={(e)=>this.goToDetailQuestion(e)} />
 							<Accordion/>
 							<CodeCompiler/>
 						</div>

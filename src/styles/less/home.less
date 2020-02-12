@@ -21,3 +21,20 @@ body {
 header {
     background-color: #2851a3;
 }
+
+.overflow {
+    height: 90vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  
+/* Hide scrollbar for Chrome, Safari and Opera */
+.overflow::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE and Edge */
+.overflow {
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
+}

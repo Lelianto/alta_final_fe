@@ -30,7 +30,7 @@ class UserPasswordSetting extends Component {
   componentDidMount = async () => {
     const user = {
 			method: 'get',
-			url: store.getState()+ '/users/me',
+			url: store.getState().baseUrl+ '/users/me',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization':'Bearer ' + localStorage.getItem("token")

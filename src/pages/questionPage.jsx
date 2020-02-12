@@ -11,8 +11,8 @@ import UserOwnFile from '../components/userOwnFile';
 import { Helmet } from 'react-helmet'
 import axios from 'axios';
 import Butter from 'buttercms'
+import Loader from '../components/loader';
 
-const listContent = [ 'Artikel' ];
 const butter = Butter('31d63e3ae80e878f31b54be79123e3052be26bd4');
 
 class QuestionPage extends React.Component {
@@ -28,13 +28,7 @@ class QuestionPage extends React.Component {
 		resp:null,
 		post:null,
 		chosenPost: [],
-		article: [
-			'Lorem ipsum dolor sit amet consectetur adipisicing elit',
-			'Alias corrupti velit illum sequi quas omnis esse ipsam sed aut delectus blanditiis',
-			'Deserunt dolor temporibus enim deleniti a!',
-			'Pariatur exercitationem atque non excepturi, cum',
-			'reiciendis mollitia error maxime earum totam, placeat quod! Ipsa, eum'
-		]
+		contentLoading : true
 	};
 
 	seeAll = () => {
@@ -53,10 +47,9 @@ class QuestionPage extends React.Component {
 		await this.getUserTags()
 		await this.getPostingList()
 		await this.filterPosting();
-		const { match } = this.props
 		const resp = await butter.page.retrieve('*', 'beranda')
 		this.setState(resp.data)
-		console.log('new item',resp.data)
+		await this.props.getPopular();
 	};
 
 	getUserTags = async () => {
@@ -172,7 +165,7 @@ class QuestionPage extends React.Component {
 				}
 			});
 		});
-		await this.setState({chosenPost : chosenPost})
+		await this.setState({chosenPost : chosenPost, contentLoading : false})
 	};
 
 	seeAll = () => {
@@ -212,6 +205,13 @@ class QuestionPage extends React.Component {
 		await this.filterPosting()
 	};
 
+	detailArticle = async (event)=> {
+        await store.setState({
+            userId:event
+		})
+        await this.props.history.push('/artikel/'+event)
+	}
+
 	goToDetailQuestion = async (event)=> {
         store.setState({
             userId:event
@@ -242,8 +242,17 @@ class QuestionPage extends React.Component {
 		})
 		await this.props.delQuestion()
 		console.log('DELETED')
-		await this.componentDidMount()
+		await this.getPostingList()
+		await this.filterPosting()
         await this.props.history.push('/pertanyaan')
+	}
+
+	getProfile = async (id, username) => {
+		await store.setState({
+			urlProfile : 'https://kodekula.herokuapp.com/users/'+id,
+			uname : username
+		})
+		await this.props.history.push('/profil/'+username+'/pertanyaan')
 	}
 	
 	render() {
@@ -267,10 +276,22 @@ class QuestionPage extends React.Component {
 							chooseTags={this.chooseTags}/>
 						</div>
 						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow">
-							{this.state.chosenPost.map((content, i) => <UserOwnFile editQuestion={(e)=>this.editQuestion(e)} goToDetailQuestion={(event) =>this.goToDetailQuestion(event)} deleteQuestion={(e)=>this.deleteQuestion(e)} typeContent={content.posting_detail.content_type} content={content} userDetail={this.state.userDetail}/>)}
+							{this.state.contentLoading === true? 
+							<div>
+								<Loader/>
+							</div> 
+							:
+								this.state.chosenPost.map((content, i) => <UserOwnFile editQuestion={(e)=>this.editQuestion(e)} goToDetailQuestion={(event) =>this.goToDetailQuestion(event)} deleteQuestion={(e)=>this.deleteQuestion(e)} typeContent={content.posting_detail.content_type} content={content} userDetail={this.state.userDetail} getProfile={this.getProfile}/>)
+							}
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow" >
-							<PopularList article={this.state.article} />
+							{this.props.popularLoading === true ?
+							<div className='pl-5 pr-5'>
+								<Loader/>
+							</div> 
+							:
+							<PopularList detailArticle={(e)=>this.detailArticle(e)} detailQuestion={(e)=>this.goToDetailQuestion(e)}/>
+							}
 						</div>
 					</div>
 				</div>
@@ -279,4 +300,4 @@ class QuestionPage extends React.Component {
 		);
 	}
 }
-export default connect('keyword', actions)(withRouter(QuestionPage));
+export default connect('keyword, popularLoading', actions)(withRouter(QuestionPage));

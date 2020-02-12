@@ -9,6 +9,7 @@ import user from '../images/user.png';
 import Loader from './loader'
 import like from '../images/like.png';
 import havelike from '../images/have-like.png';
+import Moment from 'react-moment';
 
 const ViewComment = (props) => {
   if(props.allArticleDatabase === {} || props.isLoading){
@@ -33,22 +34,22 @@ const ViewComment = (props) => {
           <div className='container-fluid user-comment-control'>
             <div className='row'>
               <div className='col-md-2 '>
-                <div className='col-md-12 control-comment-user'>
+                <div className='col-md-12 control-comment-user text-center'>
                   {comment.user_data.photo_url === "null"?
                     <div>
-                      <img className='writer-photo-comment' width='30%' src={user} alt=''/>
+                      <img className='writer-photo-comment mr-0' width='30%' src={user} alt=''/>
                     </div>
                   :
                     <div>
-                      <img className='writer-photo-comment' width='30%' src={comment.user_data.photo_url} alt='' />
+                      <img className='writer-photo-comment mr-0' width='30%' src={comment.user_data.photo_url} alt='' style={{height:'46px', width:'46px'}}/>
                     </div>
                   }
-                <div className='col-md-12 control-comment-user'>
+                <div className='col-md-12 control-comment-user text-center'>
                   <Link style={{textDecoration: 'none', color:'#385898', fontSize:'12px'}}>{comment.user_data.username}</Link>
                 </div>
                 </div>
-                <div className='col-md-12 control-comment-user time-article-comment-control'>
-                    {comment.posting_detail.created_at}
+                <div className='col-md-12 control-comment-user time-article-comment-control text-center'>
+                  <Moment fromNow ago>{comment.posting_detail.created_at}</Moment> ago
                 </div>
               </div>
               <div></div>
