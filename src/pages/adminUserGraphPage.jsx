@@ -12,12 +12,10 @@ import Graph from '../components/lineGraph';
 
 class AdminLandingPage extends React.Component {
 	handleChangePage = (event) => {
-		console.log(event)
 		localStorage.removeItem('grafik')
 		this.props.history.push('/admin'+event)
 	}
 	handleChangePageMenu = (event) => {
-		console.log(event)
 		store.setState({
 			menu:'/user'
 		})

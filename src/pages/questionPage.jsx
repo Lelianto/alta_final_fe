@@ -237,7 +237,7 @@ class QuestionPage extends React.Component {
 
 	getProfile = async (id, username) => {
 		await store.setState({
-			urlProfile : 'https://kodekula.herokuapp.com/users/'+id,
+			urlProfile : store.getState().baseUrl+'/users/'+id,
 			uname : username
 		})
 		await this.props.history.push('/profil/'+username+'/pertanyaan')

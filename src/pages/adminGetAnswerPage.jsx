@@ -12,12 +12,10 @@ import AdminMenu from '../components/adminMenu'
 
 class AdminLandingPage extends React.Component {
 	handleChangePage = (event) => {
-		console.log(event)
 		localStorage.removeItem('grafik')
 		this.props.history.push('/admin'+event)
 	}
 	handleChangePageMenu = (event) => {
-		console.log(event)
 		store.setState({
 			menu:'/answer'
 		})
@@ -34,9 +32,8 @@ class AdminLandingPage extends React.Component {
             }; 
             const self = this
             await axios(req)
-                .then(function (response) {
+                .then((response) => {
                     store.setState({ allAnswer: response.data, isLoading:false})
-                    console.log('all allAnswer', store.getState().allAnswer)
                     return response
                 })
                 .catch((error)=>{
@@ -70,7 +67,6 @@ class AdminLandingPage extends React.Component {
 	}
 
 	handleDeleteAnswer = async (event) => {
-		console.log('isi event del',event)
 		await store.setState({
 			idComment:event.id,
 			htmlContent:event.html_content

@@ -11,8 +11,13 @@ import Loader from '../components/loader'
 
 
 class AdminLandingPage extends React.Component {
+	state = {
+		search : '',
+		allUsers : this.props.allUser.query_data,
+		searchResult : []
+	}
+
 	handleChangePage = (event) => {
-		console.log(event)
 		localStorage.removeItem('grafik')
 		this.props.history.push('/admin'+event)
 	}
@@ -30,50 +35,73 @@ class AdminLandingPage extends React.Component {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem('token')
             }
-            }; 
-            const self = this
-            await axios(req)
-                .then(function (response) {
-					store.setState({ allUser: response.data, isLoading:false, menu:'/user'})
-					console.log('all user', store.getState().allUser)
-                    return response
-                })
-                .catch((error)=>{
-                    store.setState({ 
-                        isLoading: false
-                    })
-                    switch (error.response.status) {
-                        case 401 :
-                            self.props.history.push('/401')
-                            break
-                        case 403 :
-                            self.props.history.push('/403')
-                            break
-                        case 404 :
-                            self.props.history.push('/404')
-                            break
-                        case 422 :
-                            self.props.history.push('/422')
-                            break
-                        case 500 :
-                            self.props.history.push('/500')
-                            break
-                        default :
-                            break
-                    }
+		}; 
+		const self = this
+		await axios(req)
+			.then((response) => {
+				store.setState({ allUser: response.data, isLoading:false, menu:'/user'})
+				self.setState({searchResult : response.data.query_data})
+				return response
+			})
+			.catch((error)=>{
+				store.setState({ 
+					isLoading: false
 				})
-			}
+				// switch (error.response.status) {
+				// 	case 401 :
+				// 		self.props.history.push('/401')
+				// 		break
+				// 	case 403 :
+				// 		self.props.history.push('/403')
+				// 		break
+				// 	case 404 :
+				// 		self.props.history.push('/404')
+				// 		break
+				// 	case 422 :
+				// 		self.props.history.push('/422')
+				// 		break
+				// 	case 500 :
+				// 		self.props.history.push('/500')
+				// 		break
+				// 	default :
+				// 		break
+				// }
+			})
+		}
 	componentWillMount = ()=>{
 			this.getAllUser()
 		}
 	handleDeleteUser = async (event) => {
-		console.log('isi event del',event)
 		await store.setState({
 			idUser:event
 		})
 		await this.props.delUser()
 		await this.getAllUser()
 		await this.props.history.push('/admin/pengguna')
+	}
+
+	searchUser = async (event) => {
+		await this.setState({search : event.target.value})
+		const allUser = await this.props.allUser.query_data
+
+		const detailData = await allUser.filter(user => user.user_detail.first_name !== null && user.user_detail.last_name !== null && user.user_detail.job_title !== null)
+		if (this.state.search.length > 0) {
+			const searchData = await allUser.filter(user => 
+				user.username.toLowerCase().indexOf(this.state.search) > -1 || user.email.toLowerCase().indexOf(this.state.search) > -1 
+				)
+
+			const searchDetailData = await detailData.filter(user => 
+				user.user_detail.first_name.toLowerCase().indexOf(this.state.search) > -1 ||
+				user.user_detail.last_name.toLowerCase().indexOf(this.state.search) > -1 ||
+				user.user_detail.job_title.toLowerCase().indexOf(this.state.search) > -1
+				)
+			
+			const searchResult = await searchData.concat(searchDetailData)
+			
+			await this.setState({searchResult : searchResult })
+		} else {
+			await this.setState({searchResult : this.props.allUser.query_data })
+		}
 	}
 
 	render() {
@@ -85,7 +113,8 @@ class AdminLandingPage extends React.Component {
 			)
 		} else {
 			
-			const Users = this.props.allUser.query_data
+			const Users = this.state.searchResult
+			console.warn('all user', Users)
 			return (
 				<React.Fragment>
 					<Header />
@@ -124,7 +153,7 @@ class AdminLandingPage extends React.Component {
 											placeholder="Pencarian"
 											name="keyword"
 											style={{ width: '100%' }}
-											// onChange={props.setInput}
+											onChange={(e)=>this.searchUser(e)}
 										/>
 									</div>
 									<div className="col-md-1" style={{ paddingLeft: '5px' }}>
@@ -154,7 +183,12 @@ class AdminLandingPage extends React.Component {
 								</tr>
 							</thead>
 							<tbody>
-								{Users.map((user,i)=>
+								{Users === undefined ? 
+							<div>
+								<Loader/>
+							</div>
+							:
+								Users.map((user,i)=>
 									<tr>
 										<td>{user.user_id}</td>
 										<td>{user.username}</td>
@@ -176,7 +210,8 @@ class AdminLandingPage extends React.Component {
 											</td>
 											}
 									</tr>
-								)}
+								)
+							}
 							</tbody>
 						</table>
 						</div>

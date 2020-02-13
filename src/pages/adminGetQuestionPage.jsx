@@ -11,13 +11,18 @@ import AdminMenu from '../components/adminMenu'
 
 
 class AdminLandingPage extends React.Component {
+	state = {
+		search : '',
+		searchResult : [],
+		allQuestions : this.props.allQuestion.query_data
+	}
+
 	handleChangePage = (event) => {
-		console.log(event)
 		localStorage.removeItem('grafik')
 		this.props.history.push('/admin'+event)
 	}
+
 	handleChangePageMenu = (event) => {
-		console.log(event)
 		store.setState({
 			menu:'/question'
 		})
@@ -34,9 +39,9 @@ class AdminLandingPage extends React.Component {
             }; 
             const self = this
             await axios(req)
-                .then(function (response) {
-                    store.setState({ allQuestion: response.data, isLoading:false})
-                    console.log('all allQuestion', store.getState().allQuestion)
+                .then( async (response) => {
+					store.setState({ allQuestion: response.data, isLoading:false})
+					this.setState({searchResult : response.data.query_data})
                     return response
                 })
                 .catch((error)=>{
@@ -64,11 +69,12 @@ class AdminLandingPage extends React.Component {
                     }
                 })
 			}
+
 	componentWillMount = ()=>{
 		this.getAllQuestion()
 	}
+
 	deleteQuestion = async (event)=> {
-		console.log('isi event',event)
 		store.setState({
 			articleId:event.id,
 			articleTitle:event.title,
@@ -77,10 +83,25 @@ class AdminLandingPage extends React.Component {
 			putTag: event.tags
 		})
 		await this.props.delQuestion()
-		console.log('DELETED')
 		await this.getAllQuestion()
         await this.props.history.push('/admin/pertanyaan')
 	}
+
+	searchQuestion = async (event) => {
+		await this.setState({search : event.target.value})
+		const allQuestion = await this.props.allQuestion.query_data
+
+		if (this.state.search.length > 0) {
+			const searchData = allQuestion.filter(question => 
+				question.posting_detail.title.toLowerCase().indexOf(this.state.search) > -1 ||
+				question.user_data.username.toLowerCase().indexOf(this.state.search) > -1
+				)
+			await this.setState({searchResult : searchData })
+		} else {
+			await this.setState({searchResult : this.props.allQuestion.query_data })
+		}
+	}
+
 	render() {
 		if(this.props.isLoading || this.props.allQuestion===[]){
 			return (
@@ -89,8 +110,7 @@ class AdminLandingPage extends React.Component {
 				</div>
 			)
 		} else {
-			const questions = this.props.allQuestion.query_data
-			console.log('isi questions', questions)
+			const questions = this.state.searchResult
 			return (
 				<React.Fragment>
 					<Header />
@@ -129,7 +149,7 @@ class AdminLandingPage extends React.Component {
 											placeholder="Pencarian"
 											name="keyword"
 											style={{ width: '100%' }}
-											// onChange={props.setInput}
+											onChange={(e)=>this.searchQuestion(e)}
 										/>
 									</div>
 									<div className="col-md-1" style={{ paddingLeft: '5px' }}>
