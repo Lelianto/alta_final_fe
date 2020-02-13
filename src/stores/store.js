@@ -1,5 +1,7 @@
 import createStore from 'unistore';
 import axios from 'axios';
+import like from '../images/like.png';
+import havelike from '../images/have-like.png';
 
 const initialState = {
 	menuBarUser: '',
@@ -58,7 +60,7 @@ const initialState = {
 	allArticle:[],
 	menu:'',
 	allData:[],
-	urlProfile : '',
+	urlProfile : 'https://api.kodekula.com/users/me',
 	uname : '',
 	popularArticle : [],
 	popularQuestion : [],
@@ -161,7 +163,6 @@ export const actions = (store) => ({
 			name: tagName,
 			photo_url: tagUrl,
 		};
-		console.log('isi variable', newTagging)
 		const req = {
 			method: 'post',
 			url: state.baseUrl + '/tags',
@@ -176,7 +177,6 @@ export const actions = (store) => ({
 					newTag:'',
 					newLogo:''
 				})
-				console.log('berhasil bertambah')
 			})
 			.catch((error) => {
 				return false;
@@ -215,7 +215,6 @@ export const actions = (store) => ({
 
 	setGlobal: async (state, event) => {
 		await store.setState({ [event.target.name]: event.target.value });
-		await console.warn('article title', state.articleTitle)
 	},
 
 	delUser: async (state) => {
@@ -232,13 +231,11 @@ export const actions = (store) => ({
 			data: deleteData
 		};
 		// data=JSON.stringify(data)
-		console.log(req);
 		await axios(req)
 			.then((response) => {
 				store.setState({
 					idUser:''
 				})
-				console.log('terhapus')
 				return response
 			})
 			.catch((error) => {
@@ -263,17 +260,14 @@ export const actions = (store) => ({
 			data: deleteData
 		};
 		// data=JSON.stringify(data)
-		console.log(req);
 		await axios(req)
 			.then((response) => {
 				store.setState({
 					idUser:''
 				})
-				console.log('terhapus')
 				return response
 			})
 			.catch((error) => {
-				console.log(error)
 				return false;
 			});
 	},
@@ -304,10 +298,8 @@ export const actions = (store) => ({
 			data: articleDetails
 		};
 		// data=JSON.stringify(data)
-		console.log(articleDetails);
 		await axios(req)
 			.then((response) => {
-				console.log(response.data)
 				store.setState({
 					menuBarUpload:false,
 					articleTitle:'',
@@ -377,7 +369,6 @@ export const actions = (store) => ({
 			tags : state.tags
 		};
 		// articleDetails = JSON.stringify(articleDetails)
-		console.log('isi req article', articleDetails)
 		const req = {
 			method: 'put',
 			url: state.baseUrl + '/posting/toplevel/' + state.articleId,
@@ -387,7 +378,6 @@ export const actions = (store) => ({
 			data: articleDetails
 		};
 		// data=JSON.stringify(data)
-		console.log(articleDetails);
 		await axios(req)
 			.then((response) => {
 				store.setState({
@@ -422,8 +412,6 @@ export const actions = (store) => ({
 			tags : tags,
 			content_status:2
 		};
-		console.log(articleDetails)
-		console.log('isi req article', articleDetails)
 		const req = {
 			method: 'put',
 			url: state.baseUrl + '/posting/toplevel/' + state.articleId,
@@ -470,7 +458,6 @@ export const actions = (store) => ({
 			content_status:2,
 			tags:tags
 		};
-		console.log('isi req article', articleDetails)
 		const req = {
 			method: 'put',
 			url: state.baseUrl + '/posting/toplevel/' + state.articleId,
@@ -480,7 +467,6 @@ export const actions = (store) => ({
 			data: articleDetails
 		};
 		// data=JSON.stringify(data)
-		console.log(articleDetails);
 		await axios(req)
 			.then((response) => {
 				store.setState({
@@ -587,10 +573,8 @@ export const actions = (store) => ({
 			},
 			data: articleDetails
 		};
-		console.log('isi req', req)
 		await axios(req)
 			.then(response => {
-				console.log('isi respon', response.data)
 				store.setState({
 					menuBarUpload:false,
 					newArticle:''
@@ -617,5 +601,37 @@ export const actions = (store) => ({
 			popularLoading : false
 		})
 	}
+
+	// likePosting : async (state, id, content_type) => {
+	// 	const image = document.getElementById('img-like')
+	// 	let value;
+	// 	if (image.title === 'like') {
+	// 		console.warn('like')
+	// 		value = 0
+	// 		image.src = like
+	// 	} else {
+	// 		value = 1
+	// 		image.src = havelike
+	// 	}
+	// 	const like = {
+	// 		locator_id : id,
+	// 		content_type : content_type,
+	// 		value : value
+	// 	}
+	// 	const requestLike = {
+	// 		method: "put",
+	// 		url: state.baseUrl + '/point',
+	// 		headers: {
+	// 			'Content-Type': 'application/json',
+	// 			Authorization: "Bearer " + localStorage.getItem('token')
+	// 		},
+	// 		data: like,
+	// 		validateStatus: (status) => {
+	// 			return status < 600;
+	// 		}
+	// 	};
+	// 	const likeRes = await axios(requestLike)
+	// 	console.warn('respon', likeRes)
+	// }
 
 });

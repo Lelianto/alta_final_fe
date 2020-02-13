@@ -12,7 +12,7 @@ import { Link, withRouter } from 'react-router-dom';
 const MenuBarProfile = ()=> {
 
     let path;
-    if(store.getState().urlProfile === 'https://kodekula.herokuapp.com/users/me'){
+    if(store.getState().urlProfile === 'https://api.kodekula.com/users/me'){
         path = '/profil'
     } else {
         path = '/profil/'+store.getState().uname

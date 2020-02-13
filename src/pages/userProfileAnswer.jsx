@@ -7,12 +7,14 @@ import UserOwnFile from '../components/userOwnFile';
 import MenuBarProfile from '../components/menuBarProfile';
 import axios from 'axios';
 import { actions, store } from '../stores/store';
+import Loader from '../components/loader'
 
 class UserProfileAnswer extends Component {
 	state = {
 		userData: {},
 		userDetail: {},
-		answers: []
+		answers: [],
+		userDataLoading : true
 	};
 
 	doSearch = () => {
@@ -57,14 +59,14 @@ class UserProfileAnswer extends Component {
 		};
 
 		const userRes = await axios(user);
-		this.setState({ userData: userRes.data.user_data, userDetail: userRes.data.user_detail_data });
+		this.setState({ userData: userRes.data.user_data, userDetail: userRes.data.user_detail_data, userDataLoading : false });
 	};
 
 	render() {
 		return (
 			<div>
 				<Header doSearch={this.doSearch} />
-				<UserProfile userData={this.state.userData} userDetail={this.state.userDetail} />
+				<UserProfile userData={this.state.userData} userDetail={this.state.userDetail}/>
 				<div className="container">
 					<div className="row">
 						<div className="col-md-3" style={{ paddingTop: '5%' }}>
@@ -72,16 +74,17 @@ class UserProfileAnswer extends Component {
 						</div>
 						<div className="col-md-9 user-own-file overflow">
 							<h5 className="text-center profile-title">Jawaban</h5>
-							{this.state.answers.map((content) => (
+						{this.state.userDataLoading === true? 
+						<div className="pl-5 pr-5">
+							<Loader/>
+						</div> :
+							this.state.answers.map((content) => (
 								<UserOwnFile
 									typeContent="answer"
 									content={content}
-									// userDetail={this.state.userDetail}
-                                    // userData={this.state.userData}
-                                    // editArticle={(e)=>this.editArticle(e)}
-									// detailArticle={(e) => this.detailArticle(e)}
 								/>
-							))}
+							))
+						}
 						</div>
 					</div>
 				</div>

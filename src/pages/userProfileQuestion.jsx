@@ -18,7 +18,8 @@ class UserProfilePage extends Component {
       userData : {},
       userDetail : {},
       questions : [],
-      userDataLoading : true
+      userDataLoading : true,
+      contentLoading : true
      };
     }
   doSearch = ()=>{
@@ -33,7 +34,6 @@ class UserProfilePage extends Component {
   getUserQuestion = async ()=>{
     const question = {
       method: 'get',
-      // url: store.getState().baseUrl+'/users/me/question',
       url: store.getState().urlProfile+'/question',
       headers: {
         'Content-Type': 'application/json',
@@ -45,13 +45,12 @@ class UserProfilePage extends Component {
     };
 
     const questionRes = await axios(question)
-    await this.setState({questions : questionRes.data.query_data})
+    await this.setState({questions : questionRes.data.query_data, contentLoading : false})
   }
 
   getUserDetail = async () =>{
     const user = {
       method: 'get',
-      // url: store.getState().baseUrl+'/users/me',
       url: store.getState().urlProfile,
       headers: {
         'Content-Type': 'application/json',
@@ -63,7 +62,7 @@ class UserProfilePage extends Component {
     };
 
     const userRes = await axios(user)
-    this.setState({userData : userRes.data.user_data, userDetail : userRes.data.user_detail_data, userDataLoading : false})
+    await this.setState({userData : userRes.data.user_data, userDetail : userRes.data.user_detail_data, userDataLoading : false})
   }
 
   editQuestion = async (event) =>{
@@ -81,7 +80,6 @@ class UserProfilePage extends Component {
   };
 
   deleteQuestion = async (event)=> {
-		console.log('isi event',event)
 		store.setState({
 			articleId:event.id,
 			articleTitle:event.title,
@@ -89,26 +87,20 @@ class UserProfilePage extends Component {
 			imageUrl:event.banner_photo_url
 		})
 		await this.props.delQuestion()
-		console.log('DELETED')
 		await this.getUserQuestion()
     await this.props.history.push('/profil/pertanyaan')
 	}
 
   render() {
 
-    if(this.state.questions === {} || this.state.userDetail === {} ) {
-      return (
-        <Loader/>
-      )
-    } else {
       return (
         <div>
           <Header doSearch={this.doSearch}/>
-          {this.state.userDataLoading === true? 
+          {this.state.userDataLoading === true || this.state.userDetail === {} ||  this.state.userDetail === undefined ?
           <div className="pl-5 pr-5">
-            <Loader/>
-          </div> :
-          <UserProfile userData={this.state.userData} userDetail={this.state.userDetail}/>
+          <Loader/>
+        </div> :
+            <UserProfile userData={this.state.userData} userDetail={this.state.userDetail}/>
           }
           <div className='container'>
             <div className='row'>
@@ -117,7 +109,11 @@ class UserProfilePage extends Component {
               </div>
               <div className='col-md-9 user-own-file overflow'>
                 <h5 className="text-center profile-title">Pertanyaan</h5>
-                {this.state.questions.map((content) => (
+          { this.state.questions === undefined ? 
+          <div className="pl-5 pr-5">
+            <Loader/>
+          </div> :
+                this.state.questions.map((content) => (
                   <UserOwnFile
                       typeContent="question"
                       content={content} 
@@ -127,14 +123,15 @@ class UserProfilePage extends Component {
                       userData = {this.state.userData}
                       deleteQuestion={(e)=>this.deleteQuestion(e)}
                     />
-                ))}
+                ))
+          }
               </div>
             </div>
           </div>
           <Footer/>
         </div>
       );
-    }
+    // }
   }
 }
 

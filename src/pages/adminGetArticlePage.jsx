@@ -10,6 +10,13 @@ import Footer from '../components/footer';
 import AdminMenu from '../components/adminMenu'
 
 class AdminLandingPage extends React.Component {
+
+	state = {
+		search : '',
+		searchResult : [],
+		allArticles : this.props.allArticle.query_data
+	}
+
 	handleChangePage = (event) => {
 		console.log(event)
 		localStorage.removeItem('grafik')
@@ -33,9 +40,9 @@ class AdminLandingPage extends React.Component {
             }; 
             const self = this
             await axios(req)
-                .then(function (response) {
-                    store.setState({ allArticle: response.data, isLoading:false})
-                    console.log('all allArticle', store.getState().allArticle)
+                .then(async (response) => {
+                    await store.setState({ allArticle: response.data, isLoading:false})
+                    await self.setState({searchResult : response.data.query_data})
                     return response
                 })
                 .catch((error)=>{
@@ -67,7 +74,6 @@ class AdminLandingPage extends React.Component {
 		this.getAllArticle()
 	}
 	deleteArticle = async (event)=> {
-		await console.log('isi event', event)
 		store.setState({
 			articleId:event.id,
 			articleTitle:event.title,
@@ -79,6 +85,22 @@ class AdminLandingPage extends React.Component {
 		await this.getAllArticle()
         await this.props.history.push('/admin/artikel')
 	}
+
+	searchArticle = async (event) => {
+		await this.setState({search : event.target.value})
+		const allArticle = await this.props.allArticle.query_data
+
+		if (this.state.search.length > 0) {
+			const searchData = allArticle.filter(article => 
+				article.posting_detail.title.toLowerCase().indexOf(this.state.search) > -1 ||
+				article.user_data.username.toLowerCase().indexOf(this.state.search) > -1
+				)
+			await this.setState({searchResult : searchData })
+		} else {
+			await this.setState({searchResult : this.props.allArticle.query_data })
+		}
+	}
+
 	render() {
 		if(this.props.isLoading || this.props.allArticle===[] || this.props.allArticle === undefined){
 			return (
@@ -87,7 +109,8 @@ class AdminLandingPage extends React.Component {
 				</div>
 			)
 		} else {
-			const articles = this.props.allArticle.query_data
+			const articles = this.state.searchResult
+			console.warn('articles', articles)
 			if(articles === [] || articles === undefined) {
 				return (
 					<div>
@@ -133,7 +156,7 @@ class AdminLandingPage extends React.Component {
 												placeholder="Pencarian"
 												name="keyword"
 												style={{ width: '100%' }}
-												// onChange={props.setInput}
+												onChange={(e)=>this.searchArticle(e)}
 											/>
 										</div>
 										<div className="col-md-1" style={{ paddingLeft: '5px' }}>

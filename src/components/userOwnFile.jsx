@@ -36,7 +36,7 @@ const UserOwnFile = (props) => {
                             {postingDetail.title} 
                         </Link>
                     }
-                        {props.userDetail.user_id === postingDetail.user_id && postingDetail.content_status === 0 && store.getState().urlProfile === 'https://kodekula.herokuapp.com/users/me'?
+                        {props.userDetail.user_id === postingDetail.user_id && postingDetail.content_status === 0 && store.getState().urlProfile === 'https://api.kodekula.com/users/me'?
                         <div> 
                             <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img className='logo-edit-control' src={more} alt="img"/>
@@ -143,7 +143,7 @@ const UserOwnFile = (props) => {
                             {postingDetail.title} 
                         </Link>
                     }
-                        {props.userDetail.user_id === postingDetail.user_id && postingDetail.content_status === 0 && store.getState().urlProfile === 'https://kodekula.herokuapp.com/users/me' ?
+                        {props.userDetail.user_id === postingDetail.user_id && postingDetail.content_status === 0 && store.getState().urlProfile === 'https://api.kodekula.com/users/me' ?
                         <div>
                             <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img className='logo-edit-control' src={more} alt="img"/>
@@ -167,10 +167,10 @@ const UserOwnFile = (props) => {
                     <div className='row text-control'>
                         <div className='col-md-4 username-control'>
                             <div>
-                                {userData.photo_url !== null ? 
-                                    <img className='writer-photo' src={userData.photo_url} alt="img" style={{height:'38px', width:'38px'}}/>
+                                {userData.photo_url !== null || userData.photo_url !== "null" ? 
+                                    <img className='writer-photo' src={userData.photo_url} alt="" style={{height:'38px', width:'38px'}}/>
                                     :
-                                    <img className='writer-photo' src={user} alt="img"/>
+                                    <img className='writer-photo' src={user} alt=""/>
                                 }
                                 {postingDetail.content_status === 2 ? 
                                     <Link style={{textDecoration: 'none', color:'#385898'}}>{userData.display_name}</Link>
@@ -295,23 +295,25 @@ const UserOwnFile = (props) => {
         return (
             <div className='container own-article'>
                 <div className='row'>
-                    <div className='col-md-12 box-control-reputation bg-white'>
+                    {props.reputation.map(tag => (
+                    <div className='col-md-12 box-control-reputation bg-white mb-4'>
                         <div className='row'>
-                            <div className='col-md-2' style={{paddingLeft:'0'}}>
-                                <img className='language-reputation' src={examplelang} alt="img"/>
+                            <div className='col-md-2 pl-2 py-2 pr-2 border' style={{paddingLeft:'0'}}>
+                                <img className='language-reputation bg-white' src={tag.photo_url} alt=""/>
                             </div>
-                            <div className='col-md-3 detail-reputation'>
-                                <div className='lang-point'>Python (125)</div>
-                                <ul>
-                                    <li>Jawaban (25)</li>
-                                    <li>Artikel (15)</li>
-                                </ul>
-                            </div>
+                                <div className='col-md-3 detail-reputation'>
+                                    <div className='lang-point'>{tag.tag_name} ({tag.point})</div>
+                                    <ul>
+                                        <li>Jawaban ({tag.answer})</li>
+                                        <li>Artikel ({tag.article})</li>
+                                    </ul>
+                                </div>
                             <div className='col-md-4 detail-level'>
-                                <div className='lang-level'>Code Master</div>
+                                {/* <div className='lang-level'>Code Master</div> */}
                             </div>
                         </div>
                     </div>
+                    ))}
                 </div>
             </div>
         )

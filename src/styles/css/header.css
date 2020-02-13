@@ -29,7 +29,8 @@ header {
   flex: 1 1 auto;
   width: 100%;
   z-index: 1;
-  font-family: 'Nunito', sans-serif;
+  /* font-family: 'Nunito', sans-serif; */
+  font-family: 'liberation_sansregular';
   font-weight: normal;
   transition: 0.5s;
   background: linear-gradient(3deg, #314755, #48b3e6);
@@ -74,7 +75,8 @@ header:hover {
   /* change the direction of the change here */
 }
 body {
-  font-family: 'Nunito', sans-serif;
+  /* font-family: 'Nunito', sans-serif; */
+  font-family: 'liberation_sansregular';
   font-weight: normal;
 }
 .logo-kodekula {
