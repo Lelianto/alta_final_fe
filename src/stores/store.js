@@ -19,8 +19,8 @@ const initialState = {
 	codeCompilerUrl: 'https://cors-anywhere.herokuapp.com/api.paiza.io:80/runners/create',
 	getCodeResultUrl: 'https://cors-anywhere.herokuapp.com/api.paiza.io:80/runners/get_details',
 	codeCompilerResult: '',
-	// baseUrl:'http://13.229.122.5:5000',
-	baseUrl: 'https://kodekula.herokuapp.com',
+	baseUrl:'http://13.229.122.5:5000',
+	// baseUrl: 'https://kodekula.herokuapp.com',
 	username: '',
 	password: '',
 	email: '',
@@ -61,7 +61,9 @@ const initialState = {
 	uname : '',
 	popularArticle : [],
 	popularQuestion : [],
-	popularLoading : true
+	popularLoading : true,
+	newTag : '',
+	newLogo : ''
 }
 
 export const store = createStore(initialState);
@@ -97,6 +99,8 @@ export const actions = (store) => ({
 	
 	setInput : (state, event) => {
 		store.setState({[event.target.name] : event.target.value})
+		console.log('newTag', store.getState().newTag)
+		console.log('newLogo', store.getState().newLogo)	
 	},
 
 	codeCompiler : async (state) => {
@@ -143,6 +147,17 @@ export const actions = (store) => ({
 			.catch((error) => {
 				return false;
 			});
+	},
+
+	addNewTag : async (state) => {
+		const tagName = state.newTag
+		const tagUrl = state.newLogo
+		const newTagging = {
+			name: tagName,
+			photo_url: tagUrl,
+		};
+		console.log('isi variable', newTagging)
+
 	},
 
 	compileCode: async (state) => {
@@ -341,6 +356,7 @@ export const actions = (store) => ({
 					imageUrl:'',
 					lastArticleQuestion:''
 				})
+				console.log('terhapus')
 				return response
 			})
 			.catch((error) => {
@@ -451,6 +467,7 @@ export const actions = (store) => ({
 			await localStorage.setItem('username', state.username);
 		}
 	},
+
 	deleteResponse: async (state) => {
 		await store.setState({ responseData: null, responseStatus: null });
 	},

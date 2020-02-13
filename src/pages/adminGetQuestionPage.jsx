@@ -67,6 +67,19 @@ class AdminLandingPage extends React.Component {
 	componentWillMount = ()=>{
 		this.getAllQuestion()
 	}
+	deleteQuestion = async (event)=> {
+		console.log('isi event',event)
+		store.setState({
+			articleId:event.id,
+			articleTitle:event.title,
+			lastArticleQuestion:event.html_content,
+			imageUrl:event.banner_photo_url
+		})
+		await this.props.delQuestion()
+		console.log('DELETED')
+		await this.getAllQuestion()
+        await this.props.history.push('/admin/pertanyaan')
+	}
 	render() {
 		if(this.props.isLoading || this.props.allQuestion===[]){
 			return (
@@ -158,7 +171,7 @@ class AdminLandingPage extends React.Component {
 											</td>
 											:
 											<td>
-												<button className='btn btn-danger' style={{fontSize:'10px'}}>
+												<button onClick={()=>this.deleteQuestion(question.posting_detail)} className='btn btn-danger' style={{fontSize:'10px'}}>
 											Delete
 												</button>
 											</td>
