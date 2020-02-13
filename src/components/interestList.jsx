@@ -17,7 +17,7 @@ const InterestList = (props) => {
             <div className="pl-2 pr-2 pt-4 mr-2 fixed-left" >
                 {localStorage.getItem('email')!==null && props.tags.length > 0 ? 
                     <div className="home-title mb-3 pl-2">Minat
-                    <img style={{width:'40px', height:'40px', marginLeft:'20px', marginTop:'-10px'}} src={favorite} alt=""/>
+                    {/* <img style={{width:'40px', height:'40px', marginLeft:'20px', marginTop:'-10px'}} src={favorite} alt=""/> */}
                     </div>
                 : null}
                     <div className="pl-2">
@@ -41,7 +41,7 @@ const InterestList = (props) => {
                 {props.locationPage === null || localStorage.getItem('email') === null ? 
                 <div>
                     <div className="suggestion pl-2 mb-3">Saran
-                        <img style={{width:'30px', height:'30px', marginLeft:'20px', marginBottom:'5px'}} src={suggest} alt=""/>
+                        {/* <img style={{width:'30px', height:'30px', marginLeft:'20px', marginBottom:'5px'}} src={suggest} alt=""/> */}
                     </div>
                     <div className="pl-2">
                         <div className="row mb-3 pl-3">

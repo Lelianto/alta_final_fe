@@ -11,13 +11,16 @@ import Loader from '../components/loader';
 
 
 class AdminLandingPage extends React.Component {
+	state = {
+		search : '',
+		searchResult : [],
+		allTag : this.props.allTag.query_data
+	}
 	handleChangePage = (event) => {
-		console.log(event)
 		localStorage.removeItem('grafik')
 		this.props.history.push('/admin'+event)
 	}
 	handleChangePageMenu = (event) => {
-		console.log(event)
 		store.setState({
 			menu:'/tag'
 		})
@@ -25,7 +28,6 @@ class AdminLandingPage extends React.Component {
 		this.props.history.push('/admin'+event)
 	}
 	getAllTag = async () => {
-		console.log('masuk')
         const req = {
             method: "get",
             url: store.getState().baseUrl+"/admin/tag",
@@ -35,35 +37,34 @@ class AdminLandingPage extends React.Component {
             }; 
             const self = this
             await axios(req)
-                .then(function (response) {
-					console.log('masuk')
-					store.setState({ allTag: response.data, isLoading:false})
-					console.log('all tag', store.getState().allTag)
+                .then(async (response) => {
+					await store.setState({ allTag: response.data, isLoading:false})
+					await self.setState({searchResult : response.data.query_data})
                     return response
                 })
                 .catch((error)=>{
                     store.setState({ 
                         isLoading: false
                     })
-                    switch (error.response.status) {
-                        case 401 :
-                            self.props.history.push('/401')
-                            break
-                        case 403 :
-                            self.props.history.push('/403')
-                            break
-                        case 404 :
-                            self.props.history.push('/404')
-                            break
-                        case 422 :
-                            self.props.history.push('/422')
-                            break
-                        case 500 :
-                            self.props.history.push('/500')
-                            break
-                        default :
-                            break
-                    }
+                    // switch (error.response.status) {
+                    //     case 401 :
+                    //         self.props.history.push('/401')
+                    //         break
+                    //     case 403 :
+                    //         self.props.history.push('/403')
+                    //         break
+                    //     case 404 :
+                    //         self.props.history.push('/404')
+                    //         break
+                    //     case 422 :
+                    //         self.props.history.push('/422')
+                    //         break
+                    //     case 500 :
+                    //         self.props.history.push('/500')
+                    //         break
+                    //     default :
+                    //         break
+                    // }
 				})
 	}
 	componentWillMount = ()=>{
@@ -74,6 +75,19 @@ class AdminLandingPage extends React.Component {
 		await this.componentWillMount()
 		await this.props.history.push('/admin/tag')
 	}
+	searchTag = async (event) => {
+		await this.setState({search : event.target.value})
+		const allTag = await this.props.allTag.query_data
+
+		if (this.state.search.length > 0) {
+			const searchData = allTag.filter(tag => 
+				tag.name.toLowerCase().indexOf(this.state.search) > -1
+				)
+			await this.setState({searchResult : searchData })
+		} else {
+			await this.setState({searchResult : this.props.allTag.query_data })
+		}
+	}
 
 	render() {
 		if(this.props.isLoading || this.props.allTag===null){
@@ -83,8 +97,7 @@ class AdminLandingPage extends React.Component {
 				</div>
 			)
 		} else {
-			const tags = this.props.allTag.query_data
-			console.log('isi tag', tags)
+			const tags = this.state.searchResult
 			return (
 				<React.Fragment>
 					<Header />
@@ -127,7 +140,7 @@ class AdminLandingPage extends React.Component {
 												placeholder="Pencarian"
 												name="keyword"
 												style={{ width: '98%' }}
-												// onChange={props.setInput}
+												onChange={(e)=>this.searchTag(e)}
 											/>
 										</div>
 										<div className="col-md-1" style={{ paddingLeft: '5px' }}>
