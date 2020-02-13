@@ -27,17 +27,13 @@ class Home extends React.Component {
 		popularQuestion: [],
 		interestLoading : true,
 		contentLoading : true,
-		popularLoading : true
+		popularLoading : true,
+		likeList : []
 	};
 	
-	componentDidMount = async () => {
-		const { match } = this.props
-		const resp = await butter.page.retrieve('*', 'beranda')
-		this.setState(resp.data)
-		console.log('new item',resp.data)
-	}
 
 	componentWillMount = async () => {
+		this.getLikeList()
 		await this.getUserTags();
 		await this.getPostingList();
 		await this.filterPosting();
@@ -189,6 +185,7 @@ class Home extends React.Component {
 			});
 		});
 		await this.setState({chosenPost : chosenPost, contentLoading : false})
+		console.warn('chosen post', this.state.chosenPost)
 	};
 
 	seeAll = () => {
@@ -318,6 +315,36 @@ class Home extends React.Component {
 			uname : username
 		})
 		await this.props.history.push('/profil/'+username+'/pertanyaan')
+	}
+	
+	getLikeList = async () => {
+		const postId = []
+		const like = {
+			method: 'get',
+			url: store.getState().baseUrl+'/point',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + localStorage.getItem('token')
+
+			}
+		};
+		const likeListRes = await axios(like)
+		await likeListRes.data.map(async like => {
+			await postId.push(like.locator_id)
+
+		})
+		await this.setState({likeList : postId})
+		console.warn('like', this.state.likeList)
+	}
+
+	getLikeStatus = async () => {
+		// const posting = await this.state.chosenPost
+		// const likeList = await this.state.likeList
+		// const likeStatus = posting.map( post => {
+		// 	if(this.state.likeList.includes(post.posting_detail.id)){
+		// 		post['like'] = 
+		// 	}
+		// })
 	}
 
 	render() {
