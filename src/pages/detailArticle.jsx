@@ -156,6 +156,17 @@ class DetailArticle extends React.Component {
 		await this.props.history.push('/pertanyaan/' + event);
 	};
 
+    handleDeleteAnswer = async (event) => {
+		console.log('isi event del',event)
+		await store.setState({
+			idComment:event.id,
+			htmlContent:event.html_content
+		})
+		await this.props.delComment()
+		await this.getAllFirst()
+		await this.props.history.push('/pertanyaan/'+this.props.match.params.id)
+	}
+
 	render() {
 		return (
 			<React.Fragment>
@@ -185,7 +196,7 @@ class DetailArticle extends React.Component {
                                     <button className='btn btn-grad' onClick={()=>this.handleSeeComment()} style={{textAlign:'center', marginBottom:'20px', fontWeight:'bold', fontSize:'15px'}}>
                                         Sembunyikan Komentar...
                                     </button>
-                                        <ViewComment/>
+                                        <ViewComment handleDeleteAnswer={(event)=>this.handleDeleteAnswer(event)}/>
                                 </div>
                             }
                             <div className="border py-2 ml-1 mr-1 row bg-white">

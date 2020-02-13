@@ -27,28 +27,20 @@ class Home extends React.Component {
 		popularQuestion: [],
 		interestLoading : true,
 		contentLoading : true,
-		popularLoading : true
+		popularLoading : true,
+		page : 1,
+		infoPage:{}
 	};
-	
-	componentDidMount = async () => {
-		const { match } = this.props
-		const resp = await butter.page.retrieve('*', 'beranda')
-		this.setState(resp.data)
-		console.log('new item',resp.data)
-	}
 
 	componentWillMount = async () => {
 		await this.getUserTags();
 		await this.getPostingList();
 		await this.filterPosting();
-		console.log(this.props.match)
 		let page = 1
 		if(this.props.match.params.page !== null){
-			console.log('ada')
 			page = this.props.match.params.page || 1
 			this.fetchPosts(page)
 		} else {
-			console.log('tidak ada')
 			this.fetchPosts(page)
 		}
 		await this.props.getPopular();
@@ -60,7 +52,6 @@ class Home extends React.Component {
 			loaded: true,
 			resp: resp.data
 		  })
-		  console.log('isi respon fetching', this.state.resp)
 		});
 	  }
 
@@ -143,7 +134,9 @@ class Home extends React.Component {
 
 	getPostingList = async () => {
 		const parameters = {
-			keyword: this.props.keyword
+			keyword: this.props.keyword,
+			p: this.state.page,
+			rp: this.state.contentPage
 		};
 
 		const posting = {
@@ -156,7 +149,7 @@ class Home extends React.Component {
 		};
 		await axios(posting)
 			.then(async (response) => {
-				await this.setState({ postingList: response.data.query_data });
+				await this.setState({ postingList: response.data.query_data, infoPage:response.data.query_info });
 			})
 			.catch(async (error) => {
 				await console.warn(error);
@@ -314,10 +307,32 @@ class Home extends React.Component {
 
 	getProfile = async (id, username) => {
 		await store.setState({
-			urlProfile : 'https://kodekula.herokuapp.com/users/'+id,
+			urlProfile : store.getState().baseUrl+'/users/'+id,
 			uname : username
 		})
 		await this.props.history.push('/profil/'+username+'/pertanyaan')
+	}
+
+	handleNext = async () => {
+		const before = this.state.page+1
+		console.log(before)
+		this.setState({
+			page : before,
+			contentLoading : true
+		})
+		await this.componentWillMount()
+		await this.props.history.push('/')
+	}
+
+	handleBefore = async () => {
+		const before = this.state.page-1
+		console.log(before)
+		this.setState({
+			page : before,
+			contentLoading:true
+		})
+		await this.componentWillMount()
+		await this.props.history.push('/')
 	}
 
 	render() {
@@ -327,6 +342,7 @@ class Home extends React.Component {
 				<div></div>
 			)
 		} else {
+			console.log('isi posting', this.state.postingList)
 			return (
 				<React.Fragment>
 					<Header doSearch={this.doSearch} />
@@ -378,6 +394,29 @@ class Home extends React.Component {
 								:
 								<PopularList detailArticle={(e)=>this.detailArticle(e)} detailQuestion={(e)=>this.goToDetailQuestion(e)}/>
 								}
+							</div>
+						</div>
+					</div>
+					<div className='container'>
+						<div className='row'>
+							<div className='col-md-5'>
+							</div>
+							<div className='col-md-2'>
+								<ul class="pagination pagination-lg" style={{fontSize:'30px', marginBottom:'-30px', marginTop:'20px'}}>
+									{this.state.page===1?
+									<Link className='box-pagination-empty'>&laquo;</Link>
+									:
+									<Link onClick={(e)=>this.handleBefore()} className='box-pagination-left' to="/">&laquo;</Link>
+									}
+									<Link className='box-pagination-number' to="/">{this.state.page}</Link>
+									{this.state.infoPage.total_pages === this.state.page?
+									<Link className='box-pagination-empty'>&raquo;</Link>
+									:
+									<Link onClick={(e)=>this.handleNext()} className='box-pagination-right' to="/">&raquo;</Link>
+									}
+								</ul>
+							</div>
+							<div className='col-md-5'>
 							</div>
 						</div>
 					</div>
