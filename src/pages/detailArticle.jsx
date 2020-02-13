@@ -78,6 +78,7 @@ class DetailArticle extends React.Component {
             },
             data: parameters
         };
+        console.log('isi comment', comment)
         await this.props.handleAPI(comment)
         if(this.state.comment!==''){
             this.setState({

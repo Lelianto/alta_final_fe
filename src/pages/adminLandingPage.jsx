@@ -66,6 +66,16 @@ class AdminLandingPage extends React.Component {
 	componentWillMount = ()=>{
 			this.getAllUser()
 		}
+	handleDeleteUser = async (event) => {
+		console.log('isi event del',event)
+		await store.setState({
+			idUser:event
+		})
+		await this.props.delUser()
+		await this.getAllUser()
+		await this.props.history.push('/admin/pengguna')
+	}
+
 	render() {
 		if(this.props.isLoading || this.props.allUser===null){
 			return (
@@ -152,11 +162,19 @@ class AdminLandingPage extends React.Component {
 										<td>{user.user_detail.last_name}</td>
 										<td>{user.email}</td>
 										<td>{user.user_detail.job_title}</td>
-										<td>
-											<button className='btn btn-danger' style={{fontSize:'10px'}}>
-										Delete
-											</button>
-										</td>
+										{user.deleted===true?
+											<td>
+												<button disabled className='btn btn-info' style={{fontSize:'10px'}}>
+											Sudah Dihapus
+												</button>
+											</td>
+											:
+											<td>
+												<button onClick={()=>this.handleDeleteUser(user.user_id)} className='btn btn-danger' style={{fontSize:'10px'}}>
+											Delete
+												</button>
+											</td>
+											}
 									</tr>
 								)}
 							</tbody>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import '../styles/css/signUp.css';
-import logo from '../images/logo-kodekula.png';
+import logo from '../images/logobiru1.png';
 import { connect } from "unistore/react";
 import { actions, store } from "../stores/store";
 import Swal from 'sweetalert2';
