@@ -57,6 +57,7 @@ const MainRoute = () => {
                 <Switch>
                     <Route exact path="/" component={Home}/>
                     <Route exact path="/404" component={NotFound}/>
+
                     <Route exact path="/admin/pengguna" component={AdminLanding}/>
                     <Route exact path="/admin/artikel" component={AdminArticle}/>
                     <Route exact path="/admin/pertanyaan" component={AdminQuestion}/>
@@ -67,23 +68,29 @@ const MainRoute = () => {
                     <Route exact path="/admin/pertanyaan/grafik" component={AdminQuestionGraph}/>
                     <Route exact path="/admin/jawaban/grafik" component={AdminAnswerGraph}/>
                     <Route exact path="/admin/tag/grafik" component={AdminTagGraph}/>
+
                     <Route exact path="/artikel" component={Article}/>
-                    <Route exact path="/pertanyaan" component={Question}/>
                     <Route exact path="/artikel/tulis" component={AddArticle}/>
+
+                    <Route exact path="/pertanyaan" component={Question}/>
                     <Route exact path="/pertanyaan/tulis" component={AddQuestion}/>
+
                     <Route exact path="/profil/pertanyaan" component={UserProfileQuestion} />  
                     <Route exact path="/profil/artikel" component={UserProfileArticle} />  
                     <Route exact path="/profil/jawaban" component={UserProfileAnswer} />  
-                    <Route exact path="/profil/reputasi" component={UserProfileReputation} />  
+                    <Route exact path="/profil/reputasi" component={UserProfileReputation} />
+
                     <Route exact path="/profil/:username/pertanyaan" component={UserProfileQuestion} />  
                     <Route exact path="/profil/:username/artikel" component={UserProfileArticle} />  
                     <Route exact path="/profil/:username/jawaban" component={UserProfileAnswer} />  
                     <Route exact path="/profil/:username/reputasi" component={UserProfileReputation} />  
+
                     <Route exact path="/pengaturan-akun/data-diri" component={UserProfileSetting} />
                     <Route exact path="/pengaturan-akun/data-diri/edit" component={PersonalDataEdit} />
                     <Route exact path="/pengaturan-akun/ubah-password" component={UserSetPassword} />
                     <Route exact path="/pengaturan-akun/minat" component={PersonalDataInterest} />
                     <Route exact path="/pengaturan-akun/minat/edit" component={UserSetInterest} />
+
                     <Route exact path="/daftar" component={SignUp}/>
                     <Route exact path="/pilih-minat" component={ChooseInterest}/>
                     <Route exact path="/masuk" component={SignIn}/>
@@ -92,6 +99,7 @@ const MainRoute = () => {
                     <Route path="/pencarian/:event" component={Search}/>
                     <Route path="/pengaturan-akun/:event" component={UserProfileSetting} />
                     <Route path="/pengaturan-akun/:event/edit" component={UserSetPersonalData} />
+                    
                     <Route path="/pertanyaan/:id/edit" component={EditQuestion}/>
                     <Route path="/pertanyaan/:id" component={DetailQuestionPage}/>
                     <Route path="/artikel/:id/edit" component={EditArticle}/>
