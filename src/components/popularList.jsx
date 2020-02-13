@@ -14,7 +14,7 @@ const PopularList = (props) => {
 		<React.Fragment>
             <div className="border rounded pl-3 pr-2 pt-4 ml-2 mr-2 fixed-left bg-white mt-4" style={{backgroundColor:'#f8f9fa'}}>
                 <div className="home-title mb-3 pl-2">Artikel Populer
-                <img style={{width:'40px', height:'40px', marginLeft:'20px', marginBottom:'5px'}} src={article} alt=""/>
+                {/* <img style={{width:'40px', height:'40px', marginLeft:'20px', marginBottom:'5px'}} src={article} alt=""/> */}
                 </div>
                 <div className="pl-1">
                     {props.popularArticle.map((value) => (
@@ -37,7 +37,7 @@ const PopularList = (props) => {
             </div>
             <div className="border bg-white rounded pl-3 pr-2 pt-4 ml-2 mr-2 mt-4 fixed-left" style={{backgroundColor:'#f8f9fa'}}>
                 <div className="home-title mb-3 pl-2">Pertanyaan Populer
-                    <img style={{width:'40px', height:'40px', marginLeft:'20px', marginBottom:'5px'}} src={question} alt=""/>
+                    {/* <img style={{width:'40px', height:'40px', marginLeft:'20px', marginBottom:'5px'}} src={question} alt=""/> */}
                 </div>
                 <div className="pl-1">
                     {props.popularQuestion.map((value) => (

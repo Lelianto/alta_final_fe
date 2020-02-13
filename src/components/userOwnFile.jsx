@@ -36,7 +36,7 @@ const UserOwnFile = (props) => {
                             {postingDetail.title} 
                         </Link>
                     }
-                        {props.userDetail.user_id === postingDetail.user_id && postingDetail.content_status === 0 && store.getState().urlProfile === 'http://13.229.122.5:5000/users/me'?
+                        {props.userDetail.user_id === postingDetail.user_id && postingDetail.content_status === 0 && store.getState().urlProfile === 'https://api.kodekula.com/users/me'?
                         <div> 
                             <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img className='logo-edit-control' src={more} alt="img"/>
@@ -143,7 +143,7 @@ const UserOwnFile = (props) => {
                             {postingDetail.title} 
                         </Link>
                     }
-                        {props.userDetail.user_id === postingDetail.user_id && postingDetail.content_status === 0 && store.getState().urlProfile === 'http://13.229.122.5:5000/users/me' ?
+                        {props.userDetail.user_id === postingDetail.user_id && postingDetail.content_status === 0 && store.getState().urlProfile === 'https://api.kodekula.com/users/me' ?
                         <div>
                             <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img className='logo-edit-control' src={more} alt="img"/>
@@ -167,10 +167,10 @@ const UserOwnFile = (props) => {
                     <div className='row text-control'>
                         <div className='col-md-4 username-control'>
                             <div>
-                                {userData.photo_url !== null ? 
-                                    <img className='writer-photo' src={userData.photo_url} alt="img" style={{height:'38px', width:'38px'}}/>
+                                {userData.photo_url !== null || userData.photo_url !== "null" ? 
+                                    <img className='writer-photo' src={userData.photo_url} alt="" style={{height:'38px', width:'38px'}}/>
                                     :
-                                    <img className='writer-photo' src={user} alt="img"/>
+                                    <img className='writer-photo' src={user} alt=""/>
                                 }
                                 {postingDetail.content_status === 2 ? 
                                     <Link style={{textDecoration: 'none', color:'#385898'}}>{userData.display_name}</Link>
