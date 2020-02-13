@@ -67,7 +67,6 @@ class AdminLandingPage extends React.Component {
 		this.getAllArticle()
 	}
 	deleteArticle = async (event)=> {
-		await console.log('isi event', event)
 		store.setState({
 			articleId:event.id,
 			articleTitle:event.title,

@@ -57,7 +57,7 @@ const initialState = {
 	allArticle:[],
 	menu:'',
 	allData:[],
-	urlProfile : '',
+	urlProfile : 'http://13.229.122.5:5000/users/me',
 	uname : '',
 	popularArticle : [],
 	popularQuestion : [],
@@ -603,7 +603,7 @@ export const actions = (store) => ({
 	getPopular : async () => {
 		const popular = {
 			method: 'get',
-			url: 'https://kodekula.herokuapp.com/posting/popular',
+			url: store.getState().baseUrl+'/posting/popular',
 			headers: {
 				'Content-Type': 'application/json'
 			}
