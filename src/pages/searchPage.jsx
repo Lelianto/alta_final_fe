@@ -48,7 +48,6 @@ class Search extends React.Component {
 		await axios(tags)
 			.then(async (response) => {
 				await this.setState({ userInterest: response.data.user_tag_data, userDetail : response.data.user_data });
-				// await store.setState({ userInterest: response.data.user_tag_data });
 			})
 			.catch(async (error) => {
 				await console.warn(error);
