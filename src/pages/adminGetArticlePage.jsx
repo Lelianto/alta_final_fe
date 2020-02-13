@@ -67,7 +67,7 @@ class AdminLandingPage extends React.Component {
 		this.getAllArticle()
 	}
 	render() {
-		if(this.props.isLoading || this.props.allArticle===[], this.props.allArticle === undefined){
+		if(this.props.isLoading || this.props.allArticle===[] || this.props.allArticle === undefined){
 			return (
 				<div>
 					<Loader/>

@@ -19,6 +19,7 @@ const initialState = {
 	codeCompilerUrl: 'https://cors-anywhere.herokuapp.com/api.paiza.io:80/runners/create',
 	getCodeResultUrl: 'https://cors-anywhere.herokuapp.com/api.paiza.io:80/runners/get_details',
 	codeCompilerResult: '',
+	// baseUrl:'http://13.229.122.5:5000',
 	baseUrl: 'https://kodekula.herokuapp.com',
 	username: '',
 	password: '',
