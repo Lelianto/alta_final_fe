@@ -31,59 +31,68 @@ const ViewComment = (props) => {
             {/* <title>{comment.user_data.username}</title> */}
             <meta name="description" content={comment.posting_detail.html_content} />
           </Helmet>
-          <div className='container-fluid user-comment-control'>
-            <div className='row'>
-              <div className='col-md-2 '>
-                <div className='col-md-12 control-comment-user text-center'>
-                  {comment.user_data.photo_url === "null"?
-                    <div>
-                      <img className='writer-photo-comment mr-0' width='30%' src={user} alt=''/>
-                    </div>
-                  :
-                    <div>
-                      <img className='writer-photo-comment mr-0' width='30%' src={comment.user_data.photo_url} alt='' style={{height:'46px', width:'46px'}}/>
-                    </div>
-                  }
-                <div className='col-md-12 control-comment-user text-center'>
-                  <Link style={{textDecoration: 'none', color:'#385898', fontSize:'12px'}}>{comment.user_data.username}</Link>
-                </div>
-                </div>
-                <div className='col-md-12 control-comment-user time-article-comment-control text-center'>
-                  <Moment fromNow ago>{comment.posting_detail.created_at}</Moment> ago
-                </div>
-              </div>
-              <div></div>
-              <div className='col-md-10'>
-                <div className='col-md-12 box-comment-control'>
-                    <div className='preview-comment-control'>
-                      <Markup className='preview-article-control' content={comment.posting_detail.html_content}/>
-                    </div>
-                    {comment.posting_detail.content_type === 'answer' ? 
-                      <div className="row">
-                      <div className="text-right mt-2 col-md-10"></div>
-                      <div className="text-right mt-2 col-md-1 ml-5">
-                        {(props.likeAnswer === true)?
-                          <div className="text-center">
-                            <img onClick={()=>store.setState({likeAnswer:false})} style={{width:'120%'}} src={like} alt="img"/>
-                            <div>
-                              {comment.posting_detail.point+1}
-                            </div>
-                          </div>
-                          :
-                          <div className="text-center">
-                            <img onClick={()=>store.setState({likeAnswer:true})} style={{width:'120%'}} src={havelike} alt="img"/>
-                            <div>
-                            {comment.posting_detail.point}
-                            </div>
-                          </div>
-                        }
+          {comment.posting_detail.content_status !== 2?
+            <div className='container-fluid user-comment-control'>
+              <div className='row'>
+                <div className='col-md-2 '>
+                  <div className='col-md-12 control-comment-user text-center'>
+                    {comment.user_data.photo_url === "null"?
+                      <div>
+                        <img className='writer-photo-comment mr-0' width='30%' src={user} alt=''/>
                       </div>
+                    :
+                      <div>
+                        <img className='writer-photo-comment mr-0' width='30%' src={comment.user_data.photo_url} alt='' style={{height:'46px', width:'46px'}}/>
                       </div>
-                    : null}
+                    }
+                  <div className='col-md-12 control-comment-user text-center'>
+                    <Link style={{textDecoration: 'none', color:'#385898', fontSize:'12px'}}>{comment.user_data.username}</Link>
+                  </div>
+                  </div>
+                  <div className='col-md-12 control-comment-user time-article-comment-control text-center'>
+                    <Moment fromNow ago>{comment.posting_detail.created_at}</Moment> ago
+                  </div>
+                </div>
+                <div></div>
+                <div className='col-md-10'>
+                  <div className='col-md-12 box-comment-control'>
+                      <div className='preview-comment-control'>
+                        <Markup className='preview-article-control' content={comment.posting_detail.html_content}/>
+                      </div>
+                      {comment.posting_detail.content_type === 'answer' ? 
+                        <div className="row" style={{paddingTop:'10px'}}>
+                        <div className="text-right mt-2 col-md-7"></div>
+                        <div className="text-right mt-2 col-md-1 ml-5">
+                          <Link onClick={()=>props.handleDeleteAnswer(comment.posting_detail)} style={{textDecoration:'none', paddingRight:'0px'}}>
+                            <i className="material-icons" style={{fontSize:'28px'}}>delete</i>
+                          </Link>
+                        </div>
+                        <div className="text-right mt-2 col-md-1 ml-5">
+                          {(props.likeAnswer === true)?
+                            <div className="text-center">
+                              <img onClick={()=>store.setState({likeAnswer:false})} style={{width:'120%'}} src={like} alt="img"/>
+                              <div>
+                                {comment.posting_detail.point+1}
+                              </div>
+                            </div>
+                            :
+                            <div className="text-center">
+                              <img onClick={()=>store.setState({likeAnswer:true})} style={{width:'120%'}} src={havelike} alt="img"/>
+                              <div>
+                              {comment.posting_detail.point}
+                              </div>
+                            </div>
+                          }
+                        </div>
+                        </div>
+                      : null}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          :
+            null
+          }
         </div>
         )}
       </div>

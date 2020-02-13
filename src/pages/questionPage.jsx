@@ -31,18 +31,6 @@ class QuestionPage extends React.Component {
 		contentLoading : true
 	};
 
-	seeAll = () => {
-		const suggestionList = document.getElementById('suggest-list');
-		const showOrHide = document.getElementById('seeAll');
-		if (suggestionList.style.display === 'none') {
-			suggestionList.style.display = 'block';
-			showOrHide.innerHTML = 'Sembunyikan...';
-		} else {
-			suggestionList.style.display = 'none';
-			showOrHide.innerHTML = 'Lihat Semua...';
-		}
-	};
-
 	componentDidMount = async () => {
 		await this.getUserTags()
 		await this.getPostingList()

@@ -1,9 +1,12 @@
 import React from 'react';
 import '../styles/css/header.css';
 import '../styles/css/bootstrap.min.css';
-import logo from '../images/NewLogo.png';
-import user from '../images/user.png';
-import notification from '../images/bell.png';
+import admin from '../images/admin.png';
+import user from '../images/team.png';
+import article from '../images/article.png';
+import question from '../images/question.png';
+import answer from '../images/answer.png';
+import tag from '../images/tag.png';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
@@ -233,34 +236,41 @@ class AdminMenu extends React.Component {
                     </div>
                     <div className='col-md-11 text-justify'>
                         <h1 style={{paddingLeft:'7px', paddingBottom:'30px'}}>
-                            Hai, Admin
+                            Hai, 
+                            <img style={{width:'65px', height:'65px', marginLeft:'10px', marginRight:'10px'}} src={admin} alt=""/>
+                            Admin 
                         </h1>
                     </div>
                     <div className='col-md-1'>
                     </div>
                     <div className='col-md-2'>
-                        <div onClick={()=>this.props.handleChangePage('/pengguna')} className='box-control btn-grad' style={{paddingBottom:'25px', paddingTop:'25px', fontSize:'15px'}}>
+                        <div onClick={()=>this.props.handleChangePage('/pengguna')} className='btn-grad' style={{paddingBottom:'20px', paddingTop:'20px', fontSize:'15px', paddingLeft:'0px', paddingRight:'0px'}}>
+                            <img style={{width:'30px', height:'30px',  marginRight:'10px'}} src={user} alt=""/>
                             User
                         </div>
                     </div>
                     <div className='col-md-2'>
-                        <div onClick={()=>this.props.handleChangePage('/artikel')} className='box-control btn-glow' style={{ paddingBottom:'25px', paddingTop:'25px', fontSize:'15px' }}>
+                        <div onClick={()=>this.props.handleChangePage('/artikel')} className='btn-glow' style={{paddingBottom:'20px', paddingTop:'20px', fontSize:'15px', paddingLeft:'0px', paddingRight:'0px'}}>
+                            <img style={{width:'30px', height:'30px',  marginRight:'10px'}} src={article} alt=""/>
                             Artikel
                         </div>   
                     </div>
                     <div className='col-md-2'>
-                        <div onClick={()=>this.props.handleChangePage('/pertanyaan')} className='box-control btn-glow' style={{paddingBottom:'25px', paddingTop:'25px', fontSize:'15px'}}>
+                        <div onClick={()=>this.props.handleChangePage('/pertanyaan')} className='btn-glow' style={{paddingBottom:'20px', paddingTop:'20px', fontSize:'15px', paddingLeft:'0px', paddingRight:'0px'}}>
+                            <img style={{width:'30px', height:'30px',  marginRight:'10px'}} src={question} alt=""/>
                             Pertanyaan
                         </div>   
                     </div>
                     <div className='col-md-2'>
-                        <div onClick={()=>this.props.handleChangePage('/jawaban')} className='box-control btn-sparkle' style={{paddingBottom:'25px', paddingTop:'25px', fontSize:'15px'}}>
+                        <div onClick={()=>this.props.handleChangePage('/jawaban')} className='box-control btn-sparkle' style={{paddingBottom:'20px', paddingTop:'20px', fontSize:'15px', paddingLeft:'0px', paddingRight:'0px'}}>
+                            <img style={{width:'30px', height:'30px',  marginRight:'10px'}} src={answer} alt=""/>
                             Jawaban
                         </div> 
                     </div>
                     <div className='col-md-2'>
     
-                        <div onClick={()=>this.props.handleChangePage('/tag')} className='box-control btn-hot' style={{paddingBottom:'25px', paddingTop:'25px', fontSize:'15px'}}>
+                        <div onClick={()=>this.props.handleChangePage('/tag')} className='box-control btn-hot' style={{paddingBottom:'20px', paddingTop:'20px', fontSize:'15px', paddingLeft:'0px', paddingRight:'0px'}}>
+                            <img style={{width:'30px', height:'30px',  marginRight:'10px'}} src={tag} alt=""/>
                             Tag
                         </div> 
                     </div>

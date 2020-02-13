@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import '../styles/css/signUp.css';
-import logo from '../images/logo-kodekula.png';
+import logo from '../images/logobiru1.png';
 import google2 from '../images/google2.png';
 import { connect } from "unistore/react";
 import { actions, store } from "../stores/store";
