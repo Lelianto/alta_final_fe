@@ -27,7 +27,7 @@ class AdminLandingPage extends React.Component {
 	getAllAnswer = async () => {
         const req = {
             method: "get",
-            url: store.getState().baseUrl+"/admin/user",
+            url: store.getState().baseUrl+"/admin/answer",
             headers: {
                 Authorization: "Bearer " + localStorage.getItem('token')
             }
@@ -67,6 +67,17 @@ class AdminLandingPage extends React.Component {
 
     componentWillMount = ()=>{
         this.getAllAnswer()
+	}
+
+	handleDeleteAnswer = async (event) => {
+		console.log('isi event del',event)
+		await store.setState({
+			idComment:event.id,
+			htmlContent:event.html_content
+		})
+		await this.props.delComment()
+		await this.getAllAnswer()
+		await this.props.history.push('/admin/jawaban')
 	}
 	
 	render() {
@@ -137,8 +148,8 @@ class AdminLandingPage extends React.Component {
 							<table class="table table-bordered">
 							<thead>
 								<tr>
-									<th>ID</th>
-									<th>ID User</th>	
+									<th>ID Jawaban</th>
+									<th>Penjawab</th>	
 									<th>ID Pertanyaan</th>
 									<th>Tanggal Jawab</th>
 									<th>Hapus</th>	
@@ -148,14 +159,22 @@ class AdminLandingPage extends React.Component {
 								{answers.map((answer,i)=>
 									<tr>
 										<td>{answer.id}</td>
-										<td>{answer.user_id}</td>
+										<td>{answer.user_data.username}</td>
 										<td>{answer.parent_id}</td>
 										<td>{answer.created_at}</td>
-										<td>
-											<button className='btn btn-danger' style={{fontSize:'10px'}}>
-										Delete
-											</button>
-										</td>
+										{answer.content_status===2?
+											<td>
+												<button disabled className='btn btn-info' style={{fontSize:'10px'}}>
+											Sudah Dihapus
+												</button>
+											</td>
+											:
+											<td>
+												<button onClick={()=>this.handleDeleteAnswer(answer)} className='btn btn-danger' style={{fontSize:'10px'}}>
+											Delete
+												</button>
+											</td>
+											}
 									</tr>
 								)}
 							</tbody>

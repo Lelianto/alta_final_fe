@@ -3,7 +3,8 @@ import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
 import '../styles/css/home.css'
-import all from '../images/all.svg'
+import question from '../images/problem.png';
+import article from '../images/article.png'
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import Truncate from 'react-truncate'
@@ -12,7 +13,9 @@ const PopularList = (props) => {
 	return (
 		<React.Fragment>
             <div className="border rounded pl-3 pr-2 pt-4 ml-2 mr-2 fixed-left bg-white mt-4" style={{backgroundColor:'#f8f9fa'}}>
-                <div className="home-title mb-3 pl-2">Artikel Populer</div>
+                <div className="home-title mb-3 pl-2">Artikel Populer
+                <img style={{width:'40px', height:'40px', marginLeft:'20px', marginBottom:'5px'}} src={article} alt=""/>
+                </div>
                 <div className="pl-1">
                     {props.popularArticle.map((value) => (
                     <div>
@@ -33,7 +36,9 @@ const PopularList = (props) => {
                 </div>
             </div>
             <div className="border bg-white rounded pl-3 pr-2 pt-4 ml-2 mr-2 mt-4 fixed-left" style={{backgroundColor:'#f8f9fa'}}>
-                <div className="home-title mb-3 pl-2">Pertanyaan Populer</div>
+                <div className="home-title mb-3 pl-2">Pertanyaan Populer
+                    <img style={{width:'40px', height:'40px', marginLeft:'20px', marginBottom:'5px'}} src={question} alt=""/>
+                </div>
                 <div className="pl-1">
                     {props.popularQuestion.map((value) => (
                     <div>
