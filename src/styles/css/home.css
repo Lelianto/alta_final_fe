@@ -1,7 +1,21 @@
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Nunito Regular'), local('Nunito-Regular'), url(https://fonts.gstatic.com/s/nunito/v12/XRXV3I6Li01BKofINeaE.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Nunito SemiBold'), local('Nunito-SemiBold'), url(https://fonts.gstatic.com/s/nunito/v12/XRXW3I6Li01BKofA6sKUYevN.ttf) format('truetype');
+}
 .home-title,
 .suggestion,
 .popular-title {
-  font-family: 'liberation_sansbold';
+  font-family: 'Nunito', sans-serif !important;
   font-size: 20px;
   border-bottom: 1px lightgray solid;
   color: #0f4c75;

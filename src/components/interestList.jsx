@@ -4,6 +4,8 @@ import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
 import '../styles/css/home.css';
 import all from '../images/all.svg';
+import favorite from '../images/stars.png';
+import suggest from '../images/suggest.png';
 import Loader from './loader';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -14,7 +16,9 @@ const InterestList = (props) => {
 		<React.Fragment>
             <div className="pl-2 pr-2 pt-4 mr-2 fixed-left" >
                 {localStorage.getItem('email')!==null && props.tags.length > 0 ? 
-                    <div className="home-title mb-3 pl-2">Minat</div>
+                    <div className="home-title mb-3 pl-2">Minat
+                    <img style={{width:'40px', height:'40px', marginLeft:'20px', marginTop:'-10px'}} src={favorite} alt=""/>
+                    </div>
                 : null}
                     <div className="pl-2">
                         {props.tags.length > 1 ? 
@@ -36,7 +40,9 @@ const InterestList = (props) => {
                     </div>
                 {props.locationPage === null || localStorage.getItem('email') === null ? 
                 <div>
-                    <div className="suggestion pl-2 mb-3">Saran</div>
+                    <div className="suggestion pl-2 mb-3">Saran
+                        <img style={{width:'30px', height:'30px', marginLeft:'20px', marginBottom:'5px'}} src={suggest} alt=""/>
+                    </div>
                     <div className="pl-2">
                         <div className="row mb-3 pl-3">
                             <Link style={{textDecoration:'none', fontSize:'15px'}} onClick={()=>props.seeAll()}id='seeAll'>Lihat Semua...</Link>

@@ -62,7 +62,7 @@ class Chart extends Component {
     }
     
     render () {
-        if(this.props.isLoading || this.props.allTag === [] || this.props.allTag === undefined){
+        if(this.props.isLoading || this.props.allTag === [] || this.props.allTag === undefined || this.props.allTag === null){
             return (
                 <div>
                     <Loader/>
@@ -70,16 +70,24 @@ class Chart extends Component {
             )
         } else {
             const tags = this.props.allTag.query_data
-            const dataPoints = []
-            tags.map((tag, i)=>{
-                const label = [tag.name,tag.tl_tag_count]
-                dataPoints.push(label)
-            })
-            return (
-                <div>
-                    <ColumnChart data={dataPoints}/>
-                </div>
-            )
+            if(tags=== [] || tags == undefined){
+                return (
+                    <div>
+                        <Loader/>
+                    </div>
+                )
+            } else {
+                const dataPoints = []
+                tags.map((tag, i)=>{
+                    const label = [tag.name,tag.tl_tag_count]
+                    dataPoints.push(label)
+                })
+                return (
+                    <div>
+                        <ColumnChart data={dataPoints}/>
+                    </div>
+                )
+            }
         }
     }
 }

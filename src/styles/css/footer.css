@@ -2,11 +2,13 @@ footer {
   position: relative;
   margin-bottom: 0px;
   width: '100%';
-  background: linear-gradient(3deg, #314755, #48b3e6);
+  background: linear-gradient(3deg, #314755, #48a1c6);
   background-size: 400% 400%;
-  -webkit-animation: header 5s ease infinite;
-  -moz-animation: header 5s ease infinite;
-  animation: header 5s ease infinite;
+}
+footer:hover {
+  color: white;
+  background-position: right center;
+  /* change the direction of the change here */
 }
 @-webkit-keyframes header {
   0% {

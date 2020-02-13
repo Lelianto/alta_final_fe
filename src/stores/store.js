@@ -19,7 +19,8 @@ const initialState = {
 	codeCompilerUrl: 'https://cors-anywhere.herokuapp.com/api.paiza.io:80/runners/create',
 	getCodeResultUrl: 'https://cors-anywhere.herokuapp.com/api.paiza.io:80/runners/get_details',
 	codeCompilerResult: '',
-	baseUrl: 'http://13.229.122.5:5000',
+	baseUrl:'http://13.229.122.5:5000',
+	// baseUrl: 'https://kodekula.herokuapp.com',
 	username: '',
 	password: '',
 	email: '',
@@ -60,7 +61,13 @@ const initialState = {
 	uname : '',
 	popularArticle : [],
 	popularQuestion : [],
-	popularLoading : true
+	popularLoading : true,
+	newTag : '',
+	newLogo : '',
+	putTag :[],
+	idUser : '',
+	htmlContent:'',
+	idComment:''
 }
 
 export const store = createStore(initialState);
@@ -96,6 +103,8 @@ export const actions = (store) => ({
 	
 	setInput : (state, event) => {
 		store.setState({[event.target.name] : event.target.value})
+		console.log('newTag', store.getState().newTag)
+		console.log('newLogo', store.getState().newLogo)	
 	},
 
 	codeCompiler : async (state) => {
@@ -144,6 +153,36 @@ export const actions = (store) => ({
 			});
 	},
 
+	addNewTag : async (state) => {
+		const tagName = state.newTag
+		const tagUrl = state.newLogo
+		const newTagging = {
+			name: tagName,
+			photo_url: tagUrl,
+		};
+		console.log('isi variable', newTagging)
+		const req = {
+			method: 'post',
+			url: state.baseUrl + '/tags',
+			headers: {
+				Authorization: 'Bearer ' + localStorage.getItem('token')
+			},
+			data: newTagging
+		};
+		await axios(req)
+			.then((response) => {
+				store.setState({
+					newTag:'',
+					newLogo:''
+				})
+				console.log('berhasil bertambah')
+			})
+			.catch((error) => {
+				return false;
+			});
+
+	},
+
 	compileCode: async (state) => {
 		store.setState({
 			waiting: true
@@ -176,6 +215,66 @@ export const actions = (store) => ({
 	setGlobal: async (state, event) => {
 		await store.setState({ [event.target.name]: event.target.value });
 		await console.warn('article title', state.articleTitle)
+	},
+
+	delUser: async (state) => {
+		const idUser = state.idUser;
+		const deleteData = {
+			deleted:true
+		}
+		const req = {
+			method: 'put',
+			url: state.baseUrl + '/users/' + idUser,
+			headers: {
+				Authorization: 'Bearer ' + localStorage.getItem('token')
+			},
+			data: deleteData
+		};
+		// data=JSON.stringify(data)
+		console.log(req);
+		await axios(req)
+			.then((response) => {
+				store.setState({
+					idUser:''
+				})
+				console.log('terhapus')
+				return response
+			})
+			.catch((error) => {
+				console.log(error)
+				return false;
+			});
+	},
+
+	delComment: async (state) => {
+		const idComment = state.idComment;
+		const htmlContent = state.htmlContent
+		const deleteData = {
+			html_content : htmlContent,
+			content_status:2
+		}
+		const req = {
+			method: 'put',
+			url: state.baseUrl + '/posting/secondlevel/' + idComment,
+			headers: {
+				Authorization: 'Bearer ' + localStorage.getItem('token')
+			},
+			data: deleteData
+		};
+		// data=JSON.stringify(data)
+		console.log(req);
+		await axios(req)
+			.then((response) => {
+				store.setState({
+					idUser:''
+				})
+				console.log('terhapus')
+				return response
+			})
+			.catch((error) => {
+				console.log(error)
+				return false;
+			});
 	},
 
 	uploadArticle: async (state) => {
@@ -313,13 +412,16 @@ export const actions = (store) => ({
 		const splitEnter = joinArticle.split('\n');
 		const joinEnter = splitEnter.join('');
 		const banner_photo_url = state.imageUrl;
+		const tags = state.putTag
 		const articleDetails = {
 			title: title,
 			content_type: content_type,
 			html_content: joinEnter,
 			banner_photo_url: banner_photo_url,
+			tags : tags,
 			content_status:2
 		};
+		console.log(articleDetails)
 		console.log('isi req article', articleDetails)
 		const req = {
 			method: 'put',
@@ -340,9 +442,11 @@ export const actions = (store) => ({
 					imageUrl:'',
 					lastArticleQuestion:''
 				})
+				console.log('terhapus')
 				return response
 			})
 			.catch((error) => {
+				console.log(error)
 				return false;
 			});
 	},
@@ -356,12 +460,14 @@ export const actions = (store) => ({
 		const splitEnter = joinArticle.split('\n');
 		const joinEnter = splitEnter.join('');
 		const banner_photo_url = state.imageUrl;
+		const tags = state.putTag
 		const articleDetails = {
 			title: title,
 			content_type: content_type,
 			html_content: joinEnter,
 			banner_photo_url: banner_photo_url,
-			content_status:2
+			content_status:2,
+			tags:tags
 		};
 		console.log('isi req article', articleDetails)
 		const req = {
@@ -450,6 +556,7 @@ export const actions = (store) => ({
 			await localStorage.setItem('username', state.username);
 		}
 	},
+
 	deleteResponse: async (state) => {
 		await store.setState({ responseData: null, responseStatus: null });
 	},

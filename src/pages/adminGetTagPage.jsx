@@ -65,9 +65,14 @@ class AdminLandingPage extends React.Component {
                             break
                     }
 				})
-			}
-		componentWillMount = ()=>{
-			this.getAllTag()
+	}
+	componentWillMount = ()=>{
+		this.getAllTag()
+	}
+	handlePostTag = async () => {
+		await this.props.addNewTag()
+		await this.componentWillMount()
+		await this.props.history.push('/admin/tag')
 	}
 
 	render() {
@@ -140,7 +145,7 @@ class AdminLandingPage extends React.Component {
 										</div>
 									</div>
 								</form>
-								<form>
+								<form onSubmit={(e) => e.preventDefault()}>
 									<div className='row' style={{paddingTop:'30px'}}>
 										<div className='col-md-1'>
 
@@ -152,7 +157,7 @@ class AdminLandingPage extends React.Component {
 												placeholder="Nama Tag Baru"
 												name="newTag"
 												style={{ width: '100%' }}
-												// onChange={props.setInput}
+												onChange={(e)=>this.props.setInput(e)}
 											/>
 										</div>
 										<div className='col-md-4'>
@@ -162,12 +167,12 @@ class AdminLandingPage extends React.Component {
 												placeholder="Masukkan Link Logo"
 												name="newLogo"
 												style={{ width: '100%' }}
-												// onChange={props.setInput}
+												onChange={(e)=>this.props.setInput(e)}
 											/>
 										</div>
 										<div className='col-md-2'>
 											<button
-												// onClick={() => props.doSearch()}
+												onClick={() => this.handlePostTag()}
 												className="btn btn-info my-2 my-sm-0"
 												type="submit"
 												style={{ paddingLeft: '25px', paddingRight: '25px' }}
