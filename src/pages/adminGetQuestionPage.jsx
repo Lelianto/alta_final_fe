@@ -73,7 +73,8 @@ class AdminLandingPage extends React.Component {
 			articleId:event.id,
 			articleTitle:event.title,
 			lastArticleQuestion:event.html_content,
-			imageUrl:event.banner_photo_url
+			imageUrl:event.banner_photo_url,
+			putTag: event.tags
 		})
 		await this.props.delQuestion()
 		console.log('DELETED')

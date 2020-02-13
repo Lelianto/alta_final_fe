@@ -69,6 +69,11 @@ class AdminLandingPage extends React.Component {
 	componentWillMount = ()=>{
 		this.getAllTag()
 	}
+	handlePostTag = async () => {
+		await this.props.addNewTag()
+		await this.componentWillMount()
+		await this.props.history.push('/admin/tag')
+	}
 
 	render() {
 		if(this.props.isLoading || this.props.allTag===null){
@@ -167,7 +172,7 @@ class AdminLandingPage extends React.Component {
 										</div>
 										<div className='col-md-2'>
 											<button
-												onClick={() => this.props.addNewTag()}
+												onClick={() => this.handlePostTag()}
 												className="btn btn-info my-2 my-sm-0"
 												type="submit"
 												style={{ paddingLeft: '25px', paddingRight: '25px' }}
