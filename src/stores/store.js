@@ -573,12 +573,14 @@ export const actions = (store) => ({
 			},
 			data: articleDetails
 		};
+		console.log(req)
 		await axios(req)
 			.then(response => {
 				store.setState({
 					menuBarUpload:false,
 					newArticle:''
 				})
+			console.log('isi response', response)
 			})
 			.catch(error => {
 				return false

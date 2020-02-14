@@ -7,6 +7,7 @@ import Footer from '../components/footer';
 import InterestList from '../components/interestList';
 import PopularList from '../components/popularList';
 import UserOwnFile from '../components/userOwnFile';
+import Graph from '../components/tagGraph';
 import axios from 'axios';
 import Butter from 'buttercms'
 import { Helmet } from 'react-helmet';
@@ -309,11 +310,15 @@ class Home extends React.Component {
 	}
 
 	getProfile = async (id, username) => {
-		await store.setState({
-			urlProfile : store.getState().baseUrl+'/users/'+id,
-			uname : username
-		})
-		await this.props.history.push('/profil/'+username+'/pertanyaan')
+		if(username===localStorage.getItem('username')){
+			await this.props.history.push('/profil/pertanyaan')
+		} else {
+			await store.setState({
+				urlProfile : store.getState().baseUrl+'/users/'+id,
+				uname : username
+			})
+			await this.props.history.push('/profil/'+username+'/pertanyaan')
+		}
 	}
 	
 	getLikeList = async () => {
@@ -388,25 +393,20 @@ class Home extends React.Component {
 					<div className="container-fluid pt-4">
 						<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 							<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5 overflow">
-								{this.state.interestLoading === true ? 
-								<div className='pl-5 pr-5'>
-									<Loader/>
-								</div>
-								:
-								<InterestList
+								<InterestList loading={this.state.interestLoading}
 									tags={this.state.filterInterest}
 									excludeTags={this.state.excludeTags}
 									seeAll={this.seeAll}
 									checkAll={() => this.checkAll()}
 									chooseTags={this.chooseTags}
 								/>
-								}
 							</div>
 							<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow">
-							{this.state.contentLoading === true ?
+							{
+							this.state.contentLoading === true ?
 								<div> <Loader/> </div> :
 								this.state.chosenPost.map((content, i) => (
-									<UserOwnFile deleteArticle={(e)=>this.deleteArticle(e)} deleteQuestion={(e)=>this.deleteQuestion(e)}
+									<UserOwnFile loading={this.state.contentLoading} deleteArticle={(e)=>this.deleteArticle(e)} deleteQuestion={(e)=>this.deleteQuestion(e)}
 										typeContent={content.posting_detail.content_type}
 										content={content}
 										editArticle={(e) => this.editArticle(e)}
@@ -417,7 +417,7 @@ class Home extends React.Component {
 										getProfile={this.getProfile}
 									/>
 								))
-								}
+							}
 							</div>
 							<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow">
 								{this.props.popularLoading === true ?
@@ -454,6 +454,23 @@ class Home extends React.Component {
 						</div>
 					</div>
 					<Footer />
+					{/* <div class="accordion" id="accordionExample" style={{marginTop:'20px', paddingLeft:'8px', paddingRight:'8px'}}>
+						<div class="card">
+							<div class="card-header" id="headingOne">
+							<h2 class="mb-0">
+								<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+								Tag Yang Hangat Dipakai
+								</button>
+							</h2>
+							</div>
+
+							<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+							<div class="card-body text-justify">
+								<Graph/>
+							</div>
+							</div>
+						</div>
+					</div> */}
 				</React.Fragment>
 			);
 		}
