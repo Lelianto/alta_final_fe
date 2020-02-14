@@ -70,7 +70,8 @@ const initialState = {
 	putTag :[],
 	idUser : '',
 	htmlContent:'',
-	idComment:''
+	idComment:'',
+	statusGoogle: true
 }
 
 export const store = createStore(initialState);
@@ -602,6 +603,11 @@ export const actions = (store) => ({
 			popularQuestion : popularContent.data.popular_que,
 			popularLoading : false
 		})
+	},
+
+	handleLogOutGoogle : async (state) => {
+		localStorage.setItem('loginGoogle', true)
+		await window.location.replace('http://localhost:3000/')
 	}
 
 	// likePosting : async (state, id, content_type) => {

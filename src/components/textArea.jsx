@@ -367,7 +367,7 @@ class TextArea extends React.Component {
                             </Link>
                         </div>
                             <div className='col-md-4'>
-                                    <input style={{fontSize:'12px', paddingRight:'0', width:'194px'}} className='btn-outline-info' type='file' id="file" name="file" onChange={this.fileSelectedHandler}/>
+                                    <input style={{fontSize:'12px', paddingRight:'0', width:'194px'}} className='btn-outline-info' type='file' id="file" name="file" onChange={(event)=>this.fileSelectedHandler(event)}/>
                             </div>
                             <div className='col-md-4'>
                                 {this.props.imageArticle===null?

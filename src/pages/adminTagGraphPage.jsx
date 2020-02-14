@@ -101,7 +101,7 @@ class AdminLandingPage extends React.Component {
 					<div className='container'>
 						<div className='row' style={{paddingTop:'50px'}} >
 							<h4 style={{paddingBottom:'10px'}} className='col-md-12'>
-								Total Penggunaan Tag terhadap Waktu
+								Total Penggunaan Tag
 							</h4>
 							<div style={{backgroundColor:'white', borderRadius:'15px', padding:'20px'}} className='col-md-12'>
 								<Graph/>

@@ -4,7 +4,7 @@ import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
 import axios from 'axios'
 import Loader from './loader'
-import { ColumnChart } from 'react-chartkick'
+import { PieChart } from 'react-chartkick'
 import 'chart.js'
 
 class Chart extends Component {
@@ -84,7 +84,7 @@ class Chart extends Component {
                 })
                 return (
                     <div>
-                        <ColumnChart data={dataPoints}/>
+                        <PieChart data={dataPoints}/>
                     </div>
                 )
             }
