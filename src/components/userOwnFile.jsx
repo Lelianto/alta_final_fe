@@ -26,6 +26,7 @@ const UserOwnFile = (props) => {
             <div className='container own-article mt-4'>
             <div className='row'>
                 <div className='col-md-12 box-control bg-white'>
+
                     <div className='row text-control'>
                     {postingDetail.content_status === 2 ? 
                         <div className='col-md-11 title-article-control' >
@@ -129,6 +130,8 @@ const UserOwnFile = (props) => {
         </div>
         )
     } else if (props.menuBarUser ==='Pertanyaan' || props.typeContent ==='question') {
+        console.log('ISI DATA USER', props.userDetail.username)
+        console.log('ISI LOCAL STORAGE', localStorage.getItem('username'))
         return (
             <div className='container own-article mt-4'>
             <div className='row'>

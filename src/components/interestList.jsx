@@ -28,15 +28,21 @@ const InterestList = (props) => {
                                 <label for='all' style={{color:'#1b262c', fontSize:'14px', cursor:'pointer'}}>Semua</label>
                             </div>
                         : null}
-                        { 
-                            props.tags.map((value) => (
-                                <div className='mb-3'>
-                                        <input type="checkbox" name={value.name} value={value.name} id={value.name} onClick={props.chooseTags} defaultChecked/>
-                                        <img src={value.photo_url} alt="img" className="pr-2 ml-2" width="30px"/>
-                                        <label for={value.name} style={{color:'#1b262c', fontSize:'14px', cursor:'pointer'}}>{value.name}</label>
-                                </div>
-                            ))}
-                       
+                        {props.loading?
+                        <div><Loader/></div>
+                        :
+                        <div>
+                            { 
+                                props.tags.map((value) => (
+                                    <div className='mb-3'>
+                                            <input type="checkbox" name={value.name} value={value.name} id={value.name} onClick={props.chooseTags} defaultChecked/>
+                                            <img src={value.photo_url} alt="img" className="pr-2 ml-2" width="30px"/>
+                                            <label for={value.name} style={{color:'#1b262c', fontSize:'14px', cursor:'pointer'}}>{value.name}</label>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                        }
                     </div>
                 {props.locationPage === null || localStorage.getItem('email') === null ? 
                 <div>
