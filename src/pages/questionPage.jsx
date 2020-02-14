@@ -28,10 +28,14 @@ class QuestionPage extends React.Component {
 		resp:null,
 		post:null,
 		chosenPost: [],
-		contentLoading : true
+		contentLoading : true,
+		likeList : []
 	};
 
 	componentDidMount = async () => {
+		if(localStorage.getItem('token')!==null){
+			await this.getLikeList()
+		}
 		await this.getUserTags()
 		await this.getPostingList()
 		await this.filterPosting();
@@ -106,10 +110,8 @@ class QuestionPage extends React.Component {
 
 	getPostingList = async () => {
 		const parameter = {
-			content_type : 'question',
-			keyword : this.props.keyword
+			content_type : 'question'
 		}
-		console.log('berhasil masuk ke render lagi')
 		const posting = {
 			method: 'get',
 			url: store.getState().baseUrl+'/posting/toplevel',
@@ -120,7 +122,6 @@ class QuestionPage extends React.Component {
 		};
 		await axios(posting)
 		.then(async (response) => {
-			console.log('sekarang sungguh-sungguh berhasil')
 			await this.setState({postingList : response.data.query_data})
 		})
 		.catch(async (error) => {
@@ -153,7 +154,10 @@ class QuestionPage extends React.Component {
 				}
 			});
 		});
-		await this.setState({chosenPost : chosenPost, contentLoading : false})
+		await this.setState({chosenPost : chosenPost})
+		if(localStorage.getItem('token') === null) {
+			this.setState({ contentLoading : false})
+		}
 	};
 
 	seeAll = () => {
@@ -204,8 +208,6 @@ class QuestionPage extends React.Component {
         store.setState({
             userId:event
 		})
-		console.log('isi event', event)
-		console.log(store.getState().userId)
         await this.props.history.push('/pertanyaan/'+event)
 	}
 	
@@ -221,7 +223,6 @@ class QuestionPage extends React.Component {
 	}
 
 	deleteQuestion = async (event)=> {
-		console.log('isi event',event)
 		store.setState({
 			articleId:event.id,
 			articleTitle:event.title,
@@ -229,7 +230,6 @@ class QuestionPage extends React.Component {
 			imageUrl:event.banner_photo_url
 		})
 		await this.props.delQuestion()
-		console.log('DELETED')
 		await this.getPostingList()
 		await this.filterPosting()
         await this.props.history.push('/pertanyaan')
@@ -241,6 +241,26 @@ class QuestionPage extends React.Component {
 			uname : username
 		})
 		await this.props.history.push('/profil/'+username+'/pertanyaan')
+	}
+
+	getLikeList = async () => {
+		const postId = []
+		const like = {
+			method: 'get',
+			url: store.getState().baseUrl+'/point',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + localStorage.getItem('token')
+
+			}
+		};
+		const likeListRes = await axios(like)
+		await likeListRes.data.map(async like => {
+			if (like.deleted === false) {
+				await postId.push(like.locator_id)
+			}
+		})
+		await this.setState({likeList : postId, contentLoading : false})
 	}
 	
 	render() {
@@ -269,7 +289,8 @@ class QuestionPage extends React.Component {
 								<Loader/>
 							</div> 
 							:
-								this.state.chosenPost.map((content, i) => <UserOwnFile editQuestion={(e)=>this.editQuestion(e)} goToDetailQuestion={(event) =>this.goToDetailQuestion(event)} deleteQuestion={(e)=>this.deleteQuestion(e)} typeContent={content.posting_detail.content_type} content={content} userDetail={this.state.userDetail} getProfile={this.getProfile}/>)
+								this.state.chosenPost.map((content, i) => <UserOwnFile editQuestion={(e)=>this.editQuestion(e)} goToDetailQuestion={(event) =>this.goToDetailQuestion(event)} deleteQuestion={(e)=>this.deleteQuestion(e)} typeContent={content.posting_detail.content_type} content={content} userDetail={this.state.userDetail} getProfile={this.getProfile}
+								likeList={this.state.likeList}/>)
 							}
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow" >
@@ -288,4 +309,4 @@ class QuestionPage extends React.Component {
 		);
 	}
 }
-export default connect('keyword, popularLoading', actions)(withRouter(QuestionPage));
+export default connect('popularLoading', actions)(withRouter(QuestionPage));

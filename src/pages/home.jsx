@@ -11,6 +11,7 @@ import axios from 'axios';
 import Butter from 'buttercms'
 import { Helmet } from 'react-helmet';
 import Loader from '../components/loader';
+// import Skeleton from '@material-ui/lab/Skeleton'
 
 const butter = Butter('31d63e3ae80e878f31b54be79123e3052be26bd4');
 class Home extends React.Component {
@@ -27,26 +28,19 @@ class Home extends React.Component {
 		popularQuestion: [],
 		interestLoading : true,
 		contentLoading : true,
+		likeListLoading : true,
 		popularLoading : true,
 		likeList : []
 	};
 	
 
-	componentWillMount = async () => {
-		this.getLikeList()
+	componentDidMount = async () => {
+		if(localStorage.getItem('token')!== null){
+			this.getLikeList()
+		}
 		await this.getUserTags();
 		await this.getPostingList();
 		await this.filterPosting();
-		console.log(this.props.match)
-		let page = 1
-		if(this.props.match.params.page !== null){
-			console.log('ada')
-			page = this.props.match.params.page || 1
-			this.fetchPosts(page)
-		} else {
-			console.log('tidak ada')
-			this.fetchPosts(page)
-		}
 		await this.props.getPopular();
 	};
 
@@ -56,20 +50,8 @@ class Home extends React.Component {
 			loaded: true,
 			resp: resp.data
 		  })
-		  console.log('isi respon fetching', this.state.resp)
 		});
 	  }
-
-	componentWillReceiveProps(nextProps) {
-		this.setState({loaded: false});
-		let page = 1
-		if(nextProps.match.params.page !== null){
-			let page = nextProps.match.params.page || 1
-			this.fetchPosts(page)
-		} else {
-			this.fetchPosts(page)
-		}
-	}
 
 	getUserTags = async () => {
 		const tags = {
@@ -138,17 +120,13 @@ class Home extends React.Component {
 	};
 
 	getPostingList = async () => {
-		const parameters = {
-			keyword: this.props.keyword
-		};
 
 		const posting = {
 			method: 'get',
 			url: store.getState().baseUrl+'/posting/toplevel',
 			headers: {
 				'Content-Type': 'application/json'
-			},
-			params: parameters
+			}
 		};
 		await axios(posting)
 			.then(async (response) => {
@@ -185,7 +163,9 @@ class Home extends React.Component {
 			});
 		});
 		await this.setState({chosenPost : chosenPost, contentLoading : false})
-		console.warn('chosen post', this.state.chosenPost)
+		if(localStorage.getItem('token') === null) {
+			this.setState({ likeListLoading : false})
+		}
 	};
 
 	seeAll = () => {
@@ -223,13 +203,6 @@ class Home extends React.Component {
 		}
 		
 		await this.filterPosting()
-	};
-
-	detailArticle = async (event) => {
-		await store.setState({
-			userId: event
-		});
-		await this.props.history.push('/artikel/' + event);
 	};
 
 	goToDetailQuestion = async (event) => {
@@ -330,21 +303,11 @@ class Home extends React.Component {
 		};
 		const likeListRes = await axios(like)
 		await likeListRes.data.map(async like => {
-			await postId.push(like.locator_id)
-
+			if (like.deleted === false) {
+				await postId.push(like.locator_id)
+			}
 		})
-		await this.setState({likeList : postId})
-		console.warn('like', this.state.likeList)
-	}
-
-	getLikeStatus = async () => {
-		// const posting = await this.state.chosenPost
-		// const likeList = await this.state.likeList
-		// const likeStatus = posting.map( post => {
-		// 	if(this.state.likeList.includes(post.posting_detail.id)){
-		// 		post['like'] = 
-		// 	}
-		// })
+		await this.setState({likeList : postId, likeListLoading : false})
 	}
 
 	render() {
@@ -393,6 +356,7 @@ class Home extends React.Component {
 										goToDetailQuestion={(e) => this.goToDetailQuestion(e)}
 										userDetail={this.state.userDetail}
 										getProfile={this.getProfile}
+										likeList={this.state.likeList}
 									/>
 								))
 								}
@@ -401,6 +365,7 @@ class Home extends React.Component {
 								{this.props.popularLoading === true ?
 								<div className='pl-5 pr-5'>
 									<Loader/>
+									{/* <Skeleton variant="rect" width={210} height={118} /> */}
 								</div> 
 								:
 								<PopularList detailArticle={(e)=>this.detailArticle(e)} detailQuestion={(e)=>this.goToDetailQuestion(e)}/>
@@ -414,4 +379,4 @@ class Home extends React.Component {
 		}
 	}
 }
-export default connect('responseData, keyword, popularLoading', actions)(withRouter(Home));
+export default connect('responseData, popularLoading', actions)(withRouter(Home));

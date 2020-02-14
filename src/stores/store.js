@@ -598,38 +598,41 @@ export const actions = (store) => ({
 			popularQuestion : popularContent.data.popular_que,
 			popularLoading : false
 		})
+	},
+
+	likePosting : async (state, id, content_type) => {
+		if(localStorage.getItem('token')!==null){
+			const image = document.getElementById(id)
+			const point = document.getElementById('point'+id)
+			const pointNumb = point.innerHTML
+			let value;
+			if (image.className === 'material-icons') {
+				image.className = 'material-icons-outlined'
+				point.innerHTML = pointNumb*1-1
+				value = 0
+			} else {
+				value = 1
+				image.className = 'material-icons'
+				point.innerHTML = pointNumb*1+1
+			}
+			const like = {
+				locator_id : id,
+				content_type : content_type,
+				value : value
+			}
+			const requestLike = {
+				method: "put",
+				url: state.baseUrl + '/point',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: "Bearer " + localStorage.getItem('token')
+				},
+				data: like,
+				validateStatus: (status) => {
+					return status < 500;
+				}
+			};
+			const likeRes = await axios(requestLike)
+		}
 	}
-
-	// likePosting : async (state, id, content_type) => {
-	// 	const image = document.getElementById('img-like')
-	// 	let value;
-	// 	if (image.title === 'like') {
-	// 		console.warn('like')
-	// 		value = 0
-	// 		image.src = like
-	// 	} else {
-	// 		value = 1
-	// 		image.src = havelike
-	// 	}
-	// 	const like = {
-	// 		locator_id : id,
-	// 		content_type : content_type,
-	// 		value : value
-	// 	}
-	// 	const requestLike = {
-	// 		method: "put",
-	// 		url: state.baseUrl + '/point',
-	// 		headers: {
-	// 			'Content-Type': 'application/json',
-	// 			Authorization: "Bearer " + localStorage.getItem('token')
-	// 		},
-	// 		data: like,
-	// 		validateStatus: (status) => {
-	// 			return status < 600;
-	// 		}
-	// 	};
-	// 	const likeRes = await axios(requestLike)
-	// 	console.warn('respon', likeRes)
-	// }
-
 });

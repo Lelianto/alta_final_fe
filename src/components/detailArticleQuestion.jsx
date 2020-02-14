@@ -21,30 +21,31 @@ const DetailArticleQuestion =(props)=> {
       )
     } else {
       let contentNew = props.allArticleDatabase;
+      const postingDetail = contentNew.posting_data.posting_detail
       const htmlArticle = <Markup className='preview-article-control' content={contentNew.posting_data.posting_detail.html_content}/>
       return (
         <div style={{textAlign:'left', marginBottom:'20px', marginTop:'25px'}}>
           <Helmet>
-            {/* <title>{contentNew.posting_data.posting_detail.title}</title> */}
+            {/* <title>{postingDetail.title}</title> */}
             <meta name="description" content={htmlArticle} />
           </Helmet>
           <div className='row box-control'>
-                <div className="col-md-11" style={{fontWeight:'Bold', fontSize:'25px', marginBottom:'10px'}}>{contentNew.posting_data.posting_detail.title}</div>
+                <div className="col-md-11" style={{fontWeight:'Bold', fontSize:'25px', marginBottom:'10px'}}>{postingDetail.title}</div>
                 { localStorage.getItem('username') !== null && localStorage.getItem('username') === contentNew.posting_data.user_data.username ?
                   <div>
                       <div className='col-md-1 edit-control' id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           <img className='logo-edit-control' src={more} alt="img"/>
                       </div>
                       <div class="dropdown-menu" style={{marginLeft:'-130px', marginTop:'-37px'}}  aria-labelledby="dropdownMenuLink">
-                        {contentNew.posting_data.posting_detail.content_type === 'question' ?
+                        {postingDetail.content_type === 'question' ?
                           <div>
-                            <Link class="dropdown-item" onClick={()=>props.editQuestion(contentNew.posting_data.posting_detail.id)} >Ubah/Perbarui</Link>
-                            <Link onClick={()=>props.deleteQuestion(contentNew.posting_data.posting_detail)} class="dropdown-item" >Hapus</Link>
+                            <Link class="dropdown-item" onClick={()=>props.editQuestion(postingDetail.id)} >Ubah/Perbarui</Link>
+                            <Link onClick={()=>props.deleteQuestion(postingDetail)} class="dropdown-item" >Hapus</Link>
                           </div>
                         :
                           <div>
-                            <Link class="dropdown-item" onClick={()=>props.editArticle(contentNew.posting_data.posting_detail.id)} >Ubah/Perbarui</Link>
-                            <Link onClick={()=>props.deleteArticle(contentNew.posting_data.posting_detail)} class="dropdown-item" >Hapus</Link>
+                            <Link class="dropdown-item" onClick={()=>props.editArticle(postingDetail.id)} >Ubah/Perbarui</Link>
+                            <Link onClick={()=>props.deleteArticle(postingDetail)} class="dropdown-item" >Hapus</Link>
                           </div>
                         }
                       </div>
@@ -58,21 +59,21 @@ const DetailArticleQuestion =(props)=> {
                                 :
                                 <img className='writer-photo' src={user} alt=""/>
                             }
-                      <Link onClick={()=>props.getProfile(contentNew.posting_data.posting_detail.user_id, contentNew.posting_data.user_data.username)} style={{textDecoration: 'none', color:'#385898'}}>{contentNew.posting_data.user_data.display_name}</Link>
+                      <Link onClick={()=>props.getProfile(postingDetail.user_id, contentNew.posting_data.user_data.username)} style={{textDecoration: 'none', color:'#385898'}}>{contentNew.posting_data.user_data.display_name}</Link>
                   </div>
                   <div className='col-md-5'>
                       
                   </div>
               </div>
               <div>
-                <img style={{width:'100%', marginTop:'10px', marginBottom:'20px'}} src={contentNew.posting_data.posting_detail.banner_photo_url} alt=""/>
+                <img style={{width:'100%', marginTop:'10px', marginBottom:'20px'}} src={postingDetail.banner_photo_url} alt=""/>
               </div>
               <div className='preview-article-control overflow col-md-12' style={{paddingLeft:'22px', overflow:'auto', height: 'auto'}}>
                 {htmlArticle}
               </div>
               <div className='col-md-12 text-left pl-4 time-article-control'>
-                  <Moment fromNow ago>{contentNew.posting_data.posting_detail.created_at}</Moment> ago
-                  {contentNew.posting_data.posting_detail.updated_at !== null ? 
+                  <Moment fromNow ago>{postingDetail.created_at}</Moment> ago
+                  {postingDetail.updated_at !== null ? 
                     <React.Fragment>
                       &nbsp;&nbsp;&nbsp;&nbsp; Edited
                     </React.Fragment>
@@ -81,7 +82,7 @@ const DetailArticleQuestion =(props)=> {
               <div className='row tag-control-article align-items-end'>
                 <div className='col-md-8'>
                     <div className='row text-center ' style={{paddingLeft:'26px'}}>
-                      {contentNew.posting_data.posting_detail.tags.map((tag)=>(
+                      {postingDetail.tags.map((tag)=>(
                           <div className='col-md-3 tag-control-arc'>
                               #{tag}
                           </div>
@@ -92,15 +93,17 @@ const DetailArticleQuestion =(props)=> {
                 <div className='col-md-3'>
                     <div className='row'>
                         <div className='col-md-4 text-center'>
-                            <img style={{width:'100%'}} src={eye} alt="img"/>{contentNew.posting_data.posting_detail.views}
+                            <img style={{width:'100%'}} src={eye} alt="img"/>{postingDetail.views}
                         </div>
-                        {(props.likeArticle === true)?
+                        {props.likeList.includes(postingDetail.id)?
                             <div className='col-md-4 text-center'>
-                                <img onClick={()=>store.setState({likeArticle:false})} style={{width:'100%'}} src={like} alt="img"/> {contentNew.posting_data.posting_detail.point+1}
+                                <Link onClick={()=>props.likePosting(postingDetail.id, postingDetail.content_type)} style={{color:'black'}}><i id={postingDetail.id}className="material-icons">thumb_up</i></Link>
+                                <span id={'point'+postingDetail.id}>{postingDetail.point}</span>
                             </div>
                             :
                             <div className='col-md-4 text-center'>
-                                <img onClick={()=>store.setState({likeArticle:true})} style={{width:'100%'}} src={havelike} alt="img"/> {contentNew.posting_data.posting_detail.point}
+                                <Link onClick={()=>props.likePosting(postingDetail.id, postingDetail.content_type)} style={{color:'black'}}><i id={postingDetail.id}className="material-icons-outlined">thumb_up</i></Link>
+                                <span id={'point'+postingDetail.id}>{postingDetail.point}</span>
                             </div>
                         }
                         <div className='col-md-4 text-center'>

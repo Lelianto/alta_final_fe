@@ -29,42 +29,9 @@ class ArticlePage extends React.Component {
 		userDetail : {},
 		popularLoading : true,
 		contentLoading : true,
-		interestLoading : true
+		interestLoading : true,
+		likeList : []
 	};
-
-	fetchPosts =(page) => {
-		butter.post.list({page: page, page_size: 10}).then((resp) => {
-		  this.setState({
-			loaded: true,
-			resp: resp.data
-		  })
-		  console.log('isi respon fetching', this.state.resp)
-		});
-	  }
-	
-	componentWillMount = () => {
-		console.log(this.props.match)
-		let page = 1
-		if(this.props.match.params.page !== null){
-			console.log('ada')
-			page = this.props.match.params.page || 1
-			this.fetchPosts(page)
-		} else {
-			console.log('tidak ada')
-			this.fetchPosts(page)
-		}
-	}
-
-	componentWillReceiveProps(nextProps) {
-		this.setState({loaded: false});
-		let page = 1
-		if(nextProps.match.params.page !== null){
-			let page = nextProps.match.params.page || 1
-			this.fetchPosts(page)
-		} else {
-			this.fetchPosts(page)
-		}
-	}
 
 	seeAll = () => {
 		const suggestionList = document.getElementById('suggest-list');
@@ -79,6 +46,9 @@ class ArticlePage extends React.Component {
 	};
 
 	componentDidMount = async () => {
+		if(localStorage.getItem('token')!==null){
+			this.getLikeList()
+		}
 		await this.getUserTags();
 		await this.getPostingList();
 		await this.filterPosting();
@@ -155,8 +125,7 @@ class ArticlePage extends React.Component {
 
 	getPostingList = async () => {
 		const parameter = {
-			content_type : 'article',
-			keyword : this.props.keyword
+			content_type : 'article'
 		}
 
 		const posting = {
@@ -213,7 +182,10 @@ class ArticlePage extends React.Component {
 				}
 			});
 		});
-		await this.setState({chosenPost : chosenPost, contentLoading : false})
+		await this.setState({chosenPost : chosenPost})
+		if(localStorage.getItem('token') === null) {
+			this.setState({ contentLoading : false})
+		}
 	};
 
 	checkAll = async () => {
@@ -306,6 +278,26 @@ class ArticlePage extends React.Component {
 		await this.props.history.push('/profil/'+username+'/pertanyaan')
 	}
 
+	getLikeList = async () => {
+		const postId = []
+		const like = {
+			method: 'get',
+			url: store.getState().baseUrl+'/point',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + localStorage.getItem('token')
+
+			}
+		};
+		const likeListRes = await axios(like)
+		await likeListRes.data.map(async like => {
+			if (like.deleted === false) {
+				await postId.push(like.locator_id)
+			}
+		})
+		await this.setState({likeList : postId, contentLoading : false})
+	}
+
 	render() {
 		return (
 			<React.Fragment>
@@ -337,7 +329,8 @@ class ArticlePage extends React.Component {
 								<Loader/>
 							</div>
 							:
-								this.state.chosenPost.map((content, i) => <UserOwnFile  deleteArticle={(e)=>this.deleteArticle(e)} typeContent={content.posting_detail.content_type} content={content} editArticle={(e)=>this.editArticle(e)} detailArticle={(e)=>this.detailArticle(e)} userDetail={this.state.userDetail} getProfile={this.getProfile}/>)
+								this.state.chosenPost.map((content, i) => <UserOwnFile  deleteArticle={(e)=>this.deleteArticle(e)} typeContent={content.posting_detail.content_type} content={content} editArticle={(e)=>this.editArticle(e)} detailArticle={(e)=>this.detailArticle(e)} userDetail={this.state.userDetail} getProfile={this.getProfile}
+								likeList={this.state.likeList}/>)
 							}
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow">
@@ -356,4 +349,4 @@ class ArticlePage extends React.Component {
 		);
 	}
 }
-export default connect('keyword, popularLoading', actions)(withRouter(ArticlePage));
+export default connect('popularLoading', actions)(withRouter(ArticlePage));

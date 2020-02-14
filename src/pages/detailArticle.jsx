@@ -15,7 +15,9 @@ import Accordion from '../components/accordionExplain'
 
 class DetailArticle extends React.Component {
 	state = {
-        comment : ''
+        comment : '',
+        likeList : [],
+        contentLoading : true
     };
     getAllFirst = ()=>{
         const req = {
@@ -26,7 +28,6 @@ class DetailArticle extends React.Component {
           const self = this
           axios(req)
               .then((response) => {
-                console.log('isi respon detail',response.data.posting_data)
                 store.setState({ 
                   allArticleDatabase: response.data, 
                   isLoading:false,
@@ -42,22 +43,22 @@ class DetailArticle extends React.Component {
                 store.setState({ 
                   isLoading: false
                 })
-                switch (error.response.status) {
-                  case 401 :
-                      self.props.history.push('/login')
-                      break
-                  case 403 :
-                      self.props.history.push('/403')
-                      break
-                  case 404 :
-                      self.props.history.push('/404')
-                      break
-                  case 500 :
-                      self.props.history.push('/500')
-                      break
-                  default :
-                      break
-                }
+                // switch (error.response.status) {
+                //   case 401 :
+                //       self.props.history.push('/login')
+                //       break
+                //   case 403 :
+                //       self.props.history.push('/403')
+                //       break
+                //   case 404 :
+                //       self.props.history.push('/404')
+                //       break
+                //   case 500 :
+                //       self.props.history.push('/500')
+                //       break
+                //   default :
+                //       break
+                // }
               })
     }
     
@@ -78,7 +79,6 @@ class DetailArticle extends React.Component {
             },
             data: parameters
         };
-        console.log('isi comment', comment)
         await this.props.handleAPI(comment)
         if(this.state.comment!==''){
             this.setState({
@@ -109,6 +109,9 @@ class DetailArticle extends React.Component {
       }
       
     componentWillMount = async () => {
+        if (localStorage.getItem('token')!==null){
+            this.getLikeList()
+        }
         await this.getAllFirst()
         await this.props.getPopular();
     };
@@ -121,7 +124,6 @@ class DetailArticle extends React.Component {
     };
 
 	deleteArticle = async (event)=> {
-		console.log('isi event',event)
 		store.setState({
 			articleId:event.id,
 			articleTitle:event.title,
@@ -129,8 +131,6 @@ class DetailArticle extends React.Component {
 			imageUrl:event.banner_photo_url
 		})
 		await this.props.delArticle()
-		console.log('DELETED')
-		// await this.getPostingList()
         await this.props.history.push('/')
 	}
 
@@ -154,7 +154,27 @@ class DetailArticle extends React.Component {
 			userId: event
 		});
 		await this.props.history.push('/pertanyaan/' + event);
-	};
+    };
+    
+    getLikeList = async () => {
+		const postId = []
+		const like = {
+			method: 'get',
+			url: store.getState().baseUrl+'/point',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + localStorage.getItem('token')
+
+			}
+		};
+		const likeListRes = await axios(like)
+		await likeListRes.data.map(async like => {
+			if (like.deleted === false) {
+				await postId.push(like.locator_id)
+			}
+		})
+		await this.setState({likeList : postId, contentLoading : false})
+	}
 
 	render() {
 		return (
@@ -170,9 +190,10 @@ class DetailArticle extends React.Component {
 						</div>
 						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow" >
                             <AccessDetailArticle 
-                                editArticle={(e) => this.editArticle(e)}
+                                editArticle={(e)=>this.editArticle(e)}
                                 deleteArticle={(e)=>this.deleteArticle(e)} 
                                 getProfile={this.getProfile}
+                                likeList={this.state.likeList}
                             />
                             {store.getState().seeComment?
                                 <div>

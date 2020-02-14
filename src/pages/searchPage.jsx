@@ -18,18 +18,16 @@ class Search extends React.Component {
 		excludeTags: [],
 		postingList: [],
 		userDetail : {},
-		article: [
-			'Lorem ipsum dolor sit amet consectetur adipisicing elit',
-			'Alias corrupti velit illum sequi quas omnis esse ipsam sed aut delectus blanditiis',
-			'Deserunt dolor temporibus enim deleniti a!',
-			'Pariatur exercitationem atque non excepturi, cum',
-			'reiciendis mollitia error maxime earum totam, placeat quod! Ipsa, eum'
-		]
+		likeList : []
 	};
 
 	componentDidMount = async () => {
-		await this.getUserTags();
-		await this.getPostingList();
+		if(localStorage.getItem('token')!==null){
+			this.getLikeList()
+		}
+		this.getUserTags();
+		this.getPostingList();
+		this.props.getPopular();
 	};
 
 	getUserTags = async () => {
@@ -95,8 +93,6 @@ class Search extends React.Component {
 	};
 
 	getPostingList = async () => {
-        console.warn('location', this.props.locationPage)
-        console.warn('keyword', this.props.keyword)
 		const parameters = {
             keyword: this.props.keyword,
             content_type : this.props.locationPage
@@ -113,7 +109,6 @@ class Search extends React.Component {
 		await axios(posting)
 			.then(async (response) => {
 				await this.setState({ postingList: response.data.query_data });
-				console.warn('posting list', this.state.postingList);
 			})
 			.catch(async (error) => {
 				await console.warn(error);
@@ -162,6 +157,34 @@ class Search extends React.Component {
 		await this.props.history.push('/pertanyaan/' + event);
 	};
 
+	getProfile = async (id, username) => {
+		await store.setState({
+			urlProfile : store.getState().baseUrl+'/users/'+id,
+			uname : username
+		})
+		await this.props.history.push('/profil/'+username+'/pertanyaan')
+	}
+
+	getLikeList = async () => {
+		const postId = []
+		const like = {
+			method: 'get',
+			url: store.getState().baseUrl+'/point',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + localStorage.getItem('token')
+
+			}
+		};
+		const likeListRes = await axios(like)
+		await likeListRes.data.map(async like => {
+			if (like.deleted === false) {
+				await postId.push(like.locator_id)
+			}
+		})
+		await this.setState({likeList : postId, contentLoading : false})
+	}
+
 	render() {
 		return (
 			<React.Fragment>
@@ -184,6 +207,8 @@ class Search extends React.Component {
 									detailArticle={(e) => this.detailArticle(e)}
 									goToDetailQuestion={(e) => this.goToDetailQuestion(e)}
 									userDetail={this.state.userDetail}
+									likeList={this.state.likeList}
+									getProfile={this.getProfile}
 								/>
 							))}
 						</div>
