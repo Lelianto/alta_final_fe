@@ -29,7 +29,9 @@ class ArticlePage extends React.Component {
 		userDetail : {},
 		popularLoading : true,
 		contentLoading : true,
-		interestLoading : true
+		interestLoading : true,
+		page : 1,
+		infoPage:{}
 	};
 
 	fetchPosts =(page) => {
@@ -156,7 +158,9 @@ class ArticlePage extends React.Component {
 	getPostingList = async () => {
 		const parameter = {
 			content_type : 'article',
-			keyword : this.props.keyword
+			keyword : this.props.keyword,
+			p: this.state.page,
+			rp: this.state.contentPage
 		}
 
 		const posting = {
@@ -169,7 +173,7 @@ class ArticlePage extends React.Component {
 		};
 		await axios(posting)
 		.then(async (response) => {
-			await this.setState({postingList : response.data.query_data})
+			await this.setState({postingList : response.data.query_data, infoPage:response.data.query_info})
 		})
 		.catch(async (error) => {
 			await console.warn(error)
@@ -306,6 +310,28 @@ class ArticlePage extends React.Component {
 		await this.props.history.push('/profil/'+username+'/pertanyaan')
 	}
 
+	handleNext = async () => {
+		const before = this.state.page+1
+		console.log(before)
+		this.setState({
+			page : before,
+			contentLoading : true
+		})
+		await this.componentDidMount()
+		await this.props.history.push('/artikel')
+	}
+
+	handleBefore = async () => {
+		const before = this.state.page-1
+		console.log(before)
+		this.setState({
+			page : before,
+			contentLoading:true
+		})
+		await this.componentDidMount()
+		await this.props.history.push('/artikel')
+	}
+
 	render() {
 		return (
 			<React.Fragment>
@@ -348,6 +374,29 @@ class ArticlePage extends React.Component {
 								:
 								<PopularList detailArticle={(e)=>this.detailArticle(e)} detailQuestion={(e)=>this.goToDetailQuestion(e)}/>
 								}
+						</div>
+					</div>
+				</div>
+				<div className='container'>
+					<div className='row'>
+						<div className='col-md-5'>
+						</div>
+						<div className='col-md-2'>
+							<ul class="pagination pagination-lg" style={{fontSize:'30px', marginBottom:'-30px', marginTop:'20px'}}>
+								{this.state.page===1?
+								<Link className='box-pagination-empty'>&laquo;</Link>
+								:
+								<Link onClick={(e)=>this.handleBefore()} className='box-pagination-left' to="/">&laquo;</Link>
+								}
+								<Link className='box-pagination-number' to="/">{this.state.page}</Link>
+								{this.state.infoPage.total_pages === this.state.page?
+								<Link className='box-pagination-empty'>&raquo;</Link>
+								:
+								<Link onClick={(e)=>this.handleNext()} className='box-pagination-right' to="/">&raquo;</Link>
+								}
+							</ul>
+						</div>
+						<div className='col-md-5'>
 						</div>
 					</div>
 				</div>

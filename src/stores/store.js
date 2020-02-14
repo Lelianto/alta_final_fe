@@ -22,6 +22,8 @@ const initialState = {
 	getCodeResultUrl: 'https://cors-anywhere.herokuapp.com/api.paiza.io:80/runners/get_details',
 	codeCompilerResult: '',
 	baseUrl:'https://api.kodekula.com',
+	// baseUrl:'http://13.229.122.5:5000',
+	// baseUrl: 'https://kodekula.herokuapp.com',
 	username: '',
 	password: '',
 	email: '',
@@ -571,22 +573,24 @@ export const actions = (store) => ({
 			},
 			data: articleDetails
 		};
+		console.log(req)
 		await axios(req)
 			.then(response => {
 				store.setState({
 					menuBarUpload:false,
 					newArticle:''
 				})
+			console.log('isi response', response)
 			})
 			.catch(error => {
 				return false
 		})
 	},
 
-	getPopular : async () => {
+	getPopular : async (state) => {
 		const popular = {
 			method: 'get',
-			url: store.getState().baseUrl+'/posting/popular',
+			url: state.baseUrl+'/posting/popular',
 			headers: {
 				'Content-Type': 'application/json'
 			}
