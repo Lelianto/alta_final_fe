@@ -19,16 +19,12 @@ const ViewComment = (props) => {
       </div>
     )
   } else {
-    console.warn('all database', props.allArticleDatabase)
     let allComment = props.allArticleDatabase.second_data.second_detail_list
-    // const contentType = props.allArticleDatabase.posting_data.posting_detail.content_type
-    
     return (
       <div>
-        {allComment.map((comment, index)=>
+        {allComment.map((comment, index)=> 
         <div style={{textAlign:'left', marginBottom:'20px'}}>
           <Helmet>
-            {/* <title>{comment.user_data.username}</title> */}
             <meta name="description" content={comment.posting_detail.html_content} />
           </Helmet>
           {comment.posting_detail.content_status !== 2?
@@ -63,11 +59,16 @@ const ViewComment = (props) => {
                         <div className="row" style={{paddingTop:'10px'}}>
                         <div className="text-right mt-2 col-md-7"></div>
                         <div className="text-right mt-2 col-md-1 ml-5">
+                          {comment.user_data.username === localStorage.getItem('username')?
                           <Link onClick={()=>props.handleDeleteAnswer(comment.posting_detail)} style={{textDecoration:'none', paddingRight:'0px'}}>
                             <i className="material-icons" style={{fontSize:'28px'}}>delete</i>
                           </Link>
+                          :
+                          <span></span>
+                          }
                         </div>
                         <div className="text-right mt-2 col-md-1 ml-5">
+
                           {(props.likeAnswer === true)?
                             <div className="text-center">
                               <img onClick={()=>store.setState({likeAnswer:false})} style={{width:'120%'}} src={like} alt="img"/>
@@ -83,9 +84,24 @@ const ViewComment = (props) => {
                               </div>
                             </div>
                           }
+                          
                         </div>
                         </div>
-                      : null}
+                      : 
+                      <div className='row'>
+                        <div className='col-md-10'>
+                        </div>
+                        <div className='col-md-2' style={{marginTop:'10px', marginBottom:'-10px'}}>
+                          {comment.user_data.username === localStorage.getItem('username')?
+                          <Link onClick={()=>props.handleDeleteAnswer(comment.posting_detail)} style={{textDecoration:'none', paddingRight:'0px'}}>
+                            <i className="material-icons" style={{fontSize:'28px'}}>delete</i>
+                          </Link>
+                          :
+                          <span></span>
+                          }
+                        </div>
+                      </div>
+                      }
                   </div>
                 </div>
               </div>
