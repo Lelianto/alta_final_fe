@@ -17,15 +17,24 @@ class UserProfileSetting extends Component {
     userTagData : []
   }
 
+  /**
+	 * @function handlePage() handle go to 'event' page in settings
+	 */
   handlePage = (event)=>{
     this.props.history.replace('/pengaturan-akun'+event)
   }
 
+  /**
+	 * @function handleMainPage() handle go to 'event' page in settings
+	 */
   handleMainPage = (event1, event2)=>{
     store.setState({menuBarSetting:event2})
     this.props.history.replace('/pengaturan-akun'+event1)
   }
 
+  /**
+	 * @function componentDidMount() get all detail data about user (me)
+	 */
   componentDidMount = async () => {
     const user = {
 			method: 'get',
@@ -45,7 +54,25 @@ class UserProfileSetting extends Component {
         await store.setState({userData : response.data.user_data, userDetail : response.data.user_detail_data, userTagData : response.data.user_tag_data})
 			})
 			.catch(async (error) => {
-				await console.warn(error)
+				switch (error.response.status) {
+					case 401 :
+						this.props.history.push('/401')
+						break
+					case 403 :
+						this.props.history.push('/403')
+						break
+					case 404 :
+						this.props.history.push('/404')
+						break
+					case 422 :
+						this.props.history.push('/422')
+						break
+					case 500 :
+						this.props.history.push('/500')
+						break
+					default :
+						break
+				}
 			})
   }
 
