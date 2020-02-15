@@ -7,10 +7,8 @@ import Footer from '../components/footer';
 import MenuBarSetting from '../components/menuBarSetting';
 import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import Swal from 'sweetalert2'
-import axios from 'axios';
-
 
 class UserSetInterest extends Component {
 
@@ -111,58 +109,57 @@ class UserSetInterest extends Component {
     }
 
     render() {
-
-		const	tagData = this.state.searchList.map((tag, index) => {
-				return (
-					<React.Fragment>
-						<div className="col-lg-3 col-md-3 col-sm-4 col-4 img-interest pb-3">
-							<div className="border">
-                  <div className='logo-tags' style={{ height:'200px'}}>
-                      <img src={tag.photo_url} alt="" />
+      const	tagData = this.state.searchList.map((tag, index) => {
+          return (
+            <React.Fragment>
+              <div className="col-lg-3 col-md-3 col-sm-4 col-4 img-interest pb-3">
+                <div className="border">
+                    <div className='logo-tags' style={{ height:'200px'}}>
+                        <img src={tag.photo_url} alt="" />
+                    </div>
+                  <div className="text-center" style={{backgroundColor:'#0f4c75', color:'white'}}>
+                    <input type="checkbox" name="tags" id="" checked={tag.checked} value={tag.name} onChange={(e)=>this.editInterest(e, tag.index)}/>
+                    <label className="form-check-label ml-3 tags-name" for="tags">
+                      {tag.name}
+                    </label>
                   </div>
-								<div className="text-center" style={{backgroundColor:'#0f4c75', color:'white'}}>
-                  <input type="checkbox" name="tags" id="" checked={tag.checked} value={tag.name} onChange={(e)=>this.editInterest(e, tag.index)}/>
-									<label className="form-check-label ml-3 tags-name" for="tags">
-										{tag.name}
-									</label>
-								</div>
-							</div>
-						</div>
-					</React.Fragment>
-				);
-			});
-    return (
-      <div>
-        <Header doSearch={this.doSearch}/>
-        <div className='container'>
-          <div className='row'>
-            <div className='col-md-3'>
-              <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)} userDetail={this.state.userDetail}/>
-            </div>
-            <div className='col-md-9'>
-            <div className="interest-user user-username" style={{fontWeight:'bold', fontSize:'20px'}}>
-              <div className="row">
-                <div className="col-lg-4 col-md-4">
-                  <span>Edit Minat</span>
-                </div>
-                <div className="col-lg-6 col-md-6 text-right">
-                  <input style={{fontSize:'17px'}} type="text" name="tags" id="" className="ml-5" placeholder="Pencarian" onChange={(e)=>this.searchInterest(e)}/>
-                </div>
-                <div className="col-lg-2 col-md-2">
-                  <button className='btn btn-info' onClick={this.putInterest}>Ubah</button>
                 </div>
               </div>
-                <div className='row user-profile-border pt-3' style={{marginLeft:'3px'}}></div>
-                <div className="row pl-2 pr-2 py-3 interest-list border" style={{height:'600px', overflow:'auto'}}>
-                    {tagData}        
+            </React.Fragment>
+          );
+        });
+      return (
+        <div>
+          <Header doSearch={this.doSearch}/>
+          <div className='container'>
+            <div className='row'>
+              <div className='col-md-3'>
+                <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)} userDetail={this.state.userDetail}/>
+              </div>
+              <div className='col-md-9'>
+              <div className="interest-user user-username" style={{fontWeight:'bold', fontSize:'20px'}}>
+                <div className="row">
+                  <div className="col-lg-4 col-md-4">
+                    <span>Edit Minat</span>
+                  </div>
+                  <div className="col-lg-6 col-md-6 text-right">
+                    <input style={{fontSize:'17px'}} type="text" name="tags" id="" className="ml-5" placeholder="Pencarian" onChange={(e)=>this.searchInterest(e)}/>
+                  </div>
+                  <div className="col-lg-2 col-md-2">
+                    <button className='btn btn-info' onClick={this.putInterest}>Ubah</button>
+                  </div>
                 </div>
+                  <div className='row user-profile-border pt-3' style={{marginLeft:'3px'}}></div>
+                  <div className="row pl-2 pr-2 py-3 interest-list border" style={{height:'600px', overflow:'auto'}}>
+                      {tagData}        
+                  </div>
+              </div>
             </div>
           </div>
+          </div>
+          <Footer/>
         </div>
-        </div>
-        <Footer/>
-      </div>
-    );
+      );
   }
 }
 

@@ -9,6 +9,7 @@ import Footer from '../components/footer';
 import Moment from 'react-moment';
 import { Markup } from 'interweave';
 import Loader from '../components/loader';
+import NullNotification from '../components/nullNotification';
 import Axios from 'axios';
 
 class Notification extends React.Component {
@@ -86,10 +87,11 @@ class Notification extends React.Component {
                 </div>
             )
         })
+        const lengthNotifList = this.props.notification.length
 		return (
 			<React.Fragment>
 				<Header doSearch={this.doSearch}/>
-                {!this.props.notifLoading && this.props.notification !== [] ?
+                {!this.props.notifLoading?
 				<div className="container pt-5">
 					<div className="row">
 						<div className="col-lg-2 col-md-2 col-sm-1 col-1" />
@@ -97,7 +99,22 @@ class Notification extends React.Component {
                             <div className="text-center">
                                 <h4 style={{fontWeight : '700'}}>Pemberitahuan</h4>
                             </div>
-							{notifications}
+                            {lengthNotifList===0?
+                            <div>
+                                <div id="notfound">
+                                    <div class="notfound">
+                                        <div class="notfound-404">
+                                            <h1>Kosong</h1>
+                                            <h2 style={{fontSize:'10px'}}>Tidak ada pemberitahuan</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            :
+                            <div>
+                                {notifications}
+                            </div>
+                            }
 						</div>
 					</div>
 				</div>
