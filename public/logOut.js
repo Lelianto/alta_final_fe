@@ -18,6 +18,6 @@ function googleLogout() {
             localStorage.removeItem('google')
             localStorage.removeItem('loginGoogle')
             localStorage.clear()
-            window.location.replace('http://localhost:3000/')
+            window.location.replace('https://kodekula.com/')
         });   
 }  
