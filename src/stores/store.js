@@ -1,7 +1,6 @@
 import createStore from 'unistore';
 import axios from 'axios';
-import like from '../images/like.png';
-import havelike from '../images/have-like.png';
+import Swal from 'sweetalert2';
 
 const initialState = {
 	menuBarUser: '',
@@ -276,6 +275,7 @@ export const actions = (store) => ({
 			},
 			data: articleDetails
 		};
+
 		await axios(req)
 			.then((response) => {
 				store.setState({

@@ -8,6 +8,7 @@ import { Link, withRouter } from 'react-router-dom';
 
 
 const UserProfileSettings = (props) =>{
+    console.log('isi menubar',props.menuBarSetting )
     return (
         <React.Fragment>
             <div className='container'>

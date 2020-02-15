@@ -274,17 +274,13 @@ class TextArea extends React.Component {
                 </div>
             )
         } else {
-            console.log('isi data', store.getState().allArticleDatabase)
             const textAreaContent = this.props.allArticleDatabase.posting_data.posting_detail
             const htmlContent = <Markup content={textAreaContent.html_content}/>
-            console.log('isi judul', textAreaContent)
-            console.log('isi html', htmlContent.props)
             store.setState({
                 lastArticleQuestion: htmlContent.props.content,
                 articleTitle: textAreaContent.title,
                 articleId: textAreaContent.id
             })
-            console.log('isi last article', store.getState().lastArticleQuestion)
             return (
                 <div style={{marginBottom:'20px'}}>
                     <div className='row'>

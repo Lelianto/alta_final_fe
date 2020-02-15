@@ -102,8 +102,12 @@ class EditArticlePage extends React.Component {
                                 <div className='row button-area-control'>
                                     <div className='col-md-4'>
                                     </div>
-                                    <div className='col-md-4'>
-                                        <div className='btn btn-grad' style={{marginBottom:'50px', fontSize:'15px',padding:'15px'}} onClick={()=>this.handleEditArticle()}>Edit / Perbarui Artikel</div>
+                                    <div className='col-md-4'>  
+                                        {this.props.lastArticleQuestion === '' || this.props.articleTitle === ''|| this.props.tags === [] || this.props.tags.length === 0?
+                                            <button disabled className='btn btn-grad' style={{marginBottom:'50px', fontSize:'15px',padding:'15px'}}>Edit / Perbarui Artikel</button>
+                                        :
+                                            <button className='btn btn-grad' style={{marginBottom:'50px', fontSize:'15px',padding:'15px'}} onClick={()=>this.handleEditArticle()}>Edit / Perbarui Artikel</button>
+                                        }
                                     </div>
                                     <div className='col-md-4'>
                                     </div>
@@ -119,4 +123,4 @@ class EditArticlePage extends React.Component {
         }
 	}
 }
-export default connect('menuBarUpload, isLoading', actions)(withRouter(EditArticlePage));
+export default connect('menuBarUpload, isLoading, articleTitle, lastArticleQuestion, tags', actions)(withRouter(EditArticlePage));

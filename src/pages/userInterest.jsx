@@ -4,14 +4,12 @@ import '../styles/css/interest.css';
 import '../styles/css/signUp.css';
 import Header from '../components/header';
 import Footer from '../components/footer';
-import PersonalData from '../components/userProfileSetting';
 import MenuBarSetting from '../components/menuBarSetting';
 import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
 import { withRouter, Link } from 'react-router-dom';
 import axios from 'axios';
 import edit from '../images/edit.png';
-import Loader from '../components/loader';
 
 class UserInterestSetting extends Component {
 
@@ -59,13 +57,32 @@ class UserInterestSetting extends Component {
           'Content-Type': 'application/json'
         }
       };
+      const self = this
       await axios(tags)
       .then(async (response) => {
-        await this.setState({interestList : response.data})
+        await self.setState({interestList : response.data})
         await store.setState({interestList : response.data})
       })
       .catch(async (error) => {
-        await console.warn(error)
+        switch (error.response.status) {
+					case 401 :
+						self.props.history.push('/401')
+						break
+					case 403 :
+						self.props.history.push('/403')
+						break
+					case 404 :
+						self.props.history.push('/404')
+						break
+					case 422 :
+						self.props.history.push('/422')
+						break
+					case 500 :
+						self.props.history.push('/500')
+						break
+					default :
+						break
+				}
       })
       
       await this.filterTags()
@@ -102,7 +119,6 @@ class UserInterestSetting extends Component {
     render() {
 
     let tagsList = this.state.filterInterest;
-    console.warn('filter interest', tagsList)
 		let tagData;
 		if (tagsList !== undefined && tagsList !== null) {
 			tagData = tagsList.map((tag) => {

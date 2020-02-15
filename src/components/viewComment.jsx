@@ -58,17 +58,19 @@ const ViewComment = (props) => {
                       </div>
                       {comment.posting_detail.content_type === 'answer' ? 
                         <div className="row" style={{paddingTop:'10px'}}>
-                        <div className="text-right mt-2 col-md-7"></div>
-                        <div className="text-right mt-2 col-md-2 ml-5">
+                        <div className="text-right mt-2 col-md-10"></div>
+                        <div className="text-right mt-2 col-md-1 ml-0">
                           {comment.user_data.username === localStorage.getItem('username')?
                           <Link onClick={()=>props.handleDeleteAnswer(comment.posting_detail)} style={{textDecoration:'none', paddingRight:'0px'}}>
                             <i className="material-icons" style={{fontSize:'28px'}}>delete</i>
                           </Link>
                           :
-                          <span></span>
+                          <span>
+                            
+                          </span>
                           }
                         </div>
-                        <div className="text-right mt-2 col-md-1 ml-5">
+                        <div className="text-right mt-2 col-md-1 ml-0">
                           {props.slLikeList.includes(comment.posting_detail.id)?
                             <div className="text-center">
                               <Link onClick={()=>props.likePosting(comment.posting_detail.id, 'answer')} style={{color:'black'}}><i id={comment.posting_detail.id}className="material-icons">thumb_up</i></Link>
