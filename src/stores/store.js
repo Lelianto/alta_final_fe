@@ -34,7 +34,7 @@ const initialState = {
 	excludeTags: [],
 	responseData: null,
 	responseStatus : null,
-	menuBarSetting:'Pengaturan Akun',
+	menuBarSetting:'Data Diri',
 	tagWritings:[],
 	startComment: false,
 	userId:'',

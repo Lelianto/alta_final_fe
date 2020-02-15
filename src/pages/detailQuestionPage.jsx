@@ -14,6 +14,7 @@ import Accordion from '../components/accordionExplain';
 import CodeCompiler from '../components/codeCompiler';
 import Loader from '../components/loader';
 import axios from 'axios';
+import Skeleton from 'react-loading-skeleton'
 
 class detailArticlePage extends React.Component {
 	state = {
@@ -235,12 +236,15 @@ class detailArticlePage extends React.Component {
 								</button>
 									<ViewComment 
 									handleDeleteAnswer={(event)=>this.handleDeleteAnswer(event)}
-									slLikeList={this.state.slLikeList}/>
+									slLikeList={this.state.slLikeList}
+									getProfile={this.getProfile}/>
 							</div>
 						}
 						</React.Fragment>
 						:
-						<div><Loader/></div>
+						<div className='mt-3'>
+							<Skeleton height={500} count={2}/>
+						</div>
 						}
 							<CommentArea handlePostComment={()=>this.handlePostComment()}/>
 						</div>

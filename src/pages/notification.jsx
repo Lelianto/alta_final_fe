@@ -76,7 +76,7 @@ class Notification extends React.Component {
                             <p>{item.message_content}</p>
                         </div>
                         <div className="text-left pl-3">
-                            <h6><Link onClick={()=>this.goToDetailQuestion(item.tl_content.id, item.id, '')} style={{textDecoration:'none', color:'black', fontWeight:'bold', fontSize : '20px'}}>{item.tl_content.title}</Link></h6>
+                            <h6><Link onClick={()=>this.goToDetailQuestion(item.tl_content.id, item.id, '')} style={{textDecoration:'none', color:'#007bff', fontWeight:'bold', fontSize : '20px'}}>{item.tl_content.title}</Link></h6>
                         </div>
                         <div className="border pl-3 pr-3 py-3 ml-3 mr-3" style={{backgroundColor:'#ededed'}}>
                             <p className="text-left">

@@ -17,8 +17,6 @@ class detailArticle extends React.Component {
         )
       } else {
         let contentNew = this.props.allArticleDatabase;
-        console.log('isi',this.props.allArticleDatabase)
-        console.log('isi content benar',contentNew)
         const htmlArticle = <Markup className='preview-article-control' content={contentNew.posting_data.posting_detail.html_content}/>
         return (
           <div style={{textAlign:'left', marginBottom:'20px', marginTop:'25px'}}>

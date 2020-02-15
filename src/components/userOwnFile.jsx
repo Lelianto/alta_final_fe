@@ -82,6 +82,26 @@ const UserOwnFile = (props) => {
                                 <Markup content={postingDetail.html_content}/>
                             </Truncate>
                         </div>
+                        <div className='col-md-12 ml-0 pl-1 time-article-control text-left'>
+                        <Moment fromNow ago>{postingDetail.created_at}</Moment> ago
+                        {postingDetail.updated_at !== null ? 
+                    <React.Fragment>
+                      &nbsp;&nbsp;&nbsp;&nbsp; Edited
+                    </React.Fragment>
+                    : null }
+                    </div>
+                    <div className='row tag-control-article align-items-end'>
+                        <div className='col-md-8'>
+                            <div className='row' style={{paddingLeft:'7px'}}>
+                                {postingDetail.tags !== undefined ? 
+                                    postingDetail.tags.map((tag)=>(
+                                        <div className='col-md-3 tag-control-arc'>
+                                            #{tag}
+                                        </div>
+                                    ))
+                                : null}
+                            </div>
+                        </div>
                         <div className='col-md-1'></div>
                         <div className='col-md-3'>
                             <div className='row'>
@@ -104,6 +124,7 @@ const UserOwnFile = (props) => {
                                 </div>
                             </div>
                         </div>
+                    </div>
                     </div>
                 <div className='col-md-1'></div>
             </div>
@@ -251,13 +272,15 @@ const UserOwnFile = (props) => {
                                 </div>
                                 <div className='col-md-4'>
                                 </div>
-                                {(props.likeAnswer === true)?
+                                {(props.likeList.includes(props.content.posting_detail.id))?
                                     <div className='col-md-4'>
-                                        <img onClick={()=>store.setState({likeAnswer:false})} style={{width:'100%'}} src={like} alt="img"/>{props.content.posting_detail.point+1}
+                                        <Link onClick={()=>props.likePosting(props.content.posting_detail.id, props.content.posting_detail.content_type)} style={{color:'black'}}><i id={props.content.posting_detail.id}className="material-icons">thumb_up</i></Link>
+                                        <span id={'point'+props.content.posting_detail.id}>{props.content.posting_detail.point}</span>
                                     </div>
                                     :
                                     <div className='col-md-4'>
-                                        <img onClick={()=>store.setState({likeAnswer:true})} style={{width:'100%'}} src={havelike} alt="img"/>{props.content.posting_detail.point}
+                                        <Link onClick={()=>props.likePosting(props.content.posting_detail.id, props.content.posting_detail.content_type)} style={{color:'black'}}><i id={props.content.posting_detail.id} className="material-icons-outlined">thumb_up</i></Link>
+                                        <span id={'point'+props.content.posting_detail.id}>{props.content.posting_detail.point}</span>
                                     </div>
                                 }
                             </div>
