@@ -13,6 +13,6 @@ async function onLogIn(googleUser){
         localStorage.setItem('gmail_token', id_token)
         localStorage.setItem('google', true)
         localStorage.removeItem('status')
-        window.location.replace('http://localhost:3000/masuk')
+        window.location.replace('https://kodekula.com/masuk')
     }
 }
