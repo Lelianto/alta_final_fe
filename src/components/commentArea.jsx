@@ -7,12 +7,18 @@ import { actions, store } from '../stores/store';
 import { storage } from '../firebase';
 
 class CommentArea extends React.Component {
+    /**
+	 * @function updateContent() update global state with new content
+	 */
     updateContent=(newContent)=> {
         store.setState({
             newArticle: newContent
         })
     }
 
+    /**
+	 * @function onChange() catching new initialization content for updating upload photos
+	 */
     onChange=(evt)=>{
         const newContent = evt.editor.getData();
         store.setState({
@@ -21,6 +27,9 @@ class CommentArea extends React.Component {
         })
     }
 
+    /**
+	 * @function fileSelectedHandler() handling photo from local computer
+	 */
     fileSelectedHandler= async(event)=>{
         if(event.target.files[0]){
             store.setState({
@@ -29,6 +38,9 @@ class CommentArea extends React.Component {
         }
     }
 
+    /**
+	 * @function uploadArticlePhoto() upload article photo to firebase and get the link
+	 */
     uploadArticlePhoto =()=>{
         const image = store.getState().imageArticle
         const uploadPhotos = storage.ref(`images/${image.name}`).put(image);
@@ -38,7 +50,6 @@ class CommentArea extends React.Component {
         }, 
         (error) => {
             // Error Function
-            console.log(error)
         }, 
         ()=>{
             // Complete Function
@@ -75,7 +86,7 @@ class CommentArea extends React.Component {
                         <input style={{fontSize:'12px', paddingRight:'0', width:'194px'}} className='btn-outline-info' type='file' onChange={this.fileSelectedHandler}/>
                     </div>
                     <div className='col-md-4'>
-                        <button className='btn' style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className="btn btn-info" onClick={this.uploadArticlePhoto}>Upload</button>
+                        <button style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className="btn btn-info" onClick={this.uploadArticlePhoto}>Upload</button>
                     </div>
                     <div className="col-sm-4">
                         <Link style={{textDecoration:'none'}} className='link-button-text-area'>
@@ -94,7 +105,6 @@ class CommentArea extends React.Component {
                 </div>
                 :
                 <span></span>}
-                
                 <div className='container'>
                     {this.props.newArticle===''?
                         <button type='button' disabled className='btn btn-grad'>

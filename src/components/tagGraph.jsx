@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
 import axios from 'axios'
 import Loader from './loader'
-import { ColumnChart } from 'react-chartkick'
+import { PieChart } from 'react-chartkick'
 import 'chart.js'
 
 class Chart extends Component {
+    /**
+	 * @function getAllTag() get all tag by admin only
+	 */
     getAllTag = async () => {
         let menu =''
         if(store.getState().menu==='' || store.getState().menu===undefined){
@@ -15,7 +18,6 @@ class Chart extends Component {
         } else {
             menu = store.getState().menu
         }
-        console.log('isi menu',menu)
         const req = {
             method: "get",
             url: store.getState().baseUrl+"/admin"+menu,
@@ -23,39 +25,39 @@ class Chart extends Component {
                 Authorization: "Bearer " + localStorage.getItem('token')
             }
             }; 
-            const self = this
-            await axios(req)
-                .then(function (response) {
-					console.log('masuk')
-					store.setState({ allTag: response.data, isLoading:false})
-					console.log('all tag', store.getState().allTag)
-                    return response
+        const self = this
+        await axios(req)
+            .then(function (response) {
+                console.log('masuk')
+                store.setState({ allTag: response.data, isLoading:false})
+                console.log('all tag', store.getState().allTag)
+                return response
+            })
+            .catch((error)=>{
+                store.setState({ 
+                    isLoading: false
                 })
-                .catch((error)=>{
-                    store.setState({ 
-                        isLoading: false
-                    })
-                    switch (error.response.status) {
-                        case 401 :
-                            self.props.history.push('/401')
-                            break
-                        case 403 :
-                            self.props.history.push('/403')
-                            break
-                        case 404 :
-                            self.props.history.push('/404')
-                            break
-                        case 422 :
-                            self.props.history.push('/422')
-                            break
-                        case 500 :
-                            self.props.history.push('/500')
-                            break
-                        default :
-                            break
-                    }
-				})
-            }
+                switch (error.response.status) {
+                    case 401 :
+                        self.props.history.push('/401')
+                        break
+                    case 403 :
+                        self.props.history.push('/403')
+                        break
+                    case 404 :
+                        self.props.history.push('/404')
+                        break
+                    case 422 :
+                        self.props.history.push('/422')
+                        break
+                    case 500 :
+                        self.props.history.push('/500')
+                        break
+                    default :
+                        break
+                }
+            })
+        }
             
 	componentDidMount = ()=>{
 		this.getAllTag()
@@ -84,7 +86,7 @@ class Chart extends Component {
                 })
                 return (
                     <div>
-                        <ColumnChart data={dataPoints}/>
+                        <PieChart data={dataPoints}/>
                     </div>
                 )
             }

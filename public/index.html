@@ -24,7 +24,7 @@
 
     <meta property="og:title" content="Kodekula membantu programmer Indonesia">
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://kodekula.netlify.com/">
+    <meta property="og:url" content="https://kodekula.com/">
     <meta property="og:image" content="https://code.org/shared/images/social-media/codeorg2019_social.png">
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="Web ini dibuat oleh mentee Alterra"/>
@@ -181,10 +181,34 @@
       }
     </script>
 
+  <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
   <script type="text/javascript" src="signInGoogle.js"></script>
   <script type="text/javascript" src="logInGoogle.js"></script>
   <script type="text/javascript" src="logOut.js"></script>
-  
+  <script>
+    function init() {
+    gapi.load('auth2', function() {
+    // Ready.
+    gapi.auth2.init({client_id: 'deleted'});
+    });
+    }
+function googleLogout() {
+    // alert("googleLogout start");
+    //gapi.auth2.getAuthInstance().signOut();
+    //OR (both are same)
+    console.log('isi gapi', gapi.auth2)
+    var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+            console.log('User signed out.');
+            localStorage.removeItem('email')
+            localStorage.removeItem('username')
+            localStorage.removeItem('token')
+            localStorage.removeItem('loginGoogle')
+            localStorage.clear()
+            window.location.replace('http://localhost:3000/')
+        });   
+}  
+  </script>
   <script>
     // Example starter JavaScript for disabling form submissions if there are invalid fields
     (function() {

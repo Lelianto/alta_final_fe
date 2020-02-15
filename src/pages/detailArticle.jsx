@@ -1,6 +1,6 @@
 import React from 'react';
 import '../styles/css/articlePage.css';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
 import Header from '../components/header';
@@ -21,54 +21,47 @@ class DetailArticle extends React.Component {
         likeListLoading : true,
         contentLoading : true
     };
+
+    /**
+	 * @function getAllFirst() get all detail data
+	 */
     getAllFirst = ()=>{
         const req = {
             method: "get",
             url: store.getState().baseUrl+"/posting/toplevel/"+this.props.match.params.id
-          }; 
-          const questionIdParam = this.props.match.params.id
-          const self = this
-          axios(req)
-              .then(async (response) => {
+        }; 
+        const questionIdParam = this.props.match.params.id
+        const self = this
+        axios(req)
+            .then(async (response) => {
                 await store.setState({ 
-                  allArticleDatabase: response.data, 
-                  isLoading:false,
-                  questionId:questionIdParam
+                allArticleDatabase: response.data, 
+                isLoading:false,
+                questionId:questionIdParam
                 })
                 await self.setState({
                     comment:'',
                     contentLoading : false
                 })
                 return response
-              })
-              .catch((error)=>{
-                console.log(error)
+            })
+            .catch((error)=>{
                 store.setState({ 
-                  isLoading: false
+                isLoading: false
                 })
-                // switch (error.response.status) {
-                //   case 401 :
-                //       self.props.history.push('/login')
-                //       break
-                //   case 403 :
-                //       self.props.history.push('/403')
-                //       break
-                //   case 404 :
-                //       self.props.history.push('/404')
-                //       break
-                //   case 500 :
-                //       self.props.history.push('/500')
-                //       break
-                //   default :
-                //       break
-                // }
-              })
+            })
     }
     
+    /**
+	 * @function changeState() change state comment content
+	 */
     changeState = async (event) => {
         await this.setState({comment : event.target.value})
     }
 
+    /**
+	 * @function postComment() handle add comment in article
+	 */
     postComment = async () => {
         const parameters = {
             "content_type" : 'comment',
@@ -95,6 +88,9 @@ class DetailArticle extends React.Component {
         }
     }
 
+    /**
+	 * @function handleSeeComment() handle see and hide comment
+	 */
     handleSeeComment=()=>{
 		if(store.getState().seeComment){
 			store.setState({
@@ -107,10 +103,16 @@ class DetailArticle extends React.Component {
 		}
     }
     
+    /**
+	 * @function doSearch() handling searching
+	 */
     doSearch = () => {
         this.props.history.push('/pencarian')
-      }
-      
+    }
+    
+    /**
+	 * @function componentWillMount() trigger for content of page
+	 */
     componentWillMount = async () => {
         if (localStorage.getItem('token')!==null){
             this.getLikeList()
@@ -119,6 +121,9 @@ class DetailArticle extends React.Component {
         await this.props.getPopular();
     };
 
+    /**
+	 * @function editArticle() handling edit article 
+	 */
     editArticle = async (event) => {
         await store.setState({
             userId: event
@@ -126,6 +131,9 @@ class DetailArticle extends React.Component {
         await this.props.history.push('/artikel/' + event + '/edit');
     };
 
+    /**
+	 * @function deleteArticle() handling soft deleting article
+	 */
 	deleteArticle = async (event)=> {
 		store.setState({
 			articleId:event.id,
@@ -137,6 +145,9 @@ class DetailArticle extends React.Component {
         await this.props.history.push('/')
 	}
 
+    /**
+	 * @function getProfile() handling get user profile 
+	 */
 	getProfile = async (id, username) => {
 		await store.setState({
 			urlProfile : store.getState().baseUrl+'/users/'+id,
@@ -145,6 +156,9 @@ class DetailArticle extends React.Component {
 		await this.props.history.push('/profil/'+username+'/pertanyaan')
     }
     
+    /**
+	 * @function detailArticle() go to detail article page
+	 */
     detailArticle = async (event) => {
 		await store.setState({
 			userId: event
@@ -152,6 +166,9 @@ class DetailArticle extends React.Component {
 		await this.props.history.push('/artikel/' + event);
     };
     
+    /**
+	 * @function goToDetailQuestion() go to detail question page
+	 */
     goToDetailQuestion = async (event) => {
 		store.setState({
 			userId: event
@@ -179,6 +196,9 @@ class DetailArticle extends React.Component {
 		await this.setState({likeList : postId, likeListLoading : false})
 	}
 
+    /**
+	 * @function handleDeleteAnswer() handle soft delete answer
+	 */
     handleDeleteAnswer = async (event) => {
 		await store.setState({
 			idComment:event.id,
@@ -257,4 +277,5 @@ class DetailArticle extends React.Component {
 		);
 	}
 }
+
 export default connect('allArticleDatabase, startComment, newArticle, questionId, baseUrl,seeComment', actions)(withRouter(DetailArticle));

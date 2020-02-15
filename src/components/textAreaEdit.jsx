@@ -5,7 +5,6 @@ import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
 import { storage } from '../firebase'
-import Loader from '../components/loader'
 import { Markup } from 'interweave';
 import axios from 'axios';
 
@@ -276,7 +275,7 @@ class TextAreaEdit extends React.Component {
                                 <input style={{fontSize:'12px', paddingRight:'0', width:'194px'}} className='btn-outline-info' type='file' id="file" name="file" onChange={this.fileSelectedHandler}/>
                         </div>
                         <div className='col-md-4'>
-                            <button style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn-outline-info' className='btn btn-info' type='file' onClick={()=>this.uploadPhoto()}>Upload</button>
+                            <button style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn btn-info' type='file' onClick={()=>this.uploadPhoto()}>Upload</button>
                         </div>
                     <div className="col-sm-4">
                         <Link style={{textDecoration:'none'}} className='link-button-text-area'>
@@ -289,7 +288,7 @@ class TextAreaEdit extends React.Component {
                         <input style={{fontSize:'12px', paddingRight:'0', width:'194px'}} className='btn-outline-info' type='file' onChange={(event)=>this.fileSelectedHandler(event)}/>
                     </div>
                     <div className='col-md-4'>
-                        <button className='btn' style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn btn-info' onClick={()=>this.uploadArticlePhoto()}>Upload</button>
+                        <button style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn btn-info' onClick={()=>this.uploadArticlePhoto()}>Upload</button>
                     </div>
                     <div className="col-sm-4">
                         <Link style={{textDecoration:'none'}} className='link-button-text-area'>

@@ -17,11 +17,17 @@ class AdminLandingPage extends React.Component {
 		allQuestions : this.props.allQuestion.query_data
 	}
 
+	/**
+	 * @function handleChangePage() send admin to the others page based on event
+	 */
 	handleChangePage = (event) => {
 		localStorage.removeItem('grafik')
 		this.props.history.push('/admin'+event)
 	}
 
+	/**
+	 * @function handleChangePageMenu() send admin to question graph page
+	 */
 	handleChangePageMenu = (event) => {
 		store.setState({
 			menu:'/question'
@@ -29,6 +35,10 @@ class AdminLandingPage extends React.Component {
 		localStorage.setItem('grafik', '/question')
 		this.props.history.push('/admin'+event)
 	}
+
+	/**
+	 * @function getAllQuestion() get all question by admin
+	 */
 	getAllQuestion = async () => {
         const req = {
             method: "get",
@@ -37,43 +47,49 @@ class AdminLandingPage extends React.Component {
                 Authorization: "Bearer " + localStorage.getItem('token')
             }
             }; 
-            const self = this
-            await axios(req)
-                .then( async (response) => {
-					store.setState({ allQuestion: response.data, isLoading:false})
-					this.setState({searchResult : response.data.query_data})
-                    return response
-                })
-                .catch((error)=>{
-                    store.setState({ 
-                        isLoading: false
-                    })
-                    switch (error.response.status) {
-                        case 401 :
-                            self.props.history.push('/401')
-                            break
-                        case 403 :
-                            self.props.history.push('/403')
-                            break
-                        case 404 :
-                            self.props.history.push('/404')
-                            break
-                        case 422 :
-                            self.props.history.push('/422')
-                            break
-                        case 500 :
-                            self.props.history.push('/500')
-                            break
-                        default :
-                            break
-                    }
-                })
-			}
+		const self = this
+		await axios(req)
+			.then( async (response) => {
+				store.setState({ allQuestion: response.data, isLoading:false})
+				this.setState({searchResult : response.data.query_data})
+				return response
+			})
+			.catch((error)=>{
+				store.setState({ 
+					isLoading: false
+				})
+				switch (error.response.status) {
+					case 401 :
+						self.props.history.push('/401')
+						break
+					case 403 :
+						self.props.history.push('/403')
+						break
+					case 404 :
+						self.props.history.push('/404')
+						break
+					case 422 :
+						self.props.history.push('/422')
+						break
+					case 500 :
+						self.props.history.push('/500')
+						break
+					default :
+						break
+				}
+			})
+		}
 
+	/**
+	 * @function componentWillMount() trigger get all question by admin
+	 */
 	componentWillMount = ()=>{
 		this.getAllQuestion()
 	}
 
+	/**
+	 * @function deleteQuestion() handle soft delete question by admin
+	 */
 	deleteQuestion = async (event)=> {
 		store.setState({
 			articleId:event.id,
@@ -87,10 +103,12 @@ class AdminLandingPage extends React.Component {
         await this.props.history.push('/admin/pertanyaan')
 	}
 
+	/**
+	 * @function searchQuestion() handle search article by admin
+	 */
 	searchQuestion = async (event) => {
 		await this.setState({search : event.target.value})
 		const allQuestion = await this.props.allQuestion.query_data
-
 		if (this.state.search.length > 0) {
 			const searchData = allQuestion.filter(question => 
 				question.posting_detail.title.toLowerCase().indexOf(this.state.search) > -1 ||

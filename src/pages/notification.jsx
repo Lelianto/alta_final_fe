@@ -4,8 +4,6 @@ import '../styles/css/signUp.css';
 import '../styles/css/home.css';
 import { connect } from "unistore/react";
 import { actions, store } from "../stores/store";
-import axios from 'axios';
-import Swal from 'sweetalert2';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import Moment from 'react-moment';
@@ -14,7 +12,9 @@ import Loader from '../components/loader';
 import Axios from 'axios';
 
 class Notification extends React.Component {
-
+    /**
+	 * @function doSearch() handling searching
+	 */
     doSearch = () => {
         this.props.history.push('/pencarian')
       }
@@ -51,7 +51,6 @@ class Notification extends React.Component {
     }
 
 	render() {
-
         const notifications = this.props.notification.map((item) => {
             const isRead = item.is_read
             let bgColor;
@@ -87,7 +86,6 @@ class Notification extends React.Component {
                 </div>
             )
         })
-
 		return (
 			<React.Fragment>
 				<Header doSearch={this.doSearch}/>

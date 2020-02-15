@@ -7,14 +7,11 @@ import Footer from '../components/footer';
 import InterestList from '../components/interestList';
 import PopularList from '../components/popularList';
 import UserOwnFile from '../components/userOwnFile';
-import Graph from '../components/tagGraph';
 import axios from 'axios';
-import Butter from 'buttercms'
 import { Helmet } from 'react-helmet';
 import Loader from '../components/loader';
 // import Skeleton from '@material-ui/lab/Skeleton'
 
-const butter = Butter('31d63e3ae80e878f31b54be79123e3052be26bd4');
 class Home extends React.Component {
 	state = {
 		userInterest: [],
@@ -339,7 +336,6 @@ class Home extends React.Component {
 				<div></div>
 			)
 		} else {
-			console.log('isi posting', this.state.postingList)
 			return (
 				<React.Fragment>
 					<Header doSearch={this.doSearch} />

@@ -1,10 +1,9 @@
 import React from 'react';
 import '../styles/css/userownarticle.css';
-import { actions, store } from '../stores/store';
+import { actions } from '../stores/store';
 import { connect } from 'unistore/react'
 import { withRouter } from 'react-router-dom';
 import { Markup } from 'interweave';
-import Loader from '../components/loader'
 
 class PreviewArticle extends React.Component {
   render() {

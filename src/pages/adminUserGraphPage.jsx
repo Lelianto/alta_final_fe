@@ -1,9 +1,8 @@
 import React from 'react';
 import '../styles/css/adminPage.css';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
-import axios from 'axios'
 import Header from '../components/headerAdmin';
 import Footer from '../components/footer';
 import AdminMenu from '../components/adminMenu';
@@ -11,10 +10,17 @@ import Graph from '../components/lineGraph';
 
 
 class AdminLandingPage extends React.Component {
+	/**
+	 * @function handleChangePage() send admin to the others page based on event
+	 */
 	handleChangePage = (event) => {
 		localStorage.removeItem('grafik')
 		this.props.history.push('/admin'+event)
 	}
+
+	/**
+	 * @function handleChangePageMenu() send admin to question datas page
+	 */
 	handleChangePageMenu = (event) => {
 		store.setState({
 			menu:'/user'
@@ -22,51 +28,7 @@ class AdminLandingPage extends React.Component {
 		localStorage.setItem('grafik', '/user')
 		this.props.history.push('/admin'+event)
 	}
-	// getAmount = async () => {
-    //     const req = {
-    //         method: "get",
-    //         url: store.getState().baseUrl+"/admin/chart/user",
-    //         headers: {
-    //             Authorization: "Bearer " + localStorage.getItem('token')
-    //         }
-    //         }; 
-    //         const self = this
-    //         await axios(req)
-    //             .then(function (response) {
-	// 				console.log('masuk')
-	// 				store.setState({ allData: response.data, isLoading:false})
-	// 				console.log('all data', store.getState().allData)
-    //                 return response
-    //             })
-    //             .catch((error)=>{
-    //                 store.setState({ 
-    //                     isLoading: false
-    //                 })
-    //                 switch (error.response.status) {
-    //                     case 401 :
-    //                         self.props.history.push('/401')
-    //                         break
-    //                     case 403 :
-    //                         self.props.history.push('/403')
-    //                         break
-    //                     case 404 :
-    //                         self.props.history.push('/404')
-    //                         break
-    //                     case 422 :
-    //                         self.props.history.push('/422')
-    //                         break
-    //                     case 500 :
-    //                         self.props.history.push('/500')
-    //                         break
-    //                     default :
-    //                         break
-    //                 }
-	// 			})
-    //         }
-            
-	// componentDidMount = ()=>{
-	// 	this.getAmount()
-    // }
+
 	render() {
 		return (
 			<React.Fragment>
@@ -100,6 +62,18 @@ class AdminLandingPage extends React.Component {
 						<div className='col-md-2'></div>
 						<div className='col-md-8' style={{backgroundColor:'white', borderRadius:'15px', padding:'20px'}}>
 							<Graph/>
+							<div className='row' style={{paddingTop:'20px', color:'grey'}}>
+								<div className='col-md-2'>
+								</div>
+								<div className='col-md-4'>
+									sumbu x : tanggal
+								</div>
+								<div className='col-md-4'>
+									sumbu y : total pengguna
+								</div>
+								<div className='col-md-2'>
+								</div>
+							</div>
 						</div>
 						<div className='col-md-2'></div>
 					</div>
