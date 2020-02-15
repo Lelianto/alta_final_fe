@@ -7,6 +7,7 @@ import Footer from '../components/footer';
 import InterestList from '../components/interestList';
 import PopularList from '../components/popularList';
 import UserOwnFile from '../components/userOwnFile';
+import Loader from '../components/loader';
 import axios from 'axios';
 
 
@@ -18,7 +19,10 @@ class Search extends React.Component {
 		excludeTags: [],
 		postingList: [],
 		userDetail : {},
-		likeList : []
+		likeList : [],
+		likeListLoading : true,
+		interestLoading : true,
+		contentLoading : true
 	};
 
 	componentDidMount = async () => {
@@ -88,13 +92,12 @@ class Search extends React.Component {
 			}
 		}
 
-		await this.setState({ filterInterest: filterInterest, excludeTags: excludeTags });
-		await store.setState({ filterInterest: filterInterest, excludeTags: excludeTags });
+		await this.setState({ filterInterest: filterInterest, excludeTags: excludeTags, interestLoading : false });
 	};
 
 	getPostingList = async () => {
 		const parameters = {
-            keyword: this.props.keyword,
+            keyword : this.props.keyword,
             content_type : this.props.locationPage
 		};
 
@@ -108,11 +111,14 @@ class Search extends React.Component {
 		};
 		await axios(posting)
 			.then(async (response) => {
-				await this.setState({ postingList: response.data.query_data });
+				await this.setState({ postingList: response.data.query_data, contentLoading : false });
 			})
 			.catch(async (error) => {
 				await console.warn(error);
 			});
+		if (localStorage.getItem('token')===null){
+			this.setState({likeListLoading : false})
+		}
 	};
 
 	seeAll = () => {
@@ -178,11 +184,12 @@ class Search extends React.Component {
 		};
 		const likeListRes = await axios(like)
 		await likeListRes.data.map(async like => {
-			if (like.deleted === false) {
+			if ((like.deleted === false && like.content_type === 'article') 
+			|| (like.deleted === false && like.content_type === 'question')) {
 				await postId.push(like.locator_id)
 			}
 		})
-		await this.setState({likeList : postId, contentLoading : false})
+		await this.setState({likeList : postId, likeListLoading : false})
 	}
 
 	render() {
@@ -192,15 +199,22 @@ class Search extends React.Component {
 				<div className="container-fluid pt-4">
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5 overflow">
+							{this.state.interestLoading === true ?
+							<div className="pl-5 pr-5"><Loader/></div>
+							:
 							<InterestList
 								tags={this.state.filterInterest}
 								excludeTags={this.state.excludeTags}
 								seeAll={this.seeAll}
 								checkAll={() => this.checkAll()}
 							/>
+							}
 						</div>
 						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow">
-							{this.state.postingList.map((content, i) => (
+							{this.state.likeListLoading === true && this.state.contentLoading === true ? 
+							<div className="pl-5 pr-5"><Loader/></div>	
+							:
+							this.state.postingList.map((content, i) => (
 								<UserOwnFile
 									typeContent={content.posting_detail.content_type}
 									content={content}
@@ -210,7 +224,8 @@ class Search extends React.Component {
 									likeList={this.state.likeList}
 									getProfile={this.getProfile}
 								/>
-							))}
+							))
+						}
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow">
 							<PopularList article={this.state.article} />

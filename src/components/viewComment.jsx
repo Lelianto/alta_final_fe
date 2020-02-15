@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/css/userownarticle.css';
+import '../styles/css/materialIcons.css';
 import { actions, store } from '../stores/store';
 import { connect } from 'unistore/react'
 import { withRouter, Link } from 'react-router-dom';
@@ -19,16 +20,12 @@ const ViewComment = (props) => {
       </div>
     )
   } else {
-    console.warn('all database', props.allArticleDatabase)
     let allComment = props.allArticleDatabase.second_data.second_detail_list
-    // const contentType = props.allArticleDatabase.posting_data.posting_detail.content_type
-    
     return (
       <div>
-        {allComment.map((comment, index)=>
+        {allComment.map((comment, index)=> 
         <div style={{textAlign:'left', marginBottom:'20px'}}>
           <Helmet>
-            {/* <title>{comment.user_data.username}</title> */}
             <meta name="description" content={comment.posting_detail.html_content} />
           </Helmet>
           {comment.posting_detail.content_status !== 2?
@@ -62,30 +59,49 @@ const ViewComment = (props) => {
                       {comment.posting_detail.content_type === 'answer' ? 
                         <div className="row" style={{paddingTop:'10px'}}>
                         <div className="text-right mt-2 col-md-7"></div>
-                        <div className="text-right mt-2 col-md-1 ml-5">
+                        <div className="text-right mt-2 col-md-2 ml-5">
+                          {comment.user_data.username === localStorage.getItem('username')?
                           <Link onClick={()=>props.handleDeleteAnswer(comment.posting_detail)} style={{textDecoration:'none', paddingRight:'0px'}}>
                             <i className="material-icons" style={{fontSize:'28px'}}>delete</i>
                           </Link>
+                          :
+                          <span></span>
+                          }
                         </div>
                         <div className="text-right mt-2 col-md-1 ml-5">
-                          {(props.likeAnswer === true)?
+                          {props.slLikeList.includes(comment.posting_detail.id)?
                             <div className="text-center">
-                              <img onClick={()=>store.setState({likeAnswer:false})} style={{width:'120%'}} src={like} alt="img"/>
-                              <div>
-                                {comment.posting_detail.point+1}
+                              <Link onClick={()=>props.likePosting(comment.posting_detail.id, 'answer')} style={{color:'black'}}><i id={comment.posting_detail.id}className="material-icons">thumb_up</i></Link>
+                              <div id={'point'+comment.posting_detail.id}>
+                                {comment.posting_detail.point}
                               </div>
                             </div>
                             :
                             <div className="text-center">
-                              <img onClick={()=>store.setState({likeAnswer:true})} style={{width:'120%'}} src={havelike} alt="img"/>
-                              <div>
-                              {comment.posting_detail.point}
+                              <Link onClick={()=>props.likePosting(comment.posting_detail.id, 'answer')} style={{color:'black'}}><i id={comment.posting_detail.id}className="material-icons-outlined">thumb_up</i></Link>
+                              <div id={'point'+comment.posting_detail.id}>
+                                {comment.posting_detail.point}
                               </div>
                             </div>
                           }
+                          
                         </div>
                         </div>
-                      : null}
+                      : 
+                      <div className='row'>
+                        <div className='col-md-10'>
+                        </div>
+                        <div className='col-md-2' style={{marginTop:'10px', marginBottom:'-10px'}}>
+                          {comment.user_data.username === localStorage.getItem('username')?
+                          <Link onClick={()=>props.handleDeleteAnswer(comment.posting_detail)} style={{textDecoration:'none', paddingRight:'0px'}}>
+                            <i className="material-icons" style={{fontSize:'28px'}}>delete</i>
+                          </Link>
+                          :
+                          <span></span>
+                          }
+                        </div>
+                      </div>
+                      }
                   </div>
                 </div>
               </div>

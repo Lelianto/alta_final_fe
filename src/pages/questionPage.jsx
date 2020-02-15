@@ -29,7 +29,11 @@ class QuestionPage extends React.Component {
 		post:null,
 		chosenPost: [],
 		contentLoading : true,
-		likeList : []
+		likeListLoading : true,
+		interestLoading : true,
+		likeList : [],
+		page : 1,
+		infoPage:{}
 	};
 
 	componentDidMount = async () => {
@@ -80,7 +84,6 @@ class QuestionPage extends React.Component {
 		await axios(tags)
 		.then(async (response) => {
 			await this.setState({interestList : response.data})
-			await store.setState({interestList : response.data})
 		})
 		.catch(async (error) => {
 			await console.warn(error)
@@ -104,13 +107,14 @@ class QuestionPage extends React.Component {
 			}
 		}
 
-		await this.setState({filterInterest : filterInterest, excludeTags : excludeTags})
-		await store.setState({filterInterest : filterInterest, excludeTags : excludeTags})
+		await this.setState({filterInterest : filterInterest, excludeTags : excludeTags, interestLoading : false})
 	}
 
 	getPostingList = async () => {
 		const parameter = {
-			content_type : 'question'
+			content_type : 'question',
+			p: this.state.page,
+			rp: this.state.contentPage
 		}
 		const posting = {
 			method: 'get',
@@ -122,7 +126,7 @@ class QuestionPage extends React.Component {
 		};
 		await axios(posting)
 		.then(async (response) => {
-			await this.setState({postingList : response.data.query_data})
+			await this.setState({postingList : response.data.query_data, infoPage:response.data.query_info})
 		})
 		.catch(async (error) => {
 			await console.warn(error)
@@ -154,9 +158,9 @@ class QuestionPage extends React.Component {
 				}
 			});
 		});
-		await this.setState({chosenPost : chosenPost})
+		await this.setState({chosenPost : chosenPost, contentLoading : false})
 		if(localStorage.getItem('token') === null) {
-			this.setState({ contentLoading : false})
+			await this.setState({ likeListLoading : false})
 		}
 	};
 
@@ -256,11 +260,30 @@ class QuestionPage extends React.Component {
 		};
 		const likeListRes = await axios(like)
 		await likeListRes.data.map(async like => {
-			if (like.deleted === false) {
+			if (like.content_type === 'question' && like.deleted === false) {
 				await postId.push(like.locator_id)
 			}
 		})
-		await this.setState({likeList : postId, contentLoading : false})
+		await this.setState({likeList : postId, likeListLoading : false})
+	}
+	handleNext = async () => {
+		const before = this.state.page+1
+		this.setState({
+			page : before,
+			contentLoading : true
+		})
+		await this.getPostingList()
+		await this.filterPosting()
+	}
+
+	handleBefore = async () => {
+		const before = this.state.page-1
+		this.setState({
+			page : before,
+			contentLoading:true
+		})
+		await this.getPostingList()
+		await this.filterPosting()
 	}
 	
 	render() {
@@ -284,13 +307,19 @@ class QuestionPage extends React.Component {
 							chooseTags={this.chooseTags}/>
 						</div>
 						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow">
-							{this.state.contentLoading === true? 
+							{!this.state.contentLoading && !this.state.likeListLoading? 
+								this.state.chosenPost.map((content, i) => 
+								<UserOwnFile 
+								editQuestion={(e)=>this.editQuestion(e)} 
+								goToDetailQuestion={(event) =>this.goToDetailQuestion(event)} deleteQuestion={(e)=>this.deleteQuestion(e)} 
+								typeContent={content.posting_detail.content_type} 
+								content={content} userDetail={this.state.userDetail} 
+								getProfile={this.getProfile}
+								likeList={this.state.likeList}/>)
+								:
 							<div>
 								<Loader/>
 							</div> 
-							:
-								this.state.chosenPost.map((content, i) => <UserOwnFile editQuestion={(e)=>this.editQuestion(e)} goToDetailQuestion={(event) =>this.goToDetailQuestion(event)} deleteQuestion={(e)=>this.deleteQuestion(e)} typeContent={content.posting_detail.content_type} content={content} userDetail={this.state.userDetail} getProfile={this.getProfile}
-								likeList={this.state.likeList}/>)
 							}
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow" >
@@ -301,6 +330,29 @@ class QuestionPage extends React.Component {
 							:
 							<PopularList detailArticle={(e)=>this.detailArticle(e)} detailQuestion={(e)=>this.goToDetailQuestion(e)}/>
 							}
+						</div>
+					</div>
+				</div>
+				<div className='container'>
+					<div className='row'>
+						<div className='col-md-5'>
+						</div>
+						<div className='col-md-2'>
+							<ul class="pagination pagination-lg" style={{fontSize:'30px', marginBottom:'-30px', marginTop:'20px'}}>
+								{this.state.page===1?
+								<Link className='box-pagination-empty'>&laquo;</Link>
+								:
+								<Link onClick={()=>this.handleBefore()} className='box-pagination-left'>&laquo;</Link>
+								}
+								<Link className='box-pagination-number'>{this.state.page}</Link>
+								{this.state.infoPage.total_pages === this.state.page?
+								<Link className='box-pagination-empty'>&raquo;</Link>
+								:
+								<Link onClick={()=>this.handleNext()} className='box-pagination-right'>&raquo;</Link>
+								}
+							</ul>
+						</div>
+						<div className='col-md-5'>
 						</div>
 					</div>
 				</div>

@@ -7,6 +7,7 @@ import Footer from '../components/footer';
 import InterestList from '../components/interestList';
 import PopularList from '../components/popularList';
 import UserOwnFile from '../components/userOwnFile';
+import Graph from '../components/tagGraph';
 import axios from 'axios';
 import Butter from 'buttercms'
 import { Helmet } from 'react-helmet';
@@ -30,9 +31,10 @@ class Home extends React.Component {
 		contentLoading : true,
 		likeListLoading : true,
 		popularLoading : true,
+		page : 1,
+		infoPage:{},
 		likeList : []
 	};
-	
 
 	componentDidMount = async () => {
 		if(localStorage.getItem('token')!== null){
@@ -43,15 +45,6 @@ class Home extends React.Component {
 		await this.filterPosting();
 		await this.props.getPopular();
 	};
-
-	fetchPosts =(page) => {
-		butter.post.list({page: page, page_size: 10}).then((resp) => {
-		  this.setState({
-			loaded: true,
-			resp: resp.data
-		  })
-		});
-	  }
 
 	getUserTags = async () => {
 		const tags = {
@@ -120,17 +113,22 @@ class Home extends React.Component {
 	};
 
 	getPostingList = async () => {
+		const parameters = {
+			p: this.state.page,
+			rp: this.state.contentPage
+		};
 
 		const posting = {
 			method: 'get',
 			url: store.getState().baseUrl+'/posting/toplevel',
 			headers: {
 				'Content-Type': 'application/json'
-			}
+			},
+			params : parameters
 		};
 		await axios(posting)
 			.then(async (response) => {
-				await this.setState({ postingList: response.data.query_data });
+				await this.setState({ postingList: response.data.query_data, infoPage:response.data.query_info });
 			})
 			.catch(async (error) => {
 				await console.warn(error);
@@ -283,11 +281,15 @@ class Home extends React.Component {
 	}
 
 	getProfile = async (id, username) => {
-		await store.setState({
-			urlProfile : store.getState().baseUrl+'/users/'+id,
-			uname : username
-		})
-		await this.props.history.push('/profil/'+username+'/pertanyaan')
+		if(username===localStorage.getItem('username')){
+			await this.props.history.push('/profil/pertanyaan')
+		} else {
+			await store.setState({
+				urlProfile : store.getState().baseUrl+'/users/'+id,
+				uname : username
+			})
+			await this.props.history.push('/profil/'+username+'/pertanyaan')
+		}
 	}
 	
 	getLikeList = async () => {
@@ -298,16 +300,36 @@ class Home extends React.Component {
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: 'Bearer ' + localStorage.getItem('token')
-
 			}
 		};
 		const likeListRes = await axios(like)
 		await likeListRes.data.map(async like => {
-			if (like.deleted === false) {
+			if ((like.deleted === false && like.content_type === 'article') 
+			|| (like.deleted === false && like.content_type === 'question')) {
 				await postId.push(like.locator_id)
 			}
 		})
 		await this.setState({likeList : postId, likeListLoading : false})
+	}
+
+	handleNext = async () => {
+		const before = this.state.page+1
+		await this.setState({
+			page : before,
+			contentLoading : true
+		})
+		await this.getPostingList()
+		await this.filterPosting()
+	}
+
+	handleBefore = async () => {
+		const before = this.state.page-1
+		await this.setState({
+			page : before,
+			contentLoading:true
+		})
+		await this.getPostingList()
+		await this.filterPosting()
 	}
 
 	render() {
@@ -317,6 +339,7 @@ class Home extends React.Component {
 				<div></div>
 			)
 		} else {
+			console.log('isi posting', this.state.postingList)
 			return (
 				<React.Fragment>
 					<Header doSearch={this.doSearch} />
@@ -329,25 +352,18 @@ class Home extends React.Component {
 					<div className="container-fluid pt-4">
 						<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 							<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5 overflow">
-								{this.state.interestLoading === true ? 
-								<div className='pl-5 pr-5'>
-									<Loader/>
-								</div>
-								:
-								<InterestList
+								<InterestList loading={this.state.interestLoading}
 									tags={this.state.filterInterest}
 									excludeTags={this.state.excludeTags}
 									seeAll={this.seeAll}
 									checkAll={() => this.checkAll()}
 									chooseTags={this.chooseTags}
 								/>
-								}
 							</div>
 							<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow">
-							{this.state.contentLoading === true ?
-								<div> <Loader/> </div> :
+							{!this.state.contentLoading && !this.state.likeListLoading ?
 								this.state.chosenPost.map((content, i) => (
-									<UserOwnFile deleteArticle={(e)=>this.deleteArticle(e)} deleteQuestion={(e)=>this.deleteQuestion(e)}
+									<UserOwnFile loading={this.state.contentLoading} deleteArticle={(e)=>this.deleteArticle(e)} deleteQuestion={(e)=>this.deleteQuestion(e)}
 										typeContent={content.posting_detail.content_type}
 										content={content}
 										editArticle={(e) => this.editArticle(e)}
@@ -358,8 +374,9 @@ class Home extends React.Component {
 										getProfile={this.getProfile}
 										likeList={this.state.likeList}
 									/>
-								))
-								}
+								)) :
+								<div> <Loader/> </div> 
+							}
 							</div>
 							<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow">
 								{this.props.popularLoading === true ?
@@ -370,6 +387,29 @@ class Home extends React.Component {
 								:
 								<PopularList detailArticle={(e)=>this.detailArticle(e)} detailQuestion={(e)=>this.goToDetailQuestion(e)}/>
 								}
+							</div>
+						</div>
+					</div>
+					<div className='container'>
+						<div className='row'>
+							<div className='col-md-5'>
+							</div>
+							<div className='col-md-2'>
+								<ul class="pagination pagination-lg" style={{fontSize:'30px', marginBottom:'-30px', marginTop:'20px'}}>
+									{this.state.page===1?
+									<Link className='box-pagination-empty'>&laquo;</Link>
+									:
+									<Link onClick={()=>this.handleBefore()} className='box-pagination-left'>&laquo;</Link>
+									}
+									<Link className='box-pagination-number'>{this.state.page}</Link>
+									{this.state.infoPage.total_pages === this.state.page?
+									<Link className='box-pagination-empty'>&raquo;</Link>
+									:
+									<Link onClick={()=>this.handleNext()} className='box-pagination-right'>&raquo;</Link>
+									}
+								</ul>
+							</div>
+							<div className='col-md-5'>
 							</div>
 						</div>
 					</div>

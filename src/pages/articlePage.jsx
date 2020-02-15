@@ -29,8 +29,11 @@ class ArticlePage extends React.Component {
 		userDetail : {},
 		popularLoading : true,
 		contentLoading : true,
+		likeListCoding : true,
 		interestLoading : true,
-		likeList : []
+		likeList : [],
+		page : 1,
+		infoPage:{}
 	};
 
 	seeAll = () => {
@@ -120,12 +123,13 @@ class ArticlePage extends React.Component {
 		}
 
 		await this.setState({filterInterest : filterInterest, excludeTags : excludeTags, interestLoading : false})
-		await store.setState({filterInterest : filterInterest, excludeTags : excludeTags})
 	}
 
 	getPostingList = async () => {
 		const parameter = {
-			content_type : 'article'
+			content_type : 'article',
+			p: this.state.page,
+			rp: this.state.contentPage
 		}
 
 		const posting = {
@@ -138,7 +142,7 @@ class ArticlePage extends React.Component {
 		};
 		await axios(posting)
 		.then(async (response) => {
-			await this.setState({postingList : response.data.query_data})
+			await this.setState({postingList : response.data.query_data, infoPage:response.data.query_info})
 		})
 		.catch(async (error) => {
 			await console.warn(error)
@@ -182,9 +186,9 @@ class ArticlePage extends React.Component {
 				}
 			});
 		});
-		await this.setState({chosenPost : chosenPost})
+		await this.setState({chosenPost : chosenPost, contentLoading : false})
 		if(localStorage.getItem('token') === null) {
-			this.setState({ contentLoading : false})
+			await this.setState({ likeListCoding : false})
 		}
 	};
 
@@ -291,11 +295,30 @@ class ArticlePage extends React.Component {
 		};
 		const likeListRes = await axios(like)
 		await likeListRes.data.map(async like => {
-			if (like.deleted === false) {
+			if (like.content_type === 'article' && like.deleted === false) {
 				await postId.push(like.locator_id)
 			}
 		})
-		await this.setState({likeList : postId, contentLoading : false})
+		await this.setState({likeList : postId, likeListCoding : false})
+	}
+	handleNext = async () => {
+		const before = this.state.page+1
+		this.setState({
+			page : before,
+			contentLoading : true
+		})
+		await this.getPostingList()
+		await this.filterPosting()
+	}
+
+	handleBefore = async () => {
+		const before = this.state.page-1
+		this.setState({
+			page : before,
+			contentLoading:true
+		})
+		await this.getPostingList()
+		await this.filterPosting()
 	}
 
 	render() {
@@ -324,13 +347,13 @@ class ArticlePage extends React.Component {
 						}
 						</div>
 						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow">
-							{this.state.contentLoading === true? 
+							{!this.state.contentLoading && !this.state.likeListCoding ? 
+								this.state.chosenPost.map((content, i) => <UserOwnFile  deleteArticle={(e)=>this.deleteArticle(e)} typeContent={content.posting_detail.content_type} content={content} editArticle={(e)=>this.editArticle(e)} detailArticle={(e)=>this.detailArticle(e)} userDetail={this.state.userDetail} getProfile={this.getProfile}
+								likeList={this.state.likeList}/>)
+							:
 							<div className="pr-5 pl-5">
 								<Loader/>
 							</div>
-							:
-								this.state.chosenPost.map((content, i) => <UserOwnFile  deleteArticle={(e)=>this.deleteArticle(e)} typeContent={content.posting_detail.content_type} content={content} editArticle={(e)=>this.editArticle(e)} detailArticle={(e)=>this.detailArticle(e)} userDetail={this.state.userDetail} getProfile={this.getProfile}
-								likeList={this.state.likeList}/>)
 							}
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow">
@@ -341,6 +364,29 @@ class ArticlePage extends React.Component {
 								:
 								<PopularList detailArticle={(e)=>this.detailArticle(e)} detailQuestion={(e)=>this.goToDetailQuestion(e)}/>
 								}
+						</div>
+					</div>
+				</div>
+				<div className='container'>
+					<div className='row'>
+						<div className='col-md-5'>
+						</div>
+						<div className='col-md-2'>
+							<ul class="pagination pagination-lg" style={{fontSize:'30px', marginBottom:'-30px', marginTop:'20px'}}>
+								{this.state.page===1?
+								<Link className='box-pagination-empty'>&laquo;</Link>
+								:
+								<Link onClick={(e)=>this.handleBefore()} className='box-pagination-left'>&laquo;</Link>
+								}
+								<Link className='box-pagination-number'>{this.state.page}</Link>
+								{this.state.infoPage.total_pages === this.state.page?
+								<Link className='box-pagination-empty'>&raquo;</Link>
+								:
+								<Link onClick={(e)=>this.handleNext()} className='box-pagination-right'>&raquo;</Link>
+								}
+							</ul>
+						</div>
+						<div className='col-md-5'>
 						</div>
 					</div>
 				</div>

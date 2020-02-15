@@ -26,7 +26,6 @@ const DetailArticleQuestion =(props)=> {
       return (
         <div style={{textAlign:'left', marginBottom:'20px', marginTop:'25px'}}>
           <Helmet>
-            {/* <title>{postingDetail.title}</title> */}
             <meta name="description" content={htmlArticle} />
           </Helmet>
           <div className='row box-control'>

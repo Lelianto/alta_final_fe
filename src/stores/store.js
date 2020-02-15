@@ -22,6 +22,8 @@ const initialState = {
 	getCodeResultUrl: 'https://cors-anywhere.herokuapp.com/api.paiza.io:80/runners/get_details',
 	codeCompilerResult: '',
 	baseUrl:'https://api.kodekula.com',
+	// baseUrl:'http://13.229.122.5:5000',
+	// baseUrl: 'https://kodekula.herokuapp.com',
 	username: '',
 	password: '',
 	email: '',
@@ -68,7 +70,9 @@ const initialState = {
 	putTag :[],
 	idUser : '',
 	htmlContent:'',
-	idComment:''
+	idComment:'',
+	notification : [],
+	notifLoading : true
 }
 
 export const store = createStore(initialState);
@@ -419,7 +423,6 @@ export const actions = (store) => ({
 			data: articleDetails
 		};
 		// data=JSON.stringify(data)
-		console.log(articleDetails);
 		await axios(req)
 			.then((response) => {
 				store.setState({
@@ -429,7 +432,6 @@ export const actions = (store) => ({
 					imageUrl:'',
 					lastArticleQuestion:''
 				})
-				console.log('terhapus')
 				return response
 			})
 			.catch((error) => {
@@ -529,13 +531,11 @@ export const actions = (store) => ({
 		await store.setState({ responseStatus: getDataRes.status});
 		if (getDataRes.status === 200) {
 			await store.setState({ responseData: getDataRes.data}); 
-			await console.log('isi respon data user',store.getState().responseData)
 		}
 	},
 	
 	getToken: async (state) => {
 		const responseData = await state.responseData;
-		console.warn('respon', responseData);
 		if (responseData.hasOwnProperty('token')) {
 			await localStorage.setItem('token', responseData.token);
 			await localStorage.setItem('username', state.username);
@@ -577,16 +577,17 @@ export const actions = (store) => ({
 					menuBarUpload:false,
 					newArticle:''
 				})
+			console.log('isi response', response)
 			})
 			.catch(error => {
 				return false
 		})
 	},
 
-	getPopular : async () => {
+	getPopular : async (state) => {
 		const popular = {
 			method: 'get',
-			url: store.getState().baseUrl+'/posting/popular',
+			url: state.baseUrl+'/posting/popular',
 			headers: {
 				'Content-Type': 'application/json'
 			}

@@ -7,6 +7,7 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import PopularList from '../components/popularList';
 import AccessDetailArticle from '../components/detailArticleQuestion';
+import Loader from '../components/loader';
 import { Helmet } from 'react-helmet';
 import axios from 'axios';
 import user from '../images/user.png';
@@ -17,6 +18,7 @@ class DetailArticle extends React.Component {
 	state = {
         comment : '',
         likeList : [],
+        likeListLoading : true,
         contentLoading : true
     };
     getAllFirst = ()=>{
@@ -27,14 +29,15 @@ class DetailArticle extends React.Component {
           const questionIdParam = this.props.match.params.id
           const self = this
           axios(req)
-              .then((response) => {
-                store.setState({ 
+              .then(async (response) => {
+                await store.setState({ 
                   allArticleDatabase: response.data, 
                   isLoading:false,
                   questionId:questionIdParam
                 })
-                self.setState({
-                    comment:''
+                await self.setState({
+                    comment:'',
+                    contentLoading : false
                 })
                 return response
               })
@@ -157,7 +160,7 @@ class DetailArticle extends React.Component {
     };
     
     getLikeList = async () => {
-		const postId = []
+        const postId = []
 		const like = {
 			method: 'get',
 			url: store.getState().baseUrl+'/point',
@@ -169,11 +172,21 @@ class DetailArticle extends React.Component {
 		};
 		const likeListRes = await axios(like)
 		await likeListRes.data.map(async like => {
-			if (like.deleted === false) {
+			if (like.content_type === 'article' && like.deleted === false) {
 				await postId.push(like.locator_id)
 			}
 		})
-		await this.setState({likeList : postId, contentLoading : false})
+		await this.setState({likeList : postId, likeListLoading : false})
+	}
+
+    handleDeleteAnswer = async (event) => {
+		await store.setState({
+			idComment:event.id,
+			htmlContent:event.html_content
+		})
+		await this.props.delComment()
+		await this.getAllFirst()
+		await this.props.history.push('/pertanyaan/'+this.props.match.params.id)
 	}
 
 	render() {
@@ -182,32 +195,38 @@ class DetailArticle extends React.Component {
 				<Header doSearch={this.doSearch}/>
 				<div className="container-fluid pt-4">
                     <Helmet>
-                        {/* <title>Artikel</title> */}
                         <meta name="description" content="Berisi artikel yang membahas tentang pemrograman" />
                     </Helmet>
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 						<div className="col-lg-1 col-md-1 col-sm-12 col-12 mt-5">
 						</div>
 						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow" >
+                            {!this.state.contentLoading && !this.likeListLoading ?
+                            <React.Fragment>
                             <AccessDetailArticle 
                                 editArticle={(e)=>this.editArticle(e)}
                                 deleteArticle={(e)=>this.deleteArticle(e)} 
                                 getProfile={this.getProfile}
                                 likeList={this.state.likeList}
-                            />
-                            {store.getState().seeComment?
+                                />
+                                {store.getState().seeComment ?
                                 <div>
                                     <button className='btn btn-grad' onClick={()=>this.handleSeeComment()} style={{textAlign:'center', marginBottom:'20px', fontWeight:'bold', fontSize:'15px'}}>
                                         Lihat Komentar...
                                     </button>
                                 </div>
-                            :
+                                :
                                 <div>
                                     <button className='btn btn-grad' onClick={()=>this.handleSeeComment()} style={{textAlign:'center', marginBottom:'20px', fontWeight:'bold', fontSize:'15px'}}>
                                         Sembunyikan Komentar...
                                     </button>
-                                        <ViewComment/>
+                                        <ViewComment 
+                                        handleDeleteAnswer={(event)=>this.handleDeleteAnswer(event)}/>
                                 </div>
+                                }
+                                </React.Fragment> 
+                                :
+                                <div><Loader/></div>
                             }
                             <div className="border py-2 ml-1 mr-1 row bg-white">
                                 <div className="col-md-2">
