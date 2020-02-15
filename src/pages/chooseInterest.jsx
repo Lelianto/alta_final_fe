@@ -1,17 +1,15 @@
 import React from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import '../styles/css/signUp.css';
 import '../styles/css/chooseInterest.css';
 import logo from '../images/logo-kodekula.png';
 import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
 import axios from 'axios';
-import Swal from 'sweetalert2';
 import Header from '../components/header';
 import Footer from '../components/footer';
 
 class ChooseInterest extends React.Component {
-
     state = {
         interestList : [],
 		interest : [],
@@ -19,6 +17,9 @@ class ChooseInterest extends React.Component {
 		searchResult : []
     }
 
+	/**
+	 * @function componentDidMount() get all interest list
+	 */
 	componentDidMount = async () => {
 		const tags = {
 			method: 'get',
@@ -41,7 +42,10 @@ class ChooseInterest extends React.Component {
 				await console.warn(error)
 			})
 	};
-    
+	
+	/**
+	 * @function addInterest() add interest by user
+	 */
     addInterest = async (event, index) => {
 		let interestList = this.state.interestList
 		interestList[index]['checked'] = event.target.checked
@@ -54,6 +58,9 @@ class ChooseInterest extends React.Component {
         }
 	}
 	
+	/**
+	 * @function addInterest() edit or update interest by user
+	 */
 	putInterest = async () => {
 		const userDetail = {
 			username : localStorage.getItem("username"),
@@ -61,7 +68,6 @@ class ChooseInterest extends React.Component {
 			job_title : this.props.job,
 			tags : this.state.interest
 		}
-
 		const editUser = {
 			method: 'put',
 			url: store.getState().baseUrl+'/users/me',
@@ -76,10 +82,12 @@ class ChooseInterest extends React.Component {
 		}
 
 		await this.props.handleAPI(editUser)
-		console.warn('after login', this.props.responseData)
 		this.props.history.push('/')
 	}
 
+	/**
+	 * @function doSearch() handling searching
+	 */
 	doSearch = async (event) => {
 		await this.setState({search : event.target.value})
 		if (this.state.search.length > 0) {
@@ -92,6 +100,9 @@ class ChooseInterest extends React.Component {
 		}
 	}
 
+	/**
+	 * @function searchContent() go to search result page
+	 */
 	searchContent = () => {
 		this.props.history.push('/pencarian')
 	}
@@ -119,64 +130,64 @@ class ChooseInterest extends React.Component {
 					</React.Fragment>
 				);
 			});
-        }
-        
-		return (
-			<React.Fragment>
-				<Header doSearch={this.searchContent}/>
-				<div className="container pt-5">
-					<div className="row">
-						<div className="col-lg-3 col-md-2 col-sm-1 col-1" />
-						<div className="col-lg-6 col-md-8 col-sm-10 col-10">
-							<div className="border shadow-sm rounded register-box">
-								<div className="register-title text-center">
-									<img src={logo} alt="" />
-								</div>
-								<form className="register-form" action="" onSubmit={e => e.preventDefault()}>
-									<div class="form-group row">
-										<label for="job" className="col-sm-5 col-form-label input-box">
-											Pekerjaan
-										</label>
-										<div className="col-sm-7">
-											<input
-												type="text"
-												className="form-control input-box"
-												id="job"
-												name="job" onChange={(e)=>this.props.setGlobal(e)}
-											/>
-										</div>
-										<label for="interest" className="col-sm-5 col-form-label input-box">
-											Minat
-										</label>
-										<div className="col-sm-7">
-											<input
-												type="text"
-												className="form-control input-box"
-												id="interest" placeholder="cari..."
-												name="search" onChange={(e) => this.doSearch(e)}
-											/>
-										</div>
-										<div className="col-sm-12">
-											<div className="border interest-box">
-												<div className="row pl-2 pr-2 py-3 interest-list">
-                                                    {tagData}
+        } else {
+			return (
+				<React.Fragment>
+					<Header doSearch={this.searchContent}/>
+					<div className="container pt-5">
+						<div className="row">
+							<div className="col-lg-3 col-md-2 col-sm-1 col-1" />
+							<div className="col-lg-6 col-md-8 col-sm-10 col-10">
+								<div className="border shadow-sm rounded register-box">
+									<div className="register-title text-center">
+										<img src={logo} alt="" />
+									</div>
+									<form className="register-form" action="" onSubmit={e => e.preventDefault()}>
+										<div class="form-group row">
+											<label for="job" className="col-sm-5 col-form-label input-box">
+												Pekerjaan
+											</label>
+											<div className="col-sm-7">
+												<input
+													type="text"
+													className="form-control input-box"
+													id="job"
+													name="job" onChange={(e)=>this.props.setGlobal(e)}
+												/>
+											</div>
+											<label for="interest" className="col-sm-5 col-form-label input-box">
+												Minat
+											</label>
+											<div className="col-sm-7">
+												<input
+													type="text"
+													className="form-control input-box"
+													id="interest" placeholder="cari..."
+													name="search" onChange={(e) => this.doSearch(e)}
+												/>
+											</div>
+											<div className="col-sm-12">
+												<div className="border interest-box">
+													<div className="row pl-2 pr-2 py-3 interest-list">
+														{tagData}
+													</div>
 												</div>
 											</div>
 										</div>
-									</div>
-									<div className="text-center register-button">
-										<button type="submit" class="btn btn-outline-info" onClick={()=>this.putInterest()}>
-											Lanjutkan
-										</button>
-									</div>
-								</form>
+										<div className="text-center register-button">
+											<button type="submit" class="btn btn-outline-info" onClick={()=>this.putInterest()}>
+												Lanjutkan
+											</button>
+										</div>
+									</form>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<Footer/>
-			</React.Fragment>
-		);
+					<Footer/>
+				</React.Fragment>
+			);
+		}
 	}
 }
 export default connect('job, responseStatus', actions)(withRouter(ChooseInterest));

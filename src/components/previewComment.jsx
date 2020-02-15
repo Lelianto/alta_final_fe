@@ -1,6 +1,6 @@
 import React from 'react';
 import '../styles/css/userownarticle.css';
-import { actions, store } from '../stores/store';
+import { actions } from '../stores/store';
 import { connect } from 'unistore/react'
 import { withRouter, Link } from 'react-router-dom';
 import { Markup } from 'interweave';
@@ -10,7 +10,6 @@ class PreviewComment extends React.Component {
   render() {
     let contentNew = this.props.newArticle
     const htmlArticle = <Markup className='preview-article-control' content={contentNew}/>
-    console.log('text sebenarnya',htmlArticle)
     return (
       <div style={{textAlign:'left', marginBottom:'20px'}}>
         <div className='container-fluid user-comment-control'>

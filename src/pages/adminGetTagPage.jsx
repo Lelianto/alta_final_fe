@@ -16,10 +16,18 @@ class AdminLandingPage extends React.Component {
 		searchResult : [],
 		allTag : this.props.allTag.query_data
 	}
+
+	/**
+	 * @function handleChangePage() send admin to the others page based on event
+	 */
 	handleChangePage = (event) => {
 		localStorage.removeItem('grafik')
 		this.props.history.push('/admin'+event)
 	}
+
+	/**
+	 * @function handleChangePageMenu() send admin to question graph page
+	 */
 	handleChangePageMenu = (event) => {
 		store.setState({
 			menu:'/tag'
@@ -27,6 +35,10 @@ class AdminLandingPage extends React.Component {
 		localStorage.setItem('grafik', '/tag')
 		this.props.history.push('/admin'+event)
 	}
+
+	/**
+	 * @function getAllTag() get all tag by admin
+	 */
 	getAllTag = async () => {
         const req = {
             method: "get",
@@ -35,50 +47,42 @@ class AdminLandingPage extends React.Component {
                 Authorization: "Bearer " + localStorage.getItem('token')
             }
             }; 
-            const self = this
-            await axios(req)
-                .then(async (response) => {
-					await store.setState({ allTag: response.data, isLoading:false})
-					await self.setState({searchResult : response.data.query_data})
-                    return response
-                })
-                .catch((error)=>{
-                    store.setState({ 
-                        isLoading: false
-                    })
-                    // switch (error.response.status) {
-                    //     case 401 :
-                    //         self.props.history.push('/401')
-                    //         break
-                    //     case 403 :
-                    //         self.props.history.push('/403')
-                    //         break
-                    //     case 404 :
-                    //         self.props.history.push('/404')
-                    //         break
-                    //     case 422 :
-                    //         self.props.history.push('/422')
-                    //         break
-                    //     case 500 :
-                    //         self.props.history.push('/500')
-                    //         break
-                    //     default :
-                    //         break
-                    // }
+		const self = this
+		await axios(req)
+			.then(async (response) => {
+				await store.setState({ allTag: response.data, isLoading:false})
+				await self.setState({searchResult : response.data.query_data})
+				return response
+			})
+			.catch((error)=>{
+				store.setState({ 
+					isLoading: false
 				})
+			})
 	}
+
+	/**
+	 * @function componentWillMount() trigger get all tag by admin
+	 */
 	componentWillMount = ()=>{
 		this.getAllTag()
 	}
+
+	/**
+	 * @function handlePostTag() handle add tag by admin
+	 */
 	handlePostTag = async () => {
 		await this.props.addNewTag()
 		await this.componentWillMount()
 		await this.props.history.push('/admin/tag')
 	}
+
+	/**
+	 * @function searchTag() handle search article by admin
+	 */
 	searchTag = async (event) => {
 		await this.setState({search : event.target.value})
 		const allTag = await this.props.allTag.query_data
-
 		if (this.state.search.length > 0) {
 			const searchData = allTag.filter(tag => 
 				tag.name.toLowerCase().indexOf(this.state.search) > -1

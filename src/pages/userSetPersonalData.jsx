@@ -4,10 +4,9 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import PersonalData from '../components/userProfileSetting';
 import MenuBarSetting from '../components/menuBarSetting';
-import { storage } from '../firebase';
-import { actions, store } from '../stores/store';
+import { actions } from '../stores/store';
 import { connect } from 'unistore/react'
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 class UserProfileSetting extends Component {
   doSearch = () => {

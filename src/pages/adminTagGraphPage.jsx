@@ -1,6 +1,6 @@
 import React from 'react';
 import '../styles/css/adminPage.css';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
 import Header from '../components/headerAdmin';
@@ -11,13 +11,18 @@ import axios from 'axios'
 // import Graph from '../components/columnBoxGraph';
 import Graph from '../components/tagGraph'
 
-
 class AdminLandingPage extends React.Component {
+	/**
+	 * @function handleChangePage() send admin to the others page based on event
+	 */
 	handleChangePage = (event) => {
-		console.log(event)
 		localStorage.removeItem('grafik')
 		this.props.history.push('/admin'+event)
 	}
+
+	/**
+	 * @function handleChangePageMenu() send admin to question datas page
+	 */
 	handleChangePageMenu = (event) => {
 		store.setState({
 			menu:'/tag'
@@ -25,6 +30,10 @@ class AdminLandingPage extends React.Component {
 		localStorage.setItem('grafik', '/tag')
 		this.props.history.push('/admin'+event)
 	}
+
+	/**
+	 * @function getAmount() get amount of tag usage
+	 */
 	getAmount = async () => {
         const req = {
             method: "get",
@@ -33,39 +42,40 @@ class AdminLandingPage extends React.Component {
                 Authorization: "Bearer " + localStorage.getItem('token')
             }
             }; 
-            const self = this
-            await axios(req)
-                .then(function (response) {
-					console.log('masuk')
-					store.setState({ allTag: response.data, isLoading:false})
-					console.log('isi tag asli', store.getState().allTag)
-                    return response
-                })
-                .catch((error)=>{
-                    store.setState({ 
-                        isLoading: false
-                    })
-                    switch (error.response.status) {
-                        case 401 :
-                            self.props.history.push('/401')
-                            break
-                        case 403 :
-                            self.props.history.push('/403')
-                            break
-                        case 404 :
-                            self.props.history.push('/404')
-                            break
-                        case 422 :
-                            self.props.history.push('/422')
-                            break
-                        case 500 :
-                            self.props.history.push('/500')
-                            break
-                        default :
-                            break
-                    }
+		const self = this
+		await axios(req)
+			.then(function (response) {
+				console.log('masuk')
+				store.setState({ allTag: response.data, isLoading:false})
+				console.log('isi tag asli', store.getState().allTag)
+				return response
+			})
+			.catch((error)=>{
+				store.setState({ 
+					isLoading: false
 				})
-            }
+				switch (error.response.status) {
+					case 401 :
+						self.props.history.push('/401')
+						break
+					case 403 :
+						self.props.history.push('/403')
+						break
+					case 404 :
+						self.props.history.push('/404')
+						break
+					case 422 :
+						self.props.history.push('/422')
+						break
+					case 500 :
+						self.props.history.push('/500')
+						break
+					default :
+						break
+				}
+			})
+		}
+		
 	render() {
 		if(this.props.allTag===[] || this.props.allTag === undefined){
 			return (
@@ -101,7 +111,7 @@ class AdminLandingPage extends React.Component {
 					<div className='container'>
 						<div className='row' style={{paddingTop:'50px'}} >
 							<h4 style={{paddingBottom:'10px'}} className='col-md-12'>
-								Total Penggunaan Tag terhadap Waktu
+								Total Penggunaan Tag
 							</h4>
 							<div style={{backgroundColor:'white', borderRadius:'15px', padding:'20px'}} className='col-md-12'>
 								<Graph/>

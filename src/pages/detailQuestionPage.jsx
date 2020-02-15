@@ -1,6 +1,6 @@
 import React from 'react';
 import '../styles/css/articlePage.css';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
 import Header from '../components/header';
@@ -15,17 +15,17 @@ import CodeCompiler from '../components/codeCompiler';
 import Loader from '../components/loader';
 import axios from 'axios';
 
-const listContent = [ 'Pertanyaan' ];
-
 class detailArticlePage extends React.Component {
 	state = {
 		likeList : [],
 		contentLoading : true,
 		likeListLoading : true,
-		likeList : [],
 		slLikeList : []
 	};
 
+	/**
+	 * @function getAllFirst() get all detail data
+	 */
 	getAllFirst = ()=>{
         const req = {
             method: "get",
@@ -67,6 +67,9 @@ class detailArticlePage extends React.Component {
               })
 	}
 	
+	/**
+	 * @function componentWillMount() trigger for content of page
+	 */
     componentWillMount = async () => {
 		await this.getAllFirst()
 		await this.props.getPopular();
@@ -77,7 +80,9 @@ class detailArticlePage extends React.Component {
 		}
     };
 
-
+	/**
+	 * @function handleSeeComment() handling see and hide comment
+	 */
 	handleSeeComment=()=>{
 		if(store.getState().seeComment){
 			store.setState({
@@ -90,16 +95,25 @@ class detailArticlePage extends React.Component {
 		}
 	}
 
+	/**
+	 * @function handlePostComment() handling post comment
+	 */
 	handlePostComment = async () => {
 		await this.props.postComment()
 		await this.getAllFirst()
         await this.props.history.push("/pertanyaan/"+this.props.match.params.id)
 	}
 	
+	/**
+	 * @function doSearch() handling searching
+	 */
 	doSearch = () => {
 		this.props.history.push('/pencarian')
 	  }
 
+	/**
+	 * @function editQuestion() handling edit question 
+	 */
     editQuestion = async (event) => {
         await store.setState({
             userId: event
@@ -107,6 +121,9 @@ class detailArticlePage extends React.Component {
         await this.props.history.push('/pertanyaan/' + event + '/edit');
     };
 
+	/**
+	 * @function deleteQuestion() handling soft deleting question 
+	 */
     deleteQuestion = async (event)=> {
 		store.setState({
 			articleId:event.id,
@@ -118,6 +135,9 @@ class detailArticlePage extends React.Component {
         await this.props.history.push('/')
 	}
 
+	/**
+	 * @function getProfile() handling get user profile 
+	 */
 	getProfile = async (id, username) => {
 		await store.setState({
 			urlProfile : store.getState().baseUrl+'/users/'+id,
@@ -126,13 +146,19 @@ class detailArticlePage extends React.Component {
 		await this.props.history.push('/profil/'+username+'/pertanyaan')
 	}
 
+	/**
+	 * @function detailArticle() go to detail article page
+	 */
 	detailArticle = async (event) => {
 		await store.setState({
 			userId: event
 		});
 		await this.props.history.push('/artikel/' + event);
     };
-    
+	
+	/**
+	 * @function goToDetailQuestion() go to detail question page
+	 */
     goToDetailQuestion = async (event) => {
 		store.setState({
 			userId: event
@@ -140,6 +166,9 @@ class detailArticlePage extends React.Component {
 		await this.props.history.push('/pertanyaan/' + event);
 	};
 
+	/**
+	 * @function handleDeleteAnswer() handle soft delete answer
+	 */
 	handleDeleteAnswer = async (event) => {
 		await store.setState({
 			idComment:event.id,
@@ -178,7 +207,6 @@ class detailArticlePage extends React.Component {
 			<React.Fragment>
 				<Header doSearch={this.doSearch}/>
 				<Helmet>
-					{/* <title>Pertanyaan</title> */}
 					<meta name="description" content="Berisi artikel yang membahas tentang pemrograman" />
 				</Helmet>
 				<div className="container-fluid pt-4">
@@ -229,4 +257,5 @@ class detailArticlePage extends React.Component {
 		);
 	}
 }
+
 export default connect('seeComment, allArticleDatabase, startComment, newArticle', actions)(withRouter(detailArticlePage));
