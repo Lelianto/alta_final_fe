@@ -10,7 +10,7 @@ import UserOwnFile from '../components/userOwnFile';
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
 import Loader from '../components/loader';
-// import Skeleton from '@material-ui/lab/Skeleton'
+import Skeleton from 'react-loading-skeleton';
 
 class Home extends React.Component {
 	state = {
@@ -168,7 +168,7 @@ class Home extends React.Component {
 		const showOrHide = document.getElementById('seeAll');
 		if (suggestionList.style.display === 'none') {
 			suggestionList.style.display = 'block';
-			showOrHide.innerHTML = 'Sembunyikan...';
+			showOrHide.style.display = 'none';
 		} else {
 			suggestionList.style.display = 'none';
 			showOrHide.innerHTML = 'Lihat Semua...';
@@ -371,14 +371,13 @@ class Home extends React.Component {
 										likeList={this.state.likeList}
 									/>
 								)) :
-								<div> <Loader/> </div> 
+								<div className='mt-3'> <Skeleton height={400} count={2}/> </div> 
 							}
 							</div>
 							<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow">
 								{this.props.popularLoading === true ?
-								<div className='pl-5 pr-5'>
-									<Loader/>
-									{/* <Skeleton variant="rect" width={210} height={118} /> */}
+								<div className='mt-3'>
+									<Skeleton height={300} count={2}/>
 								</div> 
 								:
 								<PopularList detailArticle={(e)=>this.detailArticle(e)} detailQuestion={(e)=>this.goToDetailQuestion(e)}/>

@@ -12,6 +12,7 @@ import { Helmet } from 'react-helmet'
 import axios from 'axios';
 import Butter from 'buttercms'
 import Loader from '../components/loader';
+import Skeleton from 'react-loading-skeleton'
 
 const butter = Butter('31d63e3ae80e878f31b54be79123e3052be26bd4');
 
@@ -169,7 +170,7 @@ class QuestionPage extends React.Component {
 		const showOrHide = document.getElementById('seeAll');
 		if (suggestionList.style.display === 'none') {
 			suggestionList.style.display = 'block';
-			showOrHide.innerHTML = 'Sembunyikan...';
+			showOrHide.style.display = 'none';
 		} else {
 			suggestionList.style.display = 'none';
 			showOrHide.innerHTML = 'Lihat Semua...';
@@ -317,16 +318,16 @@ class QuestionPage extends React.Component {
 								getProfile={this.getProfile}
 								likeList={this.state.likeList}/>)
 								:
-							<div>
-								<Loader/>
+							<div className='mt-3'>
+								<Skeleton height={400} count={15}/>
 							</div> 
 							}
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow" >
 							{this.props.popularLoading === true ?
-							<div className='pl-5 pr-5'>
-								<Loader/>
-							</div> 
+							<div className='mt-3'>
+								<Skeleton height={400} count={2}/>
+							</div>
 							:
 							<PopularList detailArticle={(e)=>this.detailArticle(e)} detailQuestion={(e)=>this.goToDetailQuestion(e)}/>
 							}

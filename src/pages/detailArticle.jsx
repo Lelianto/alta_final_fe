@@ -13,6 +13,7 @@ import axios from 'axios';
 import user from '../images/user.png';
 import ViewComment from '../components/viewComment';
 import Accordion from '../components/accordionExplain'
+import Skeleton from 'react-loading-skeleton'
 
 class DetailArticle extends React.Component {
 	state = {
@@ -241,12 +242,15 @@ class DetailArticle extends React.Component {
                                         Sembunyikan Komentar...
                                     </button>
                                         <ViewComment 
-                                        handleDeleteAnswer={(event)=>this.handleDeleteAnswer(event)}/>
+                                        handleDeleteAnswer={(event)=>this.handleDeleteAnswer(event)}
+                                        getProfile={this.getProfile}/>
                                 </div>
                                 }
                                 </React.Fragment> 
                                 :
-                                <div><Loader/></div>
+                                <div className='mt-3'>
+								<Skeleton height={500} count={2}/>
+							</div>
                             }
                             <div className="border py-2 ml-1 mr-1 row bg-white">
                                 <div className="col-md-2">
