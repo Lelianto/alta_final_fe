@@ -230,9 +230,9 @@ class TextArea extends React.Component {
                             </div>
                             <div className='col-md-4'>
                                 {this.props.imageArticle===null?
-                                    <button disabled style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn-outline-info' className='btn btn-info' type='file'>Upload</button>
+                                    <button disabled style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn btn-info' type='file'>Upload</button>
                                 :
-                                    <button style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn-outline-info' className='btn btn-info' type='file' onClick={()=>this.uploadPhoto()}>Upload</button>
+                                    <button style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn btn-info' type='file' onClick={()=>this.uploadPhoto()}>Upload</button>
                                 }
                             </div>
                         <div className="col-sm-4">
@@ -247,9 +247,9 @@ class TextArea extends React.Component {
                         </div>
                         <div className='col-md-4'>
                             {this.props.imageArticle===null?
-                                <button disabled className='btn' style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className="btn btn-info">Upload</button>
+                                <button disabled style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className="btn btn-info">Upload</button>
                             :
-                                <button className='btn' style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn btn-info' onClick={()=>this.uploadArticlePhoto()}>Upload</button>
+                                <button style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn btn-info' onClick={()=>this.uploadArticlePhoto()}>Upload</button>
                             }
                         </div>
                         <div className="col-sm-4">
