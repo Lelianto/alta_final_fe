@@ -1,15 +1,10 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'unistore/react';
-import { actions, store } from '../stores/store';
+import { actions } from '../stores/store';
 import '../styles/css/home.css';
 import all from '../images/all.svg';
-import favorite from '../images/stars.png';
-import suggest from '../images/suggest.png';
 import Loader from './loader';
-import axios from 'axios';
-import Swal from 'sweetalert2';
-
 
 const InterestList = (props) => {
 	return (

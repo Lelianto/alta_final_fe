@@ -17,10 +17,17 @@ class AdminLandingPage extends React.Component {
 		searchResult : []
 	}
 
+	/**
+	 * @function handleChangePage() send admin to the others page based on event
+	 */
 	handleChangePage = (event) => {
 		localStorage.removeItem('grafik')
 		this.props.history.push('/admin'+event)
 	}
+
+	/**
+	 * @function handleChangePageMenu() send admin to user graph page
+	 */
 	handleChangePageMenu = (event) => {
 		store.setState({
 			menu:'/user'
@@ -28,6 +35,10 @@ class AdminLandingPage extends React.Component {
 		localStorage.setItem('grafik', '/user')
 		this.props.history.push('/admin'+event)
 	}
+
+	/**
+	 * @function getAllUser() get all user by admin
+	 */
 	getAllUser = async () => {
         const req = {
             method: "get",
@@ -47,30 +58,19 @@ class AdminLandingPage extends React.Component {
 				store.setState({ 
 					isLoading: false
 				})
-				// switch (error.response.status) {
-				// 	case 401 :
-				// 		self.props.history.push('/401')
-				// 		break
-				// 	case 403 :
-				// 		self.props.history.push('/403')
-				// 		break
-				// 	case 404 :
-				// 		self.props.history.push('/404')
-				// 		break
-				// 	case 422 :
-				// 		self.props.history.push('/422')
-				// 		break
-				// 	case 500 :
-				// 		self.props.history.push('/500')
-				// 		break
-				// 	default :
-				// 		break
-				// }
 			})
 		}
+
+	/**
+	 * @function componentWillMount() trigger get all user by admin
+	 */
 	componentWillMount = ()=>{
 			this.getAllUser()
 		}
+	
+	/**
+	 * @function handleDeleteUser() handle soft delete user by admin
+	 */
 	handleDeleteUser = async (event) => {
 		await store.setState({
 			idUser:event
@@ -83,21 +83,17 @@ class AdminLandingPage extends React.Component {
 	searchUser = async (event) => {
 		await this.setState({search : event.target.value})
 		const allUser = await this.props.allUser.query_data
-
 		const detailData = await allUser.filter(user => user.user_detail.first_name !== null && user.user_detail.last_name !== null && user.user_detail.job_title !== null)
 		if (this.state.search.length > 0) {
 			const searchData = await allUser.filter(user => 
 				user.username.toLowerCase().indexOf(this.state.search) > -1 || user.email.toLowerCase().indexOf(this.state.search) > -1 
 				)
-
 			const searchDetailData = await detailData.filter(user => 
 				user.user_detail.first_name.toLowerCase().indexOf(this.state.search) > -1 ||
 				user.user_detail.last_name.toLowerCase().indexOf(this.state.search) > -1 ||
 				user.user_detail.job_title.toLowerCase().indexOf(this.state.search) > -1
 				)
-			
 			const searchResult = await searchData.concat(searchDetailData)
-			
 			await this.setState({searchResult : searchResult })
 		} else {
 			await this.setState({searchResult : this.props.allUser.query_data })
@@ -112,9 +108,7 @@ class AdminLandingPage extends React.Component {
 				</div>
 			)
 		} else {
-			
 			const Users = this.state.searchResult
-			console.warn('all user', Users)
 			return (
 				<React.Fragment>
 					<Header />

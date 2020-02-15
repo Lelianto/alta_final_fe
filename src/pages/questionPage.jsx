@@ -65,7 +65,7 @@ class QuestionPage extends React.Component {
 
 		await this.setState({chosenTags : this.state.userInterest.slice()})
 		await this.getAllTags()
-		}
+	}
 	
 	getAllTags = async () => {
 		const tags = {

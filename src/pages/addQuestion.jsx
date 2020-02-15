@@ -8,11 +8,16 @@ import TextArea from '../components/textArea';
 import PreviewArticle from '../components/previewArticle';
 
 class AddQuestionPage extends React.Component {
-
+    /**
+	 * @function doSearch() send user to searching result page
+	 */
     doSearch = () => {
         this.props.history.push('/pencarian')
       }
     
+    /**
+	 * @function handleUploadQuestion() handle upload question and send user to question page
+	 */
     handleUploadQuestion = () => {
         this.props.uploadQuestion()
         this.props.history.push('/pertanyaan')

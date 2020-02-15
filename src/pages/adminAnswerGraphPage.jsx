@@ -1,6 +1,6 @@
 import React from 'react';
 import '../styles/css/adminPage.css';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
 import axios from 'axios';
@@ -10,19 +10,28 @@ import AdminMenu from '../components/adminMenu'
 import Graph from '../components/lineGraph';
 
 class AdminLandingPage extends React.Component {
+	/**
+	 * @function handleChangePage() send admin to the others page based on event
+	 */
 	handleChangePage = (event) => {
-		console.log(event)
 		localStorage.removeItem('grafik')
 		this.props.history.push('/admin'+event)
 	}
+
+	/**
+	 * @function handleChangePageMenu() send admin to user datas page
+	 */
 	handleChangePageMenu = (event) => {
-		console.log(event)
 		store.setState({
 			menu:'/answer'
 		})
 		localStorage.setItem('grafik', '/answer')
 		this.props.history.push('/admin'+event)
 	}
+
+	/**
+	 * @function getAmount() get amount of answer
+	 */
 	getAmount = async () => {
         const req = {
             method: "get",
@@ -31,39 +40,38 @@ class AdminLandingPage extends React.Component {
                 Authorization: "Bearer " + localStorage.getItem('token')
             }
             }; 
-            const self = this
-            await axios(req)
-                .then(function (response) {
-					console.log('masuk')
-					store.setState({ allData: response.data, isLoading:false})
-					console.log('all data', store.getState().allData)
-                    return response
-                })
-                .catch((error)=>{
-                    store.setState({ 
-                        isLoading: false
-                    })
-                    switch (error.response.status) {
-                        case 401 :
-                            self.props.history.push('/401')
-                            break
-                        case 403 :
-                            self.props.history.push('/403')
-                            break
-                        case 404 :
-                            self.props.history.push('/404')
-                            break
-                        case 422 :
-                            self.props.history.push('/422')
-                            break
-                        case 500 :
-                            self.props.history.push('/500')
-                            break
-                        default :
-                            break
-                    }
+		const self = this
+		await axios(req)
+			.then(function (response) {
+				store.setState({ allData: response.data, isLoading:false})
+				return response
+			})
+			.catch((error)=>{
+				store.setState({ 
+					isLoading: false
 				})
-            }
+				switch (error.response.status) {
+					case 401 :
+						self.props.history.push('/401')
+						break
+					case 403 :
+						self.props.history.push('/403')
+						break
+					case 404 :
+						self.props.history.push('/404')
+						break
+					case 422 :
+						self.props.history.push('/422')
+						break
+					case 500 :
+						self.props.history.push('/500')
+						break
+					default :
+						break
+				}
+			})
+		}
+
 	render() {
 		return (
 			<React.Fragment>

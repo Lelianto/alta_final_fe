@@ -7,13 +7,10 @@ import Footer from '../components/footer';
 import InterestList from '../components/interestList';
 import PopularList from '../components/popularList';
 import UserOwnFile from '../components/userOwnFile';
-import Graph from '../components/tagGraph';
 import axios from 'axios';
-import Butter from 'buttercms'
 import { Helmet } from 'react-helmet';
 import Loader from '../components/loader';
 
-const butter = Butter('31d63e3ae80e878f31b54be79123e3052be26bd4');
 class Home extends React.Component {
 	state = {
 		userInterest: [],
@@ -39,35 +36,8 @@ class Home extends React.Component {
 		await this.getUserTags();
 		await this.getPostingList();
 		await this.filterPosting();
-		let page = 1
-		if(this.props.match.params.page !== null){
-			page = this.props.match.params.page || 1
-			this.fetchPosts(page)
-		} else {
-			this.fetchPosts(page)
-		}
 		await this.props.getPopular();
 	};
-
-	fetchPosts =(page) => {
-		butter.post.list({page: page, page_size: 10}).then((resp) => {
-		  this.setState({
-			loaded: true,
-			resp: resp.data
-		  })
-		});
-	  }
-
-	componentWillReceiveProps(nextProps) {
-		this.setState({loaded: false});
-		let page = 1
-		if(nextProps.match.params.page !== null){
-			let page = nextProps.match.params.page || 1
-			this.fetchPosts(page)
-		} else {
-			this.fetchPosts(page)
-		}
-	}
 
 	getUserTags = async () => {
 		const tags = {
@@ -380,7 +350,6 @@ class Home extends React.Component {
 				<div></div>
 			)
 		} else {
-			console.log('isi posting', this.state.postingList)
 			return (
 				<React.Fragment>
 					<Header doSearch={this.doSearch} />

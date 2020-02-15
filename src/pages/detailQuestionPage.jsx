@@ -1,6 +1,6 @@
 import React from 'react';
 import '../styles/css/articlePage.css';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
 import Header from '../components/header';
@@ -13,8 +13,6 @@ import ViewComment from '../components/viewComment';
 import Accordion from '../components/accordionExplain';
 import CodeCompiler from '../components/codeCompiler';
 import axios from 'axios';
-
-const listContent = [ 'Pertanyaan' ];
 
 class detailArticlePage extends React.Component {
 	state = {
@@ -29,6 +27,9 @@ class detailArticlePage extends React.Component {
 		]
 	};
 
+	/**
+	 * @function getAllFirst() get all detail data
+	 */
 	getAllFirst = ()=>{
         const req = {
             method: "get",
@@ -71,12 +72,17 @@ class detailArticlePage extends React.Component {
               })
 	}
 	
+	/**
+	 * @function componentWillMount() trigger for content of page
+	 */
     componentWillMount = async () => {
 		await this.getAllFirst()
         await this.props.getPopular();
     };
 
-
+	/**
+	 * @function handleSeeComment() handling see and hide comment
+	 */
 	handleSeeComment=()=>{
 		if(store.getState().seeComment){
 			store.setState({
@@ -89,16 +95,25 @@ class detailArticlePage extends React.Component {
 		}
 	}
 
+	/**
+	 * @function handlePostComment() handling post comment
+	 */
 	handlePostComment = async () => {
 		await this.props.postComment()
 		await this.getAllFirst()
         await this.props.history.push("/pertanyaan/"+this.props.match.params.id)
 	}
 	
+	/**
+	 * @function doSearch() handling searching
+	 */
 	doSearch = () => {
 		this.props.history.push('/pencarian')
 	  }
 
+	/**
+	 * @function editQuestion() handling edit question 
+	 */
     editQuestion = async (event) => {
         await store.setState({
             userId: event
@@ -106,8 +121,10 @@ class detailArticlePage extends React.Component {
         await this.props.history.push('/pertanyaan/' + event + '/edit');
     };
 
+	/**
+	 * @function deleteQuestion() handling soft deleting question 
+	 */
     deleteQuestion = async (event)=> {
-		console.log('isi event',event)
 		store.setState({
 			articleId:event.id,
 			articleTitle:event.title,
@@ -115,11 +132,12 @@ class detailArticlePage extends React.Component {
 			imageUrl:event.banner_photo_url
 		})
 		await this.props.delQuestion()
-		console.log('DELETED')
-		// await this.getPostingList()
         await this.props.history.push('/')
 	}
 
+	/**
+	 * @function getProfile() handling get user profile 
+	 */
 	getProfile = async (id, username) => {
 		await store.setState({
 			urlProfile : store.getState().baseUrl+'/users/'+id,
@@ -128,13 +146,19 @@ class detailArticlePage extends React.Component {
 		await this.props.history.push('/profil/'+username+'/pertanyaan')
 	}
 
+	/**
+	 * @function detailArticle() go to detail article page
+	 */
 	detailArticle = async (event) => {
 		await store.setState({
 			userId: event
 		});
 		await this.props.history.push('/artikel/' + event);
     };
-    
+	
+	/**
+	 * @function goToDetailQuestion() go to detail question page
+	 */
     goToDetailQuestion = async (event) => {
 		store.setState({
 			userId: event
@@ -142,8 +166,10 @@ class detailArticlePage extends React.Component {
 		await this.props.history.push('/pertanyaan/' + event);
 	};
 
+	/**
+	 * @function handleDeleteAnswer() handle soft delete answer
+	 */
 	handleDeleteAnswer = async (event) => {
-		console.log('isi event del',event)
 		await store.setState({
 			idComment:event.id,
 			htmlContent:event.html_content
@@ -158,7 +184,6 @@ class detailArticlePage extends React.Component {
 			<React.Fragment>
 				<Header doSearch={this.doSearch}/>
 				<Helmet>
-					{/* <title>Pertanyaan</title> */}
 					<meta name="description" content="Berisi artikel yang membahas tentang pemrograman" />
 				</Helmet>
 				<div className="container-fluid pt-4">
@@ -185,7 +210,6 @@ class detailArticlePage extends React.Component {
 									<ViewComment handleDeleteAnswer={(event)=>this.handleDeleteAnswer(event)}/>
 							</div>
 						}
-
 							<CommentArea handlePostComment={()=>this.handlePostComment()}/>
 						</div>
 						<div className="col-lg-4 col-md-4 col-sm-12 col-12 mt-5 overflow">
@@ -200,4 +224,5 @@ class detailArticlePage extends React.Component {
 		);
 	}
 }
+
 export default connect('seeComment, allArticleDatabase, startComment, newArticle', actions)(withRouter(detailArticlePage));

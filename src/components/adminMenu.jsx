@@ -7,14 +7,16 @@ import article from '../images/content.svg';
 import question from '../images/question.svg';
 import answer from '../images/class.svg';
 import tag from '../images/tag.svg';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
 import axios from 'axios'
 
 class AdminMenu extends React.Component {
+    /**
+	 * @function getAllTag() get all tag by all user, visitor, or admin
+	 */
     getAllTag = async () => {
-		console.log('masuk')
         const req = {
             method: "get",
             url: store.getState().baseUrl+"/admin/tag",
@@ -22,40 +24,41 @@ class AdminMenu extends React.Component {
                 Authorization: "Bearer " + localStorage.getItem('token')
             }
             }; 
-            const self = this
-            await axios(req)
-                .then(function (response) {
-					console.log('masuk')
-					store.setState({ allTag: response.data, isLoading:false})
-					console.log('all tag', store.getState().allTag)
-                    return response
+        const self = this
+        await axios(req)
+            .then(function (response) {
+                store.setState({ allTag: response.data, isLoading:false})
+                return response
+            })
+            .catch((error)=>{
+                store.setState({ 
+                    isLoading: false
                 })
-                .catch((error)=>{
-                    store.setState({ 
-                        isLoading: false
-                    })
-                    switch (error.response.status) {
-                        case 401 :
-                            self.props.history.push('/401')
-                            break
-                        case 403 :
-                            self.props.history.push('/403')
-                            break
-                        case 404 :
-                            self.props.history.push('/404')
-                            break
-                        case 422 :
-                            self.props.history.push('/422')
-                            break
-                        case 500 :
-                            self.props.history.push('/500')
-                            break
-                        default :
-                            break
-                    }
-				})
-			}
-
+                switch (error.response.status) {
+                    case 401 :
+                        self.props.history.push('/401')
+                        break
+                    case 403 :
+                        self.props.history.push('/403')
+                        break
+                    case 404 :
+                        self.props.history.push('/404')
+                        break
+                    case 422 :
+                        self.props.history.push('/422')
+                        break
+                    case 500 :
+                        self.props.history.push('/500')
+                        break
+                    default :
+                        break
+                }
+            })
+        }
+    
+    /**
+	 * @function getAllUser() get all user datas by admin only
+	 */
     getAllUser = async () => {
         const req = {
             method: "get",
@@ -64,38 +67,41 @@ class AdminMenu extends React.Component {
                 Authorization: "Bearer " + localStorage.getItem('token')
             }
             }; 
-            const self = this
-            await axios(req)
-                .then(function (response) {
-					store.setState({ allUser: response.data, isLoading:false})
-                    return response
+        const self = this
+        await axios(req)
+            .then(function (response) {
+                store.setState({ allUser: response.data, isLoading:false})
+                return response
+            })
+            .catch((error)=>{
+                store.setState({ 
+                    isLoading: false
                 })
-                .catch((error)=>{
-                    store.setState({ 
-                        isLoading: false
-                    })
-                    switch (error.response.status) {
-                        case 401 :
-                            self.props.history.push('/401')
-                            break
-                        case 403 :
-                            self.props.history.push('/403')
-                            break
-                        case 404 :
-                            self.props.history.push('/404')
-                            break
-                        case 422 :
-                            self.props.history.push('/422')
-                            break
-                        case 500 :
-                            self.props.history.push('/500')
-                            break
-                        default :
-                            break
-                    }
-				})
-            }
+                switch (error.response.status) {
+                    case 401 :
+                        self.props.history.push('/401')
+                        break
+                    case 403 :
+                        self.props.history.push('/403')
+                        break
+                    case 404 :
+                        self.props.history.push('/404')
+                        break
+                    case 422 :
+                        self.props.history.push('/422')
+                        break
+                    case 500 :
+                        self.props.history.push('/500')
+                        break
+                    default :
+                        break
+                }
+            })
+        }
     
+    /**
+	 * @function getAllArticle() get all article datas by admin only
+	 */
     getAllArticle = async () => {
         const req = {
             method: "get",
@@ -104,39 +110,42 @@ class AdminMenu extends React.Component {
                 Authorization: "Bearer " + localStorage.getItem('token')
             }
             }; 
-            const self = this
-            await axios(req)
-                .then(function (response) {
-                    store.setState({ allArticle: response.data, isLoading:false})
-                    console.log('all allArticle', store.getState().allArticle)
-                    return response
+        const self = this
+        await axios(req)
+            .then(function (response) {
+                store.setState({ allArticle: response.data, isLoading:false})
+                console.log('all allArticle', store.getState().allArticle)
+                return response
+            })
+            .catch((error)=>{
+                store.setState({ 
+                    isLoading: false
                 })
-                .catch((error)=>{
-                    store.setState({ 
-                        isLoading: false
-                    })
-                    switch (error.response.status) {
-                        case 401 :
-                            self.props.history.push('/401')
-                            break
-                        case 403 :
-                            self.props.history.push('/403')
-                            break
-                        case 404 :
-                            self.props.history.push('/404')
-                            break
-                        case 422 :
-                            self.props.history.push('/422')
-                            break
-                        case 500 :
-                            self.props.history.push('/500')
-                            break
-                        default :
-                            break
-                    }
-                })
-            }
+                switch (error.response.status) {
+                    case 401 :
+                        self.props.history.push('/401')
+                        break
+                    case 403 :
+                        self.props.history.push('/403')
+                        break
+                    case 404 :
+                        self.props.history.push('/404')
+                        break
+                    case 422 :
+                        self.props.history.push('/422')
+                        break
+                    case 500 :
+                        self.props.history.push('/500')
+                        break
+                    default :
+                        break
+                }
+            })
+        }
     
+    /**
+	 * @function getAllQuestion() get all question datas by admin only
+	 */
     getAllQuestion = async () => {
         const req = {
             method: "get",
@@ -177,7 +186,10 @@ class AdminMenu extends React.Component {
                     }
                 })
             }
-
+    
+    /**
+	 * @function getAllAnswer() get all answer datas by admin only
+	 */
     getAllAnswer = async () => {
         const req = {
             method: "get",
@@ -218,7 +230,10 @@ class AdminMenu extends React.Component {
                     }
                 })
             }
-
+    
+    /**
+	 * @function componentWillMount() trigger all of the function above
+	 */
     componentWillMount = ()=>{
         this.getAllTag()
         this.getAllUser()
@@ -232,7 +247,6 @@ class AdminMenu extends React.Component {
             <div className='container'>
                 <div className='row' style={{paddingTop:'100px'}}>
                     <div className='col-md-1'>
-    
                     </div>
                     <div className='col-md-11 text-justify'>
                         <h1 style={{paddingLeft:'7px', paddingBottom:'30px'}}>
@@ -268,7 +282,6 @@ class AdminMenu extends React.Component {
                         </div> 
                     </div>
                     <div className='col-md-2'>
-    
                         <div onClick={()=>this.props.handleChangePage('/tag')} className='box-control btn-glow' style={{paddingBottom:'20px', paddingTop:'20px', fontSize:'15px', paddingLeft:'0px', paddingRight:'0px'}}>
                             <img style={{width:'30px', height:'30px',  marginRight:'10px'}} src={tag} alt=""/>
                             Tag

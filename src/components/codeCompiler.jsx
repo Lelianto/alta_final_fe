@@ -1,19 +1,21 @@
 import React from 'react';
 import '../styles/css/textArea.css'
-import CKEditor from "react-ckeditor-component";
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
-import Loader from '../components/loader';
-import { storage } from '../firebase'
-import axios from 'axios'
 
 class CodeCompiler extends React.Component {
-
+    /**
+	 * @function constructor() for code compiler function, for binding function, and state 
+	 */
     constructor(props){
         super(props);
         this.escFunction = this.escFunction.bind(this);
     }
+
+    /**
+	 * @function escFunction() handling 'enter' button for python code compiler
+	 */
     escFunction(event){
         if(event.keyCode === 13) {
             store.setState({
@@ -27,13 +29,20 @@ class CodeCompiler extends React.Component {
         }
     }
 
+    /**
+	 * @function componentDidMount() event listener 'enter' button 
+	 */
     componentDidMount(){
         document.addEventListener("keydown", this.escFunction, false);
     }
 
+    /**
+	 * @function componentWillUnmount() event listener 'enter' button 
+	 */
     componentWillUnmount(){
         document.removeEventListener("keydown", this.escFunction, false);
     }
+
     render() {
         return (
             <div style={{marginBottom:'20px',marginTop:'20px'}}>
@@ -66,4 +75,4 @@ class CodeCompiler extends React.Component {
     }
 }
 
-export default connect('wordCode,codeCompilerResult', actions)(withRouter(CodeCompiler));
+export default connect('wordCode, codeCompilerResult', actions)(withRouter(CodeCompiler));

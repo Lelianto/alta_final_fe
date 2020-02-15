@@ -3,14 +3,11 @@ import { withRouter, Link } from 'react-router-dom';
 import '../styles/css/signUp.css';
 import '../styles/css/home.css';
 import { connect } from "unistore/react";
-import { actions, store } from "../stores/store";
-import axios from 'axios';
-import Swal from 'sweetalert2';
+import { actions } from "../stores/store";
 import Header from '../components/header';
 import Footer from '../components/footer';
 
 class Notification extends React.Component {
-
     state = {
         dates : ['Rabu, 3 Januari 2020', 'Selasa, 2 Januari 2020', 'Senin, 1 Januari 2020'],
         times : ['15:02', '20:43', '13:20'],
@@ -19,6 +16,9 @@ class Notification extends React.Component {
         answers: [ 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae, odio. Tempore aspernatur a rem nam similique numquam maxime, odit, voluptate aliquam officiis qui nobis aliquid amet ea fuga ipsa iure!' ]
     }
 
+    /**
+	 * @function doSearch() handling searching
+	 */
     doSearch = () => {
         this.props.history.push('/pencarian')
       }
