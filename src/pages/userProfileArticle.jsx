@@ -17,7 +17,9 @@ class UserProfileArticle extends Component {
 		userDetail: {},
 		articles: [],
 		userDataLoading : true,
-		contentLoading : true
+		contentLoading : true,
+		likeListLoading : true,
+		likeList : []
 	};
 
 	doSearch = () => {
@@ -25,15 +27,19 @@ class UserProfileArticle extends Component {
 	};
 
 	componentDidMount = async () => {
-		await this.getUserDetail();
-		await this.getUserArticle();
+		this.getUserDetail();
+		this.getUserArticle();
+		if(localStorage.getItem('token')!==null){
+			this.getLikeList()
+		} else {
+			this.setState({likeListLoading : false})
+		}
 	};
 
 	getUserArticle = async () => {
 		const article = {
 			method: 'get',
 			url: store.getState().urlProfile+'/article',
-			// url: store.getState().baseUrl + '/users/me/article',
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -51,7 +57,6 @@ class UserProfileArticle extends Component {
 		const user = {
 			method: 'get',
 			url: store.getState().urlProfile,
-			// url: store.getState().baseUrl + '/users/me',
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -91,6 +96,38 @@ class UserProfileArticle extends Component {
         await this.props.history.push('/profil/artikel')
 	}
 
+	getProfile = async (id, username) => {
+		if(username===localStorage.getItem('username')){
+			await this.props.history.push('/profil/pertanyaan')
+		} else {
+			await store.setState({
+				urlProfile : store.getState().baseUrl+'/users/'+id,
+				uname : username
+			})
+			await this.props.history.push('/profil/'+username+'/pertanyaan')
+		}
+	}
+
+	getLikeList = async () => {
+		const postId = []
+		const like = {
+			method: 'get',
+			url: store.getState().baseUrl+'/point',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + localStorage.getItem('token')
+
+			}
+		};
+		const likeListRes = await axios(like)
+		await likeListRes.data.map(async like => {
+			if (like.content_type === 'article' && like.deleted === false) {
+				await postId.push(like.locator_id)
+			}
+		})
+		await this.setState({likeList : postId, likeListLoading : false})
+	}
+
 
 	render() {
 		return (
@@ -109,11 +146,7 @@ class UserProfileArticle extends Component {
 						</div>
 						<div className="col-md-9 user-own-file overflow">
 							<h5 className="text-center profile-title">Artikel</h5>
-							{this.state.contentLoading === true ?
-						<div>
-							<Loader/>
-						</div>	
-						:
+							{!this.state.contentLoading && !this.setState.likeListLoading?
 							this.state.articles.map((content) => (
 								<UserOwnFile
 									typeContent="article"
@@ -123,8 +156,14 @@ class UserProfileArticle extends Component {
                                     editArticle={(e)=>this.editArticle(e)}
 									detailArticle={(e) => this.detailArticle(e)}
 									deleteArticle={(e)=>this.deleteArticle(e)} 
+									likeList={this.state.likeList}
+									getProfile={this.getProfile}
 								/>
 							))
+							:
+						<div>
+							<Loader/>
+						</div>	
 						}
 						</div>
 					</div>

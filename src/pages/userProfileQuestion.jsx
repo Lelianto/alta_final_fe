@@ -19,16 +19,36 @@ class UserProfilePage extends Component {
       userDetail : {},
       questions : [],
       userDataLoading : true,
-      contentLoading : true
+      contentLoading : true,
+      likeList : [],
+      likeListLoading : true
      };
     }
+    
   doSearch = ()=>{
     this.props.history.push('/pencarian')
   }
 
+  getProfile = async (id, username) => {
+		if(username===localStorage.getItem('username')){
+			await this.props.history.push('/profil/pertanyaan')
+		} else {
+			await store.setState({
+				urlProfile : store.getState().baseUrl+'/users/'+id,
+				uname : username
+			})
+			await this.props.history.push('/profil/'+username+'/pertanyaan')
+		}
+	}
+
   componentDidMount = async () => {
-    await this.getUserDetail()
-    await this.getUserQuestion()
+    this.getUserDetail()
+    this.getUserQuestion()
+    if(localStorage.getItem('token')!==null){
+      this.getLikeList()
+    } else {
+      this.setState({likeListLoading : false})
+    }
   }
 
   getUserQuestion = async ()=>{
@@ -38,9 +58,6 @@ class UserProfilePage extends Component {
       headers: {
         'Content-Type': 'application/json',
         'Authorization':'Bearer ' + localStorage.getItem("token")
-      },
-      validateStatus : (status) => {
-        return status < 500
       }
     };
 
@@ -55,9 +72,6 @@ class UserProfilePage extends Component {
       headers: {
         'Content-Type': 'application/json',
         'Authorization':'Bearer ' + localStorage.getItem("token")
-      },
-      validateStatus : (status) => {
-        return status < 500
       }
     };
 
@@ -89,6 +103,26 @@ class UserProfilePage extends Component {
 		await this.props.delQuestion()
 		await this.getUserQuestion()
     await this.props.history.push('/profil/pertanyaan')
+  }
+  
+  getLikeList = async () => {
+		const postId = []
+		const like = {
+			method: 'get',
+			url: store.getState().baseUrl+'/point',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + localStorage.getItem('token')
+
+			}
+		};
+		const likeListRes = await axios(like)
+		await likeListRes.data.map(async like => {
+			if (like.content_type === 'question' && like.deleted === false) {
+				await postId.push(like.locator_id)
+			}
+		})
+		await this.setState({likeList : postId, likeListLoading : false})
 	}
 
   render() {
@@ -109,21 +143,24 @@ class UserProfilePage extends Component {
               </div>
               <div className='col-md-9 user-own-file overflow'>
                 <h5 className="text-center profile-title">Pertanyaan</h5>
-          { this.state.questions === undefined ? 
+          { this.state.questions !== undefined && !this.state.likeListLoading? 
+            this.state.questions.map((content) => (
+              <UserOwnFile
+                  typeContent="question"
+                  content={content} 
+                  editQuestion={(e)=>this.editQuestion(e)}
+                  goToDetailQuestion={(e) => this.goToDetailQuestion(e)} 
+                  userDetail ={this.state.userData}
+                  userData = {this.state.userData}
+                  deleteQuestion={(e)=>this.deleteQuestion(e)}
+                  likeList = {this.state.likeList}
+                  getProfile={this.getProfile}
+                />
+            ))
+            :
           <div className="pl-5 pr-5">
             <Loader/>
-          </div> :
-                this.state.questions.map((content) => (
-                  <UserOwnFile
-                      typeContent="question"
-                      content={content} 
-                      editQuestion={(e)=>this.editQuestion(e)}
-                      goToDetailQuestion={(e) => this.goToDetailQuestion(e)} 
-                      userDetail ={this.state.userData}
-                      userData = {this.state.userData}
-                      deleteQuestion={(e)=>this.deleteQuestion(e)}
-                    />
-                ))
+          </div> 
           }
               </div>
             </div>
