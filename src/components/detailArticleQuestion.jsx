@@ -71,7 +71,7 @@ const DetailArticleQuestion =(props)=> {
                 {htmlArticle}
               </div>
               <div className='col-md-12 text-left pl-4 time-article-control'>
-                  <Moment fromNow ago>{postingDetail.created_at}</Moment> ago
+                  <Moment add={{hours:7}} fromNow>{postingDetail.created_at}</Moment>
                   {postingDetail.updated_at !== null ? 
                     <React.Fragment>
                       &nbsp;&nbsp;&nbsp;&nbsp; Edited

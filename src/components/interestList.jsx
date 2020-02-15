@@ -4,12 +4,11 @@ import { connect } from 'unistore/react';
 import { actions } from '../stores/store';
 import '../styles/css/home.css';
 import all from '../images/all.svg';
-import Loader from './loader';
 import Skeleton from 'react-loading-skeleton';
 
 const InterestList = (props) => {
-    const displayTags = props.excludeTags.slice(0,5)
-    const seeMoreTags = props.excludeTags.slice(5)
+    const displayTags = props.excludeTags.slice(0,8)
+    const seeMoreTags = props.excludeTags.slice(8)
 	return (
 		<React.Fragment>
             <div className="pl-2 pr-2 pt-4 mr-2 fixed-left" >
@@ -19,7 +18,7 @@ const InterestList = (props) => {
                 : null}
                     <div className="pl-2">
                         {props.tags.length > 1 ? 
-                            <div className="mb-3">
+                            <div className="mb-3 int-checkbox">
                                 <input type="checkbox" id='all' defaultChecked onClick={()=>props.checkAll()}/>
                                 <img src={all} alt="" className="pr-2 ml-2" width='30px'/>
                                 <label for='all' style={{color:'#1b262c', fontSize:'14px', cursor:'pointer'}}>Semua</label>
@@ -31,7 +30,7 @@ const InterestList = (props) => {
                         <div>
                             { 
                                 props.tags.map((value) => (
-                                    <div className='mb-3'>
+                                    <div className='mb-3 int-checkbox'>
                                             <input type="checkbox" name={value.name} value={value.name} id={value.name} onClick={props.chooseTags} defaultChecked/>
                                             <img src={value.photo_url} alt="img" className="pr-2 ml-2" width="30px"/>
                                             <label for={value.name} style={{color:'#1b262c', fontSize:'14px', cursor:'pointer'}}>{value.name}</label>
@@ -48,7 +47,7 @@ const InterestList = (props) => {
                     <div className="pl-2">
                         <div>
                             {displayTags.map((value) => (
-                                <div className='mb-3' >
+                                <div className='mb-3 int-checkbox'>
                                     <input type="checkbox" name='suggest' value={value.name} id={value.name} onClick={props.chooseTags}/>
                                     <img src={value.photo_url} alt="" className="pr-2 ml-2" width="30px"/>
                                     <label for={value.name} style={{color:'#1b262c', fontSize:'14px', cursor:'pointer'}}>{value.name}</label>
@@ -60,7 +59,7 @@ const InterestList = (props) => {
                         </div>
                         <div id='suggest-list' style={{display:'none', marginTop:'-16px'}}>
                             {seeMoreTags.map((value) => (
-                                <div className='mb-3' >
+                                <div className='mb-3 int-checkbox' >
                                     <input type="checkbox" name='suggest' value={value.name} id={value.name} onClick={props.chooseTags}/>
                                     <img src={value.photo_url} alt="" className="pr-2 ml-2" width="30px"/>
                                     <label for={value.name} style={{color:'#1b262c', fontSize:'14px', cursor:'pointer'}}>{value.name}</label>

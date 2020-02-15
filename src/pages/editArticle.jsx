@@ -93,7 +93,6 @@ class EditArticlePage extends React.Component {
                             <div className='col-md-8'>
                                 {this.state.textAreaLoading === true ?
                                 <div className='mt-3'>
-                                    {/* <Skeleton height={40} count={1}/> */}
                                     <Skeleton height={500} count={2}/>
                                 </div> 
                                 :
