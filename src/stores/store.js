@@ -617,7 +617,7 @@ export const actions = (store) => ({
 	 */
 	handleLogOutGoogle : async (state) => {
 		localStorage.setItem('loginGoogle', true)
-		await window.location.replace('https://kodekula.com')
+		await window.location.replace('https://kodekula.com/')
 	},
 
 	likePosting : async (state, id, content_type) => {
