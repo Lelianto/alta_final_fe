@@ -7,6 +7,7 @@ import Footer from '../components/footer';
 import TextAreaEdit from '../components/textAreaEdit'; 
 import Loader from '../components/loader';
 import axios from 'axios'
+import Skeleton from 'react-loading-skeleton'
 
 class EditQuestionPage extends React.Component {
     state = {
@@ -75,9 +76,9 @@ class EditQuestionPage extends React.Component {
     render() {
         if(store.getState().isLoading){
             return(
-                <div>
-                    <Loader/>
-                </div>
+                <div className='mt-3'>
+                                    <Skeleton height={500} count={2}/>
+                                </div>
             )
         } else {
             return (
@@ -90,9 +91,10 @@ class EditQuestionPage extends React.Component {
                         </div>
                             <div className='col-md-8'>
                             {this.state.textAreaLoading === true ?
-                            <div>
-                                <Loader/>
-                            </div> :
+                            <div className='mt-3'>
+                            <Skeleton height={500} count={2}/>
+                        </div>
+                            :
                                 <TextAreaEdit typeText='Masukkan Judul Pertanyaan'/>
                             }
                                 
