@@ -12,19 +12,15 @@ import CommentArea from '../components/commentArea';
 import ViewComment from '../components/viewComment';
 import Accordion from '../components/accordionExplain';
 import CodeCompiler from '../components/codeCompiler';
+import Loader from '../components/loader';
 import axios from 'axios';
 
 class detailArticlePage extends React.Component {
 	state = {
-		tags: [ 'Python', 'Javascript', 'Django', 'ReactJS', 'Java', 'GoLang' ],
-		icon: [ 'bug_report', 'build', 'android', 'camera_enhance', 'autorenew', 'code' ],
-		article: [
-			'Lorem ipsum dolor sit amet consectetur adipisicing elit',
-			'Alias corrupti velit illum sequi quas omnis esse ipsam sed aut delectus blanditiis',
-			'Deserunt dolor temporibus enim deleniti a!',
-			'Pariatur exercitationem atque non excepturi, cum',
-			'reiciendis mollitia error maxime earum totam, placeat quod! Ipsa, eum'
-		]
+		likeList : [],
+		contentLoading : true,
+		likeListLoading : true,
+		slLikeList : []
 	};
 
 	/**
@@ -39,13 +35,12 @@ class detailArticlePage extends React.Component {
           const self = this
           axios(req)
               .then((response) => {
-                console.log('isi respon detail',response.data.posting_data)
                 store.setState({ 
                   allArticleDatabase: response.data, 
                   isLoading:false,
                   questionId:questionIdParam
-                })
-                console.log('hasil detail ke store',store.getState().allArticleDatabase)
+				})
+				self.setState({contentLoading : false})
                 return response
               })
               .catch((error)=>{
@@ -77,7 +72,12 @@ class detailArticlePage extends React.Component {
 	 */
     componentWillMount = async () => {
 		await this.getAllFirst()
-        await this.props.getPopular();
+		await this.props.getPopular();
+		if (localStorage.getItem('token')!==null){
+            this.getLikeList()
+        } else {
+			this.setState({likeListLoading : false})
+		}
     };
 
 	/**
@@ -179,6 +179,29 @@ class detailArticlePage extends React.Component {
 		await this.props.history.push('/pertanyaan/'+this.props.match.params.id)
 	}
 
+	getLikeList = async () => {
+		const postId = []
+		const slId = []
+		const like = {
+			method: 'get',
+			url: store.getState().baseUrl+'/point',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + localStorage.getItem('token')
+
+			}
+		};
+		const likeListRes = await axios(like)
+		await likeListRes.data.map(async like => {
+			if (like.content_type === 'question' && like.deleted === false) {
+				await postId.push(like.locator_id)
+			} else if (like.content_type === 'answer' && like.deleted === false) {
+                await slId.push(like.locator_id)
+            }
+		})
+		await this.setState({likeList : postId, slLikeList : slId, likeListLoading : false})
+	}
+
 	render() {
 		return (
 			<React.Fragment>
@@ -191,10 +214,13 @@ class detailArticlePage extends React.Component {
 						<div className="col-lg-1 col-md-1 col-sm-12 col-12 mt-5">
 						</div>
 						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow" >
+						{!this.state.contentLoading && !this.state.likeListLoading ?
+						<React.Fragment>
 							<AccessDetailArticle
 								editQuestion={(e) => this.editQuestion(e)}
 								deleteQuestion={(e)=>this.deleteQuestion(e)}
 								getProfile={this.getProfile}
+								likeList = {this.state.likeList}
 							/>
 						{store.getState().seeComment?
 							<div>
@@ -207,11 +233,18 @@ class detailArticlePage extends React.Component {
 								<button className='btn btn-grad' onClick={()=>this.handleSeeComment()} style={{textAlign:'center', marginBottom:'20px', fontWeight:'bold', fontSize:'15px'}}>
 									Sembunyikan Komentar...
 								</button>
-									<ViewComment handleDeleteAnswer={(event)=>this.handleDeleteAnswer(event)}/>
+									<ViewComment 
+									handleDeleteAnswer={(event)=>this.handleDeleteAnswer(event)}
+									slLikeList={this.state.slLikeList}/>
 							</div>
+						}
+						</React.Fragment>
+						:
+						<div><Loader/></div>
 						}
 							<CommentArea handlePostComment={()=>this.handlePostComment()}/>
 						</div>
+
 						<div className="col-lg-4 col-md-4 col-sm-12 col-12 mt-5 overflow">
 							<PopularList detailArticle={(e)=>this.detailArticle(e)} detailQuestion={(e)=>this.goToDetailQuestion(e)} />
 							<Accordion/>

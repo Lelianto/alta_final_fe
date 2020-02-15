@@ -69,7 +69,9 @@ const initialState = {
 	idUser : '',
 	htmlContent:'',
 	idComment:'',
-	statusGoogle: true
+	statusGoogle: true,
+	notification : [],
+	notifLoading : true
 }
 
 export const store = createStore(initialState);
@@ -616,6 +618,41 @@ export const actions = (store) => ({
 	handleLogOutGoogle : async (state) => {
 		localStorage.setItem('loginGoogle', true)
 		await window.location.replace('http://localhost:3000/')
-	}
+	},
 
+	likePosting : async (state, id, content_type) => {
+		if(localStorage.getItem('token')!==null){
+			const image = document.getElementById(id)
+			const point = document.getElementById('point'+id)
+			const pointNumb = point.innerHTML
+			let value;
+			if (image.className === 'material-icons') {
+				image.className = 'material-icons-outlined'
+				point.innerHTML = pointNumb*1-1
+				value = 0
+			} else {
+				value = 1
+				image.className = 'material-icons'
+				point.innerHTML = pointNumb*1+1
+			}
+			const like = {
+				locator_id : id,
+				content_type : content_type,
+				value : value
+			}
+			const requestLike = {
+				method: "put",
+				url: state.baseUrl + '/point',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: "Bearer " + localStorage.getItem('token')
+				},
+				data: like,
+				validateStatus: (status) => {
+					return status < 500;
+				}
+			};
+			const likeRes = await axios(requestLike)
+		}
+	}
 });

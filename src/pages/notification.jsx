@@ -3,19 +3,15 @@ import { withRouter, Link } from 'react-router-dom';
 import '../styles/css/signUp.css';
 import '../styles/css/home.css';
 import { connect } from "unistore/react";
-import { actions } from "../stores/store";
+import { actions, store } from "../stores/store";
 import Header from '../components/header';
 import Footer from '../components/footer';
+import Moment from 'react-moment';
+import { Markup } from 'interweave';
+import Loader from '../components/loader';
+import Axios from 'axios';
 
 class Notification extends React.Component {
-    state = {
-        dates : ['Rabu, 3 Januari 2020', 'Selasa, 2 Januari 2020', 'Senin, 1 Januari 2020'],
-        times : ['15:02', '20:43', '13:20'],
-        notif : ['Lian menjawab pertanyaan Anda', 'Fadhil menjawab pertanyaan Lian', 'Ulfah mengomentari artikel anda'],
-        questions : [ 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corporis eaque odio harum dolore?', 'Facilis, aspernatur incidunt at autem provident, porro quibusdam fugit dolorum ratione pariatur?', 'Unde esse voluptate fugit animi accusantium, optio totam ipsum, commodi veniam cumque sit? Aperiam?' ],
-        answers: [ 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae, odio. Tempore aspernatur a rem nam similique numquam maxime, odit, voluptate aliquam officiis qui nobis aliquid amet ea fuga ipsa iure!' ]
-    }
-
     /**
 	 * @function doSearch() handling searching
 	 */
@@ -23,38 +19,77 @@ class Notification extends React.Component {
         this.props.history.push('/pencarian')
       }
 
-	render() {
+    putNotification = async (notifId, deleted) => {
+        const parameters = {
+            is_read : 1,
+            deleted : deleted
+        }
+        const read = {
+			method: 'put',
+			url: store.getState().baseUrl+'/notification/'+notifId,
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + localStorage.getItem('token')
+            },
+            data : parameters
+		};
+        const readNotif = await Axios(read)
+    };
 
-        const notifications = this.state.dates.map((date, index) => {
+    deleteNotification = async (notifId, deleted) => {
+        await this.putNotification(notifId, deleted)
+        const notifList = await this.props.notification.filter(notif => notif.id !== notifId)
+        store.setState({notification : notifList})
+    }
+    
+    goToDetailQuestion = async (postId, notifId, deleted) => {
+        store.setState({
+            userId: postId
+        });
+        await this.props.history.push('/pertanyaan/' + postId);
+        await this.putNotification(notifId, deleted)
+    }
+
+	render() {
+        const notifications = this.props.notification.map((item) => {
+            const isRead = item.is_read
+            let bgColor;
+            if (!isRead){
+                bgColor = '#88e1f2'
+            } else {
+                bgColor = 'white'
+            }
             return (
-                <div className="border shadow-sm rounded bg-white pl-3 pr-3 py-3 mt-1 mb-3">
+                <div id={item.id} style={{backgroundColor : bgColor}} className="border shadow-sm rounded pl-3 pr-3 py-3 mt-1 mb-3">
                         <div className="row">
                             <div className="col-md-11 text-left">
-                                <p className='mb-0' style={{fontSize:'13px', color:'darkslategray'}}>{date}</p>
-                                <p style={{fontSize:'13px', color:'darkslategray'}}>{this.state.times[index]}</p>
+                                <Moment className='mb-0' format='DD/MM/YYYY' style={{fontSize:'13px', color:'darkslategray'}}>{item.created_at}</Moment>
+                                &nbsp;&nbsp;<Moment className='mb-0' format='HH:MM' style={{fontSize:'13px', color:'darkslategray'}}>{item.created_at}</Moment>
                             </div>
                             <div className="col-md-1">
-                                <Link style={{textDecoration:'none'}}>
-                                    <i className="material-icons" style={{fontSize:'28px'}}>delete</i>
+                                <Link style={{textDecoration:'none', color:'black'}}>
+                                    <i onClick={()=>this.deleteNotification(item.id, true)} className="material-icons" style={{fontSize:'28px'}}>delete</i>
                                 </Link>
                             </div>
                         </div>
                         <div className="notif text-left">
-                            <p>{this.state.notif[index]}</p>
+                            <p>{item.message_content}</p>
                         </div>
                         <div className="text-left pl-3">
-                            <h6><Link style={{textDecoration:'none'}}>{this.state.questions[index]}</Link></h6>
+                            <h6><Link onClick={()=>this.goToDetailQuestion(item.tl_content.id, item.id, '')} style={{textDecoration:'none', color:'black', fontWeight:'bold', fontSize : '20px'}}>{item.tl_content.title}</Link></h6>
                         </div>
-                        <div className="border pl-3 pr-3 py-3 ml-3 mr-3">
-                            <p className="text-left">{this.state.answers}</p>
+                        <div className="border pl-3 pr-3 py-3 ml-3 mr-3" style={{backgroundColor:'#ededed'}}>
+                            <p className="text-left">
+                                <Markup content={item.sl_content.html_content}/>
+                            </p>
                         </div>
                 </div>
             )
         })
-
 		return (
 			<React.Fragment>
 				<Header doSearch={this.doSearch}/>
+                {!this.props.notifLoading && this.props.notification !== [] ?
 				<div className="container pt-5">
 					<div className="row">
 						<div className="col-lg-2 col-md-2 col-sm-1 col-1" />
@@ -66,9 +101,12 @@ class Notification extends React.Component {
 						</div>
 					</div>
 				</div>
+                :
+                <div><Loader/></div>
+                }
 			<Footer/>
 		</React.Fragment>
 		);
 	}
 }
-export default connect('', actions)(withRouter(Notification));
+export default connect('notification, notifLoading', actions)(withRouter(Notification));

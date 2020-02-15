@@ -26,7 +26,9 @@ class ArticlePage extends React.Component {
 		userDetail : {},
 		popularLoading : true,
 		contentLoading : true,
+		likeListCoding : true,
 		interestLoading : true,
+		likeList : [],
 		page : 1,
 		infoPage:{}
 	};
@@ -50,6 +52,9 @@ class ArticlePage extends React.Component {
 	 * @function componentDidMount() trigger all content function in article page
 	 */
 	componentDidMount = async () => {
+		if(localStorage.getItem('token')!==null){
+			this.getLikeList()
+		}
 		await this.getUserTags();
 		await this.getPostingList();
 		await this.filterPosting();
@@ -128,7 +133,6 @@ class ArticlePage extends React.Component {
 		}
 
 		await this.setState({filterInterest : filterInterest, excludeTags : excludeTags, interestLoading : false})
-		await store.setState({filterInterest : filterInterest, excludeTags : excludeTags})
 	}
 
 	/**
@@ -137,7 +141,6 @@ class ArticlePage extends React.Component {
 	getPostingList = async () => {
 		const parameter = {
 			content_type : 'article',
-			keyword : this.props.keyword,
 			p: this.state.page,
 			rp: this.state.contentPage
 		}
@@ -203,6 +206,9 @@ class ArticlePage extends React.Component {
 			});
 		});
 		await this.setState({chosenPost : chosenPost, contentLoading : false})
+		if(localStorage.getItem('token') === null) {
+			await this.setState({ likeListCoding : false})
+		}
 	};
 
 	/**
@@ -319,18 +325,36 @@ class ArticlePage extends React.Component {
 		await this.props.history.push('/profil/'+username+'/pertanyaan')
 	}
 
+	getLikeList = async () => {
+		const postId = []
+		const like = {
+			method: 'get',
+			url: store.getState().baseUrl+'/point',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + localStorage.getItem('token')
+			}
+		};
+		const likeListRes = await axios(like)
+		await likeListRes.data.map(async like => {
+			if (like.content_type === 'article' && like.deleted === false) {
+				await postId.push(like.locator_id)
+			}
+		})
+		await this.setState({likeList : postId, likeListCoding : false})
+	}
+	
 	/**
 	 * @function handleNext() handling go to next page
 	 */
 	handleNext = async () => {
 		const before = this.state.page+1
-		console.log(before)
 		this.setState({
 			page : before,
 			contentLoading : true
 		})
-		await this.componentDidMount()
-		await this.props.history.push('/artikel')
+		await this.getPostingList()
+		await this.filterPosting()
 	}
 
 	/**
@@ -338,13 +362,12 @@ class ArticlePage extends React.Component {
 	 */
 	handleBefore = async () => {
 		const before = this.state.page-1
-		console.log(before)
 		this.setState({
 			page : before,
 			contentLoading:true
 		})
-		await this.componentDidMount()
-		await this.props.history.push('/artikel')
+		await this.getPostingList()
+		await this.filterPosting()
 	}
 
 	render() {
@@ -373,12 +396,13 @@ class ArticlePage extends React.Component {
 						}
 						</div>
 						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow">
-							{this.state.contentLoading === true? 
+							{!this.state.contentLoading && !this.state.likeListCoding ? 
+								this.state.chosenPost.map((content, i) => <UserOwnFile  deleteArticle={(e)=>this.deleteArticle(e)} typeContent={content.posting_detail.content_type} content={content} editArticle={(e)=>this.editArticle(e)} detailArticle={(e)=>this.detailArticle(e)} userDetail={this.state.userDetail} getProfile={this.getProfile}
+								likeList={this.state.likeList}/>)
+							:
 							<div className="pr-5 pl-5">
 								<Loader/>
 							</div>
-							:
-								this.state.chosenPost.map((content, i) => <UserOwnFile  deleteArticle={(e)=>this.deleteArticle(e)} typeContent={content.posting_detail.content_type} content={content} editArticle={(e)=>this.editArticle(e)} detailArticle={(e)=>this.detailArticle(e)} userDetail={this.state.userDetail} getProfile={this.getProfile}/>)
 							}
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow">
@@ -401,13 +425,13 @@ class ArticlePage extends React.Component {
 								{this.state.page===1?
 								<Link className='box-pagination-empty'>&laquo;</Link>
 								:
-								<Link onClick={(e)=>this.handleBefore()} className='box-pagination-left' to="/">&laquo;</Link>
+								<Link onClick={(e)=>this.handleBefore()} className='box-pagination-left'>&laquo;</Link>
 								}
-								<Link className='box-pagination-number' to="/">{this.state.page}</Link>
+								<Link className='box-pagination-number'>{this.state.page}</Link>
 								{this.state.infoPage.total_pages === this.state.page?
 								<Link className='box-pagination-empty'>&raquo;</Link>
 								:
-								<Link onClick={(e)=>this.handleNext()} className='box-pagination-right' to="/">&raquo;</Link>
+								<Link onClick={(e)=>this.handleNext()} className='box-pagination-right'>&raquo;</Link>
 								}
 							</ul>
 						</div>
@@ -420,4 +444,4 @@ class ArticlePage extends React.Component {
 		);
 	}
 }
-export default connect('keyword, popularLoading', actions)(withRouter(ArticlePage));
+export default connect('popularLoading', actions)(withRouter(ArticlePage));

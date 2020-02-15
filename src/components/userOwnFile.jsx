@@ -1,6 +1,7 @@
 import React from 'react';
 import '../styles/css/userownarticle.css';
 import '../styles/css/bootstrap.min.css';
+import '../styles/css/materialIcons.css';
 import user from '../images/user.png';
 import more from '../images/ellipsis.png';
 import eye from '../images/eye.png';
@@ -13,6 +14,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { Markup } from 'interweave';
 import Truncate from 'react-truncate'
 import Moment from 'react-moment';
+// import mat-icon from 'material'
 
 const UserOwnFile = (props) => {
     
@@ -80,44 +82,25 @@ const UserOwnFile = (props) => {
                                 <Markup content={postingDetail.html_content}/>
                             </Truncate>
                         </div>
-                        <div className='col-md-12 ml-0 pl-1 time-article-control text-left'>
-                            <Moment fromNow ago>{postingDetail.created_at}</Moment> ago
-                            {postingDetail.updated_at !== null ? 
-                        <React.Fragment>
-                        &nbsp;&nbsp;&nbsp;&nbsp; Edited
-                        </React.Fragment>
-                        : null }
-                        </div>
-                        <div className='row tag-control-article align-items-end'>
-                            <div className='col-md-8'>
-                                <div className='row' style={{paddingLeft:'7px'}}>
-                                    {postingDetail.tags !== undefined ? 
-                                        postingDetail.tags.map((tag)=>(
-                                            <div className='col-md-3 tag-control-arc'>
-                                                #{tag}
-                                            </div>
-                                        ))
-                                    : null}
+                        <div className='col-md-1'></div>
+                        <div className='col-md-3'>
+                            <div className='row'>
+                                <div className='col-md-4'>
+                                    <img style={{width:'100%', marginBottom:'3px'}} src={eye} alt="img"/>{postingDetail.views}
                                 </div>
-                            </div>
-                            <div className='col-md-1'></div>
-                            <div className='col-md-3'>
-                                <div className='row'>
+                                {props.likeList.includes(postingDetail.id)?
                                     <div className='col-md-4'>
-                                        <img style={{width:'100%'}} src={eye} alt="img"/>{postingDetail.views}
+                                       <Link onClick={()=>props.likePosting(postingDetail.id, postingDetail.content_type)}  style={{color:'black'}}><i id={postingDetail.id} className="material-icons">thumb_up</i></Link>
+                                        <span id={'point'+postingDetail.id}>{postingDetail.point}</span>
                                     </div>
-                                    {(props.likeArticle === true)?
-                                        <div className='col-md-4'>
-                                            <img onClick={()=>store.setState({likeArticle:false})} style={{width:'100%'}} src={like} alt="img"/>{postingDetail.point+1}
-                                        </div>
-                                        :
-                                        <div className='col-md-4'>
-                                            <img onClick={()=>store.setState({likeArticle:true})} style={{width:'100%'}} src={havelike} alt="img"/>{postingDetail.point}
-                                        </div>
-                                    }
+                                   :
                                     <div className='col-md-4'>
-                                        <img style={{width:'100%'}} src={comment} alt="img"/>{postingDetail.sl_amount}
+                                        <Link onClick={()=>props.likePosting(postingDetail.id, postingDetail.content_type)}  style={{color:'black'}}><i id={postingDetail.id}className="material-icons-outlined">thumb_up</i></Link>
+                                        <span id={'point'+postingDetail.id}>{postingDetail.point}</span>
                                     </div>
+                                }
+                                <div className='col-md-4'>
+                                    <img style={{width:'100%', marginBottom:'3px'}} src={comment} alt="img"/>{postingDetail.sl_amount}
                                 </div>
                             </div>
                         </div>
@@ -209,19 +192,21 @@ const UserOwnFile = (props) => {
                         <div className='col-md-3'>
                             <div className='row'>
                                 <div className='col-md-4'>
-                                    <img style={{width:'100%'}} src={eye} alt="img"/>{postingDetail.views}
+                                    <img style={{width:'100%', marginBottom:'3px'}} src={eye} alt="img"/>{postingDetail.views}
                                 </div>
-                                {(props.likeQuestion === true)?
+                                {(props.likeList.includes(postingDetail.id))?
                                     <div className='col-md-4'>
-                                        <img onClick={()=>store.setState({likeQuestion:false})} style={{width:'100%'}} src={like} alt="img"/> {postingDetail.point+1}
+                                        <Link onClick={()=>props.likePosting(postingDetail.id, postingDetail.content_type)} style={{color:'black'}}><i id={postingDetail.id}className="material-icons">thumb_up</i></Link>
+                                        <span id={'point'+postingDetail.id}>{postingDetail.point}</span>
                                     </div>
                                     :
                                     <div className='col-md-4'>
-                                        <img onClick={()=>store.setState({likeQuestion:true})} style={{width:'100%'}} src={havelike} alt="img"/> {postingDetail.point}
+                                        <Link onClick={()=>props.likePosting(postingDetail.id, postingDetail.content_type)} style={{color:'black'}}><i id={postingDetail.id} className="material-icons-outlined">thumb_up</i></Link>
+                                        <span id={'point'+postingDetail.id}>{postingDetail.point}</span>
                                     </div>
                                 }
                                 <div className='col-md-4'>
-                                    <img style={{width:'100%'}} src={comment} alt="img"/>{postingDetail.sl_amount}
+                                    <img style={{width:'100%', marginBottom:'3px'}} src={comment} alt="img"/>{postingDetail.sl_amount}
                                 </div>
                             </div>
                         </div>
