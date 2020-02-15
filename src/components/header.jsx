@@ -16,6 +16,9 @@ class Header extends Component {
 		notifStatus: false
 	};
 
+	/**
+	 * @function componentDidMount() get information about notification
+	 */
 	componentDidMount = async () => {
 		const notif = {
 			method: 'get',
@@ -36,7 +39,6 @@ class Header extends Component {
 		});
 		await this.setState({ notifStatus: notifImage });
 		store.setState({ notification: notifData, notifLoading: false });
-		console.warn('notif', notifImage);
 	};
 
 	render() {

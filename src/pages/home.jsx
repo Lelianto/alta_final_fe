@@ -9,7 +9,6 @@ import PopularList from '../components/popularList';
 import UserOwnFile from '../components/userOwnFile';
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
-import Loader from '../components/loader';
 import Skeleton from 'react-loading-skeleton';
 
 class Home extends React.Component {
@@ -33,6 +32,7 @@ class Home extends React.Component {
 		likeList : []
 	};
 
+	
 	componentDidMount = async () => {
 		if(localStorage.getItem('token')!== null){
 			this.getLikeList()
