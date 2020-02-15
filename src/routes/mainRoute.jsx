@@ -47,8 +47,13 @@ import EditQuestion from '../pages/editQuestion';
 
 import Notification from '../pages/notification';
 import Search from '../pages/searchPage'
-import NotFound from '../pages/notFound'
 
+import Error401 from '../pages/error401Pages';
+import Error403 from '../pages/error403Pages';
+import Error404 from '../pages/error404Pages';
+import Error422 from '../pages/error422Pages';
+import Error500 from '../pages/error500Pages';
+import NotMatch from '../pages/notMatch';
         
 const MainRoute = () => {
     return (
@@ -56,7 +61,6 @@ const MainRoute = () => {
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/" component={Home}/>
-                    <Route exact path="/404" component={NotFound}/>
 
                     <Route exact path="/admin/pengguna" component={AdminLanding}/>
                     <Route exact path="/admin/artikel" component={AdminArticle}/>
@@ -79,6 +83,12 @@ const MainRoute = () => {
                     <Route exact path="/profil/artikel" component={UserProfileArticle} />  
                     <Route exact path="/profil/jawaban" component={UserProfileAnswer} />  
                     <Route exact path="/profil/reputasi" component={UserProfileReputation} />
+
+                    <Route exact path='/401' component={Error401} />
+                    <Route exact path='/403' component={Error403} />
+                    <Route exact path='/404' component={Error404} />
+                    <Route exact path='/422' component={Error422} />
+                    <Route exact path='/500' component={Error500} />
 
                     <Route exact path="/profil/:username/pertanyaan" component={UserProfileQuestion} />  
                     <Route exact path="/profil/:username/artikel" component={UserProfileArticle} />  
@@ -104,6 +114,7 @@ const MainRoute = () => {
                     <Route path="/pertanyaan/:id" component={DetailQuestionPage}/>
                     <Route path="/artikel/:id/edit" component={EditArticle}/>
                     <Route path="/artikel/:id" component={DetailArticle}/>
+                    <Route component={NotMatch} />
                 </Switch>
             </BrowserRouter>
         </Provider>

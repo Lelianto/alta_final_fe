@@ -20,7 +20,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id" content="164164000203-aeirfg61lk5363cp27fri0odtq32cp7u.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="887812771104-8p1v6aaf220ggvp39nqn8utsm6faer01.apps.googleusercontent.com">
 
     <meta property="og:title" content="Kodekula membantu programmer Indonesia">
     <meta property="og:type" content="article">
@@ -192,22 +192,22 @@
     gapi.auth2.init({client_id: 'deleted'});
     });
     }
-function googleLogout() {
-    // alert("googleLogout start");
-    //gapi.auth2.getAuthInstance().signOut();
-    //OR (both are same)
-    console.log('isi gapi', gapi.auth2)
-    var auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then(function () {
-            console.log('User signed out.');
-            localStorage.removeItem('email')
-            localStorage.removeItem('username')
-            localStorage.removeItem('token')
-            localStorage.removeItem('loginGoogle')
-            localStorage.clear()
-            window.location.replace('http://localhost:3000/')
-        });   
-}  
+  function googleLogout() {
+      // alert("googleLogout start");
+      //gapi.auth2.getAuthInstance().signOut();
+      //OR (both are same)
+      console.log('isi gapi', gapi.auth2)
+      var auth2 = gapi.auth2.getAuthInstance();
+          auth2.signOut().then(function () {
+              console.log('User signed out.');
+              localStorage.removeItem('email')
+              localStorage.removeItem('username')
+              localStorage.removeItem('token')
+              localStorage.removeItem('loginGoogle')
+              localStorage.clear()
+              window.location.replace('http://localhost:3000/')
+          });   
+  }  
   </script>
   <script>
     // Example starter JavaScript for disabling form submissions if there are invalid fields

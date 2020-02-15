@@ -35,7 +35,11 @@ class AddQuestionPage extends React.Component {
                                 <div className='col-md-4'>
                                 </div>
                                 <div className='col-md-4'>
-                                    <div className='btn btn-grad' style={{marginBottom:'50px', fontSize:'15px',padding:'15px'}} onClick={()=>this.handleUploadQuestion()}>Unggah Pertanyaan</div>
+                                    {this.props.newArticle === '' || this.props.articleTitle === ''|| this.props.tags === [] || this.props.tags.length === 0?
+                                        <button disabled className='btn btn-grad' style={{marginBottom:'50px', fontSize:'15px',padding:'15px'}}>Unggah Pertanyaan</button>
+                                    :
+                                        <button className='btn btn-grad' style={{marginBottom:'50px', fontSize:'15px',padding:'15px'}} onClick={()=>this.handleUploadQuestion()}>Unggah Pertanyaan</button>
+                                    }
                                 </div>
                                 <div className='col-md-4'>
                                 </div>
@@ -51,4 +55,4 @@ class AddQuestionPage extends React.Component {
 		);
 	}
 }
-export default connect('menuBarUpload, codeCompilerResult', actions)(withRouter(AddQuestionPage));
+export default connect('menuBarUpload ,newArticle ,articleTitle, tags, codeCompilerResult', actions)(withRouter(AddQuestionPage));
