@@ -29,11 +29,17 @@ class QuestionPage extends React.Component {
 		post:null,
 		chosenPost: [],
 		contentLoading : true,
+		likeListLoading : true,
+		interestLoading : true,
+		likeList : [],
 		page : 1,
 		infoPage:{}
 	};
 
 	componentDidMount = async () => {
+		if(localStorage.getItem('token')!==null){
+			await this.getLikeList()
+		}
 		await this.getUserTags()
 		await this.getPostingList()
 		await this.filterPosting();
@@ -78,7 +84,6 @@ class QuestionPage extends React.Component {
 		await axios(tags)
 		.then(async (response) => {
 			await this.setState({interestList : response.data})
-			await store.setState({interestList : response.data})
 		})
 		.catch(async (error) => {
 			await console.warn(error)
@@ -102,18 +107,15 @@ class QuestionPage extends React.Component {
 			}
 		}
 
-		await this.setState({filterInterest : filterInterest, excludeTags : excludeTags})
-		await store.setState({filterInterest : filterInterest, excludeTags : excludeTags})
+		await this.setState({filterInterest : filterInterest, excludeTags : excludeTags, interestLoading : false})
 	}
 
 	getPostingList = async () => {
 		const parameter = {
 			content_type : 'question',
-			keyword : this.props.keyword,
 			p: this.state.page,
 			rp: this.state.contentPage
 		}
-		console.log('berhasil masuk ke render lagi')
 		const posting = {
 			method: 'get',
 			url: store.getState().baseUrl+'/posting/toplevel',
@@ -124,7 +126,6 @@ class QuestionPage extends React.Component {
 		};
 		await axios(posting)
 		.then(async (response) => {
-			console.log('sekarang sungguh-sungguh berhasil')
 			await this.setState({postingList : response.data.query_data, infoPage:response.data.query_info})
 		})
 		.catch(async (error) => {
@@ -158,6 +159,9 @@ class QuestionPage extends React.Component {
 			});
 		});
 		await this.setState({chosenPost : chosenPost, contentLoading : false})
+		if(localStorage.getItem('token') === null) {
+			await this.setState({ likeListLoading : false})
+		}
 	};
 
 	seeAll = () => {
@@ -208,8 +212,6 @@ class QuestionPage extends React.Component {
         store.setState({
             userId:event
 		})
-		console.log('isi event', event)
-		console.log(store.getState().userId)
         await this.props.history.push('/pertanyaan/'+event)
 	}
 	
@@ -225,7 +227,6 @@ class QuestionPage extends React.Component {
 	}
 
 	deleteQuestion = async (event)=> {
-		console.log('isi event',event)
 		store.setState({
 			articleId:event.id,
 			articleTitle:event.title,
@@ -233,7 +234,6 @@ class QuestionPage extends React.Component {
 			imageUrl:event.banner_photo_url
 		})
 		await this.props.delQuestion()
-		console.log('DELETED')
 		await this.getPostingList()
 		await this.filterPosting()
         await this.props.history.push('/pertanyaan')
@@ -247,26 +247,43 @@ class QuestionPage extends React.Component {
 		await this.props.history.push('/profil/'+username+'/pertanyaan')
 	}
 
+	getLikeList = async () => {
+		const postId = []
+		const like = {
+			method: 'get',
+			url: store.getState().baseUrl+'/point',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + localStorage.getItem('token')
+
+			}
+		};
+		const likeListRes = await axios(like)
+		await likeListRes.data.map(async like => {
+			if (like.content_type === 'question' && like.deleted === false) {
+				await postId.push(like.locator_id)
+			}
+		})
+		await this.setState({likeList : postId, likeListLoading : false})
+	}
 	handleNext = async () => {
 		const before = this.state.page+1
-		console.log(before)
 		this.setState({
 			page : before,
 			contentLoading : true
 		})
-		await this.componentWillMount()
-		await this.props.history.push('/')
+		await this.getPostingList()
+		await this.filterPosting()
 	}
 
 	handleBefore = async () => {
 		const before = this.state.page-1
-		console.log(before)
 		this.setState({
 			page : before,
 			contentLoading:true
 		})
-		await this.componentDidMount()
-		await this.props.history.push('/pertanyaan')
+		await this.getPostingList()
+		await this.filterPosting()
 	}
 	
 	render() {
@@ -290,12 +307,19 @@ class QuestionPage extends React.Component {
 							chooseTags={this.chooseTags}/>
 						</div>
 						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow">
-							{this.state.contentLoading === true? 
+							{!this.state.contentLoading && !this.state.likeListLoading? 
+								this.state.chosenPost.map((content, i) => 
+								<UserOwnFile 
+								editQuestion={(e)=>this.editQuestion(e)} 
+								goToDetailQuestion={(event) =>this.goToDetailQuestion(event)} deleteQuestion={(e)=>this.deleteQuestion(e)} 
+								typeContent={content.posting_detail.content_type} 
+								content={content} userDetail={this.state.userDetail} 
+								getProfile={this.getProfile}
+								likeList={this.state.likeList}/>)
+								:
 							<div>
 								<Loader/>
 							</div> 
-							:
-								this.state.chosenPost.map((content, i) => <UserOwnFile editQuestion={(e)=>this.editQuestion(e)} goToDetailQuestion={(event) =>this.goToDetailQuestion(event)} deleteQuestion={(e)=>this.deleteQuestion(e)} typeContent={content.posting_detail.content_type} content={content} userDetail={this.state.userDetail} getProfile={this.getProfile}/>)
 							}
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow" >
@@ -318,13 +342,13 @@ class QuestionPage extends React.Component {
 								{this.state.page===1?
 								<Link className='box-pagination-empty'>&laquo;</Link>
 								:
-								<Link onClick={(e)=>this.handleBefore()} className='box-pagination-left' to="/">&laquo;</Link>
+								<Link onClick={()=>this.handleBefore()} className='box-pagination-left'>&laquo;</Link>
 								}
-								<Link className='box-pagination-number' to="/">{this.state.page}</Link>
+								<Link className='box-pagination-number'>{this.state.page}</Link>
 								{this.state.infoPage.total_pages === this.state.page?
 								<Link className='box-pagination-empty'>&raquo;</Link>
 								:
-								<Link onClick={(e)=>this.handleNext()} className='box-pagination-right' to="/">&raquo;</Link>
+								<Link onClick={()=>this.handleNext()} className='box-pagination-right'>&raquo;</Link>
 								}
 							</ul>
 						</div>
@@ -337,4 +361,4 @@ class QuestionPage extends React.Component {
 		);
 	}
 }
-export default connect('keyword, popularLoading', actions)(withRouter(QuestionPage));
+export default connect('popularLoading', actions)(withRouter(QuestionPage));

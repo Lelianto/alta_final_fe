@@ -12,6 +12,7 @@ import axios from 'axios';
 import Butter from 'buttercms'
 import { Helmet } from 'react-helmet';
 import Loader from '../components/loader';
+// import Skeleton from '@material-ui/lab/Skeleton'
 
 const butter = Butter('31d63e3ae80e878f31b54be79123e3052be26bd4');
 class Home extends React.Component {
@@ -28,46 +29,22 @@ class Home extends React.Component {
 		popularQuestion: [],
 		interestLoading : true,
 		contentLoading : true,
+		likeListLoading : true,
 		popularLoading : true,
 		page : 1,
 		infoPage:{},
 		likeList : []
 	};
 
-	componentWillMount = async () => {
-		this.getLikeList()
+	componentDidMount = async () => {
+		if(localStorage.getItem('token')!== null){
+			this.getLikeList()
+		}
 		await this.getUserTags();
 		await this.getPostingList();
 		await this.filterPosting();
-		let page = 1
-		if(this.props.match.params.page !== null){
-			page = this.props.match.params.page || 1
-			this.fetchPosts(page)
-		} else {
-			this.fetchPosts(page)
-		}
 		await this.props.getPopular();
 	};
-
-	fetchPosts =(page) => {
-		butter.post.list({page: page, page_size: 10}).then((resp) => {
-		  this.setState({
-			loaded: true,
-			resp: resp.data
-		  })
-		});
-	  }
-
-	componentWillReceiveProps(nextProps) {
-		this.setState({loaded: false});
-		let page = 1
-		if(nextProps.match.params.page !== null){
-			let page = nextProps.match.params.page || 1
-			this.fetchPosts(page)
-		} else {
-			this.fetchPosts(page)
-		}
-	}
 
 	getUserTags = async () => {
 		const tags = {
@@ -137,7 +114,6 @@ class Home extends React.Component {
 
 	getPostingList = async () => {
 		const parameters = {
-			keyword: this.props.keyword,
 			p: this.state.page,
 			rp: this.state.contentPage
 		};
@@ -148,7 +124,7 @@ class Home extends React.Component {
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			params: parameters
+			params : parameters
 		};
 		await axios(posting)
 			.then(async (response) => {
@@ -185,7 +161,9 @@ class Home extends React.Component {
 			});
 		});
 		await this.setState({chosenPost : chosenPost, contentLoading : false})
-		console.warn('chosen post', this.state.chosenPost)
+		if(localStorage.getItem('token') === null) {
+			this.setState({ likeListLoading : false})
+		}
 	};
 
 	seeAll = () => {
@@ -223,13 +201,6 @@ class Home extends React.Component {
 		}
 		
 		await this.filterPosting()
-	};
-
-	detailArticle = async (event) => {
-		await store.setState({
-			userId: event
-		});
-		await this.props.history.push('/artikel/' + event);
 	};
 
 	goToDetailQuestion = async (event) => {
@@ -329,48 +300,36 @@ class Home extends React.Component {
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: 'Bearer ' + localStorage.getItem('token')
-
 			}
 		};
 		const likeListRes = await axios(like)
 		await likeListRes.data.map(async like => {
-			await postId.push(like.locator_id)
-
+			if ((like.deleted === false && like.content_type === 'article') 
+			|| (like.deleted === false && like.content_type === 'question')) {
+				await postId.push(like.locator_id)
+			}
 		})
-		await this.setState({likeList : postId})
-		console.warn('like', this.state.likeList)
-	}
-
-	getLikeStatus = async () => {
-		// const posting = await this.state.chosenPost
-		// const likeList = await this.state.likeList
-		// const likeStatus = posting.map( post => {
-		// 	if(this.state.likeList.includes(post.posting_detail.id)){
-		// 		post['like'] = 
-		// 	}
-		// })
+		await this.setState({likeList : postId, likeListLoading : false})
 	}
 
 	handleNext = async () => {
 		const before = this.state.page+1
-		console.log(before)
-		this.setState({
+		await this.setState({
 			page : before,
 			contentLoading : true
 		})
-		await this.componentWillMount()
-		await this.props.history.push('/')
+		await this.getPostingList()
+		await this.filterPosting()
 	}
 
 	handleBefore = async () => {
 		const before = this.state.page-1
-		console.log(before)
-		this.setState({
+		await this.setState({
 			page : before,
 			contentLoading:true
 		})
-		await this.componentWillMount()
-		await this.props.history.push('/')
+		await this.getPostingList()
+		await this.filterPosting()
 	}
 
 	render() {
@@ -402,9 +361,7 @@ class Home extends React.Component {
 								/>
 							</div>
 							<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow">
-							{
-							this.state.contentLoading === true ?
-								<div> <Loader/> </div> :
+							{!this.state.contentLoading && !this.state.likeListLoading ?
 								this.state.chosenPost.map((content, i) => (
 									<UserOwnFile loading={this.state.contentLoading} deleteArticle={(e)=>this.deleteArticle(e)} deleteQuestion={(e)=>this.deleteQuestion(e)}
 										typeContent={content.posting_detail.content_type}
@@ -415,14 +372,17 @@ class Home extends React.Component {
 										goToDetailQuestion={(e) => this.goToDetailQuestion(e)}
 										userDetail={this.state.userDetail}
 										getProfile={this.getProfile}
+										likeList={this.state.likeList}
 									/>
-								))
+								)) :
+								<div> <Loader/> </div> 
 							}
 							</div>
 							<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow">
 								{this.props.popularLoading === true ?
 								<div className='pl-5 pr-5'>
 									<Loader/>
+									{/* <Skeleton variant="rect" width={210} height={118} /> */}
 								</div> 
 								:
 								<PopularList detailArticle={(e)=>this.detailArticle(e)} detailQuestion={(e)=>this.goToDetailQuestion(e)}/>
@@ -439,13 +399,13 @@ class Home extends React.Component {
 									{this.state.page===1?
 									<Link className='box-pagination-empty'>&laquo;</Link>
 									:
-									<Link onClick={(e)=>this.handleBefore()} className='box-pagination-left' to="/">&laquo;</Link>
+									<Link onClick={()=>this.handleBefore()} className='box-pagination-left'>&laquo;</Link>
 									}
-									<Link className='box-pagination-number' to="/">{this.state.page}</Link>
+									<Link className='box-pagination-number'>{this.state.page}</Link>
 									{this.state.infoPage.total_pages === this.state.page?
 									<Link className='box-pagination-empty'>&raquo;</Link>
 									:
-									<Link onClick={(e)=>this.handleNext()} className='box-pagination-right' to="/">&raquo;</Link>
+									<Link onClick={()=>this.handleNext()} className='box-pagination-right'>&raquo;</Link>
 									}
 								</ul>
 							</div>
@@ -454,26 +414,9 @@ class Home extends React.Component {
 						</div>
 					</div>
 					<Footer />
-					{/* <div class="accordion" id="accordionExample" style={{marginTop:'20px', paddingLeft:'8px', paddingRight:'8px'}}>
-						<div class="card">
-							<div class="card-header" id="headingOne">
-							<h2 class="mb-0">
-								<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-								Tag Yang Hangat Dipakai
-								</button>
-							</h2>
-							</div>
-
-							<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-							<div class="card-body text-justify">
-								<Graph/>
-							</div>
-							</div>
-						</div>
-					</div> */}
 				</React.Fragment>
 			);
 		}
 	}
 }
-export default connect('responseData, keyword, popularLoading', actions)(withRouter(Home));
+export default connect('responseData, popularLoading', actions)(withRouter(Home));
