@@ -116,7 +116,7 @@ class SignUp extends React.Component {
         await localStorage.removeItem('gmail_token', this.state.responseData.token)
         await localStorage.removeItem('gmail_username', this.state.responseData.username)
         await localStorage.removeItem('gmail_email', this.state.responseData.username)
-        await this.props.history.push('/pilih-minat')                  
+        await this.props.history.push('/')                  
     }
     handleGoogleSignUp=()=>{
         const signUp = true
