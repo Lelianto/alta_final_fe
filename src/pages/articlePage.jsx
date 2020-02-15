@@ -11,6 +11,7 @@ import UserOwnFile from '../components/userOwnFile';
 import { Helmet } from 'react-helmet';
 import axios from 'axios';
 import Loader from '../components/loader';
+import Skeleton from 'react-loading-skeleton'
 
 class ArticlePage extends React.Component {
 	state = {
@@ -41,7 +42,7 @@ class ArticlePage extends React.Component {
 		const showOrHide = document.getElementById('seeAll');
 		if (suggestionList.style.display === 'none') {
 			suggestionList.style.display = 'block';
-			showOrHide.innerHTML = 'Sembunyikan...';
+			showOrHide.style.display = 'none';
 		} else {
 			suggestionList.style.display = 'none';
 			showOrHide.innerHTML = 'Lihat Semua...';
@@ -161,21 +162,6 @@ class ArticlePage extends React.Component {
 			await console.warn(error)
 		})
 	}
-
-	/**
-	 * @function seeAll() see all suggestion list
-	 */
-	seeAll = () => {
-		const suggestionList = document.getElementById('suggest-list');
-		const showOrHide = document.getElementById('seeAll');
-		if (suggestionList.style.display === 'none') {
-			suggestionList.style.display = 'block';
-			showOrHide.innerHTML = 'Sembunyikan...';
-		} else {
-			suggestionList.style.display = 'none';
-			showOrHide.innerHTML = 'Lihat Semua...';
-		}
-	};
 
 	/**
 	 * @function filterPosting() get all article posting list filtered by this function
@@ -391,9 +377,9 @@ class ArticlePage extends React.Component {
 								<span></span>
 							}
 							{this.state.interestLoading === true ?
-							<div className='pl-5 pr-5'>
-								<Loader/>
-							</div>
+							<div className='mt-3'>
+							<Skeleton height={40} count={30}/>
+						</div>
 						:	
 							<InterestList tags={this.state.filterInterest} excludeTags={this.state.excludeTags} seeAll={this.seeAll} checkAll={()=>this.checkAll()}
 							chooseTags={this.chooseTags}/>
@@ -405,15 +391,15 @@ class ArticlePage extends React.Component {
 								likeList={this.state.likeList}/>)
 							:
 							<div className="pr-5 pl-5">
-								<Loader/>
+								<div className='mt-3'> <Skeleton height={400} count={2}/> </div>
 							</div>
 							}
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5 overflow">
 							{this.props.popularLoading === true ?
-								<div className='pl-5 pr-5'>
-									<Loader/>
-								</div> 
+								<div className='mt-3'>
+								<Skeleton height={300} count={2}/>
+							</div>
 								:
 								<PopularList detailArticle={(e)=>this.detailArticle(e)} detailQuestion={(e)=>this.goToDetailQuestion(e)}/>
 								}

@@ -97,6 +97,7 @@ const UserProfileSettings = (props) =>{
                                                 id="setpassword"
                                                 name="oldPassword"
                                                 data-toggle="password"
+                                                value={props.oldPassword}
                                                 onChange={(e)=>props.changeState(e)}
                                                 required
                                             />
@@ -123,6 +124,7 @@ const UserProfileSettings = (props) =>{
                                                 id="setpassword1"
                                                 name="newPassword"
                                                 data-toggle="password"
+                                                value={props.newPassword}
                                                 onChange={(e)=>props.changeState(e)}
                                                 required
                                             />
@@ -149,6 +151,7 @@ const UserProfileSettings = (props) =>{
                                                 id="setpassword2"
                                                 name="confirmPassword"
                                                 data-toggle="password"
+                                                value={props.confirmPassword}
                                                 onChange={(e)=>props.changeState(e)}
                                                 required
                                             />

@@ -35,8 +35,8 @@ class UserProfileSetting extends Component {
 				'Authorization':'Bearer ' + localStorage.getItem("token")
 			},
 			validateStatus : (status) => {
-                return status < 500
-            }
+          return status < 500
+        }
 		  };
 		
       await axios(user)
