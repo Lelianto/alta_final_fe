@@ -10,26 +10,34 @@ import Footer from '../components/footer';
 import AdminMenu from '../components/adminMenu'
 
 class AdminLandingPage extends React.Component {
-
 	state = {
 		search : '',
 		searchResult : [],
 		allArticles : this.props.allArticle.query_data
 	}
 
+	/**
+	 * @function handleChangePage() send admin to the others page based on event
+	 */
 	handleChangePage = (event) => {
-		console.log(event)
 		localStorage.removeItem('grafik')
 		this.props.history.push('/admin'+event)
 	}
+
+	/**
+	 * @function handleChangePageMenu() send admin to article graph page
+	 */
 	handleChangePageMenu = (event) => {
-		console.log(event)
 		store.setState({
 			menu:'/article'
 		})
 		localStorage.setItem('grafik', '/article')
 		this.props.history.push('/admin'+event)
 	}
+
+	/**
+	 * @function getAllArticle() get all article by admin
+	 */
 	getAllArticle = async () => {
         const req = {
             method: "get",
@@ -38,41 +46,49 @@ class AdminLandingPage extends React.Component {
                 Authorization: "Bearer " + localStorage.getItem('token')
             }
             }; 
-            const self = this
-            await axios(req)
-                .then(async (response) => {
-                    await store.setState({ allArticle: response.data, isLoading:false})
-                    await self.setState({searchResult : response.data.query_data})
-                    return response
-                })
-                .catch((error)=>{
-                    store.setState({ 
-                        isLoading: false
-                    })
-                    switch (error.response.status) {
-                        case 401 :
-                            self.props.history.push('/401')
-                            break
-                        case 403 :
-                            self.props.history.push('/403')
-                            break
-                        case 404 :
-                            self.props.history.push('/404')
-                            break
-                        case 422 :
-                            self.props.history.push('/422')
-                            break
-                        case 500 :
-                            self.props.history.push('/500')
-                            break
-                        default :
-                            break
-                    }
-                })
-			}
+		const self = this
+		await axios(req)
+			.then(async (response) => {
+				await store.setState({ allArticle: response.data, isLoading:false})
+				await self.setState({searchResult : response.data.query_data})
+				return response
+			})
+			.catch((error)=>{
+				store.setState({ 
+					isLoading: false
+				})
+				switch (error.response.status) {
+					case 401 :
+						self.props.history.push('/401')
+						break
+					case 403 :
+						self.props.history.push('/403')
+						break
+					case 404 :
+						self.props.history.push('/404')
+						break
+					case 422 :
+						self.props.history.push('/422')
+						break
+					case 500 :
+						self.props.history.push('/500')
+						break
+					default :
+						break
+				}
+			})
+		}
+	
+	/**
+	 * @function componentWillMount() trigger get all article by admin
+	 */
 	componentWillMount = ()=>{
 		this.getAllArticle()
 	}
+
+	/**
+	 * @function deleteArticle() handle soft delete article by admin
+	 */
 	deleteArticle = async (event)=> {
 		store.setState({
 			articleId:event.id,
@@ -86,10 +102,12 @@ class AdminLandingPage extends React.Component {
         await this.props.history.push('/admin/artikel')
 	}
 
+	/**
+	 * @function searchArticle() handle search article by admin
+	 */
 	searchArticle = async (event) => {
 		await this.setState({search : event.target.value})
 		const allArticle = await this.props.allArticle.query_data
-
 		if (this.state.search.length > 0) {
 			const searchData = allArticle.filter(article => 
 				article.posting_detail.title.toLowerCase().indexOf(this.state.search) > -1 ||
@@ -110,7 +128,6 @@ class AdminLandingPage extends React.Component {
 			)
 		} else {
 			const articles = this.state.searchResult
-			console.warn('articles', articles)
 			if(articles === [] || articles === undefined) {
 				return (
 					<div>

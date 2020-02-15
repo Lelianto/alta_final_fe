@@ -8,12 +8,9 @@ import Footer from '../components/footer';
 import InterestList from '../components/interestList';
 import PopularList from '../components/popularList';
 import UserOwnFile from '../components/userOwnFile';
-import Butter from 'buttercms';
 import { Helmet } from 'react-helmet';
 import axios from 'axios';
 import Loader from '../components/loader';
-
-const butter = Butter('31d63e3ae80e878f31b54be79123e3052be26bd4');
 
 class ArticlePage extends React.Component {
 	state = {
@@ -36,6 +33,9 @@ class ArticlePage extends React.Component {
 		infoPage:{}
 	};
 
+	/**
+	 * @function seeAll() see all suggestion list
+	 */
 	seeAll = () => {
 		const suggestionList = document.getElementById('suggest-list');
 		const showOrHide = document.getElementById('seeAll');
@@ -48,6 +48,9 @@ class ArticlePage extends React.Component {
 		}
 	};
 
+	/**
+	 * @function componentDidMount() trigger all content function in article page
+	 */
 	componentDidMount = async () => {
 		if(localStorage.getItem('token')!==null){
 			this.getLikeList()
@@ -55,11 +58,12 @@ class ArticlePage extends React.Component {
 		await this.getUserTags();
 		await this.getPostingList();
 		await this.filterPosting();
-		const resp = await butter.page.retrieve('*', 'beranda')
-		this.setState(resp.data)
 		await this.props.getPopular();
 	};
 
+	/**
+	 * @function getUserTags() get all user tags
+	 */
 	getUserTags = async () => {
 		const tags = {
 			method: 'get',
@@ -86,6 +90,9 @@ class ArticlePage extends React.Component {
 		await this.getAllTags()
 	}
 	
+	/**
+	 * @function getAllTags() get all tags
+	 */
 	getAllTags = async () => {
 		const tags = {
 			method: 'get',
@@ -108,6 +115,9 @@ class ArticlePage extends React.Component {
 		
 	}
 	
+	/**
+	 * @function filterTags() filtering tags for content in page
+	 */
 	filterTags = async () => {
 		const interestList = this.state.interestList
 		const userInterest = this.state.userInterest
@@ -125,6 +135,9 @@ class ArticlePage extends React.Component {
 		await this.setState({filterInterest : filterInterest, excludeTags : excludeTags, interestLoading : false})
 	}
 
+	/**
+	 * @function getPostingList() get all article posting list 
+	 */
 	getPostingList = async () => {
 		const parameter = {
 			content_type : 'article',
@@ -149,6 +162,9 @@ class ArticlePage extends React.Component {
 		})
 	}
 
+	/**
+	 * @function seeAll() see all suggestion list
+	 */
 	seeAll = () => {
 		const suggestionList = document.getElementById('suggest-list');
 		const showOrHide = document.getElementById('seeAll');
@@ -161,6 +177,9 @@ class ArticlePage extends React.Component {
 		}
 	};
 
+	/**
+	 * @function filterPosting() get all article posting list filtered by this function
+	 */
 	filterPosting = async () => {
 		let chosenTags = []
 		if (this.state.chosenTags.length > 0) {
@@ -192,6 +211,9 @@ class ArticlePage extends React.Component {
 		}
 	};
 
+	/**
+	 * @function checkAll() handling checking tags
+	 */
 	checkAll = async () => {
 		const checkState = document.getElementById('all');
 		const userInterest = this.state.userInterest;
@@ -217,6 +239,9 @@ class ArticlePage extends React.Component {
 		await this.filterPosting()
 	};
 
+	/**
+	 * @function detailArticle() handling go to detail article
+	 */
 	detailArticle = async (event)=> {
         await store.setState({
             userId:event
@@ -224,6 +249,9 @@ class ArticlePage extends React.Component {
         await this.props.history.push('/artikel/'+event)
 	}
 	
+	/**
+	 * @function editArticle() handling go to detail article editing
+	 */
 	editArticle = async (event)=> {
         await store.setState({
             userId:event
@@ -231,6 +259,9 @@ class ArticlePage extends React.Component {
         await this.props.history.push('/artikel/'+event +'/edit')
 	}
 
+	/**
+	 * @function deleteArticle() soft deleting article by id
+	 */
 	deleteArticle = async (event)=> {
 		store.setState({
 			articleId:event.id,
@@ -244,6 +275,9 @@ class ArticlePage extends React.Component {
         await this.props.history.push('/artikel')
 	}
 
+	/**
+	 * @function goToDetailQuestion() handling go to detail question
+	 */
 	goToDetailQuestion = async (event) => {
 		store.setState({
 			userId: event
@@ -251,10 +285,16 @@ class ArticlePage extends React.Component {
 		await this.props.history.push('/pertanyaan/' + event);
 	};
 	
+	/**
+	 * @function doSearch() handling searching
+	 */
 	doSearch = () => {
 		this.props.history.push('/pencarian/artikel')
 	}
 
+	/**
+	 * @function chooseTags() handling chososing tag
+	 */
 	chooseTags = async (event) => {
 		const checkState = document.getElementById('all');
 		if (event.target.name === 'suggest' || checkState.checked === false) {
@@ -274,6 +314,9 @@ class ArticlePage extends React.Component {
 		}
 	}
 
+	/**
+	 * @function getProfile() handling go to user profile
+	 */
 	getProfile = async (id, username) => {
 		await store.setState({
 			urlProfile : store.getState().baseUrl+'/users/'+id,
@@ -290,7 +333,6 @@ class ArticlePage extends React.Component {
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: 'Bearer ' + localStorage.getItem('token')
-
 			}
 		};
 		const likeListRes = await axios(like)
@@ -301,6 +343,10 @@ class ArticlePage extends React.Component {
 		})
 		await this.setState({likeList : postId, likeListCoding : false})
 	}
+	
+	/**
+	 * @function handleNext() handling go to next page
+	 */
 	handleNext = async () => {
 		const before = this.state.page+1
 		this.setState({
@@ -311,6 +357,9 @@ class ArticlePage extends React.Component {
 		await this.filterPosting()
 	}
 
+	/**
+	 * @function handleBefore() handling go to previous page
+	 */
 	handleBefore = async () => {
 		const before = this.state.page-1
 		this.setState({

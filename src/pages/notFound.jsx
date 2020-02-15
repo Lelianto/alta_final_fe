@@ -3,7 +3,6 @@ import { withRouter, Link } from 'react-router-dom';
 import '../styles/css/notFound.css'
 
 class NotFound extends React.Component {
-
 	render() {
         return (
             <div id="notfound">

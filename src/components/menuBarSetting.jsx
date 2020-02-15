@@ -10,26 +10,25 @@ import { connect } from 'unistore/react'
 import { Link, withRouter } from 'react-router-dom';
 
 const MenuBarSetting = (props)=> {
-    console.log('user detail', props.userDetail)
     return (
         <div className='container'>
             <div className='row menu-bar-photo'>
                 <div>
                     {props.userDetail.photo_url===null?
-                    <img className='dummy-photo-setting' src={user} />
+                    <img className='dummy-photo-setting' src={user} alt="" />
                     :
-                    <img className='dummy-photo-setting' style={{height : '217px', width:'217px'}} src={props.userDetail.photo_url}/>
+                    <img className='dummy-photo-setting' style={{height : '217px', width:'217px'}} src={props.userDetail.photo_url} alt=""/>
                     }
                 </div>
             </div>
             <div onClick={()=>props.handleMainPage('/data-diri','Data Diri')} className='row menu-bar menu-bar-fix'>
                 <Link className='link-menu-bar' to='#'>
-                    <img style={{width:'15%'}} src={question} alt="img"/>   Data Diri
+                    <img style={{width:'15%'}} src={question} alt=""/>   Data Diri
                 </Link>
             </div>
             <div onClick={()=>store.setState({menuBarSetting: 'Minat'})} onClick={()=>props.handleMainPage('/minat','Minat')} className='row menu-bar'>
                 <Link className='link-menu-bar' to='#'>
-                    <img style={{width:'15%'}} src={answer} alt="img"/>   Minat
+                    <img style={{width:'15%'}} src={answer} alt=""/>   Minat
                 </Link>
             </div>
             <div onClick={()=>store.setState({menuBarSetting: 'Ubah Password'})} onClick={()=>props.handleMainPage('/ubah-password','Ubah Password')} className='row menu-bar'>

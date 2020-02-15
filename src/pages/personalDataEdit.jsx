@@ -48,13 +48,7 @@ class UserProfileSetting extends Component {
       await axios(user)
 			.then(async (response) => {
         const userDetail = await response.data.user_detail_data
-        // const userData = await response.data.user_data
-        // const userTag = await response.data.user_tag_data
-        // console.warn('userdetail get', userDetail)
-        // await this.setState({firstName : response.data.user_detail_data.first_name, lastName : response.data.user_detail_data.last_name, jobTitle : response.data.user_detail_data.job_title, email : response.data.user_data.email, tags : response.data.user_tag_data, imageUrl : userDetail.user_detail_data.photo_url, userDetail : userDetail})
         await this.setState({imageUrl : userDetail.user_detail_data.photo_url, userDetail : userDetail, tags : response.data.user_tag_data})
-
-        console.warn('state user detail', this.state.userDetail)
 			})
 			.catch(async (error) => {
 				await console.warn(error)
@@ -128,7 +122,6 @@ class UserProfileSetting extends Component {
       }, 
       (error) => {
           // Error Function
-          console.log(error)
       }, 
       ()=>{
           // Complete Function

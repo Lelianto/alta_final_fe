@@ -11,6 +11,7 @@ async function onSignIn(googleUser){
         localStorage.setItem('gmail_username', username)
         localStorage.setItem('gmail_email', profile.getEmail())
         localStorage.setItem('gmail_token', id_token)
+        localStorage.setItem('google', true)
         localStorage.removeItem('status')
         window.location.replace('http://localhost:3000/daftar')
     }

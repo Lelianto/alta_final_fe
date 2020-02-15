@@ -10,14 +10,12 @@ import { connect } from 'unistore/react'
 import { Link, withRouter } from 'react-router-dom';
 
 const MenuBarProfile = ()=> {
-
     let path;
     if(store.getState().urlProfile === 'https://api.kodekula.com/users/me'){
         path = '/profil'
     } else {
         path = '/profil/'+store.getState().uname
     }
-
     return (
         <div className='container'>
             <div onClick={()=>store.setState({menuBarUser: 'Pertanyaan'})} className='row menu-bar menu-bar-fix'>

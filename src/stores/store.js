@@ -22,8 +22,6 @@ const initialState = {
 	getCodeResultUrl: 'https://cors-anywhere.herokuapp.com/api.paiza.io:80/runners/get_details',
 	codeCompilerResult: '',
 	baseUrl:'https://api.kodekula.com',
-	// baseUrl:'http://13.229.122.5:5000',
-	// baseUrl: 'https://kodekula.herokuapp.com',
 	username: '',
 	password: '',
 	email: '',
@@ -71,6 +69,7 @@ const initialState = {
 	idUser : '',
 	htmlContent:'',
 	idComment:'',
+	statusGoogle: true,
 	notification : [],
 	notifLoading : true
 }
@@ -84,11 +83,11 @@ export const actions = (store) => ({
 	},
 
 	/**
-	 * @function showPassword
+	 * @function showPassword()
 	 * @param { String } id
 	 * @param { String } idImage
-	 * @returns { String } imgPassword.innerHTML
-	 * @returns { String } password.type
+	 * Result : imgPassword.innerHTML
+	 * Result : password.type
 	 */
 	showPassword: (state, id, idImage) => {
 		let imgPassword = document.getElementById(idImage);
@@ -106,58 +105,19 @@ export const actions = (store) => ({
 		}
 	},
 	
+	/**
+	 * @function setInput()
+	 * @param { String, Integer, or Boolean } event
+	 * For changing value of some variable (name)
+	 */
 	setInput : (state, event) => {
-		store.setState({[event.target.name] : event.target.value})
-		console.log('newTag', store.getState().newTag)
-		console.log('newLogo', store.getState().newLogo)	
+		store.setState({[event.target.name] : event.target.value})	
 	},
 
-	codeCompiler : async (state) => {
-		const source= state.wordCode     
-		console.log('src',source) 
-		const mydata = {
-			source_code: source,
-			language: 'python3',
-			api_key: 'guest'      
-		};
-		const req = {
-			method: 'post',
-			url: state.codeCompilerUrl,
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			params: mydata
-		};
-		await axios(req)
-			.then(async (response) => {
-				const idResult = response.data.id;
-				const finalData = {
-					id: idResult,
-					api_key: 'guest'
-				};
-				const req = {
-					method: 'get',
-					url: state.getCodeResultUrl,
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					params: finalData
-				};
-				await axios(req)
-					.then((response) => {
-						store.setState({
-							codeCompilerResult: response.data.stdout
-						});
-					})
-					.catch((error) => {
-						return false;
-					});
-			})
-			.catch((error) => {
-				return false;
-			});
-	},
-
+	/**
+	 * @function addNewTag() Add new tag
+	 * @returns { String } New Tag
+	 */
 	addNewTag : async (state) => {
 		const tagName = state.newTag
 		const tagUrl = state.newLogo
@@ -186,6 +146,10 @@ export const actions = (store) => ({
 
 	},
 
+	/**
+	 * @function compileCode() Add new tag
+	 * @returns { String, Integer, or Boolean } Compile result
+	 */
 	compileCode: async (state) => {
 		store.setState({
 			waiting: true
@@ -215,10 +179,19 @@ export const actions = (store) => ({
 			});
 	},
 
+	/**
+	 * @function setGlobal()
+	 * @param { String, Integer, or Boolean } event
+	 * For changing value of some variable (name)
+	 */
 	setGlobal: async (state, event) => {
 		await store.setState({ [event.target.name]: event.target.value });
 	},
 
+	/**
+	 * @function delUser() soft deleting user by id
+	 * @returns { Boolean } change deleted status be 'True'
+	 */
 	delUser: async (state) => {
 		const idUser = state.idUser;
 		const deleteData = {
@@ -232,7 +205,6 @@ export const actions = (store) => ({
 			},
 			data: deleteData
 		};
-		// data=JSON.stringify(data)
 		await axios(req)
 			.then((response) => {
 				store.setState({
@@ -241,11 +213,14 @@ export const actions = (store) => ({
 				return response
 			})
 			.catch((error) => {
-				console.log(error)
 				return false;
 			});
 	},
 
+	/**
+	 * @function delComment() soft deleting comment in detail article page by id
+	 * @returns { Boolean } change deleted status be 'True'
+	 */
 	delComment: async (state) => {
 		const idComment = state.idComment;
 		const htmlContent = state.htmlContent
@@ -261,7 +236,6 @@ export const actions = (store) => ({
 			},
 			data: deleteData
 		};
-		// data=JSON.stringify(data)
 		await axios(req)
 			.then((response) => {
 				store.setState({
@@ -274,6 +248,10 @@ export const actions = (store) => ({
 			});
 	},
 
+	/**
+	 * @function uploadArticle() upload article to database
+	 * @returns Success or fail uploading 
+	 */
 	uploadArticle: async (state) => {
 		const title = state.articleTitle;
 		const content_type = 'article';
@@ -290,7 +268,6 @@ export const actions = (store) => ({
 			banner_photo_url: banner_photo_url,
 			tags : state.tags
 		};
-		// articleDetails = JSON.stringify(articleDetails)
 		const req = {
 			method: 'post',
 			url: state.baseUrl + '/posting/toplevel',
@@ -299,7 +276,6 @@ export const actions = (store) => ({
 			},
 			data: articleDetails
 		};
-		// data=JSON.stringify(data)
 		await axios(req)
 			.then((response) => {
 				store.setState({
@@ -310,11 +286,14 @@ export const actions = (store) => ({
 				})
 			})
 			.catch((error) => {
-				console.log(error)
 				return false;
 			});
 	},
 
+	/**
+	 * @function uploadQuestion() upload question to database
+	 * @returns Success or fail uploading
+	 */
 	uploadQuestion : async (state) => {
 		const title = state.articleTitle
 		const content_type = 'question'
@@ -353,6 +332,10 @@ export const actions = (store) => ({
 			});
 	},
 
+	/**
+	 * @function updateArticle() update article in database
+	 * @returns Success or fail updating
+	 */
 	updateArticle: async (state) => {
 		const title = state.articleTitle;
 		const content_type = 'article';
@@ -370,7 +353,6 @@ export const actions = (store) => ({
 			content_status:0,
 			tags : state.tags
 		};
-		// articleDetails = JSON.stringify(articleDetails)
 		const req = {
 			method: 'put',
 			url: state.baseUrl + '/posting/toplevel/' + state.articleId,
@@ -379,7 +361,6 @@ export const actions = (store) => ({
 			},
 			data: articleDetails
 		};
-		// data=JSON.stringify(data)
 		await axios(req)
 			.then((response) => {
 				store.setState({
@@ -396,6 +377,10 @@ export const actions = (store) => ({
 			});
 	},
 
+	/**
+	 * @function delArticle() soft deleting article in database
+	 * @returns Success or fail deleting
+	 */
 	delArticle: async (state) => {
 		const title = state.articleTitle;
 		const content_type = 'article';
@@ -422,7 +407,6 @@ export const actions = (store) => ({
 			},
 			data: articleDetails
 		};
-		// data=JSON.stringify(data)
 		await axios(req)
 			.then((response) => {
 				store.setState({
@@ -435,11 +419,14 @@ export const actions = (store) => ({
 				return response
 			})
 			.catch((error) => {
-				console.log(error)
 				return false;
 			});
 	},
 
+	/**
+	 * @function delQuestion() soft deleting question in database
+	 * @returns Success or fail deleting
+	 */
 	delQuestion: async (state) => {
 		const title = state.articleTitle;
 		const content_type = 'question';
@@ -466,7 +453,6 @@ export const actions = (store) => ({
 			},
 			data: articleDetails
 		};
-		// data=JSON.stringify(data)
 		await axios(req)
 			.then((response) => {
 				store.setState({
@@ -483,6 +469,10 @@ export const actions = (store) => ({
 			});
 	},
 
+	/**
+	 * @function updateQuestion() updating question in database
+	 * @returns Success or fail updating
+	 */
 	updateQuestion: async (state) => {
 		const title = state.articleTitle;
 		const content_type = 'question';
@@ -500,7 +490,6 @@ export const actions = (store) => ({
 			content_status:0,
 			tags : state.tags
 		};
-		// articleDetails = JSON.stringify(articleDetails)
 		const req = {
 			method: 'put',
 			url: state.baseUrl + '/posting/toplevel/' + state.articleId,
@@ -509,7 +498,6 @@ export const actions = (store) => ({
 			},
 			data: articleDetails
 		};
-		// data=JSON.stringify(data)
 		await axios(req)
 			.then((response) => {
 				store.setState({
@@ -526,6 +514,10 @@ export const actions = (store) => ({
 			});
 	},
 
+	/**
+	 * @function handleAPI() handle API processing
+	 * @returns Success or fail response
+	 */
 	handleAPI: async (state, parameters) => {
 		const getDataRes = await axios(parameters);
 		await store.setState({ responseStatus: getDataRes.status});
@@ -534,6 +526,10 @@ export const actions = (store) => ({
 		}
 	},
 	
+	/**
+	 * @function getToken() get token for login and save it in localstorage
+	 * @returns Success or fail login
+	 */
 	getToken: async (state) => {
 		const responseData = await state.responseData;
 		if (responseData.hasOwnProperty('token')) {
@@ -542,16 +538,28 @@ export const actions = (store) => ({
 		}
 	},
 
+	/**
+	 * @function deleteResponse() deleting response data from global state
+	 * @returns Success or fail deleting
+	 */
 	deleteResponse: async (state) => {
 		await store.setState({ responseData: null, responseStatus: null });
 	},
 
+	/**
+	 * @function afterSignOut() deleting all local storage data
+	 * @returns Success or fail deleting
+	 */
 	afterSignOut : state => {
 		localStorage.removeItem("token")
 		localStorage.removeItem("username")
 		localStorage.removeItem("email")
 	},
 
+	/**
+	 * @function postComment() add new comment to an article
+	 * @returns Success or fail uploading
+	 */
 	postComment : async (state) => {
 		const content_type = 'answer'
 		const originArticle = state.newArticle
@@ -577,13 +585,16 @@ export const actions = (store) => ({
 					menuBarUpload:false,
 					newArticle:''
 				})
-			console.log('isi response', response)
 			})
 			.catch(error => {
 				return false
 		})
 	},
 
+	/**
+	 * @function getPopular() get all popular article and question
+	 * @returns Success or fail getting datas
+	 */
 	getPopular : async (state) => {
 		const popular = {
 			method: 'get',
@@ -592,13 +603,21 @@ export const actions = (store) => ({
 				'Content-Type': 'application/json'
 			}
 		};
-
 		const popularContent = await axios(popular)
 		await store.setState({ 
 			popularArticle : popularContent.data.popular_art,
 			popularQuestion : popularContent.data.popular_que,
 			popularLoading : false
 		})
+	},
+
+	/**
+	 * @function handleLogOutGoogle() log out when using google account
+	 * @returns Success or fail logout
+	 */
+	handleLogOutGoogle : async (state) => {
+		localStorage.setItem('loginGoogle', true)
+		await window.location.replace('http://localhost:3000/')
 	},
 
 	likePosting : async (state, id, content_type) => {

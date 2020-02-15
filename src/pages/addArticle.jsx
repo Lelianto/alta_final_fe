@@ -1,20 +1,28 @@
 import React from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'unistore/react';
-import { actions, store } from '../stores/store';
+import { actions } from '../stores/store';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import TextArea from '../components/textArea'; 
 import PreviewArticle from '../components/previewArticle';
 
 class AddArticlePage extends React.Component {
+    /**
+	 * @function doSearch() send user to searching result page
+	 */
     doSearch = () => {
         this.props.history.push('/pencarian')
       }
+
+    /**
+	 * @function handleUploadArticle() handle upload article and send user to article page
+	 */
     handleUploadArticle = () => {
         this.props.uploadArticle()
         this.props.history.push('/artikel')
     }
+    
 	render() {
 		return (
 			<React.Fragment>

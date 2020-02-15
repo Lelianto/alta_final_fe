@@ -11,10 +11,17 @@ import AdminMenu from '../components/adminMenu'
 
 
 class AdminLandingPage extends React.Component {
+	/**
+	 * @function handleChangePage() send admin to the others page based on event
+	 */
 	handleChangePage = (event) => {
 		localStorage.removeItem('grafik')
 		this.props.history.push('/admin'+event)
 	}
+
+	/**
+	 * @function handleChangePageMenu() send admin to answer datas page
+	 */
 	handleChangePageMenu = (event) => {
 		store.setState({
 			menu:'/answer'
@@ -22,6 +29,10 @@ class AdminLandingPage extends React.Component {
 		localStorage.setItem('grafik', '/answer')
 		this.props.history.push('/admin'+event)
 	}
+
+	/**
+	 * @function getAllAnswer() get all answer by admin
+	 */
 	getAllAnswer = async () => {
         const req = {
             method: "get",
@@ -30,42 +41,48 @@ class AdminLandingPage extends React.Component {
                 Authorization: "Bearer " + localStorage.getItem('token')
             }
             }; 
-            const self = this
-            await axios(req)
-                .then((response) => {
-                    store.setState({ allAnswer: response.data, isLoading:false})
-                    return response
-                })
-                .catch((error)=>{
-                    store.setState({ 
-                        isLoading: false
-                    })
-                    switch (error.response.status) {
-                        case 401 :
-                            self.props.history.push('/401')
-                            break
-                        case 403 :
-                            self.props.history.push('/403')
-                            break
-                        case 404 :
-                            self.props.history.push('/404')
-                            break
-                        case 422 :
-                            self.props.history.push('/422')
-                            break
-                        case 500 :
-                            self.props.history.push('/500')
-                            break
-                        default :
-                            break
-                    }
-                })
-            }
+		const self = this
+		await axios(req)
+			.then((response) => {
+				store.setState({ allAnswer: response.data, isLoading:false})
+				return response
+			})
+			.catch((error)=>{
+				store.setState({ 
+					isLoading: false
+				})
+				switch (error.response.status) {
+					case 401 :
+						self.props.history.push('/401')
+						break
+					case 403 :
+						self.props.history.push('/403')
+						break
+					case 404 :
+						self.props.history.push('/404')
+						break
+					case 422 :
+						self.props.history.push('/422')
+						break
+					case 500 :
+						self.props.history.push('/500')
+						break
+					default :
+						break
+				}
+			})
+		}
 
+	/**
+	 * @function componentWillMount() trigger get all answer by admin
+	 */
     componentWillMount = ()=>{
         this.getAllAnswer()
 	}
 
+	/**
+	 * @function handleDeleteAnswer() handle soft delete answer by admin
+	 */
 	handleDeleteAnswer = async (event) => {
 		await store.setState({
 			idComment:event.id,

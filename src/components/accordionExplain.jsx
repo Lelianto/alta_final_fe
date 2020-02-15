@@ -1,12 +1,9 @@
 import React from 'react';
 import '../styles/css/header.css';
 import '../styles/css/bootstrap.min.css';
-import logo from '../images/NewLogo.png';
-import user from '../images/user.png';
-import notification from '../images/bell.png';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'unistore/react';
-import { actions, store } from '../stores/store';
+import { actions } from '../stores/store';
 import { Markup } from 'interweave';
 
 const Accordion = (props) => {

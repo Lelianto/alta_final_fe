@@ -108,64 +108,19 @@ body {
   font-size: 20px;
   transition: 0.5s;
   background-size: 200% auto;
-  color: white;
+  color: #0e0d0d;
   /* text-shadow: 0px 0px 10px rgba(0,0,0,0.2);*/
   box-shadow: 0 0 20px #eee;
   border-radius: 10px !important;
+  border: 1px gainsboro solid;
 }
 .btn-glow:hover {
-  color: white;
+  color: #0e0d0d;
+  border: 1px gainsboro solid;
   background-position: right center;
   /* change the direction of the change here */
 }
 .btn-glow {
-  background-image: linear-gradient(to right, #16222A 0%, #3A6073 51%, #16222A 100%);
-}
-.btn-sparkle {
-  flex: 1 1 auto;
-  margin: 10px;
-  padding-left: 50px;
-  padding-right: 50px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  text-align: center;
-  font-size: 20px;
-  transition: 0.5s;
-  background-size: 200% auto;
-  color: white;
-  /* text-shadow: 0px 0px 10px rgba(0,0,0,0.2);*/
-  box-shadow: 0 0 20px #eee;
-  border-radius: 10px !important;
-}
-.btn-sparkle:hover {
-  color: white;
-  background-position: right center;
-  /* change the direction of the change here */
-}
-.btn-sparkle {
-  background-image: linear-gradient(to right, #614385 0%, #516395 51%, #614385 100%);
-}
-.btn-hot {
-  flex: 1 1 auto;
-  margin: 10px;
-  padding-left: 50px;
-  padding-right: 50px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  text-align: center;
-  font-size: 20px;
-  transition: 0.5s;
-  background-size: 200% auto;
-  color: white;
-  /* text-shadow: 0px 0px 10px rgba(0,0,0,0.2);*/
-  box-shadow: 0 0 20px #eee;
-  border-radius: 10px !important;
-}
-.btn-hot:hover {
-  color: white;
-  background-position: right center;
-  /* change the direction of the change here */
-}
-.btn-hot {
-  background-image: linear-gradient(to right, #870000 0%, #190A05 51%, #870000 100%);
+  border: 1px gainsboro solid;
+  background-image: linear-gradient(to right, #dce6ec 0%, #b9e4fa 51%, #6fc2fa 100%);
 }
