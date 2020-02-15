@@ -42,7 +42,6 @@ class SignUp extends React.Component {
                 return status < 500
             }
         };
-        console.log('isi signup google', signUp)
         if (this.state.username !== null && this.state.email !== null && this.state.password !==null && this.state.confirmPassword !== null) {
             if (this.state.password === this.state.confirmPassword) {
                 await this.props.handleAPI(signUp)

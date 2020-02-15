@@ -7,7 +7,7 @@ import UserOwnFile from '../components/userOwnFile';
 import MenuBarProfile from '../components/menuBarProfile';
 import Loader from '../components/loader';
 import axios from 'axios';
-import { actions, store } from '../stores/store';
+import { store } from '../stores/store';
 
 
 class UserProfileReputation extends Component {
@@ -32,8 +32,6 @@ class UserProfileReputation extends Component {
     await this.addTagLogo()
   }
 
-  
-  
   getUserDetail = async () => {
     const user = {
       method: 'get',
@@ -65,7 +63,6 @@ class UserProfileReputation extends Component {
     };
 
     const reputationRes = await axios(reputation)
-    console.warn('respndse', reputationRes)
     this.setState({reputation : reputationRes.data})
   }
 
@@ -77,14 +74,12 @@ class UserProfileReputation extends Component {
         'Content-Type': 'application/json'
       }
     };
-    
     const allTagsRes = await axios(tags)
     await this.setState({tags : allTagsRes.data})
     
   }
 
   addTagLogo = async () => {
-    console.warn('state', this.state.reputation)
     const reputation = await this.state.reputation
     const tags = this.state.tags
     reputation.map(async (item) => {

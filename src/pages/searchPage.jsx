@@ -72,7 +72,6 @@ class Search extends React.Component {
 				await store.setState({ interestList: response.data });
 			})
 			.catch(async (error) => {
-				await console.warn(error);
 			});
 
 		await this.filterTags();
@@ -91,7 +90,6 @@ class Search extends React.Component {
 				excludeTags.push(interestList[i]);
 			}
 		}
-
 		await this.setState({ filterInterest: filterInterest, excludeTags: excludeTags, interestLoading : false });
 	};
 
@@ -114,7 +112,6 @@ class Search extends React.Component {
 				await this.setState({ postingList: response.data.query_data, contentLoading : false });
 			})
 			.catch(async (error) => {
-				await console.warn(error);
 			});
 		if (localStorage.getItem('token')===null){
 			this.setState({likeListLoading : false})

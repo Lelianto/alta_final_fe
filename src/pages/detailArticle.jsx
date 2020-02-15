@@ -49,6 +49,25 @@ class DetailArticle extends React.Component {
                 store.setState({ 
                 isLoading: false
                 })
+                switch (error.response.status) {
+					case 401 :
+						self.props.history.push('/401')
+						break
+					case 403 :
+						self.props.history.push('/403')
+						break
+					case 404 :
+						self.props.history.push('/404')
+						break
+					case 422 :
+						self.props.history.push('/422')
+						break
+					case 500 :
+						self.props.history.push('/500')
+						break
+					default :
+						break
+				}
             })
     }
     
@@ -248,23 +267,27 @@ class DetailArticle extends React.Component {
                                 :
                                 <div><Loader/></div>
                             }
-                            <div className="border py-2 ml-1 mr-1 row bg-white">
-                                <div className="col-md-2">
-                                    <img src={user} alt="" width="90%" style={{borderRadius : '50%'}}/>
-                                </div>
-                                <div className="col-md-8 form-group" style={{paddingTop:'18px'}}>
-                                    <input type="text" className="form-control" placeholder="Tuliskan komentar anda" onChange={(e)=>this.changeState(e)}/>
-                                </div>
-                                {this.state.comment===''?
-                                    <div className="col-md-2 text-center pt-3">
-                                        <button disabled className="btn btn-outline-primary" style={{width:'100%'}}>Kirim</button>
+                            {localStorage.getItem('username') !== null || localStorage.getItem('token') !== null?
+                                <div className="border py-2 ml-1 mr-1 row bg-white">
+                                    <div className="col-md-2">
+                                        <img src={user} alt="" width="90%" style={{borderRadius : '50%'}}/>
                                     </div>
-                                :
-                                    <div className="col-md-2 text-center pt-3">
-                                        <button className="btn btn-outline-primary" style={{width:'100%'}} onClick={()=>this.postComment()}>Kirim</button>
+                                    <div className="col-md-8 form-group" style={{paddingTop:'18px'}}>
+                                        <input type="text" className="form-control" placeholder="Tuliskan komentar anda" onChange={(e)=>this.changeState(e)}/>
                                     </div>
-                                }
-                            </div>
+                                    {this.state.comment===''?
+                                        <div className="col-md-2 text-center pt-3">
+                                            <button disabled className="btn btn-outline-primary" style={{width:'100%'}}>Kirim</button>
+                                        </div>
+                                    :
+                                        <div className="col-md-2 text-center pt-3">
+                                            <button className="btn btn-outline-primary" style={{width:'100%'}} onClick={()=>this.postComment()}>Kirim</button>
+                                        </div>
+                                    }
+                                </div>
+                            :
+                                <span></span>
+                            }
 						</div>
 						<div className="col-lg-4 col-md-4 col-sm-12 col-12 mt-5 overflow">
 							<PopularList detailArticle={(e)=>this.detailArticle(e)} detailQuestion={(e)=>this.goToDetailQuestion(e)}/>

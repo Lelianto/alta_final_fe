@@ -299,9 +299,13 @@ class QuestionPage extends React.Component {
 				<div className="container-fluid pt-4">
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5 overflow">
-							<Link style={{textDecoration:'none', color:'white'}} to='/pertanyaan/tulis'>
-								<button to='/artikel/tulis' className='btn btn-success button-write-article-control mt-4'>Tulis Pertanyaan</button>
-							</Link>
+							{localStorage.getItem('token')!==null || localStorage.getItem('username')!==null?
+								<Link style={{textDecoration:'none', color:'white'}} to='/pertanyaan/tulis'>
+									<button to='/artikel/tulis' className='btn btn-success button-write-article-control mt-4'>Tulis Pertanyaan</button>
+								</Link>
+							:
+								<span></span>
+							}
 							<InterestList tags={this.state.filterInterest} excludeTags={this.state.excludeTags} seeAll={this.seeAll} checkAll={()=>this.checkAll()
 							}
 							chooseTags={this.chooseTags}/>
