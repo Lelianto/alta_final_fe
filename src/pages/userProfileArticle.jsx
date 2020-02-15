@@ -10,6 +10,7 @@ import axios from 'axios';
 import { actions, store } from '../stores/store';
 import { connect } from 'unistore/react';
 import { withRouter, Link } from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton'
 
 class UserProfileArticle extends Component {
 	state = {
@@ -134,9 +135,18 @@ class UserProfileArticle extends Component {
 			<div>
 				<Header doSearch={this.doSearch} />
 				{this.state.userDataLoading === true? 
-				<div className="pl-5 pr-5">
-					<Loader/>
-				</div> :
+				<div className='pt-4 container-fluid'>
+				<div className='row'>
+				  <div className="col-md-4 pt-5">
+					<Skeleton circle={true} height={250} width={250} />
+				  </div>
+				  <div className="col-md-5 pt-5 mt-5">
+					<Skeleton className='mb-4' height={50} count={3}/>
+				  </div>
+	
+				</div>
+			</div> 
+				:
 				<UserProfile userData={this.state.userData} userDetail={this.state.userDetail}/>
 				}
 				<div className="container">
@@ -161,9 +171,9 @@ class UserProfileArticle extends Component {
 								/>
 							))
 							:
-						<div>
-							<Loader/>
-						</div>	
+							<div className='mt-4'>
+							<Skeleton height={400} count={2}/>
+						  </div>	
 						}
 						</div>
 					</div>
