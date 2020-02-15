@@ -5,7 +5,6 @@ import { actions } from '../stores/store';
 import { connect } from 'unistore/react'
 import { withRouter } from 'react-router-dom';
 import user from '../images/user.png';
-import Loader from './loader';
 import Moment from 'react-moment';
 
 const UserProfile = (props) =>{

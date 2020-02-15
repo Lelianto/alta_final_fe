@@ -8,7 +8,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 class UserProfileSetting extends Component {
   state = {
@@ -20,10 +20,12 @@ class UserProfileSetting extends Component {
   handlePage = (event)=>{
     this.props.history.replace('/pengaturan-akun'+event)
   }
+
   handleMainPage = (event1, event2)=>{
     store.setState({menuBarSetting:event2})
     this.props.history.replace('/pengaturan-akun'+event1)
   }
+
   componentDidMount = async () => {
     const user = {
 			method: 'get',
@@ -46,9 +48,11 @@ class UserProfileSetting extends Component {
 				await console.warn(error)
 			})
   }
+
   changeState = async (event) => {
     await this.setState({[event.target.name] : event.target.value})
   }
+
   changePassword = async () => {
     if (this.state.newPassword === this.state.confirmPassword) {
       const parameters = {

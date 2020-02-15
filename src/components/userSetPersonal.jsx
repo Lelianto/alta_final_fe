@@ -2,10 +2,9 @@ import React from 'react';
 import '../styles/css/userprofile.css';
 import '../styles/css/bootstrap.min.css';
 import edit from '../images/edit.png';
-import { actions, store } from '../stores/store';
+import { actions } from '../stores/store';
 import { connect } from 'unistore/react'
 import { Link, withRouter } from 'react-router-dom';
-
 
 const UserSetPersonal = (props) =>{
     return (
