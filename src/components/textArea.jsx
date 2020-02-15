@@ -14,7 +14,9 @@ class TextArea extends React.Component {
         this.escFunction = this.escFunction.bind(this);
         this.state = {
             tagging : [],
-            taggingList : []
+            taggingList : [],
+            search : '',
+            searchList : []
         }
     }
     updateContent=(newContent)=> {
@@ -115,9 +117,14 @@ class TextArea extends React.Component {
 		};
 		await axios(tags)
 			.then(async (response) => {
-                response.data.map((tag)=>(
-                    this.state.taggingList.push(tag.name)
-                ))
+                response.data.map((tag, i)=>{
+                    let tagData = tag
+                    tagData['index'] = i
+                    tagData['checked'] = false
+                    this.state.taggingList.push(tagData)
+                    this.state.searchList.push(tagData)
+                }
+                )
 			})
 			.catch(async (error) => {
 				await console.warn(error);
@@ -128,10 +135,10 @@ class TextArea extends React.Component {
         document.removeEventListener("keydown", this.escFunction, false);
     }
 
-    controlTag = async (event) => {
+    controlTag = async (event, index) => {
         let taggingList = this.state.taggingList
-        taggingList['checked'] =event.target.checked
-        this.setState({taggingList:taggingList})
+        taggingList[index]['checked'] = event.target.checked
+        this.setState({taggingList:taggingList, searchList:taggingList})
         if(event.target.checked){
             await this.state.tagging.push(event.target.value)
             await store.setState({tags : this.state.tagging})
@@ -141,6 +148,18 @@ class TextArea extends React.Component {
             await store.setState({tags : newTags})
         }
     } 
+
+    searchTag = async (event) => {
+        await this.setState({search : event.target.value})
+        if (this.state.search.length > 0) {
+          const searchData = await this.state.taggingList.filter(item => item.name.toLowerCase().indexOf(this.state.search) > -1
+          )
+          await this.setState({searchList : searchData })
+          
+        } else {
+          await this.setState({searchList : this.state.taggingList })
+        }
+    }
     
     render() {
         const addedTag = this.state.tagging
@@ -199,10 +218,11 @@ class TextArea extends React.Component {
                                         <div className=''>
                                             <div class="row control-width dropdown-menu">
                                                 <div className='col-md-12'>
+                                                <span><input type="text" className="mb-2" placeholder=" cari..." name="search" onChange={(e)=>this.searchTag(e)}/></span>
                                                     <div className='row'>
-                                                        {this.state.taggingList.map((tag)=>
+                                                        {this.state.searchList.map((tag)=>
                                                             <div className='col-md-3 text-left background-tag-control mb-2'>
-                                                            <div style={{fontSize:'12px', textDecoration:'none'}} class="dropdown-item1" to="#"><input type="checkbox" onClick={(event)=>this.controlTag(event)} name="code" value={tag}/>{tag}</div>
+                                                            <div style={{fontSize:'12px', textDecoration:'none'}} class="dropdown-item1" to="#"><input type="checkbox" checked={tag.checked} onClick={(event)=>this.controlTag(event, tag.index)} name="code" value={tag.name}/>{tag.name}</div>
                                                             </div>
                                                         )}
                                                     </div>

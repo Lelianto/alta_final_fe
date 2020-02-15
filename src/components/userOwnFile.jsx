@@ -14,7 +14,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { Markup } from 'interweave';
 import Truncate from 'react-truncate'
 import Moment from 'react-moment';
-// import mat-icon from 'material'
+
 
 const UserOwnFile = (props) => {
     
@@ -83,7 +83,7 @@ const UserOwnFile = (props) => {
                             </Truncate>
                         </div>
                         <div className='col-md-12 ml-0 pl-1 time-article-control text-left'>
-                        <Moment fromNow ago>{postingDetail.created_at}</Moment> ago
+                        <Moment add={{hours : 7}} fromNow>{postingDetail.created_at}</Moment>
                         {postingDetail.updated_at !== null ? 
                     <React.Fragment>
                       &nbsp;&nbsp;&nbsp;&nbsp; Edited
@@ -190,7 +190,7 @@ const UserOwnFile = (props) => {
                     </Truncate>
                     </div>
                     <div className='col-md-12 ml-0 pl-1 time-article-control text-left'>
-                        <Moment fromNow ago>{postingDetail.created_at}</Moment> ago
+                        <Moment add={{hours : 7}} fromNow>{postingDetail.created_at}</Moment>
                         {postingDetail.updated_at !== null ? 
                     <React.Fragment>
                       &nbsp;&nbsp;&nbsp;&nbsp; Edited
