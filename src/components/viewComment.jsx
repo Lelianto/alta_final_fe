@@ -47,7 +47,7 @@ const ViewComment = (props) => {
                   </div>
                   </div>
                   <div className='col-md-12 control-comment-user time-article-comment-control text-center'>
-                    <Moment fromNow ago>{comment.posting_detail.created_at}</Moment> ago
+                    <Moment add={{hours : 7}} fromNow>{comment.posting_detail.created_at}</Moment>
                   </div>
                 </div>
                 <div></div>
