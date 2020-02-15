@@ -8,6 +8,7 @@ import MenuBarProfile from '../components/menuBarProfile';
 import Loader from '../components/loader';
 import axios from 'axios';
 import { actions, store } from '../stores/store';
+import Skeleton from 'react-loading-skeleton'
 
 
 class UserProfileReputation extends Component {
@@ -18,7 +19,8 @@ class UserProfileReputation extends Component {
     content : {},
     reputation : [],
     tags : [],
-    reputationLoading : true
+    reputationLoading : true,
+    userDataLoading : true
   }
 
   doSearch = () => {
@@ -48,7 +50,7 @@ class UserProfileReputation extends Component {
     };
     
     const userRes = await axios(user)
-    this.setState({userData : userRes.data.user_data, userDetail : userRes.data.user_detail_data})
+    this.setState({userData : userRes.data.user_data, userDetail : userRes.data.user_detail_data, userDataLoading : false})
   }
   
   getReputation = async () => {
@@ -65,7 +67,6 @@ class UserProfileReputation extends Component {
     };
 
     const reputationRes = await axios(reputation)
-    console.warn('respndse', reputationRes)
     this.setState({reputation : reputationRes.data})
   }
 
@@ -84,7 +85,6 @@ class UserProfileReputation extends Component {
   }
 
   addTagLogo = async () => {
-    console.warn('state', this.state.reputation)
     const reputation = await this.state.reputation
     const tags = this.state.tags
     reputation.map(async (item) => {
@@ -99,7 +99,20 @@ class UserProfileReputation extends Component {
     return (
       <div>
         <Header doSearch={this.doSearch}/>
-        <UserProfile userData={this.state.userData} userDetail={this.state.userDetail}/>
+        {this.state.userDataLoading === true || this.state.userDetail === {} ||  this.state.userDetail === undefined ?
+          <div className='pt-4 container-fluid'>
+            <div className='row'>
+              <div className="col-md-4 pt-5">
+                <Skeleton circle={true} height={250} width={250} />
+              </div>
+              <div className="col-md-5 pt-5 mt-5">
+                <Skeleton className='mb-4' height={50} count={3}/>
+              </div>
+            </div>
+        </div>
+        :
+            <UserProfile userData={this.state.userData} userDetail={this.state.userDetail}/>
+          }
         <div className='container'>
           <div className='row'>
             <div className='col-md-3' style={{paddingTop:'5%'}}>
@@ -108,9 +121,9 @@ class UserProfileReputation extends Component {
             <div className='col-md-9 user-own-file overflow'>
               <h5 className="text-center profile-title">Reputasi</h5>
               {this.state.reputationLoading === true ?
-              <div className='pl-5 pr-5'>
-                <Loader/>
-              </div>
+              <div className='mt-4'>
+							<Skeleton height={150} count={5}/>
+						</div>
               :
                 <UserOwnFile
                     typeContent="reputation"

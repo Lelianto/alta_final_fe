@@ -10,6 +10,7 @@ import { store, actions  } from '../stores/store';
 import Loader from '../components/loader'
 import { connect} from 'unistore/react';
 import { withRouter, Link } from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton'
 
 class UserProfilePage extends Component {
   constructor(props) {
@@ -131,9 +132,17 @@ class UserProfilePage extends Component {
         <div>
           <Header doSearch={this.doSearch}/>
           {this.state.userDataLoading === true || this.state.userDetail === {} ||  this.state.userDetail === undefined ?
-          <div className="pl-5 pr-5">
-          <Loader/>
-        </div> :
+          <div className='pt-4 container-fluid'>
+            <div className='row'>
+              <div className="col-md-4 pt-5">
+                <Skeleton circle={true} height={250} width={250} />
+              </div>
+              <div className="col-md-5 pt-5 mt-5">
+                <Skeleton className='mb-4' height={50} count={3}/>
+              </div>
+            </div>
+        </div>
+        :
             <UserProfile userData={this.state.userData} userDetail={this.state.userDetail}/>
           }
           <div className='container'>
@@ -143,7 +152,7 @@ class UserProfilePage extends Component {
               </div>
               <div className='col-md-9 user-own-file overflow'>
                 <h5 className="text-center profile-title">Pertanyaan</h5>
-          { this.state.questions !== undefined && !this.state.likeListLoading? 
+          { !this.state.contentLoading && !this.state.likeListLoading? 
             this.state.questions.map((content) => (
               <UserOwnFile
                   typeContent="question"
@@ -158,8 +167,8 @@ class UserProfilePage extends Component {
                 />
             ))
             :
-          <div className="pl-5 pr-5">
-            <Loader/>
+          <div className='mt-4'>
+            <Skeleton height={400} count={2}/>
           </div> 
           }
               </div>

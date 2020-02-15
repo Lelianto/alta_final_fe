@@ -9,6 +9,7 @@ import PopularList from '../components/popularList';
 import UserOwnFile from '../components/userOwnFile';
 import Loader from '../components/loader';
 import axios from 'axios';
+import Skeleton from 'react-loading-skeleton'
 
 
 class Search extends React.Component {
@@ -126,7 +127,7 @@ class Search extends React.Component {
 		const showOrHide = document.getElementById('seeAll');
 		if (suggestionList.style.display === 'none') {
 			suggestionList.style.display = 'block';
-			showOrHide.innerHTML = 'Sembunyikan...';
+			showOrHide.style.display = 'none';
 		} else {
 			suggestionList.style.display = 'none';
 			showOrHide.innerHTML = 'Lihat Semua...';
@@ -200,7 +201,9 @@ class Search extends React.Component {
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5 overflow">
 							{this.state.interestLoading === true ?
-							<div className="pl-5 pr-5"><Loader/></div>
+							<div className='mt-3'>
+								<Skeleton height={40} count={20}/>
+							</div>
 							:
 							<InterestList
 								tags={this.state.filterInterest}
@@ -212,7 +215,9 @@ class Search extends React.Component {
 						</div>
 						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0 overflow">
 							{this.state.likeListLoading === true && this.state.contentLoading === true ? 
-							<div className="pl-5 pr-5"><Loader/></div>	
+							<div className='mt-3'>
+							<Skeleton height={400} count={2}/>
+						</div>
 							:
 							this.state.postingList.map((content, i) => (
 								<UserOwnFile

@@ -7,8 +7,8 @@ import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
 import Axios from 'axios';
-import notif from '../images/notif.png';
-import noNotif from '../images/noNotif.png';
+import notif from '../images/notif.svg';
+import noNotif from '../images/noNotif.svg';
 
 class Header extends Component {
 	state = {

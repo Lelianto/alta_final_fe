@@ -43,7 +43,7 @@ const ViewComment = (props) => {
                       </div>
                     }
                   <div className='col-md-12 control-comment-user text-center'>
-                    <Link style={{textDecoration: 'none', color:'#385898', fontSize:'12px'}}>{comment.user_data.username}</Link>
+                    <Link onClick={()=>props.getProfile(comment.posting_detail.user_id, comment.user_data.username)} style={{textDecoration: 'none', color:'#385898', fontSize:'12px'}}>{comment.user_data.username}</Link>
                   </div>
                   </div>
                   <div className='col-md-12 control-comment-user time-article-comment-control text-center'>

@@ -82,8 +82,8 @@ class UserPasswordSetting extends Component {
             showConfirmButton: false,
             timer: 1500
           })
-          await this.setState({oldPassword : null, newPassword : null, confirmPassword : null})
-          this.props.history.push('/pengaturan-akun')
+          await this.setState({oldPassword : '', newPassword : '', confirmPassword : ''})
+          await this.props.history.push('/pengaturan-akun/ubah-password')
         } else if (this.props.responseStatus === 401) {
           Swal.fire({
             icon: 'error',
@@ -114,7 +114,16 @@ class UserPasswordSetting extends Component {
               <MenuBarSetting handleMainPage={(event1,event2)=>this.handleMainPage(event1,event2)} userDetail={this.state.userDetail}/>
             </div>
             <div className='col-md-9'>
-              <ProfileSetting handlePage={(event)=>this.handlePage(event)} userData={this.state.userData} userDetail={this.state.userDetail} changeState={this.changeState} changePassword={this.changePassword}/>
+              <ProfileSetting 
+              handlePage={(event)=>this.handlePage(event)} 
+              userData={this.state.userData} 
+              userDetail={this.state.userDetail} 
+              changeState={this.changeState} 
+              changePassword={this.changePassword}
+              oldPassword={this.state.oldPassword}
+              newPassword={this.state.newPassword}
+              confirmPassword={this.state.confirmPassword}
+              />
             </div>
           </div>
         </div>

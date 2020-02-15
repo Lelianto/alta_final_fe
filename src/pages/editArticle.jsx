@@ -7,6 +7,7 @@ import Footer from '../components/footer';
 import TextAreaEdit from '../components/textAreaEdit'; 
 import axios from 'axios';
 import Loader from '../components/loader'
+import Skeleton from 'react-loading-skeleton'
 
 class EditArticlePage extends React.Component {
     state = {
@@ -91,9 +92,11 @@ class EditArticlePage extends React.Component {
                         </div>
                             <div className='col-md-8'>
                                 {this.state.textAreaLoading === true ?
-                                <div>
-                                    <Loader/>
-                                </div> :
+                                <div className='mt-3'>
+                                    {/* <Skeleton height={40} count={1}/> */}
+                                    <Skeleton height={500} count={2}/>
+                                </div> 
+                                :
                                     <TextAreaEdit/>
                                 }
                                 <div className='row button-area-control'>
