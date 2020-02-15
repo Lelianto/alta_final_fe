@@ -9,7 +9,6 @@ import Footer from '../components/footer';
 import Moment from 'react-moment';
 import { Markup } from 'interweave';
 import Loader from '../components/loader';
-import NullNotification from '../components/nullNotification';
 import Axios from 'axios';
 
 class Notification extends React.Component {
