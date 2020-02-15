@@ -45,7 +45,6 @@ class detailArticlePage extends React.Component {
                 return response
               })
               .catch((error)=>{
-                console.log(error)
                 store.setState({ 
                   isLoading: false
                 })
@@ -246,7 +245,11 @@ class detailArticlePage extends React.Component {
 							<Skeleton height={500} count={2}/>
 						</div>
 						}
+						{localStorage.getItem('username') !== null || localStorage.getItem('token') !== null?
 							<CommentArea handlePostComment={()=>this.handlePostComment()}/>
+						:
+							<span></span>
+						}
 						</div>
 
 						<div className="col-lg-4 col-md-4 col-sm-12 col-12 mt-5 overflow">

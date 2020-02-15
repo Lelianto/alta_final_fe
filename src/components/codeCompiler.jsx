@@ -48,6 +48,7 @@ class CodeCompiler extends React.Component {
             <div style={{marginBottom:'20px',marginTop:'20px'}}>
                 <div className='row'>
                     <div className='col-md-12'>
+                        <div>Python Code Compiler</div>
                         <textarea name="" id="" cols='45' rows="10" value={this.props.wordCode} onChange={(e)=>this.escFunction(e)}></textarea>
                     </div>
                     <div className='col-md-12'>

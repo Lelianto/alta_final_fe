@@ -314,4 +314,4 @@ class TextAreaEdit extends React.Component {
     }
 }
 
-export default connect('selectedFile, isLoading, tagWritings, menuBarUpload, imageArticleUrl, allArticleDatabase, newArticle, imageArticle, imageUrl, listCode, wordCode, tags, articleTitle', actions)(withRouter(TextAreaEdit));
+export default connect('selectedFile, isLoading, tagWritings, menuBarUpload, imageArticleUrl, allArticleDatabase, newArticle, imageArticle, imageUrl, listCode, wordCode, tags, articleTitle, lastArticleQuestion', actions)(withRouter(TextAreaEdit));

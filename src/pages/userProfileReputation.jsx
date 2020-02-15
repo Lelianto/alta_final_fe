@@ -5,9 +5,8 @@ import Footer from '../components/footer';
 import UserProfile from '../components/userProfile';
 import UserOwnFile from '../components/userOwnFile';
 import MenuBarProfile from '../components/menuBarProfile';
-import Loader from '../components/loader';
 import axios from 'axios';
-import { actions, store } from '../stores/store';
+import { store } from '../stores/store';
 import Skeleton from 'react-loading-skeleton'
 
 
@@ -34,8 +33,6 @@ class UserProfileReputation extends Component {
     await this.addTagLogo()
   }
 
-  
-  
   getUserDetail = async () => {
     const user = {
       method: 'get',
@@ -78,7 +75,6 @@ class UserProfileReputation extends Component {
         'Content-Type': 'application/json'
       }
     };
-    
     const allTagsRes = await axios(tags)
     await this.setState({tags : allTagsRes.data})
     

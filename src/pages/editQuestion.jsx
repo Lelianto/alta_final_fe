@@ -101,6 +101,12 @@ class EditQuestionPage extends React.Component {
                                     </div>
                                     <div className='col-md-4'>
                                         <div className='btn btn-grad' style={{marginBottom:'50px', fontSize:'15px',padding:'15px'}} onClick={()=>this.handleEditQuestion()}>Edit / Perbarui Pertanyaan</div>
+
+                                        {this.props.lastArticleQuestion === '' || this.props.articleTitle === ''|| this.props.tags === [] || this.props.tags.length === 0?
+                                            <button disabled className='btn btn-grad' style={{marginBottom:'50px', fontSize:'15px',padding:'15px'}}>Edit / Perbarui Pertanyaan</button>
+                                        :
+                                            <button className='btn btn-grad' style={{marginBottom:'50px', fontSize:'15px',padding:'15px'}} onClick={()=>this.handleEditQuestion()}>Edit / Perbarui Pertanyaan</button>
+                                        }
                                     </div>
                                     <div className='col-md-4'>
                                     </div>
@@ -109,9 +115,6 @@ class EditQuestionPage extends React.Component {
                             <div className='col-md-2'>
     
                             </div>
-                            {/* <div className='col-md-6'>
-                                <PreviewArticle/>
-                            </div> */}
                         </div>
                     </div>
                     <Footer />
@@ -121,4 +124,4 @@ class EditQuestionPage extends React.Component {
     }
     }
 
-export default connect('menuBarUpload, codeCompilerResult, isLoading', actions)(withRouter(EditQuestionPage));
+export default connect('menuBarUpload, lastArticleQuestion, articleTitle, tags, codeCompilerResult, isLoading', actions)(withRouter(EditQuestionPage));

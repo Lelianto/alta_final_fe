@@ -61,7 +61,6 @@ class SignIn extends React.Component {
 	}
 
 	setLocalStorage = () =>{
-		// console.log(this.props.responseData)
 		if(this.props.responseData.is_admin==='true'){
 			this.props.history.push("/admin/pengguna")
 			this.props.deleteResponse()
@@ -87,12 +86,9 @@ class SignIn extends React.Component {
             },
             data : parameters
         };
-        
-        console.log('isi signup google', signUp)
         const self = this
         const getDataRes = await axios(signUp);
         await self.setState({ responseData: getDataRes.data}); 
-        await console.log('isi respon data user',this.state.responseData)
         await localStorage.setItem('token', this.state.responseData.token)
         await localStorage.setItem('username', this.state.responseData.username)
         await localStorage.setItem('email', this.state.responseData.email)

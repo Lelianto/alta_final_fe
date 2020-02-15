@@ -369,9 +369,13 @@ class ArticlePage extends React.Component {
 				<div className="container-fluid pt-4">
 					<div className="row" style={{ fontFamily: 'liberation_sansregular' }}>
 						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5 overflow">
-							<Link style={{textDecoration:'none', color:'white'}} to='/artikel/tulis'>
-								<button to='/artikel/tulis' className='btn btn-success button-write-article-control mt-4'>Tulis Artikel</button>
-							</Link>
+							{localStorage.getItem('token')!==null || localStorage.getItem('username')!==null?
+								<Link style={{textDecoration:'none', color:'white'}} to='/artikel/tulis'>
+									<button to='/artikel/tulis' className='btn btn-success button-write-article-control mt-4'>Tulis Artikel</button>
+								</Link>
+							:
+								<span></span>
+							}
 							{this.state.interestLoading === true ?
 							<div className='mt-3'>
 							<Skeleton height={40} count={30}/>
