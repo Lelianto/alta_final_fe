@@ -2,11 +2,11 @@ import React from 'react';
 import '../styles/css/header.css';
 import '../styles/css/bootstrap.min.css';
 import admin from '../images/admin.png';
-import user from '../images/team.png';
-import article from '../images/article.png';
-import question from '../images/question.png';
-import answer from '../images/answer.png';
-import tag from '../images/tag.png';
+import user from '../images/team.svg';
+import article from '../images/content.svg';
+import question from '../images/question.svg';
+import answer from '../images/class.svg';
+import tag from '../images/tag.svg';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'unistore/react';
 import { actions, store } from '../stores/store';
@@ -244,7 +244,7 @@ class AdminMenu extends React.Component {
                     <div className='col-md-1'>
                     </div>
                     <div className='col-md-2'>
-                        <div onClick={()=>this.props.handleChangePage('/pengguna')} className='btn-grad' style={{paddingBottom:'20px', paddingTop:'20px', fontSize:'15px', paddingLeft:'0px', paddingRight:'0px'}}>
+                        <div onClick={()=>this.props.handleChangePage('/pengguna')} className='btn-glow' style={{paddingBottom:'20px', paddingTop:'20px', fontSize:'15px', paddingLeft:'0px', paddingRight:'0px'}}>
                             <img style={{width:'30px', height:'30px',  marginRight:'10px'}} src={user} alt=""/>
                             User
                         </div>
@@ -262,14 +262,14 @@ class AdminMenu extends React.Component {
                         </div>   
                     </div>
                     <div className='col-md-2'>
-                        <div onClick={()=>this.props.handleChangePage('/jawaban')} className='box-control btn-sparkle' style={{paddingBottom:'20px', paddingTop:'20px', fontSize:'15px', paddingLeft:'0px', paddingRight:'0px'}}>
+                        <div onClick={()=>this.props.handleChangePage('/jawaban')} className='box-control btn-glow' style={{paddingBottom:'20px', paddingTop:'20px', fontSize:'15px', paddingLeft:'0px', paddingRight:'0px'}}>
                             <img style={{width:'30px', height:'30px',  marginRight:'10px'}} src={answer} alt=""/>
                             Jawaban
                         </div> 
                     </div>
                     <div className='col-md-2'>
     
-                        <div onClick={()=>this.props.handleChangePage('/tag')} className='box-control btn-hot' style={{paddingBottom:'20px', paddingTop:'20px', fontSize:'15px', paddingLeft:'0px', paddingRight:'0px'}}>
+                        <div onClick={()=>this.props.handleChangePage('/tag')} className='box-control btn-glow' style={{paddingBottom:'20px', paddingTop:'20px', fontSize:'15px', paddingLeft:'0px', paddingRight:'0px'}}>
                             <img style={{width:'30px', height:'30px',  marginRight:'10px'}} src={tag} alt=""/>
                             Tag
                         </div> 

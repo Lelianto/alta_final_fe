@@ -100,6 +100,18 @@ class AdminLandingPage extends React.Component {
 						<div className='col-md-2'></div>
 						<div className='col-md-8' style={{backgroundColor:'white', borderRadius:'15px', padding:'20px'}}>
 							<Graph/>
+							<div className='row' style={{paddingTop:'20px', color:'grey'}}>
+								<div className='col-md-2'>
+								</div>
+								<div className='col-md-4'>
+									sumbu x : tanggal
+								</div>
+								<div className='col-md-4'>
+									sumbu y : total pengguna
+								</div>
+								<div className='col-md-2'>
+								</div>
+							</div>
 						</div>
 						<div className='col-md-2'></div>
 					</div>

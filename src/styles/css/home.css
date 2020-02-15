@@ -15,8 +15,7 @@
 .home-title,
 .suggestion,
 .popular-title {
-  /* font-family: 'Nunito', sans-serif !important; */
-  font-family: 'liberation_sansregular';
+  font-family: 'Nunito', sans-serif !important;
   font-size: 20px;
   border-bottom: 1px lightgray solid;
   color: #0f4c75;

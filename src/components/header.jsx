@@ -324,9 +324,15 @@ const Header = (props) => {
 									<Link className="dropdown-item" to="/pengaturan-akun/data-diri">
 										Pengaturan Akun
 									</Link>
-									<div onClick={()=>props.handleLogOutGoogle()} className="dropdown-item g-signin2" data-onsuccess="googleLogout">
-										Keluar
-									</div>
+									{localStorage.getItem('google')?
+										<div onClick={()=>props.handleLogOutGoogle()} className="dropdown-item g-signin2" data-onsuccess="googleLogout">
+											Keluar
+										</div>
+									:
+										<Link onClick={()=>props.afterSignOut()} className="dropdown-item" to="/">
+											Keluar
+										</Link>
+									}
 								</div>
 							</li>
 						</ul>

@@ -15,6 +15,7 @@ function googleLogout() {
             localStorage.removeItem('email')
             localStorage.removeItem('username')
             localStorage.removeItem('token')
+            localStorage.removeItem('google')
             localStorage.removeItem('loginGoogle')
             localStorage.clear()
             window.location.replace('http://localhost:3000/')
