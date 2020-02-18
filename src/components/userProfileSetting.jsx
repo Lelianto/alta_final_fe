@@ -66,17 +66,6 @@ const UserProfileSettings = (props) =>{
                                     {props.userData.email}
                                 </div>
                             </div>
-                            <div className='profile-setting row'>
-                                <div style={{fontWeight:'bold'}} className='col-md-5'>
-                                    Foto Profil
-                                </div>
-                                <div className='col-md-1'>
-                                    :
-                                </div>
-                                <div className='col-md-6'>
-                                    {props.userDetail.photo_url}
-                                </div>
-                            </div>
                             <button onClick={()=>props.handlePage('/data-diri/edit')} type="button" class="btn btn-primary">Ubah</button>
                         </div>:<span></span>}
                         {props.menuBarSetting==='Ubah Password'?
