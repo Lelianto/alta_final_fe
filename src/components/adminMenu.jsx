@@ -9,7 +9,10 @@ import answer from '../images/class.svg';
 import tag from '../images/tag.svg';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'unistore/react';
-import { actions, store } from '../stores/store';
+import { 
+    actions, 
+    store 
+} from '../stores/store';
 import axios from 'axios'
 
 class AdminMenu extends React.Component {
