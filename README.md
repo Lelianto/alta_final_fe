@@ -1,6 +1,30 @@
+# Kodekula.com : Programming web in Indonesia
+
+The kodekula.com web application uses REACT Framework, REACT Modules, Google Search Console Configuration, Google Tag Manager, and several others to optimize SEO (REACT is notoriously not SEO friendly)
+
+Table of contents
+
+1. How to use a web application
+2. The need for web application development
+3. How to use REACT on this web application
+
+## 1. How to use the Kodekula web application
+
+1. Visitors can immediately use all the features available on the web application without registering. The drawback is that visitors cannot comment or answer every question or article. Visitors can access profiles and content details with limited.
+
+2. Users who have registered can add articles, and ask questions. In the profile section, the user has full control to manage. The user's reputation can be seen through the menu bar on the inside of the user's profile
+
+3. Admin is only managed by the developer for data analysis purposes only.
+
+## 2. For the purposes of developing web applications
+
+For developers who want to participate in developing this application, please contact the programmer according to this github username.
+
+## 3. Here is how to apply react on the web 
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+### *Available Scripts
 
 In the project directory, you can run:
 
