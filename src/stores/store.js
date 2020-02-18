@@ -1,6 +1,5 @@
 import createStore from 'unistore';
 import axios from 'axios';
-import Swal from 'sweetalert2';
 
 const initialState = {
 	menuBarUser: '',
